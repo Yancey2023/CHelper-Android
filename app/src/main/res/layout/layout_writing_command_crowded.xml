@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/fl_action_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ed_input">
+
+        <FrameLayout
+            android:id="@+id/fl_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_settings"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_settings"
+                            android:contentDescription="@string/iv_settings" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/iv_settings"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_favorites"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_favorites"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_star"
+                            android:contentDescription="@string/tv_favorite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/tv_favorite"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_expression"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_expression"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_expression"
+                            android:contentDescription="@string/tv_expression" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/tv_expression"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_undo"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_undo"
+                            android:contentDescription="@string/tv_undo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/tv_undo"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_redo"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_redo"
+                            android:contentDescription="@string/tv_redo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/tv_redo"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_delete"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_delete"
+                            android:contentDescription="@string/tv_delete" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/tv_delete"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/btn_shut_down"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:background="@drawable/icon_power"
+                            android:contentDescription="@string/tv_delete" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/tv_turn_off"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/fl_action_container"
+        android:background="@color/text2_alpha_60" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF5F5F5" />
+
+    <View
+        android:id="@+id/btn_action"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="3dp"
+        android:background="@drawable/icon_show"
+        android:contentDescription="@string/iv_show" />
+
+    <View
+        android:id="@+id/btn_copy"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="4dp"
+        android:background="@drawable/icon_copy"
+        android:contentDescription="@string/iv_copy" />
+
+    <yancey.chelper.android.common.view.CommandEditText
+        android:id="@+id/ed_input"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/btn_copy"
+        android:layout_toEndOf="@id/btn_action"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:hint="@string/et_writeCommandHint"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_command_list"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_above="@id/line2"
+        android:layout_alignParentTop="true"
+        android:scrollbars="vertical"
+        tools:itemCount="15"
+        tools:listitem="@layout/layout_command_list_crowded_item" />
+
+</RelativeLayout>

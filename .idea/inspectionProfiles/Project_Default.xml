@@ -1,0 +1,36 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="ArgumentSelectionDefects" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="CMakeDeprecatedCommands" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="CMakeMismatchedCommandArguments" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="ClangdErrorsAndWarnings" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="Clazy" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="EmptyDeclOrStmt" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JavaJniMissingFunction" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="JniCallMethod" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniCallNonvirtualMethod" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniFindClass" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniFunctionCorrectness" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="JniGetField" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniGetFieldID" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniGetMethod" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniNewObject" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniOnload" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniParameters" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniRegisterNatives" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JniSetField" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="KotlinInternalExternalFunction" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="KotlinJniMissingFunction" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NotImplementedFunctions" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="OCUnusedConcept" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="OCUnusedGlobalDeclaration" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="OCUnusedMacro" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="OCUnusedStruct" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="OCUnusedTemplateParameter" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="OCUnusedTypeAlias" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PreprocessorComment" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="Simplify" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="VirtualCallInCtorOrDtor" enabled="false" level="WARNING" enabled_by_default="false" />
+  </profile>
+</component>
