@@ -1,6 +1,6 @@
 # CHelper-Android
 
-I want to make an Command helper for Minecraft Bedrock Edition , so here is CHelper, which means
+I want to make a command helper for Minecraft Bedrock Edition , so here is CHelper, which means
 Command Helper.
 
 ## CHelper-Core
