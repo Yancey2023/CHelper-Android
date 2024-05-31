@@ -14,10 +14,12 @@ namespace CHelper::Node {
     class NodeOr : public NodeBase {
     public:
         std::vector<const NodeBase *> childNodes;
-        bool isAttachToEnd, isUseFirst;
+        bool isAttachToEnd = false, isUseFirst = false;
         std::string nodeId;
-        const char *defaultErrorReason;
+        const char *defaultErrorReason = nullptr;
         bool noSuggestion;
+
+        NodeOr() = default;
 
         NodeOr(const std::optional<std::string> &id,
                const std::optional<std::string> &description,
@@ -27,6 +29,8 @@ namespace CHelper::Node {
                bool noSuggestion = false,
                const char *defaultErrorReason = nullptr,
                std::string nodeId = std::string());
+
+        [[nodiscard]] NodeType *getNodeType() const override;
 
         ASTNode getASTNode(TokenReader &tokenReader, const CPack *cpack) const override;
 

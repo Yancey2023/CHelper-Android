@@ -8,13 +8,17 @@ namespace CHelper::Node {
 
     NodeEntry::NodeEntry(const std::optional<std::string> &id,
                          const std::optional<std::string> &description,
-                         const NodeBase *nodeKey,
-                         const NodeBase *nodeSeparator,
-                         const NodeBase *nodeValue)
+                         NodeBase *nodeKey,
+                         NodeBase *nodeSeparator,
+                         NodeBase *nodeValue)
         : NodeBase(id, description, false),
           nodeKey(nodeKey),
           nodeSeparator(nodeSeparator),
           nodeValue(nodeValue) {}
+
+    NodeType *NodeEntry::getNodeType() const {
+        return NodeType::ENTRY.get();
+    }
 
     ASTNode NodeEntry::getASTNode(TokenReader &tokenReader, const CPack *cpack) const {
         tokenReader.push();

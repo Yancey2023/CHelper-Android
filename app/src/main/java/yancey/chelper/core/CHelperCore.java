@@ -1,5 +1,6 @@
 package yancey.chelper.core;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.view.View;
@@ -23,6 +24,7 @@ public class CHelperCore {
         System.loadLibrary("CHelper");
     }
 
+    @SuppressLint("StaticFieldLeak")
     public static final CHelperCore INSTANCE = new CHelperCore();
 
     private Runnable updateList;
@@ -49,6 +51,7 @@ public class CHelperCore {
     public void setUpdateStructure(Consumer<String> updateStructure) {
         this.updateStructure = updateStructure;
     }
+
     public void setUpdateDescription(Consumer<String> updateDescription) {
         this.updateDescription = updateDescription;
     }
@@ -111,7 +114,7 @@ public class CHelperCore {
 
     private native boolean init(@NonNull AssetManager assetManager, String cpackPath);
 
-    private native void onTextChanged(@NonNull String cpackPath, int index);
+    private native void onTextChanged(@NonNull String text, int index);
 
     private native void onSelectionChanged(int index);
 

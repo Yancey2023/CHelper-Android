@@ -14,14 +14,18 @@ namespace CHelper::Node {
 
     class NodeSingleSymbol : public NodeBase {
     public:
-        char symbol;
+        char symbol = ' ';
         std::shared_ptr<NormalId> normalId;
-        bool isAddWhitespace;
+        bool isAddWhitespace = false;
+
+        NodeSingleSymbol() = default;
 
         NodeSingleSymbol(const std::optional<std::string> &id,
                          const std::optional<std::string> &description,
                          char symbol,
                          bool isAddWhitespace = true);
+
+        [[nodiscard]] NodeType *getNodeType() const override;
 
         ASTNode getASTNode(TokenReader &tokenReader, const CPack *cpack) const override;
 

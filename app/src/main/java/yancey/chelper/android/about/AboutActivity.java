@@ -21,6 +21,10 @@ public class AboutActivity extends AppCompatActivity {
         tv_updateNote.setText("""
                 更新日志
                 
+                v0.2.14 20240531
+                1. 修复：软件在部分情况会崩溃
+                2. 修复：execute指令的解析
+                
                 v0.2.13 20240530
                 1. 修复：目标选择器有些参数其实不可以用=!
                 2. 修复：execute只有if|unless分支的命令才可以作为命令的结尾
