@@ -12,7 +12,7 @@ internal object Logger {
     private var tag = "EasyFloat--->"
 
     // 设为false关闭日志
-    private var logEnable = true
+    private var logEnable = false
 
     fun i(msg: Any) = i(tag, msg.toString())
 

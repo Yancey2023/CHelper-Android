@@ -26,10 +26,10 @@ android {
 
     defaultConfig {
         applicationId = "yancey.chelper"
-        minSdk = 28
+        minSdk = 24
         targetSdk = 34
-        versionCode = 27
-        versionName = "0.2.14-beta"
+        versionCode = 28
+        versionName = "0.2.15-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -76,7 +76,7 @@ android {
         viewBinding = true
     }
 
-    ndkVersion = "26.2.11394342"
+    ndkVersion = "26.3.11579264"
 
     kotlinOptions {
         jvmTarget = "17"

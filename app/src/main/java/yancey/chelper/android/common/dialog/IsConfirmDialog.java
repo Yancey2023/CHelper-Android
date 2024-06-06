@@ -16,7 +16,6 @@ import yancey.chelper.R;
 
 public class IsConfirmDialog extends Dialog {
 
-    private static final String KEY = "IsConfirmDialog";
     private String title, message, confirm, cancel;
     private View.OnClickListener onConfirm;
     private View.OnClickListener onCancel;

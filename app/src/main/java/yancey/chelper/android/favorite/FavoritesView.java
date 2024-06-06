@@ -28,7 +28,7 @@ import yancey.chelper.util.FileUtil;
 @SuppressLint("ViewConstructor")
 public class FavoritesView extends CustomView {
 
-    public static final String KEY = "FavoriteActivity";
+    public static final String TAG = "FavoriteActivity";
     public FavoriteListAdapter adapter;
 
     public FavoritesView(@NonNull Context context, Consumer<CustomView> openView, boolean isInFloatingWindow) {
@@ -71,7 +71,7 @@ public class FavoritesView extends CustomView {
         super.onPause();
         File file = FileUtil.getFile(getContext().getFilesDir().getAbsolutePath(), "favorites", "favorites.dat");
         if (!FileUtil.createParentFile(file)) {
-            Log.e(KEY, "could not create parent dir : " + file.getAbsolutePath());
+            Log.e(TAG, "could not create parent dir : " + file.getAbsolutePath());
             return;
         }
         try (DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
@@ -80,7 +80,7 @@ public class FavoritesView extends CustomView {
                 dataFavorite.writeToFile(dataOutputStream);
             }
         } catch (IOException exception) {
-            Log.e(KEY, "could not save file : " + file.getAbsolutePath());
+            Log.e(TAG, "could not save file : " + file.getAbsolutePath());
         }
     }
 

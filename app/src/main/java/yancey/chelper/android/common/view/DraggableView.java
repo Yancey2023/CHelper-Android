@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
 public class DraggableView extends AppCompatImageView {
@@ -59,8 +58,6 @@ public class DraggableView extends AppCompatImageView {
         int width = ((ViewGroup) getParent()).getWidth();
         int height = ((ViewGroup) getParent()).getHeight();
         if (width != 0 && height != 0) {
-            System.out.println(width + " " + height);
-            System.out.println(left + " " + right + " " + top + " " + bottom);
             if (left < 0) {
                 right = right - left;
                 left = 0;
@@ -75,7 +72,6 @@ public class DraggableView extends AppCompatImageView {
                 top = height - bottom + top;
                 bottom = height;
             }
-            System.out.println(left + " " + right + " " + top + " " + bottom);
         }
         this.left = left;
         this.top = top;
@@ -110,8 +106,4 @@ public class DraggableView extends AppCompatImageView {
         return true;
     }
 
-    @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        super.setOnClickListener(l);
-    }
 }

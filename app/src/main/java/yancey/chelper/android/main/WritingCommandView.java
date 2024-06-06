@@ -40,7 +40,7 @@ import yancey.chelper.util.SelectedString;
 @SuppressLint("ViewConstructor")
 public class WritingCommandView extends CustomView {
 
-    private static final String KEY = "WritingCommandView";
+    private static final String TAG = "WritingCommandView";
     private FrameLayout fl_action_container, fl_actions;
     private View btn_action;
     private CommandEditText commandEditText;
@@ -112,7 +112,7 @@ public class WritingCommandView extends CustomView {
                 try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
                     selectedString = new SelectedString(dataInputStream.readUTF(), dataInputStream.readInt(), dataInputStream.readInt());
                 } catch (IOException e) {
-                    Log.e(KEY, "fail to save file : " + file.getAbsolutePath(), e);
+                    Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
                 }
             }
         }
@@ -144,7 +144,7 @@ public class WritingCommandView extends CustomView {
         if (Settings.getInstance(getContext()).isSavingWhenPausing) {
             File file = FileUtil.getFile(getContext().getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
             if (!FileUtil.createParentFile(file)) {
-                Log.e(KEY, "fail to create parent file : " + file.getAbsolutePath());
+                Log.e(TAG, "fail to create parent file : " + file.getAbsolutePath());
                 return;
             }
             SelectedString selectedString = commandEditText.getSelectedString();
@@ -153,7 +153,7 @@ public class WritingCommandView extends CustomView {
                 dataOutputStream.writeInt(selectedString.start);
                 dataOutputStream.writeInt(selectedString.end);
             } catch (IOException e) {
-                Log.e(KEY, "fail to save file : " + file.getAbsolutePath(), e);
+                Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
             }
         }
     }

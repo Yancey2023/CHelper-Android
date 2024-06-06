@@ -30,7 +30,7 @@ import yancey.chelper.expression.ExpressionUtil;
 @SuppressLint("ViewConstructor")
 public class ExpressionView extends CustomView {
 
-    private static final String KEY = "ExpressionView";
+    private static final String TAG = "ExpressionView";
     private VariableListAdapter adapter;
     private EditText mEd_input, mEd_times;
     private ClipboardManager clipboardManager;
@@ -52,14 +52,14 @@ public class ExpressionView extends CustomView {
         view.findViewById(R.id.btn_run).setOnClickListener(v -> {
             Editable editable = mEd_input.getText();
             if (editable == null) {
-                Log.w(KEY, "mEd_input.getText() is null");
+                Log.w(TAG, "mEd_input.getText() is null");
                 toast("无法获取输出的内容");
                 return;
             }
             String input = editable.toString();
             editable = mEd_times.getText();
             if (editable == null) {
-                Log.w(KEY, "mEd_times.getText() is null");
+                Log.w(TAG, "mEd_times.getText() is null");
                 toast("无法获取输出的次数");
                 return;
             }
@@ -67,7 +67,7 @@ public class ExpressionView extends CustomView {
             try {
                 times = Integer.parseInt(editable.toString());
             } catch (NumberFormatException e) {
-                Log.w(KEY, "运行次数不是整数", e);
+                Log.w(TAG, "运行次数不是整数", e);
                 toast("运行次数不是整数");
                 return;
             }
@@ -75,7 +75,7 @@ public class ExpressionView extends CustomView {
             try {
                 pairs = adapter.getValue();
             } catch (NumberFormatException e) {
-                Log.w(KEY, "变量数据的获取出错", e);
+                Log.w(TAG, "变量数据的获取出错", e);
                 toast("变量数据的获取出错");
                 return;
             }
@@ -83,15 +83,15 @@ public class ExpressionView extends CustomView {
             try {
                 output = ExpressionUtil.run(input, pairs, times);
             } catch (NumberFormatException e) {
-                Log.w(KEY, "运行时出错", e);
+                Log.w(TAG, "运行时出错", e);
                 toast("运行时出错 : 文字转数字时失败");
                 return;
             } catch (ExpressionCompilationException e) {
-                Log.w(KEY, "运行时出错", e);
+                Log.w(TAG, "运行时出错", e);
                 toast("运行时出错 : 表达式结构有问题");
                 return;
             } catch (Exception e) {
-                Log.w(KEY, "运行时出错", e);
+                Log.w(TAG, "运行时出错", e);
                 toast("运行时出错");
                 return;
             }

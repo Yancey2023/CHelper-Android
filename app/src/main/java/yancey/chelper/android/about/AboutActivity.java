@@ -21,6 +21,13 @@ public class AboutActivity extends AppCompatActivity {
         tv_updateNote.setText("""
                 更新日志
                 
+                v0.2.15 20240606
+                1. 新增：loot命令的战利品表补全提示
+                2. 修改：最低sdk降为24，从安卓7开始支持
+                3. 修复：xp命令的经验等级不能识别以L结尾的经验等级
+                4. 修复：局部坐标的补全提示有误
+                5. 修复：补全单个符号时会替换掉后面的符号
+                
                 v0.2.14 20240531
                 1. 修复：软件在部分情况会崩溃
                 2. 修复：execute指令的解析
