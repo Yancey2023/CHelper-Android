@@ -37,7 +37,7 @@ public class CHelperCore {
     }
 
     public boolean initCPack(Context context) {
-        return init(context.getAssets(), "beta-experiment-1.21.0.23.cpack");
+        return init(context.getAssets(), "release-experiment-1.20.80.05.cpack");
     }
 
     public void setCommandEditText(CommandEditText commandEditText) {
@@ -112,6 +112,13 @@ public class CHelperCore {
         }
     }
 
+    public String commandOld2new(String old) {
+        if (old == null) {
+            return null;
+        }
+        return old2new(old);
+    }
+
     private native boolean init(@NonNull AssetManager assetManager, String cpackPath);
 
     private native void onTextChanged(@NonNull String text, int index);
@@ -131,5 +138,7 @@ public class CHelperCore {
     private native String getStructure();
 
     private native String onSuggestionClick(int which);
+
+    private native String old2new(String old);
 
 }

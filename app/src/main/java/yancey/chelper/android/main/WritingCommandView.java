@@ -31,6 +31,7 @@ import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.expression.ExpressionView;
 import yancey.chelper.android.favorite.FavoritesView;
+import yancey.chelper.android.old2new.Old2NewView;
 import yancey.chelper.android.settings.Settings;
 import yancey.chelper.android.settings.SettingsView;
 import yancey.chelper.core.CHelperCore;
@@ -94,9 +95,11 @@ public class WritingCommandView extends CustomView {
         });
         view.findViewById(R.id.btn_settings).setOnClickListener(v -> openView(SettingsView::new));
         if (isInFloatingWindow) {
+            view.findViewById(R.id.ll_old2new).setVisibility(View.GONE);
             view.findViewById(R.id.ll_favorites).setVisibility(View.GONE);
             view.findViewById(R.id.ll_expression).setVisibility(View.GONE);
         } else {
+            view.findViewById(R.id.btn_old2new).setOnClickListener(v -> openView(Old2NewView::new));
             view.findViewById(R.id.btn_favorites).setOnClickListener(v -> openView(FavoritesView::new));
             view.findViewById(R.id.btn_expression).setOnClickListener(v -> openView(ExpressionView::new));
         }

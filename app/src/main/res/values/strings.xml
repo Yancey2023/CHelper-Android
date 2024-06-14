@@ -61,4 +61,9 @@
     <string name="setting_is_crowed">紧凑模式</string>
     <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，重启软件后生效</string>
     <string name="permissions">权限</string>
+    <string name="ed_hint_old_command">请输入旧版指令</string>
+    <string name="tv_old2new">转换</string>
+    <string name="btn_old2new_paste">粘贴旧指令</string>
+    <string name="btn_old2new_copy">复制新命令</string>
+    <string name="btn_old2new_run">复制</string>
 </resources>
