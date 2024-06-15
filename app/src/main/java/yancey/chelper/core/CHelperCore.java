@@ -112,7 +112,7 @@ public class CHelperCore {
         }
     }
 
-    public String commandOld2new(String old) {
+    public String commandOld2New(String old) {
         if (old == null) {
             return null;
         }

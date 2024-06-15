@@ -23,9 +23,7 @@ public class Settings {
     }
 
     private static File getFileByContext(Context context) {
-        return context.getFilesDir().toPath()
-                .resolve("settings").resolve("settings.json")
-                .toFile();
+        return FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "settings", "settings.json");
     }
 
     public void save(Context context) {

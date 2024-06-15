@@ -31,11 +31,12 @@
     <string name="tv_permission">权限请求</string>
     <string name="tv_start_app">应用模式</string>
     <string name="tv_start_window">悬浮窗模式</string>
+    <string name="tv_start_ime">输入法模式</string>
     <string name="iv_move">移动</string>
     <string name="add_floating_window">浮窗</string>
     <string name="delete_floating_window">删除浮窗</string>
     <string name="iv_show">显示</string>
-    <string name="tv_undo">撤销</string>
+    <string name="tv_undo">撤回</string>
     <string name="tv_redo">恢复</string>
     <string name="tv_delete">全删</string>
     <string name="ed_expression_hint">例:/say \"${sin(x+y)/3,int} ${x+1,float}\"\nint为整数,float为小数</string>
@@ -57,13 +58,16 @@
     <string name="setting_is_saving_when_pausing_description">如果开启，仅恢复文字，不恢复撤回和恢复按钮所需要的历史记录</string>
     <string name="dependencies">依赖</string>
     <string name="thanks">致谢</string>
-    <string name="app_description">我的世界基岩版指令助手</string>
+    <string name="app_description">我的世界基岩版命令助手</string>
     <string name="setting_is_crowed">紧凑模式</string>
     <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，重启软件后生效</string>
     <string name="permissions">权限</string>
-    <string name="ed_hint_old_command">请输入旧版指令</string>
+    <string name="ed_hint_old_command">请输入旧版命令</string>
     <string name="tv_old2new">转换</string>
-    <string name="btn_old2new_paste">粘贴旧指令</string>
+    <string name="btn_old2new_paste">粘贴旧命令</string>
     <string name="btn_old2new_copy">复制新命令</string>
     <string name="btn_old2new_run">复制</string>
+    <string name="old2new_ime_name">命令转换输入法</string>
+    <string name="old2new_ime_welcome">目前输入法模式只支持旧命令转新命令（包括execute命令转成新语法，方块数据值转方块状态），点击输入框即可自动转换，该输入法弹出的是一个撤回按钮，你可以点击弹出的按钮进行撤回，更多功能敬请期待</string>
+    <string name="btn_start">开始使用</string>
 </resources>

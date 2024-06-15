@@ -22,6 +22,7 @@ import yancey.chelper.R;
 import yancey.chelper.android.about.AboutActivity;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.main.WritingCommandActivity;
+import yancey.chelper.android.old2new.Old2NewIMESettingsActivity;
 import yancey.chelper.core.CHelperCore;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -47,6 +48,9 @@ public class WelcomeActivity extends AppCompatActivity {
             } else {
                 startFloatingWindow(40);
             }
+        });
+        findViewById(R.id.btn_start_ime).setOnClickListener(v -> {
+            startActivity(new Intent(this, Old2NewIMESettingsActivity.class));
         });
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
     }

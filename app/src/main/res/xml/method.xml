@@ -1,0 +1,9 @@
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="yancey.chelper.old2new.Old2NewIMESettingsActivity"
+    android:icon="@drawable/pack_icon">
+    <subtype android:name="@string/old2new_ime_name"
+        android:icon="@drawable/pack_icon"
+        android:languageTag="en-US"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="somePrivateOption=true" />
+</input-method>

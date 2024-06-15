@@ -14,9 +14,9 @@ import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -40,7 +40,7 @@ public class FavoritesView extends CustomView {
         File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "favorites", "favorites.dat");
         List<DataFavorite> dataFavoriteList;
         if (file.canRead()) {
-            try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(Files.newInputStream(file.toPath())))) {
+            try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
                 dataFavoriteList = new ArrayList<>();
                 int length = dataInputStream.readInt();
                 for (int i = 0; i < length; i++) {

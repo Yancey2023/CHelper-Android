@@ -1,13 +1,20 @@
 package yancey.chelper.util;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.StringJoiner;
 
 public class FileUtil {
+
+    private static final int BUFFER_SIZE = 1024;
 
     public static String getFilePath(String... strings) {
         StringJoiner sj = new StringJoiner(File.separator);
@@ -21,6 +28,7 @@ public class FileUtil {
         return new File(getFilePath(strings));
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean createParentFile(File file) {
         if (file.exists()) {
             return true;
@@ -29,6 +37,7 @@ public class FileUtil {
         return parent == null || parent.exists() || parent.mkdirs();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static boolean writeString(File file, String str) {
         if (!createParentFile(file)) {
             return false;
@@ -41,11 +50,36 @@ public class FileUtil {
         }
     }
 
+    @Nullable
     public static String readString(File file) {
-        try (FileInputStream fis = new FileInputStream(file)) {
-            return new String(Files.readAllBytes(file.toPath()));
+        try {
+            return new String(readAllByte(new BufferedInputStream(new FileInputStream(file))));
         } catch (IOException e) {
             return null;
+        }
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static int copyAllBytes(InputStream inputStream, OutputStream outputStream) throws IOException {
+        int byteCount = 0;
+        byte[] buffer = new byte[BUFFER_SIZE];
+        while (true) {
+            int read = inputStream.read(buffer);
+            if (read == -1) {
+                break;
+            }
+            outputStream.write(buffer, 0, read);
+            byteCount += read;
+        }
+        return byteCount;
+    }
+
+    @SuppressWarnings("unused")
+    public static byte[] readAllByte(InputStream inputStream) throws IOException {
+        int available = inputStream.available();
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            copyAllBytes(inputStream, byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
         }
     }
 }

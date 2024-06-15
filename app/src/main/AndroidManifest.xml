@@ -32,6 +32,23 @@
             android:name=".android.about.AboutActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".android.old2new.Old2NewIMESettingsActivity"
+            android:exported="true" />
+
+        <service
+            android:name=".android.old2new.Old2NewIMEService"
+            android:exported="true"
+            android:label="@string/old2new_ime_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
+
     </application>
 
 </manifest>
