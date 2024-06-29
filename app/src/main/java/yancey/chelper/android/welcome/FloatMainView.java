@@ -8,9 +8,12 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import yancey.chelper.R;
 import yancey.chelper.android.common.view.DraggableView;
 import yancey.chelper.android.main.MainView;
+import yancey.chelper.core.CHelperGuiCore;
 
 @SuppressLint("ViewConstructor")
 public class FloatMainView extends FrameLayout {
@@ -19,13 +22,14 @@ public class FloatMainView extends FrameLayout {
     private final DraggableView iconView;
     private final MainView mainView;
 
-    public FloatMainView(@NonNull Context context, Runnable shutDown, int iconEdgeLength) {
+    public FloatMainView(@NonNull Context context, CHelperGuiCore core, Runnable shutDown, int iconEdgeLength) {
         super(context);
         this.iconEdgeLength = iconEdgeLength;
         iconView = new DraggableView(context);
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new LayoutParams(iconEdgeLength, iconEdgeLength, Gravity.START | Gravity.TOP));
-        mainView = new MainView(context, true, shutDown, iconView::callOnClick);
+        Objects.requireNonNull(core);
+        mainView = new MainView(context, core,true, shutDown, iconView::callOnClick);
         addView(mainView);
         addView(iconView);
     }

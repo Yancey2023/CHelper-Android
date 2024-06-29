@@ -50,7 +50,7 @@ public class Old2NewView extends CustomView {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mTv_newCommand.setText(CHelperCore.INSTANCE.commandOld2New(mEd_oldCommand.getText().toString()));
+                mTv_newCommand.setText(CHelperCore.old2new(mEd_oldCommand.getText().toString()));
             }
 
             @Override

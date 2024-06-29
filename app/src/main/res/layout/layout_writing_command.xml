@@ -103,7 +103,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
         android:background="@drawable/icon_copy"
-        android:contentDescription="@string/iv_copy" />
+        android:contentDescription="@string/copy" />
 
     <yancey.chelper.android.common.view.CommandEditText
         android:id="@+id/ed_input"

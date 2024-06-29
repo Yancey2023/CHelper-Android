@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import yancey.chelper.R;
 import yancey.chelper.core.CHelperCore;
-import yancey.chelper.util.DataComplete;
+import yancey.chelper.core.CHelperGuiCore;
+import yancey.chelper.core.Suggestion;
 
 public class CommandListAdapter extends RecyclerView.Adapter<CommandListAdapter.CommandListViewHolder> {
 
     private final Context context;
-    private final CHelperCore core;
+    private final CHelperGuiCore core;
     private final boolean isCrowed;
     private String structure, description;
 
-    public CommandListAdapter(Context context, CHelperCore core, boolean isCrowed) {
+    public CommandListAdapter(Context context, CHelperGuiCore core, boolean isCrowed) {
         this.context = context;
         this.core = core;
         this.isCrowed = isCrowed;
@@ -67,7 +68,7 @@ public class CommandListAdapter extends RecyclerView.Adapter<CommandListAdapter.
             holder.mTv_commandDescription.setText(description);
             return;
         }
-        DataComplete data = core.getSuggestion(isCrowed ? position - 1 : position);
+        Suggestion data = core.getSuggestion(isCrowed ? position - 1 : position);
         if (data == null) {
             holder.mTv_commandName.setText(null);
             if (holder.mTv_commandDescription != null) {

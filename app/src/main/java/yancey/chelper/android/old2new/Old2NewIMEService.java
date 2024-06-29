@@ -57,7 +57,7 @@ public class Old2NewIMEService extends InputMethodService {
             return;
         }
         this.oldCommand = oldCommand;
-        newCommand = CHelperCore.INSTANCE.commandOld2New(oldCommand);
+        newCommand = CHelperCore.old2new(oldCommand);
         lastIsUndo = !Objects.equals(oldCommand, newCommand);
         if (lastIsUndo) {
             setText(newCommand);

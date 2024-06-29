@@ -3,6 +3,7 @@ package yancey.chelper.android.common.view;
 import android.content.Context;
 import android.text.Editable;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.util.Objects;
 import androidx.appcompat.widget.AppCompatEditText;

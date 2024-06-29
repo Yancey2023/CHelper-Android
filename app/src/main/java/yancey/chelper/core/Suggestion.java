@@ -1,6 +1,6 @@
-package yancey.chelper.util;
+package yancey.chelper.core;
 
-public class DataComplete {
+public class Suggestion {
     public String name;
     public String description;
 }

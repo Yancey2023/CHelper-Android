@@ -20,21 +20,23 @@ import java.util.Objects;
 
 import yancey.chelper.R;
 import yancey.chelper.android.about.AboutActivity;
+import yancey.chelper.android.common.dialog.ChoosingDialog;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.main.WritingCommandActivity;
 import yancey.chelper.android.old2new.Old2NewIMESettingsActivity;
+import yancey.chelper.android.rawtext.RawtextActivity;
+import yancey.chelper.android.settings.Settings;
 import yancey.chelper.core.CHelperCore;
+import yancey.chelper.core.CHelperGuiCore;
 
 public class WelcomeActivity extends AppCompatActivity {
+
+    private final CHelperGuiCore core = new CHelperGuiCore();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        if (!CHelperCore.INSTANCE.initCPack(this)) {
-            Toast.makeText(this, "资源包加载失败", Toast.LENGTH_SHORT).show();
-            return;
-        }
         findViewById(R.id.btn_start_app).setOnClickListener(v -> {
             if (isUsingFloatingWindow()) {
                 Toast.makeText(this, "你必须关闭悬浮窗模式才可以进入应用模式", Toast.LENGTH_SHORT).show();
@@ -49,9 +51,34 @@ public class WelcomeActivity extends AppCompatActivity {
                 startFloatingWindow(40);
             }
         });
-        findViewById(R.id.btn_start_ime).setOnClickListener(v -> {
-            startActivity(new Intent(this, Old2NewIMESettingsActivity.class));
+        findViewById(R.id.btn_choose_cpack).setOnClickListener(v -> {
+            new ChoosingDialog(this, new String[]{
+                    "正式版-原版-1.20.80.05",
+                    "正式版-实验性玩法-1.20.80.05",
+                    "测试版-原版-1.21.0.23",
+                    "测试版-实验性玩法-1.21.0.23",
+            }, which -> {
+                String cpackPath = switch (which) {
+                    case 0 -> "release-vanilla-1.20.80.05.cpack";
+                    case 1 -> "release-experiment-1.20.80.05.cpack";
+                    case 2 -> "beta-vanilla-1.21.0.23.cpack";
+                    case 3 -> "beta-experiment-1.21.0.23.cpack";
+                    default -> throw new IllegalStateException("Unexpected value: " + which);
+                };
+                Settings.getInstance(this).setCpackPath(this, cpackPath);
+                if (core.getCore() != null && !Objects.equals(core.getCore().getPath(), cpackPath)) {
+                    core.setCore(CHelperCore.fromAssets(getAssets(), "cpack/" + cpackPath));
+                }
+            }).show();
         });
+        findViewById(R.id.btn_start_ime).setOnClickListener(v -> startActivity(new Intent(this, Old2NewIMESettingsActivity.class)));
+        findViewById(R.id.btn_experiment_feature).setOnClickListener(v -> new ChoosingDialog(this,
+                new String[]{getString(R.string.raw_json_studio)},
+                which -> {
+                    if (which == 0) {
+                        startActivity(new Intent(this, RawtextActivity.class));
+                    }
+                }).show());
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
     }
 
@@ -77,7 +104,22 @@ public class WelcomeActivity extends AppCompatActivity {
                 iconSize,
                 getResources().getDisplayMetrics()
         );
-        FloatMainView floatMainView = new FloatMainView(this, this::stopFloatingWindow, length);
+        String cpackPath = Settings.getInstance(this).getCpackPath(this);
+        if (core.getCore() == null || !Objects.equals(core.getCore().getPath(), cpackPath)) {
+            CHelperCore core1 = null;
+            try {
+                core1 = CHelperCore.fromAssets(getAssets(), cpackPath);
+            } catch (Exception e) {
+                Toast.makeText(this, "资源包加载失败", Toast.LENGTH_SHORT).show();
+            }
+            core.setCore(core1);
+        } else {
+            core.reset();
+        }
+        if (core.getCore() == null) {
+            return;
+        }
+        FloatMainView floatMainView = new FloatMainView(this, core, this::stopFloatingWindow, length);
         Runnable hide = () -> {
             EasyFloat.updateFloat("icon_view", (int) floatMainView.getIconViewX(), (int) floatMainView.getIconViewY());
             EasyFloat.hide("main_view");
@@ -135,4 +177,12 @@ public class WelcomeActivity extends AppCompatActivity {
         EasyFloat.dismiss("main_view");
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        if (core == null) {
+            return;
+        }
+        core.close();
+    }
 }

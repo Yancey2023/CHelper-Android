@@ -1,144 +1,157 @@
 package yancey.chelper.core;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.AssetManager;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import java.nio.charset.StandardCharsets;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Closeable;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
-import yancey.chelper.android.common.view.CommandEditText;
-import yancey.chelper.android.settings.Settings;
-import yancey.chelper.util.DataComplete;
-import yancey.chelper.util.SelectedString;
-
-public class CHelperCore {
+public class CHelperCore implements Closeable {
 
     static {
         System.loadLibrary("CHelper");
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public static final CHelperCore INSTANCE = new CHelperCore();
+    private final boolean isAssets;
+    private final String path;
+    private long pointer;
 
-    private Runnable updateList;
-    private Consumer<String> updateStructure, updateDescription;
-    private CommandEditText commandEditText;
-    private TextView mtv_errorReasons;
-
-    private CHelperCore() {
-
+    private CHelperCore(@Nullable AssetManager assetManager, @NotNull String path) {
+        this.isAssets = assetManager != null;
+        this.path = path;
+        try {
+            pointer = create0(assetManager, path);
+        } catch (Exception e) {
+            pointer = 0;
+        }
+        if (pointer == 0) {
+            throw new RuntimeException("fail to init CHelper Core: " + path);
+        }
     }
 
-    public boolean initCPack(Context context) {
-        return init(context.getAssets(), "release-experiment-1.20.80.05.cpack");
+    public static CHelperCore fromAssets(@NotNull AssetManager assetManager, String path) {
+        return new CHelperCore(Objects.requireNonNull(assetManager), path);
     }
 
-    public void setCommandEditText(CommandEditText commandEditText) {
-        this.commandEditText = commandEditText;
+    public static CHelperCore fromFile(String path) {
+        return new CHelperCore(null, path);
     }
 
-    public void setUpdateList(Runnable updateList) {
-        this.updateList = updateList;
-    }
-
-    public void setUpdateStructure(Consumer<String> updateStructure) {
-        this.updateStructure = updateStructure;
-    }
-
-    public void setUpdateDescription(Consumer<String> updateDescription) {
-        this.updateDescription = updateDescription;
-    }
-
-    public void setTvErrorReasons(TextView mtv_errorReasons) {
-        this.mtv_errorReasons = mtv_errorReasons;
-    }
-
-    private String lastInput = "";
-
-    public void onSelectionChanged() {
-        String text = Objects.requireNonNull(commandEditText.getText()).toString();
-        if (text.isEmpty()) {
-            lastInput = text;
-            updateStructure.accept("欢迎使用CHelper");
-            updateDescription.accept("作者：Yancey");
-            if (mtv_errorReasons != null) {
-                mtv_errorReasons.setVisibility(View.GONE);
-            }
-            onTextChanged(text, 0);
-            updateList.run();
+    public void onTextChanged(@NonNull String text, int index) {
+        if (pointer == 0) {
             return;
         }
-        if (text.equals(lastInput)) {
-            if (!Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
-                return;
-            }
-            int selectionStart = text.substring(0, commandEditText.getSelectionStart()).getBytes(StandardCharsets.UTF_8).length;
-            onSelectionChanged(selectionStart);
-        } else {
-            int selectionStart;
-            if (Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
-                selectionStart = text.substring(0, commandEditText.getSelectionStart()).getBytes(StandardCharsets.UTF_8).length;
-            } else {
-                selectionStart = text.getBytes(StandardCharsets.UTF_8).length;
-            }
-            onTextChanged(text, selectionStart);
-            updateStructure.accept(getStructure());
-            if (mtv_errorReasons != null) {
-                String errorReasons = getErrorReasons();
-                if (errorReasons == null || errorReasons.isEmpty()) {
-                    mtv_errorReasons.setVisibility(View.GONE);
-                } else {
-                    mtv_errorReasons.setText(errorReasons);
-                    mtv_errorReasons.setVisibility(View.VISIBLE);
-                }
-            }
-            lastInput = text;
-        }
-        updateDescription.accept(getDescription());
-        updateList.run();
+        onTextChanged0(pointer, text, index);
     }
 
-    public void onItemClick(int which) {
-        String string = onSuggestionClick(which);
-        if (string != null) {
-            commandEditText.setSelectedString(new SelectedString(string, string.length(), string.length()));
+    public void onSelectionChanged(int index) {
+        if (pointer == 0) {
+            return;
         }
+        onSelectionChanged0(pointer, index);
     }
 
-    public String commandOld2New(String old) {
-        if (old == null) {
+    public String getDescription() {
+        if (pointer == 0) {
             return null;
         }
-        return old2new(old);
+        return getDescription0(pointer);
     }
 
-    private native boolean init(@NonNull AssetManager assetManager, String cpackPath);
+    public String getErrorReasons() {
+        if (pointer == 0) {
+            return null;
+        }
+        return getErrorReasons0(pointer);
+    }
 
-    private native void onTextChanged(@NonNull String text, int index);
+    public int getSuggestionsSize() {
+        if (pointer == 0) {
+            return 0;
+        }
+        return getSuggestionsSize0(pointer);
+    }
 
-    private native void onSelectionChanged(int index);
+    public Suggestion getSuggestion(int which) {
+        if (pointer == 0) {
+            return null;
+        }
+        return getSuggestion0(pointer, which);
+    }
 
-    private native String getDescription();
+    public List<Suggestion> getSuggestions() {
+        if (pointer == 0) {
+            return null;
+        }
+        return getSuggestions0(pointer);
+    }
 
-    private native String getErrorReasons();
+    public String getStructure() {
+        if (pointer == 0) {
+            return null;
+        }
+        return getStructure0(pointer);
+    }
 
-    public native int getSuggestionsSize();
+    public String onSuggestionClick(int which) {
+        if (pointer == 0) {
+            return null;
+        }
+        return onSuggestionClick0(pointer, which);
+    }
 
-    public native DataComplete getSuggestion(int which);
+    @Override
+    public void close() {
+        if (pointer == 0) {
+            return;
+        }
+        release0(pointer);
+        pointer = 0;
+    }
 
-    public native List<DataComplete> getSuggestions();
+    public static @NonNull String old2new(String old) {
+        if (old == null) {
+            return "";
+        }
+        return old2new0(old);
+    }
 
-    private native String getStructure();
+    public boolean isAssets() {
+        return isAssets;
+    }
 
-    private native String onSuggestionClick(int which);
+    public String getPath() {
+        return path;
+    }
 
-    private native String old2new(String old);
+    private static native long create0(@Nullable AssetManager assetManager, @NonNull String cpackPath);
+
+    private static native void release0(long pointer);
+
+    private static native void onTextChanged0(long pointer, @NonNull String text, int index);
+
+    private static native void onSelectionChanged0(long pointer, int index);
+
+    private static native String getDescription0(long pointer);
+
+    private static native String getErrorReasons0(long pointer);
+
+    private static native int getSuggestionsSize0(long pointer);
+
+    private static native Suggestion getSuggestion0(long pointer, int which);
+
+    public static native List<Suggestion> getSuggestions0(long pointer);
+
+    private static native String getStructure0(long pointer);
+
+    private static native String onSuggestionClick0(long pointer, int which);
+
+    private static native String old2new0(@NonNull String old);
+
 
 }

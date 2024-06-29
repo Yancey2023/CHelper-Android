@@ -36,6 +36,10 @@
             android:name=".android.old2new.Old2NewIMESettingsActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".android.rawtext.RawtextActivity"
+            android:exported="true" />
+
         <service
             android:name=".android.old2new.Old2NewIMEService"
             android:exported="true"

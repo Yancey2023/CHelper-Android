@@ -34,7 +34,7 @@ import yancey.chelper.android.favorite.FavoritesView;
 import yancey.chelper.android.old2new.Old2NewView;
 import yancey.chelper.android.settings.Settings;
 import yancey.chelper.android.settings.SettingsView;
-import yancey.chelper.core.CHelperCore;
+import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.util.FileUtil;
 import yancey.chelper.util.SelectedString;
 
@@ -50,42 +50,50 @@ public class WritingCommandView extends CustomView {
     public boolean isGuiLoaded = false;
     private final Runnable shutDown, hideView;
 
-    public WritingCommandView(@NonNull Context context, boolean isInFloatingWindow, Runnable shutDown, Runnable hideView, Consumer<CustomView> openView) {
+    public WritingCommandView(
+            @NonNull Context context,
+            CHelperGuiCore core,
+            boolean isInFloatingWindow,
+            Runnable shutDown,
+            Runnable hideView,
+            Consumer<CustomView> openView
+    ) {
         super(context, openView, isInFloatingWindow, Settings.getInstance(context).isCrowed ?
-                R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
+                R.layout.layout_writing_command_crowded : R.layout.layout_writing_command, core);
         this.shutDown = shutDown;
         this.hideView = hideView;
     }
 
     @Override
-    public void onCreateView(Context context, View view) {
+    public void onCreateView(Context context, View view, Object core0) {
         isGuiLoaded = false;
+        CHelperGuiCore core = (CHelperGuiCore) core0;
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         TextView mtv_structure = view.findViewById(R.id.tv_structure);
         TextView mtv_description = view.findViewById(R.id.tv_description);
         TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
         commandEditText = view.findViewById(R.id.ed_input);
         boolean isCrowed = Settings.getInstance(context).isCrowed;
-        commandEditText.setListener(null, CHelperCore.INSTANCE::onSelectionChanged, () -> isGuiLoaded);
-        CommandListAdapter adapter = new CommandListAdapter(context, CHelperCore.INSTANCE, isCrowed);
+        commandEditText.setListener(null, core::onSelectionChanged, () -> isGuiLoaded);
+        CommandListAdapter adapter = new CommandListAdapter(context, core, isCrowed);
         RecyclerView recyclerView = view.findViewById(R.id.rv_command_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
         if (isCrowed) {
-            CHelperCore.INSTANCE.setUpdateStructure(adapter::setStructure);
-            CHelperCore.INSTANCE.setUpdateDescription(adapter::setDescription);
+            core.setUpdateStructure(adapter::setStructure);
+            core.setUpdateDescription(adapter::setDescription);
         } else {
-            CHelperCore.INSTANCE.setUpdateStructure(mtv_structure::setText);
-            CHelperCore.INSTANCE.setUpdateDescription(mtv_description::setText);
+            core.setUpdateStructure(mtv_structure::setText);
+            core.setUpdateDescription(mtv_description::setText);
         }
         btn_action = view.findViewById(R.id.btn_action);
         btn_action.setOnClickListener(v -> {
             isShowActions = !isShowActions;
             updateActions();
         });
-        CHelperCore.INSTANCE.setTvErrorReasons(mtv_errorReasons);
-        CHelperCore.INSTANCE.setCommandEditText(commandEditText);
-        CHelperCore.INSTANCE.setUpdateList(adapter::notifyDataSetChanged);
+        core.setTvErrorReasons(mtv_errorReasons);
+        core.setCommandEditText(commandEditText);
+        core.setUpdateList(adapter::notifyDataSetChanged);
         view.findViewById(R.id.btn_copy).setOnClickListener(v -> {
             clipboardManager.setPrimaryClip(ClipData.newPlainText(null, Objects.requireNonNull(commandEditText.getText()).toString()));
             Toast.makeText(context, "已复制", Toast.LENGTH_SHORT).show();
@@ -129,7 +137,7 @@ public class WritingCommandView extends CustomView {
                 isGuiLoaded = true;
                 view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 commandEditText.setSelectedString(finalSelectedString);
-                CHelperCore.INSTANCE.onSelectionChanged();
+                core.onSelectionChanged();
             }
         });
         fl_action_container = view.findViewById(R.id.fl_action_container);

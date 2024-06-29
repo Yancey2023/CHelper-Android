@@ -15,6 +15,6 @@ public class ExpressionParam implements Param {
     @Override
     public String getValue() {
         double a = expression.evaluate();
-        return isFloat ? Double.toString(a) : Integer.toString((int) a);
+        return isFloat ? Float.toString((float) a) : Integer.toString((int) a);
     }
 }

@@ -26,7 +26,22 @@ public abstract class CustomView extends FrameLayout {
         onCreateView(context, view);
     }
 
-    public abstract void onCreateView(Context context, View view);
+    public <T> CustomView(@NonNull Context context, Consumer<CustomView> openView, boolean isInFloatingWindow, @LayoutRes int layoutId, Object data) {
+        super(context);
+        this.openView = openView;
+        this.isInFloatingWindow = isInFloatingWindow;
+        View view = LayoutInflater.from(context).inflate(layoutId, this, false);
+        addView(view);
+        onCreateView(context, view, data);
+    }
+
+    public void onCreateView(Context context, View view) {
+
+    }
+
+    public void onCreateView(Context context, View view, Object data) {
+
+    }
 
     public void onPause() {
 

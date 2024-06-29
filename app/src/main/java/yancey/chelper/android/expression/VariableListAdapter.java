@@ -50,7 +50,7 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
-                variableList.get(holder.getAdapterPosition()).name = s.toString();
+                variableList.get(holder.getLayoutPosition()).name = s.toString();
             }
         });
         holder.mEd_start.addTextChangedListener(new TextWatcher() {
@@ -66,7 +66,7 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
-                variableList.get(holder.getAdapterPosition()).start = s.toString();
+                variableList.get(holder.getLayoutPosition()).start = s.toString();
             }
         });
         holder.mEd_interval.addTextChangedListener(new TextWatcher() {
@@ -82,11 +82,11 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
-                variableList.get(holder.getAdapterPosition()).interval = s.toString();
+                variableList.get(holder.getLayoutPosition()).interval = s.toString();
             }
         });
         holder.btn_delete.setOnClickListener(v -> {
-            delete(holder.getAdapterPosition());
+            delete(holder.getLayoutPosition());
             holder.btn_delete.setOnClickListener(null);
         });
     }
@@ -117,7 +117,7 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
         return result;
     }
 
-    static class VariableListViewHolder extends RecyclerView.ViewHolder {
+    public static class VariableListViewHolder extends RecyclerView.ViewHolder {
         private final EditText mEd_name, mEd_start, mEd_interval;
         private final View btn_delete;
 

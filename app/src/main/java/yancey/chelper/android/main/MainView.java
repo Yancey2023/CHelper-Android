@@ -6,14 +6,18 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.core.CHelperGuiCore;
 
 @SuppressLint("ViewConstructor")
 public class MainView extends FrameLayout {
 
-    public MainView(@NonNull Context context, boolean isInFloatingWindow, Runnable shutDown, Runnable hideView) {
+    public MainView(@NonNull Context context, CHelperGuiCore core, boolean isInFloatingWindow, Runnable shutDown, Runnable hideView) {
         super(context);
-        openView(new WritingCommandView(context, isInFloatingWindow, shutDown, hideView, this::openView));
+        Objects.requireNonNull(core);
+        openView(new WritingCommandView(context, core, isInFloatingWindow, shutDown, hideView, this::openView));
     }
 
     public void openView(CustomView view) {

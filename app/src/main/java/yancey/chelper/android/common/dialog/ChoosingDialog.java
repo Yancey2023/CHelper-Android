@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 import yancey.chelper.R;
 
 public class ChoosingDialog extends Dialog {
@@ -64,7 +66,7 @@ public class ChoosingDialog extends Dialog {
             linearLayout.addView(textView);
         }
         setContentView(scrollView);
-        Window window = getWindow();
+        Window window = Objects.requireNonNull(getWindow());
         window.setDimAmount(0.5F);
         WindowManager.LayoutParams attributes = window.getAttributes();
         Point point = new Point();

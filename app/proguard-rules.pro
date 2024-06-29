@@ -22,7 +22,6 @@
 
 # ----- 配置一些输出信息 -----
 
-#-dump dump.txt
 -printseeds release/seeds.txt
 -printusage release/usage.txt
 -printmapping release/mapping.txt
@@ -30,7 +29,7 @@
 
 # ----- CHelper Native Core -----
 
--keep class yancey.chelper.util.DataComplete{*;}
+-keep class yancey.chelper.core.Suggestion{*;}
 
 # ----- EasyFloating -----
 
