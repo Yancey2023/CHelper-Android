@@ -10,11 +10,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_paste"
-        android:fadeScrollbars="true"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@color/text2_alpha_60"
-        android:scrollbars="vertical">
+        android:layout_above="@id/btn_paste">
 
         <LinearLayout
             android:layout_width="match_parent"

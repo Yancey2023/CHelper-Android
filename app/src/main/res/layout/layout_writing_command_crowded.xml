@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/ed_input">
 
-        <include layout="@layout/layout_menu_view" />
+        <include
+            android:id="@+id/fl_actions"
+            layout="@layout/layout_menu_view" />
 
     </FrameLayout>
 
@@ -72,6 +74,6 @@
         android:layout_alignParentTop="true"
         android:scrollbars="vertical"
         tools:itemCount="15"
-        tools:listitem="@layout/layout_command_list_crowded_item" />
+        tools:listitem="@layout/layout_suggestion_crowded_item" />
 
 </RelativeLayout>

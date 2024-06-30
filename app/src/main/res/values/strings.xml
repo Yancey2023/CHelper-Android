@@ -22,7 +22,7 @@
     <string name="tv_edit">编辑</string>
     <string name="tv_create">新建</string>
     <string name="btn_bulk_copy">批量复制</string>
-    <string name="iv_settings">设置</string>
+    <string name="settings">设置</string>
     <string name="copy">复制</string>
     <string name="setting_basic_settings">设置</string>
     <string name="setting_checking_by_selection">根据光标位置提供补全提示</string>
@@ -39,12 +39,13 @@
     <string name="tv_undo">撤回</string>
     <string name="tv_redo">恢复</string>
     <string name="tv_delete">全删</string>
-    <string name="ed_expression_hint">例:/say \"${sin(x+y)/3,int} ${x+1,float}\"\nint为整数,float为小数</string>
-    <string name="btn_expression_run">运行</string>
+    <string name="ed_enumeration_hint">例:/say \"${sin(x+y)/3,int} ${x+1,float}\"\nint为整数,float为小数</string>
+    <string name="btn_enumeration_run">运行</string>
     <string name="sample_context">内容</string>
     <string name="sample_description">介绍</string>
-    <string name="tv_expression">穷举</string>
-    <string name="btn_expression_add">增加变量</string>
+    <string name="enumeration">穷举</string>
+    <string name="jump">跳转</string>
+    <string name="btn_enumeration_add">增加变量</string>
     <string name="tv_times">次数 :</string>
     <string name="variable_name">变量名</string>
     <string name="tv_start_value">初始值</string>
@@ -62,13 +63,13 @@
     <string name="setting_is_crowed">紧凑模式</string>
     <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，重启软件后生效</string>
     <string name="permissions">权限</string>
-    <string name="ed_hint_old_command">请输入旧版命令</string>
+    <string name="ed_hint_old_command">请输入1.18版本的命令，下方会显示转换成的1.20命令（方块数据值转方块状态，execute、summon、structure命令转新语法）</string>
     <string name="tv_old2new">转换</string>
     <string name="btn_old2new_paste">粘贴旧命令</string>
     <string name="btn_old2new_copy">复制新命令</string>
     <string name="btn_old2new_run">复制</string>
     <string name="old2new_ime_name">命令转换输入法</string>
-    <string name="old2new_ime_welcome">目前输入法模式只支持旧命令转新命令（包括execute命令转成新语法，方块数据值转方块状态），点击输入框即可自动转换，该输入法弹出的是一个撤回按钮，你可以点击弹出的按钮进行撤回，更多功能敬请期待</string>
+    <string name="old2new_ime_welcome">1.18版本命令转1.20版本命令（方块数据值转方块状态，execute、summon、structure命令转新语法）。点击输入框即可自动转换，点击弹出的按钮可进行撤回。</string>
     <string name="old2new_ime_step1">第一步：进入设置启用输入法</string>
     <string name="old2new_ime_step2">第二步：切换输入法</string>
     <string name="old2new_ime_warn">你的系统不支持使用第三方输入法</string>
@@ -77,6 +78,8 @@
     <string name="ed_hint_rawtext">请输入文字，选择要上色的文字，点击对应颜色即可上色</string>
     <string name="preview">预览</string>
     <string name="choose_cpack">切换命令分支</string>
+    <string name="current_cpack">当前命令分支：%s</string>
+    <string name="old2new">旧版本命令转新版本命令</string>
     <string name="experiment_feature">实验性功能</string>
     <string name="raw_json_studio">原始Json文本生成器（未完工）</string>
 </resources>

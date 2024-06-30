@@ -14,7 +14,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".android.welcome.WelcomeActivity"
+            android:name=".android.welcome.activity.WelcomeActivity"
             android:exported="true">
 
             <intent-filter>
@@ -25,23 +25,39 @@
         </activity>
 
         <activity
-            android:name=".android.main.WritingCommandActivity"
+            android:name=".android.about.activity.AboutActivity"
             android:exported="true" />
 
         <activity
-            android:name=".android.about.AboutActivity"
+            android:name=".android.enumeration.activity.EnumerationActivity"
             android:exported="true" />
 
         <activity
-            android:name=".android.old2new.Old2NewIMESettingsActivity"
+            android:name=".android.completion.activity.SettingsActivity"
             android:exported="true" />
 
         <activity
-            android:name=".android.rawtext.RawtextActivity"
+            android:name=".android.favorites.activity.FavoritesActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".android.old2new.activity.Old2NewActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".android.old2new.activity.Old2NewIMEGuideActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".android.rawtext.activity.RawtextActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".android.completion.activity.CompletionActivity"
             android:exported="true" />
 
         <service
-            android:name=".android.old2new.Old2NewIMEService"
+            android:name=".android.old2new.service.Old2NewIMEService"
             android:exported="true"
             android:label="@string/old2new_ime_name"
             android:permission="android.permission.BIND_INPUT_METHOD">

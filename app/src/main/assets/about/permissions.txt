@@ -1,0 +1,6 @@
+权限
+
+android.permission.SYSTEM_ALERT_WINDOW
+描述：在其他应用上方显示
+用途：显示悬浮窗
+备注：非必须权限。用户可以拒绝，但拒绝后无法提供悬浮窗服务。

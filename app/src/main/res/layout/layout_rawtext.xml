@@ -11,11 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btn_copy"
-        android:background="@color/white"
-        android:fadeScrollbars="true"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@color/text2_alpha_60"
-        android:scrollbars="vertical">
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"

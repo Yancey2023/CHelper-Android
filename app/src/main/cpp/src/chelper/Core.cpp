@@ -128,7 +128,7 @@ namespace CHelper {
         if (HEDLEY_UNLIKELY(suggestions == nullptr || which >= suggestions->size())) {
             return std::nullopt;
         }
-        return suggestions->at(which).onClick(this, TokenUtil::toString(astNode.tokens));
+        return suggestions->at(which).apply(this, TokenUtil::toString(astNode.tokens));
     }
 
     std::string Core::old2new(const std::string &old){

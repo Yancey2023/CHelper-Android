@@ -1,0 +1,14 @@
+致谢
+
+链接：https://github.com/XeroAlpha/caidlist
+协议：GPL-3.0 license(https://github.com/XeroAlpha/caidlist/blob/master/LICENSE)
+帮助：提供我的世界基岩版中的各种ID及其注释
+
+链接：https://zh.minecraft.wiki
+协议：CC BY-NC-SA 3.0(https://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh-hans)
+帮助：
+     1. 提供基岩版命令文档
+     2. 提供我的世界基岩版中的方块状态数据及其注释
+     3. 提供我的世界基岩版中的粒子ID注释
+
+也要感谢大家的支持，你们是我继续创作的最大动力！！！

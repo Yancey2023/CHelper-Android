@@ -3,7 +3,6 @@ package yancey.chelper.core;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +14,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import yancey.chelper.android.common.view.CommandEditText;
-import yancey.chelper.android.settings.Settings;
-import yancey.chelper.util.SelectedString;
+import yancey.chelper.android.completion.data.Settings;
+import yancey.chelper.android.common.util.SelectedString;
 
 public class CHelperGuiCore implements Closeable {
 

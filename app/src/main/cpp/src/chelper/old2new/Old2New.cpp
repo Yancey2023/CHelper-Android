@@ -217,6 +217,7 @@ namespace CHelper::Old2New {
         }
         VectorView<Token> tokens3 = tokenReader.collect();
         // end?
+        tokenReader.pop();
         if (depth > 0) {
             dataFixList.emplace_back(tokens1, "");
         }
@@ -237,10 +238,10 @@ namespace CHelper::Old2New {
         } else {
             dataFixList.emplace_back(tokens3, "");
         }
+        tokenReader.push();
         // detect
         tokenReader.push();
         if (!expectString(tokenReader, "detect")) {
-            tokenReader.pop();
             tokenReader.pop();
             return true;
         }
@@ -248,7 +249,7 @@ namespace CHelper::Old2New {
         // ~~-1~
         if (!expectPosition(tokenReader)) {
             tokenReader.restore();
-            return false;
+            return true;
         }
         // stone
         tokenReader.push();
@@ -293,6 +294,108 @@ namespace CHelper::Old2New {
         tokenReader.skipWhitespace();
         VectorView<Token> tokens = tokenReader.collect();
         dataFixList.emplace_back(tokens, " run ");
+        return true;
+    }
+
+    /**
+     * summon命令转为新语法
+     * 旧语法例子：summon creeper ~ ~ ~ minecraft:become_charged "充能苦力怕"
+     * 新语法例子：summon creeper ~ ~ ~ ~ ~ minecraft:become_charged "充能苦力怕"
+     */
+    bool expectCommandSummon(TokenReader &tokenReader, std::vector<DataFix> &dataFixList) {
+        tokenReader.push();
+        // summon
+        if (!expectString(tokenReader, "summon")) {
+            tokenReader.restore();
+            return false;
+        }
+        // creeper
+        if (!expectString(tokenReader)) {
+            tokenReader.restore();
+            return false;
+        }
+        // end?
+        tokenReader.pop();
+        // ~~~
+        if (!expectPosition(tokenReader)) {
+            return true;
+        }
+        // end?
+        tokenReader.push();
+        VectorView<Token> tokens1 = tokenReader.collect();
+        dataFixList.emplace_back(tokens1, " 0 0");
+        // minecraft:become_charged
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // "充能苦力怕"
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // end
+        return true;
+    }
+
+    /**
+     * structure命令转为新语法
+     * 旧语法例子：structure load <name: string> <to:x y z> [rotation: Rotation] [mirror: Mirror] [includeEntities: Boolean] [includeBlocks: Boolean] [integrity: float] [seed: string]
+     * 新语法例子：structure load <name: string> <to:x y z> [rotation: Rotation] [mirror: Mirror] [includeEntities: Boolean] [includeBlocks: Boolean] [waterlogged: Boolean] [integrity: float] [seed: string]
+     */
+    bool expectCommandStructure(TokenReader &tokenReader, std::vector<DataFix> &dataFixList) {
+        tokenReader.push();
+        // structure
+        if (!expectString(tokenReader, "structure")) {
+            tokenReader.restore();
+            return false;
+        }
+        // load
+        if (!expectString(tokenReader, "load")) {
+            tokenReader.restore();
+            return false;
+        }
+        // end?
+        tokenReader.pop();
+        // <name: string>
+        if (!expectString(tokenReader)) {
+            return false;
+        }
+        // <to:x y z>
+        if (!expectPosition(tokenReader)) {
+            return false;
+        }
+        // [rotation: Rotation]
+        if (!expectNumber(tokenReader)) {
+            return true;
+        }
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // [mirror: Mirror]
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // [includeEntities: Boolean]
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // [includeBlocks: Boolean]
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // end?
+        tokenReader.push();
+        VectorView<Token> tokens1 = tokenReader.collect();
+        dataFixList.emplace_back(tokens1, " true");
+        // [integrity: float]
+        if (!expectNumber(tokenReader)) {
+            return true;
+        }
+        // [seed: string]
+        if (!expectString(tokenReader)) {
+            return true;
+        }
+        // end
+        tokenReader.pop();
         return true;
     }
 
@@ -368,10 +471,11 @@ namespace CHelper::Old2New {
             return true;
         }
         VectorView<Token> tokens1 = tokenReader.collect();
+        // end?
+        tokenReader.pop();
         // 0
         tokenReader.push();
         if (!expectNumber(tokenReader)) {
-            tokenReader.pop();
             tokenReader.pop();
             return true;
         }
@@ -379,7 +483,6 @@ namespace CHelper::Old2New {
         // end?
         dataFixList.emplace_back(tokens1, blockOld2New(tokens1, tokens2));
         dataFixList.emplace_back(tokens2, "");
-        tokenReader.pop();
         // replace
         if (!expectString(tokenReader, "replace")) {
             return true;
@@ -452,6 +555,8 @@ namespace CHelper::Old2New {
         expectSymbol(tokenReader, '/');
         expectCommandFill(tokenReader, dataFixList);
         expectCommandSetBlock(tokenReader, dataFixList);
+        expectCommandSummon(tokenReader, dataFixList);
+        expectCommandStructure(tokenReader, dataFixList);
         expectCommandTestForSetBlock(tokenReader, dataFixList);
         tokenReader.skipToLF();
         return true;

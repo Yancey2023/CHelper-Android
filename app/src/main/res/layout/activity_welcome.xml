@@ -8,11 +8,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F3F3F3"
-        android:fadeScrollbars="true"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@color/text2_alpha_60"
-        android:scrollbars="vertical">
+        android:background="#F3F3F3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,121 +68,402 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F3F3F3" />
-
-            <Button
-                android:id="@+id/btn_start_app"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:text="@string/tv_start_app"
+                android:layout_marginTop="10dp"
+                android:gravity="start"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:text="命令补全"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@android:color/white" />
-
-            <Button
-                android:id="@+id/btn_start_window"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:text="@string/tv_start_window"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_white_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/btn_start_suggestion_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/tv_start_app"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="#F3F3F3" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_start_enumeration_window"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/tv_start_window"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="#F3F3F3" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_enumeration_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/settings"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:text="@string/old2new"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@android:color/white" />
-
-            <Button
-                android:id="@+id/btn_start_ime"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:text="@string/tv_start_ime"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_white_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/btn_start_old2new_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/tv_start_app"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="#F3F3F3" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_start_old2new_ime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/tv_start_ime"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:text="@string/enumeration"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@android:color/white" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F3F3F3" />
-
-            <Button
-                android:id="@+id/btn_choose_cpack"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:text="@string/choose_cpack"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_white_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@android:color/white" />
+                <RelativeLayout
+                    android:id="@+id/btn_enumeration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F3F3F3" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/enumeration"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/btn_experiment_feature"
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:gravity="center"
+                android:gravity="start"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
                 android:text="@string/experiment_feature"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F3F3F3" />
-
-            <Button
-                android:id="@+id/btn_about"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@android:color/white"
-                android:gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_white_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/tv_favorite"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="#F3F3F3" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_raw_json_studio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:text="@string/raw_json_studio"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
                 android:text="@string/about"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_white_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/btn_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/about"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="@string/tv_writerIntroduce"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
     </ScrollView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/tv_welcome"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
 
 </LinearLayout>

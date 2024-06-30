@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog"
+    android:background="@drawable/bg_white_corner_20dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -10,6 +10,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/btn_edit_favorite"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textColor="@color/black"
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="20dp"
+            android:text="@string/tv_command_name"
             android:textColor="@color/black"
             android:textSize="20sp" />
 

@@ -3,14 +3,13 @@ package yancey.chelper.android.common.view;
 import android.content.Context;
 import android.text.Editable;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.util.Objects;
 import androidx.appcompat.widget.AppCompatEditText;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
-import yancey.chelper.util.SelectedString;
+import yancey.chelper.android.common.util.SelectedString;
 
 public class CommandEditText extends AppCompatEditText {
 

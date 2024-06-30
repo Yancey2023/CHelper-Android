@@ -43,6 +43,10 @@ namespace CHelper::Old2New {
 
     bool expectCommandExecuteRepeat(TokenReader &tokenReader, std::vector<DataFix> &dataFixList);
 
+    bool expectCommandSummon(TokenReader &tokenReader, std::vector<DataFix> &dataFixList);
+
+    bool expectCommandStructure(TokenReader &tokenReader, std::vector<DataFix> &dataFixList);
+
     bool expectCommandSetBlock(TokenReader &tokenReader, std::vector<DataFix> &dataFixList);
 
     bool expectCommandFill(TokenReader &tokenReader, std::vector<DataFix> &dataFixList);

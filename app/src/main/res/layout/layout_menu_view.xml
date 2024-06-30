@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fl_actions"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,196 +11,94 @@
         tools:ignore="UselessParent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <View
+                android:id="@+id/btn_undo"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/icon_undo"
+                android:contentDescription="@string/tv_undo" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:text="@string/tv_undo"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-                <View
-                    android:id="@+id/btn_settings"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_settings"
-                    android:contentDescription="@string/iv_settings" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/iv_settings"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-            </LinearLayout>
+            <View
+                android:id="@+id/btn_redo"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/icon_redo"
+                android:contentDescription="@string/tv_redo" />
 
-            <LinearLayout
-                android:id="@+id/ll_favorites"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:text="@string/tv_redo"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-                <View
-                    android:id="@+id/btn_favorites"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_star"
-                    android:contentDescription="@string/tv_favorite" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_favorite"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-            </LinearLayout>
+            <View
+                android:id="@+id/btn_delete"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/icon_delete"
+                android:contentDescription="@string/tv_delete" />
 
-            <LinearLayout
-                android:id="@+id/ll_expression"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:text="@string/tv_delete"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-                <View
-                    android:id="@+id/btn_expression"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_expression"
-                    android:contentDescription="@string/tv_expression" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_expression"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-            </LinearLayout>
+            <View
+                android:id="@+id/btn_shut_down"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/icon_power"
+                android:contentDescription="@string/tv_delete" />
 
-            <LinearLayout
-                android:id="@+id/ll_old2new"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/btn_old2new"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_old2new"
-                    android:contentDescription="@string/tv_old2new" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_old2new"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/btn_undo"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_undo"
-                    android:contentDescription="@string/tv_undo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_undo"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/btn_redo"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_redo"
-                    android:contentDescription="@string/tv_redo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_redo"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/btn_delete"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_delete"
-                    android:contentDescription="@string/tv_delete" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_delete"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/btn_shut_down"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:background="@drawable/icon_power"
-                    android:contentDescription="@string/tv_delete" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/tv_turn_off"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
+                android:layout_gravity="center"
+                android:text="@string/tv_turn_off"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
