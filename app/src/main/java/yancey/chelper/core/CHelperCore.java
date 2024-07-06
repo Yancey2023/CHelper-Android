@@ -1,5 +1,6 @@
 package yancey.chelper.core;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 
 import androidx.annotation.NonNull;
@@ -8,8 +9,12 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import yancey.chelper.android.common.util.AssetsUtil;
+import yancey.chelper.android.common.util.ToastUtil;
 
 public class CHelperCore implements Closeable {
 
@@ -17,6 +22,7 @@ public class CHelperCore implements Closeable {
         System.loadLibrary("CHelper");
     }
 
+    private static boolean isOld2NewInit = false;
     private final boolean isAssets;
     private final String path;
     private long pointer;
@@ -114,9 +120,22 @@ public class CHelperCore implements Closeable {
         pointer = 0;
     }
 
-    public static @NonNull String old2new(String old) {
+    public static @NonNull String old2new(Context context, String old) {
         if (old == null) {
             return "";
+        }
+        if (!isOld2NewInit) {
+            try {
+                if(old2newInit0(AssetsUtil.readStringFromAssets(context, "old2new/blockFixData.json"))){
+                    isOld2NewInit = true;
+                }
+            } catch (IOException ignored) {
+
+            }
+            if(!isOld2NewInit){
+                ToastUtil.show(context, "旧版命令转新版命令初始化失败");
+                return old;
+            }
         }
         return old2new0(old);
     }
@@ -150,6 +169,8 @@ public class CHelperCore implements Closeable {
     private static native String getStructure0(long pointer);
 
     private static native String onSuggestionClick0(long pointer, int which);
+
+    private static native boolean old2newInit0(@NonNull String blockFixData);
 
     private static native String old2new0(@NonNull String old);
 

@@ -16,7 +16,7 @@ std::string jstring2string(JNIEnv *env, jstring jStr) {
     const char *cstr = env->GetStringUTFChars(jStr, nullptr);
     std::string str = std::string(cstr);
     env->ReleaseStringUTFChars(jStr, cstr);
-    return std::move(str);
+    return str;
 }
 
 extern "C" [[maybe_unused]] JNIEXPORT jlong JNICALL
@@ -52,12 +52,8 @@ Java_yancey_chelper_core_CHelperCore_create0(
 
 extern "C" [[maybe_unused]] JNIEXPORT void JNICALL
 Java_yancey_chelper_core_CHelperCore_release0(
-        JNIEnv *env, [[maybe_unused]] jobject thiz, jlong pointer) {
-    auto *core = reinterpret_cast<CHelper::Core *>(pointer);
-    if (HEDLEY_UNLIKELY(core == nullptr)) {
-        return;
-    }
-    delete core;
+        [[maybe_unused]] JNIEnv *env, [[maybe_unused]] jobject thiz, jlong pointer) {
+    delete reinterpret_cast<CHelper::Core *>(pointer);
 }
 
 extern "C" [[maybe_unused]] JNIEXPORT void JNICALL
@@ -67,8 +63,7 @@ Java_yancey_chelper_core_CHelperCore_onTextChanged0(
     if (HEDLEY_UNLIKELY(core == nullptr || text == nullptr)) {
         return;
     }
-    std::string content = jstring2string(env, text);
-    core->onTextChanged(content, index);
+    core->onTextChanged(jstring2string(env, text), index);
 }
 
 extern "C" [[maybe_unused]] JNIEXPORT void JNICALL
@@ -203,13 +198,29 @@ Java_yancey_chelper_core_CHelperCore_onSuggestionClick0(
     }
 }
 
+nlohmann::json blockFixData0;
+
+extern "C" [[maybe_unused]] JNIEXPORT jboolean JNICALL
+Java_yancey_chelper_core_CHelperCore_old2newInit0(
+        JNIEnv *env, [[maybe_unused]] jobject thiz, jstring blockFixData) {
+    if (HEDLEY_UNLIKELY(blockFixData == nullptr)) {
+        return false;
+    }
+    try {
+        blockFixData0 = nlohmann::json::parse(jstring2string(env, blockFixData));
+        return true;
+    } catch (const std::exception& e) {
+        return false;
+    }
+}
+
 extern "C" [[maybe_unused]] JNIEXPORT jstring JNICALL
 Java_yancey_chelper_core_CHelperCore_old2new0(
         JNIEnv *env, [[maybe_unused]] jobject thiz, jstring old) {
     if (HEDLEY_UNLIKELY(old == nullptr)) {
         return old;
     }
-    return env->NewStringUTF(CHelper::Core::old2new(jstring2string(env, old)).c_str());
+    return env->NewStringUTF(CHelper::Core::old2new(blockFixData0, jstring2string(env, old)).c_str());
 }
 
 #endif//CHELPER_ANDROIDNATIVE_H

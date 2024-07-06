@@ -26,41 +26,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp"
-                android:text="作者：Yancey"
+                android:text="@string/author"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingVertical="5dp"
-                android:text="QQ号：1709185482"
-                android:textColor="@color/black"
-                android:textColorLink="@color/red"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingVertical="5dp"
-                android:text="bilibili：https://space.bilibili.com/470179011"
-                android:textColor="@color/black"
-                android:textColorLink="@color/red"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingVertical="5dp"
-                android:text="GitHub：https://github.com/Yancey2023/CHelper-Core"
-                android:textColor="@color/black"
-                android:textColorLink="@color/red"
+                android:textIsSelectable="true"
                 android:textSize="14sp" />
 
             <View
@@ -76,6 +48,7 @@
                 android:paddingVertical="5dp"
                 android:text="@string/update_note"
                 android:textColor="@color/black"
+                android:textIsSelectable="true"
                 android:textSize="14sp" />
 
             <View
@@ -91,6 +64,7 @@
                 android:paddingVertical="5dp"
                 android:text="@string/permissions"
                 android:textColor="@color/black"
+                android:textIsSelectable="true"
                 android:textSize="14sp" />
 
             <View
@@ -108,6 +82,7 @@
                 android:text="@string/dependencies"
                 android:textColor="@color/black"
                 android:textColorLink="@color/red"
+                android:textIsSelectable="true"
                 android:textSize="14sp" />
 
             <View
@@ -125,6 +100,7 @@
                 android:text="@string/thanks"
                 android:textColor="@color/black"
                 android:textColorLink="@color/red"
+                android:textIsSelectable="true"
                 android:textSize="14sp" />
 
             <TextView

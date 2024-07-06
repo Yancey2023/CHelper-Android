@@ -17,4 +17,3 @@ app/src/main/cpp/.idea
 app/src/main/cpp/cmake-build-debug
 keystore.properties
 /app/release/
-/test/

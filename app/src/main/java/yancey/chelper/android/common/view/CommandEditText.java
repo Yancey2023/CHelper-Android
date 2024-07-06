@@ -4,8 +4,11 @@ import android.content.Context;
 import android.text.Editable;
 import android.util.AttributeSet;
 
-import java.util.Objects;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
@@ -15,7 +18,9 @@ public class CommandEditText extends AppCompatEditText {
 
     private final SelectedString[] inputs = new SelectedString[50];
     private int which = 0;
+    @Nullable
     private Consumer<String> onTextChanged;
+    @Nullable
     private Runnable onSelectionChanged;
     private BooleanSupplier isGuiLoaded;
 
@@ -38,7 +43,7 @@ public class CommandEditText extends AppCompatEditText {
         inputs[0] = new SelectedString("", 0);
     }
 
-    public void setListener(Consumer<String> onTextChanged, Runnable onSelectionChanged, BooleanSupplier isGuiLoaded) {
+    public void setListener(@Nullable Consumer<String> onTextChanged, @Nullable Runnable onSelectionChanged, @NonNull BooleanSupplier isGuiLoaded) {
         this.onTextChanged = onTextChanged;
         this.onSelectionChanged = onSelectionChanged;
         this.isGuiLoaded = isGuiLoaded;

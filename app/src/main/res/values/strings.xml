@@ -61,15 +61,15 @@
     <string name="thanks">致谢</string>
     <string name="app_description">我的世界基岩版命令助手</string>
     <string name="setting_is_crowed">紧凑模式</string>
-    <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，重启软件后生效</string>
+    <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，悬浮窗模式需要重新打开悬浮窗才可以生效</string>
     <string name="permissions">权限</string>
-    <string name="ed_hint_old_command">请输入1.18版本的命令，下方会显示转换成的1.20命令（方块数据值转方块状态，execute、summon、structure命令转新语法）</string>
+    <string name="ed_hint_old_command">请输入1.18版本的命令，下方会显示转换成的1.20命令（方块数据值转方块状态，execute、setblock、fill、summon、structure命令转新语法）</string>
     <string name="tv_old2new">转换</string>
-    <string name="btn_old2new_paste">粘贴旧命令</string>
+    <string name="btn_old2new_paste">清空并粘贴旧命令</string>
     <string name="btn_old2new_copy">复制新命令</string>
     <string name="btn_old2new_run">复制</string>
     <string name="old2new_ime_name">命令转换输入法</string>
-    <string name="old2new_ime_welcome">1.18版本命令转1.20版本命令（方块数据值转方块状态，execute、summon、structure命令转新语法）。点击输入框即可自动转换，点击弹出的按钮可进行撤回。</string>
+    <string name="old2new_ime_welcome">1.18版本命令转1.20版本命令（方块数据值转方块状态，execute、setblock、fill、summon、structure命令转新语法）。点击输入框即可自动转换，点击弹出的按钮可进行撤回。</string>
     <string name="old2new_ime_step1">第一步：进入设置启用输入法</string>
     <string name="old2new_ime_step2">第二步：切换输入法</string>
     <string name="old2new_ime_warn">你的系统不支持使用第三方输入法</string>
@@ -82,4 +82,5 @@
     <string name="old2new">旧版本命令转新版本命令</string>
     <string name="experiment_feature">实验性功能</string>
     <string name="raw_json_studio">原始Json文本生成器（未完工）</string>
+    <string name="author">作者</string>
 </resources>

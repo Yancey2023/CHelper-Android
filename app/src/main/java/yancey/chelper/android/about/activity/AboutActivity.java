@@ -17,11 +17,13 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_about);
+        TextView tv_about = findViewById(R.id.about);
         TextView tv_updateNote = findViewById(R.id.update_note);
         TextView tv_permissions = findViewById(R.id.permissions);
         TextView tv_dependencies = findViewById(R.id.dependencies);
         TextView tv_thanks = findViewById(R.id.thanks);
         try {
+            tv_about.setText(AssetsUtil.readStringFromAssets(this, "about/about.txt"));
             tv_updateNote.setText(AssetsUtil.readStringFromAssets(this, "about/update.txt"));
             tv_permissions.setText(AssetsUtil.readStringFromAssets(this, "about/permissions.txt"));
             tv_dependencies.setText(AssetsUtil.readStringFromAssets(this, "about/dependencies.txt"));

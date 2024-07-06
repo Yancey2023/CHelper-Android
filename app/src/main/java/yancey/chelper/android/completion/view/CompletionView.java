@@ -1,8 +1,6 @@
 package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +24,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.util.SelectedString;
 import yancey.chelper.android.common.util.ToastUtil;
@@ -44,7 +43,6 @@ public class CompletionView extends CustomView {
     private View btn_action;
     private CommandEditText commandEditText;
     private boolean isShowActions = false;
-    private ClipboardManager clipboardManager;
     public boolean isGuiLoaded = false;
     private final Runnable shutDown, hideView;
     private CHelperGuiCore core;
@@ -65,7 +63,6 @@ public class CompletionView extends CustomView {
     public void onCreateView(Context context, View view) {
         isGuiLoaded = false;
         core = new CHelperGuiCore();
-        clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         TextView mtv_structure = view.findViewById(R.id.tv_structure);
         TextView mtv_description = view.findViewById(R.id.tv_description);
         TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
@@ -92,10 +89,13 @@ public class CompletionView extends CustomView {
         core.setCommandEditText(commandEditText);
         core.setUpdateList(adapter::notifyDataSetChanged);
         view.findViewById(R.id.btn_copy).setOnClickListener(v -> {
-            clipboardManager.setPrimaryClip(ClipData.newPlainText(null, Objects.requireNonNull(commandEditText.getText()).toString()));
-            ToastUtil.show(context, "已复制");
-            if (hideView != null && Settings.getInstance(context).isHideWindowWhenCopying) {
-                hideView.run();
+            if (ClipboardUtil.setText(getContext(), commandEditText.getText())) {
+                ToastUtil.show(context, "已复制");
+                if (hideView != null && Settings.getInstance(context).isHideWindowWhenCopying) {
+                    hideView.run();
+                }
+            } else {
+                ToastUtil.show(context, "复制失败");
             }
         });
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
