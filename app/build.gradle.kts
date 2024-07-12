@@ -7,29 +7,16 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val keystorePropertiesFile: File = rootProject.file("keystore.properties")
-val keystoreProperties = Properties()
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-
 android {
     namespace = "yancey.chelper"
     compileSdk = 34
-
-    signingConfigs {
-        create("sign") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
-        }
-    }
 
     defaultConfig {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 33
-        versionName = "0.2.20-beta"
+        versionCode = 34
+        versionName = "0.2.21-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -47,16 +34,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("sign")
         }
         debug {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("sign")
         }
     }
 
@@ -82,14 +67,29 @@ android {
         jvmTarget = "17"
     }
 
+}
+
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    val keystoreProperties = Properties()
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+    android.signingConfigs {
+        create("sign") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+    android.buildTypes["release"].signingConfig = android.signingConfigs["sign"]
+    android.buildTypes["debug"].signingConfig = android.signingConfigs["sign"]
     android.applicationVariants.all {
         outputs.all {
             if (this is ApkVariantOutputImpl) {
-                outputFileName = "CHelper-${project.android.defaultConfig.versionName}.Apk"
+                outputFileName = "CHelper-${android.defaultConfig.versionName}.Apk"
             }
         }
     }
-
 }
 
 dependencies {

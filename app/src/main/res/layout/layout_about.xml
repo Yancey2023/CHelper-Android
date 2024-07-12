@@ -29,9 +29,11 @@
                 android:id="@+id/about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:paddingVertical="5dp"
                 android:text="@string/author"
                 android:textColor="@color/black"
+                android:textColorLink="@color/red"
                 android:textIsSelectable="true"
                 android:textSize="14sp" />
 
@@ -45,9 +47,11 @@
                 android:id="@+id/update_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:paddingVertical="5dp"
                 android:text="@string/update_note"
                 android:textColor="@color/black"
+                android:textColorLink="@color/red"
                 android:textIsSelectable="true"
                 android:textSize="14sp" />
 
@@ -61,9 +65,11 @@
                 android:id="@+id/permissions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:paddingVertical="5dp"
                 android:text="@string/permissions"
                 android:textColor="@color/black"
+                android:textColorLink="@color/red"
                 android:textIsSelectable="true"
                 android:textSize="14sp" />
 

@@ -15,7 +15,7 @@ import yancey.chelper.android.common.util.FileUtil;
 public class Settings {
 
     public static final String DIR_NAME = "cpack";
-    public static final String DEFAULT_CPACK = "release-experiment-1.20.80.05.cpack";
+    public static final String DEFAULT_CPACK = "release-experiment-1.21.1.03.cpack";
     private static Settings INSTANCE;
 
     private List<String> cpackPaths;
@@ -86,6 +86,22 @@ public class Settings {
             if (INSTANCE.cpackPath == null) {
                 INSTANCE.cpackPath = DEFAULT_CPACK;
                 isDirty = true;
+            } else {
+                boolean isOldVersion = true;
+                switch (INSTANCE.cpackPath) {
+                    case "release-vanilla-1.20.80.05.cpack" ->
+                            INSTANCE.cpackPath = "release-vanilla-1.21.1.03.cpack";
+                    case "release-experiment-1.20.80.05.cpack" ->
+                            INSTANCE.cpackPath = "release-experiment-1.21.1.03.cpack";
+                    case "beta-vanilla-1.21.0.23.cpack" ->
+                            INSTANCE.cpackPath = "beta-vanilla-1.21.20.21.cpack";
+                    case "beta-experiment-1.21.0.23.cpack" ->
+                            INSTANCE.cpackPath = "beta-experiment-1.21.20.21.cpack";
+                    default -> isOldVersion = false;
+                }
+                if (isOldVersion) {
+                    isDirty = true;
+                }
             }
             if (isDirty) {
                 INSTANCE.save(context);
