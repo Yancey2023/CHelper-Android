@@ -9,7 +9,7 @@
 
 #include "../lexer/Token.h"
 #include "../resources/id/NormalId.h"
-#include "../util/VectorView.h"
+#include "TokensView.h"
 
 namespace CHelper {
 
@@ -31,9 +31,9 @@ namespace CHelper {
     public:
         Suggestion(size_t start, size_t end, bool isAddWhitespace, const std::shared_ptr<NormalId> &content);
 
-        Suggestion(const VectorView<Token> &tokens, bool isAddWhitespace, const std::shared_ptr<NormalId> &content);
+        Suggestion(const TokensView &tokens, bool isAddWhitespace, const std::shared_ptr<NormalId> &content);
 
-        [[nodiscard]] std::string apply(Core *core, const std::string &before) const;
+        [[nodiscard]] std::string apply(Core *core, const std::string_view &before) const;
 
         [[nodiscard]] size_t hashCode() const {
             return mHashCode;

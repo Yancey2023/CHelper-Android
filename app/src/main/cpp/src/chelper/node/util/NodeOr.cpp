@@ -13,19 +13,18 @@ namespace CHelper::Node {
                    const bool isUseFirst,
                    const bool noSuggestion,
                    const char *defaultErrorReason,
-                   std::string nodeId)
+                   ASTNodeId::ASTNodeId nodeId)
         : NodeBase(id, description, false),
           isAttachToEnd(isAttachToEnd),
           isUseFirst(isUseFirst),
           noSuggestion(noSuggestion),
           childNodes(std::move(childNodes)),
           defaultErrorReason(defaultErrorReason),
-          nodeId(std::move(nodeId)) {
+          nodeId(nodeId) {
 #if CHelperDebug == true
         for (const auto &item: this->childNodes) {
             if (HEDLEY_UNLIKELY(item == nullptr)) {
-                Profile::push("null node in node or");
-                throw Exception::NodeLoadFailed();
+                throw std::runtime_error("null node in node or");
             }
         }
 #endif
@@ -56,7 +55,7 @@ namespace CHelper::Node {
         if (HEDLEY_UNLIKELY(isAttachToEnd)) {
             tokenReader.push();
             tokenReader.skipToLF();
-            const VectorView<Token> tokens = tokenReader.collect();
+            const TokensView tokens = tokenReader.collect();
             return ASTNode::orNode(this, std::move(childASTNodes), tokens, defaultErrorReason, nodeId);
         } else {
             ASTNode result = ASTNode::orNode(this, std::move(childASTNodes), nullptr, defaultErrorReason, nodeId);

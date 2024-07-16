@@ -8,6 +8,7 @@
 #define CHelperLogger INFO
 #define CHelperDebug false
 #define CHelperAndroid true
+#define CHelperTest false
 
 // 与安卓和Java对接的库
 #include <jni.h>
@@ -48,7 +49,5 @@
 #include "../src/chelper/util/SimpleLogger.h"
 // 字符串工具类
 #include "../src/chelper/util/StringUtil.h"
-// 对vector部分元素的引用，类似于string_view
-#include "../src/chelper/util/VectorView.h"
 
 #endif //CHELPER_PCH_H

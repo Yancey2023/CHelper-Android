@@ -14,17 +14,17 @@ It is writing by c++. Please refer to [CHelper-Core](https://github.com/Yancey20
 |      [Hedley](https://github.com/nemequ/hedley)       |  it can enable compiler-specific features while retaining compatibility with all compilers  | [Creative Commons Zero v1.0 Universal](https://github.com/nemequ/hedley/blob/master/COPYING) |
 |       [json](https://github.com/nlohmann/json)        |                                     JSON for Modern C++                                     |           [MIT license](https://github.com/nlohmann/json/blob/develop/LICENSE.MIT)           |
 |      [Crunch](https://github.com/boxbeam/Crunch)      |                       The fastest Java expression compiler/evaluator                        |             [MIT license](https://github.com/boxbeam/Crunch/blob/master/LICENSE)             |
-| [EasyFloat]() |                              Android Floating Window Framework                              |      [Apache-2.0 license](https://github.com/princekin-f/EasyFloat/blob/master/LICENSE)      |
+| [EasyFloat](https://github.com/princekin-f/EasyFloat) |                              Android Floating Window Framework                              |      [Apache-2.0 license](https://github.com/princekin-f/EasyFloat/blob/master/LICENSE)      |
 |        [Gson](https://github.com/google/gson)         |   a Java library that can be used to convert Java Objects into their JSON representation    |            [Apache-2.0 license](https://github.com/google/gson/blob/main/LICENSE)            |
 |   [androidx](https://github.com/androidx/androidx)    | a suite of libraries, tools, and guidance to help developers write high-quality apps easier |  [Apache-2.0 license](https://github.com/androidx/androidx/blob/androidx-main/LICENSE.txt)   |
 
 ## Special Thanks
 
-|                       project                       |                        description                         |                                      license                                      |
-|:---------------------------------------------------:|:----------------------------------------------------------:|:---------------------------------------------------------------------------------:|
-|  [caidlist](https://github.com/XeroAlpha/caidlist)  | provide IDs and descriptions for Minecraft Bedrock Edition |   [GPL-3.0 license](https://github.com/XeroAlpha/caidlist/blob/master/LICENSE)    |
-| [chinese minecraft wiki](https://zh.minecraft.wiki) |              provide information in Minecraft              | [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh-hans) |
+|                       project                       |                        description                         |                                   license                                    |
+|:---------------------------------------------------:|:----------------------------------------------------------:|:----------------------------------------------------------------------------:|
+|  [caidlist](https://github.com/XeroAlpha/caidlist)  | provide IDs and descriptions for Minecraft Bedrock Edition | [GPL-3.0 license](https://github.com/XeroAlpha/caidlist/blob/master/LICENSE) |
+| [chinese minecraft wiki](https://zh.minecraft.wiki) |              provide information in Minecraft              |     [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0)     |
 
-- JetBrains License for Open Source Developmenthttps://github.com/princekin-f/EasyFloat
+- JetBrains License for Open Source Development
 
   ![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)

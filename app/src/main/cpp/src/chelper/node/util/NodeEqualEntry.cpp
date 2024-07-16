@@ -4,12 +4,10 @@
 
 #include "NodeEqualEntry.h"
 
-#include "../../util/TokenUtil.h"
 #include "../param/NodeNormalId.h"
 #include "../param/NodeText.h"
 #include "NodeAny.h"
 #include "NodeOr.h"
-#include <utility>
 
 namespace CHelper::Node {
 
@@ -64,20 +62,19 @@ namespace CHelper::Node {
         tokenReader.push();
         std::vector<ASTNode> childNodes;
         // key
-        ASTNode astNodeKey = getByChildNode(tokenReader, cpack, nodeKey.get(), "key");
+        ASTNode astNodeKey = getByChildNode(tokenReader, cpack, nodeKey.get());
         childNodes.push_back(astNodeKey);
         if (HEDLEY_UNLIKELY(astNodeKey.isError())) {
             return ASTNode::andNode(this, std::move(childNodes), tokenReader.collect());
         }
-        std::string key = TokenUtil::toString(astNodeKey.tokens);
+        std::string_view key = astNodeKey.tokens.toString();
         auto it = std::find_if(equalDatas.begin(), equalDatas.end(), [&key](const auto &t) {
             return t.name == key;
         });
         // = or =!
         ASTNode astNodeSeparator = getByChildNode(
                 tokenReader, cpack,
-                it == equalDatas.end() || it->canUseNotEqual ? nodeEqualOrNotEqual.get() : nodeEqual.get(),
-                "separator");
+                it == equalDatas.end() || it->canUseNotEqual ? nodeEqualOrNotEqual.get() : nodeEqual.get());
         childNodes.push_back(astNodeSeparator);
         if (HEDLEY_UNLIKELY(astNodeSeparator.isError())) {
             return ASTNode::andNode(this, std::move(childNodes), tokenReader.collect());

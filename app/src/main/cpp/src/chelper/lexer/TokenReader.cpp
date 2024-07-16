@@ -7,18 +7,18 @@
 
 namespace CHelper {
 
-    TokenReader::TokenReader(const std::shared_ptr<std::vector<Token>> &tokenList)
-        : tokenList(tokenList) {}
+    TokenReader::TokenReader(const std::shared_ptr<LexerResult> &lexerResult)
+        : lexerResult(lexerResult) {}
 
     bool TokenReader::ready() const {
-        return index < tokenList->size();
+        return index < lexerResult->allTokens.size();
     }
 
     const Token *TokenReader::peek() const {
         if (HEDLEY_UNLIKELY(!ready())) {
             return nullptr;
         }
-        return &(*tokenList)[index];
+        return &lexerResult->allTokens[index];
     }
 
     const Token *TokenReader::read() {
@@ -100,20 +100,20 @@ namespace CHelper {
     /**
      * 收集栈中最后一个指针位置到当前指针的token，从栈中移除指针，不恢复指针
      */
-    VectorView<Token> CHelper::TokenReader::collect() {
-        return {tokenList, getAndPopLastIndex(), index};
+    TokensView CHelper::TokenReader::collect() {
+        return {lexerResult, getAndPopLastIndex(), index};
     }
 
     ASTNode TokenReader::readSimpleASTNode(const Node::NodeBase *node,
                                            TokenType::TokenType type,
                                            const std::string &requireType,
-                                           const std::string &astNodeId,
-                                           std::shared_ptr<ErrorReason> (*check)(const std::string &str,
-                                                                                 const VectorView<Token> &tokens)) {
+                                           const ASTNodeId::ASTNodeId &astNodeId,
+                                           std::shared_ptr<ErrorReason> (*check)(const std::string_view &str,
+                                                                                 const TokensView &tokens)) {
         skipWhitespace();
         push();
         const Token *token = read();
-        VectorView<Token> tokens = collect();
+        TokensView tokens = collect();
         std::shared_ptr<ErrorReason> errorReason;
         if (HEDLEY_UNLIKELY(token == nullptr)) {
             errorReason = ErrorReason::incomplete(tokens, FormatUtil::format(
@@ -129,15 +129,15 @@ namespace CHelper {
     }
 
     ASTNode TokenReader::readStringASTNode(const Node::NodeBase *node,
-                                           const std::string &astNodeId) {
+                                           const ASTNodeId::ASTNodeId &astNodeId) {
         return readSimpleASTNode(node, TokenType::STRING, "字符串类型", astNodeId);
     }
 
     ASTNode TokenReader::readIntegerASTNode(const Node::NodeBase *node,
-                                            const std::string &astNodeId) {
+                                            const ASTNodeId::ASTNodeId &astNodeId) {
         return readSimpleASTNode(
                 node, TokenType::NUMBER, "整数类型", astNodeId,
-                [](const std::string &str, const VectorView<Token> &tokens) -> std::shared_ptr<ErrorReason> {
+                [](const std::string_view &str, const TokensView &tokens) -> std::shared_ptr<ErrorReason> {
                     for (const auto &ch: str) {
                         if (HEDLEY_UNLIKELY(ch == '.')) {
                             return ErrorReason::contentError(
@@ -149,10 +149,10 @@ namespace CHelper {
     }
 
     ASTNode TokenReader::readFloatASTNode(const Node::NodeBase *node,
-                                          const std::string &astNodeId) {
+                                          const ASTNodeId::ASTNodeId &astNodeId) {
         return readSimpleASTNode(
                 node, TokenType::NUMBER, "数字类型", astNodeId,
-                [](const std::string &str, const VectorView<Token> &tokens) -> std::shared_ptr<ErrorReason> {
+                [](const std::string_view &str, const TokensView &tokens) -> std::shared_ptr<ErrorReason> {
                     bool isHavePoint = false;
                     for (const auto &ch: str) {
                         if (HEDLEY_LIKELY(ch != '.')) {
@@ -168,12 +168,12 @@ namespace CHelper {
     }
 
     ASTNode TokenReader::readSymbolASTNode(const Node::NodeBase *node,
-                                           const std::string &astNodeId) {
+                                           const ASTNodeId::ASTNodeId &astNodeId) {
         return readSimpleASTNode(node, TokenType::SYMBOL, "符号类型", astNodeId);
     }
 
     ASTNode TokenReader::readUntilWhitespace(const Node::NodeBase *node,
-                                             const std::string &astNodeId) {
+                                             const ASTNodeId::ASTNodeId &astNodeId) {
         push();
         while (ready()) {
             TokenType::TokenType tokenType = peek()->type;
@@ -186,7 +186,7 @@ namespace CHelper {
     }
 
     ASTNode TokenReader::readStringOrNumberASTNode(const Node::NodeBase *node,
-                                                   const std::string &astNodeId) {
+                                                   const ASTNodeId::ASTNodeId &astNodeId) {
         push();
         while (ready()) {
             TokenType::TokenType tokenType = peek()->type;

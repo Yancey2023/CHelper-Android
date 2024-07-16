@@ -14,11 +14,10 @@ namespace CHelper {
 
     class StringReader {
     public:
-        CHelper::LexerPos pos, posBackup;
+        LexerPos pos, posBackup;
         const std::string &content;
 
-        StringReader(const std::string &content,
-                     const std::string &filePath);
+        explicit StringReader(const std::string &content);
 
         [[nodiscard]] bool ready() const;
 
@@ -34,7 +33,7 @@ namespace CHelper {
 
         void reset();
 
-        [[nodiscard]] std::string collect() const;
+        [[nodiscard]] std::string_view collect() const;
     };
 
 }// namespace CHelper

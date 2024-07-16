@@ -1,11 +1,19 @@
 //
-// Created by Yancey on 24-5-10.
+// Created by Yancey on2024-5-10.
 //
 
 #pragma once
 
 #ifndef CHELPER_BINARYUTIL_H
 #define CHELPER_BINARYUTIL_H
+
+#include <vector>
+#include <string>
+#include <memory>
+#include <unordered_map>
+#include <optional>
+#include <fstream>
+#include "hedley.h"
 
 namespace CHelper {
 

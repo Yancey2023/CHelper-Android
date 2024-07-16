@@ -6,7 +6,6 @@
 
 #include "old2new/Old2New.h"
 #include "parser/Parser.h"
-#include "util/TokenUtil.h"
 
 namespace CHelper {
 
@@ -14,7 +13,7 @@ namespace CHelper {
         : cpack(std::move(cpack)),
           astNode(std::move(astNode)) {}
 
-    Core* Core::create(const std::function<std::unique_ptr<CPack>()> &getCPack) {
+    Core *Core::create(const std::function<std::unique_ptr<CPack>()> &getCPack) {
         try {
             std::chrono::high_resolution_clock::time_point start, end;
             start = std::chrono::high_resolution_clock::now();
@@ -29,49 +28,54 @@ namespace CHelper {
             return new Core(std::move(cPack), std::move(astNode));
         } catch (const std::exception &e) {
             CHELPER_ERROR("CPack load failed");
-            CHelper::Exception::printStackTrace(e);
-            CHelper::Profile::clear();
+            CHelper::Profile::printAndClear(e);
             return nullptr;
         }
     }
 
-    Core* Core::createByDirectory(const std::string &cpackPath) {
+    Core *Core::createByDirectory(const std::filesystem::path &cpackPath) {
         return create([&cpackPath]() {
             return CPack::createByDirectory(cpackPath);
         });
     }
 
-    Core* Core::createByJson(const std::string &cpackPath) {
+    Core *Core::createByJson(const std::filesystem::path &cpackPath) {
         return create([&cpackPath]() {
             return CPack::createByJson(JsonUtil::getJsonFromFile(cpackPath));
         });
     }
 
-    Core* Core::createByBson(const std::string &cpackPath) {
+    Core *Core::createByBson(const std::filesystem::path &cpackPath) {
         return create([&cpackPath]() {
             return CPack::createByJson(JsonUtil::getBsonFromFile(cpackPath));
         });
     }
 
-    Core* Core::createByBinary(const std::string &cpackPath) {
+    Core *Core::createByBinary(const std::filesystem::path &cpackPath) {
         return create([&cpackPath]() {
-            std::ifstream is(cpackPath, std::ios::binary);
-            if (HEDLEY_UNLIKELY(!is.is_open())) {
-                throw std::runtime_error("fail to read file: " + cpackPath);
-            }
+            // 检查文件名后缀
             std::string fileType = ".cpack";
-            if (HEDLEY_UNLIKELY(cpackPath.size() < fileType.size() || cpackPath.substr(cpackPath.length() - fileType.size()) != fileType)) {
+            std::string cpackPathStr = cpackPath.string();
+            if (HEDLEY_UNLIKELY(cpackPathStr.size() < fileType.size() || cpackPathStr.substr(cpackPathStr.length() - fileType.size()) != fileType)) {
                 throw std::runtime_error("error file type");
             }
+            // 打开文件
+            std::ifstream is(cpackPath, std::ios::binary);
+            if (HEDLEY_UNLIKELY(!is.is_open())) {
+                throw std::runtime_error("fail to read file: " + cpackPath.string());
+            }
+            // 读取文件
             BinaryReader binaryReader(true, is);
             std::unique_ptr<CPack> result = CPack::createByBinary(binaryReader);
+            // 检查文件是否读完
             if (HEDLEY_UNLIKELY(!is.eof())) {
                 char ch;
                 is.read(&ch, 1);
                 if (HEDLEY_UNLIKELY(is.gcount() > 0)) {
-                    throw std::runtime_error("file is not read completed: " + cpackPath);
+                    throw std::runtime_error("file is not read completed: " + cpackPathStr);
                 }
             }
+            // 关闭文件
             is.close();
             return std::move(result);
         });
@@ -128,10 +132,10 @@ namespace CHelper {
         if (HEDLEY_UNLIKELY(suggestions == nullptr || which >= suggestions->size())) {
             return std::nullopt;
         }
-        return suggestions->at(which).apply(this, TokenUtil::toString(astNode.tokens));
+        return suggestions->at(which).apply(this, astNode.tokens.toString());
     }
 
-    std::string Core::old2new(const nlohmann::json &blockFixData, const std::string &old){
+    std::string Core::old2new(const nlohmann::json &blockFixData, const std::string &old) {
         return Old2New::old2new(blockFixData, old);
     }
 

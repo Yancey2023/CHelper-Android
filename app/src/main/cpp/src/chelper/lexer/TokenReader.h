@@ -7,9 +7,10 @@
 #ifndef CHELPER_TOKENREADER_H
 #define CHELPER_TOKENREADER_H
 
-#include "../lexer/Token.h"
-#include "../util/VectorView.h"
-#include "ASTNode.h"
+#include "../parser/ASTNode.h"
+#include "../parser/TokensView.h"
+#include "LexerResult.h"
+#include "Token.h"
 #include "pch.h"
 
 #if CHelperDebug == true
@@ -21,11 +22,10 @@
 #if CHelperDebug == true
 #define DEBUG_GET_NODE_END(node)                                         \
     if (HEDLEY_UNLIKELY(node##Index != tokenReader.indexStack.size())) { \
-        Profile::push("TokenReaderIndexError: " +                        \
-                      (node)->getNodeType()->nodeName + " " +            \
-                      (node)->id.value_or("") + " " +                    \
-                      (node)->description.value_or(""));                 \
-        throw Exception::TokenReaderIndexError();                        \
+        throw std::runtime_error("TokenReaderIndexError: " +             \
+                                 (node)->getNodeType()->nodeName + " " + \
+                                 (node)->id.value_or("") + " " +         \
+                                 (node)->description.value_or(""));      \
     }
 #else
 #define DEBUG_GET_NODE_END(node)
@@ -41,11 +41,11 @@ namespace CHelper {
 
     class TokenReader {
     public:
-        const std::shared_ptr<std::vector<Token>> tokenList;
+        const std::shared_ptr<LexerResult> lexerResult;
         size_t index = 0;
         std::vector<size_t> indexStack;
 
-        explicit TokenReader(const std::shared_ptr<std::vector<Token>> &tokenList);
+        explicit TokenReader(const std::shared_ptr<LexerResult> &lexerResult);
 
         [[nodiscard]] bool ready() const;
 
@@ -69,32 +69,32 @@ namespace CHelper {
 
         void restore();
 
-        [[nodiscard]] VectorView<Token> collect();
+        [[nodiscard]] TokensView collect();
 
         ASTNode readSimpleASTNode(const Node::NodeBase *node,
                                   TokenType::TokenType type,
                                   const std::string &requireType,
-                                  const std::string &astNodeId = "",
-                                  std::shared_ptr<ErrorReason> (*check)(const std::string &str,
-                                                                        const VectorView<Token> &tokens) = nullptr);
+                                  const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE,
+                                  std::shared_ptr<ErrorReason> (*check)(const std::string_view &str,
+                                                                        const TokensView &tokens) = nullptr);
 
         ASTNode readStringASTNode(const Node::NodeBase *node,
-                                  const std::string &astNodeId = "");
+                                  const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE);
 
         ASTNode readIntegerASTNode(const Node::NodeBase *node,
-                                   const std::string &astNodeId = "");
+                                   const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE);
 
         ASTNode readFloatASTNode(const Node::NodeBase *node,
-                                 const std::string &astNodeId = "");
+                                 const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE);
 
         ASTNode readSymbolASTNode(const Node::NodeBase *node,
-                                  const std::string &astNodeId = "");
+                                  const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE);
 
         ASTNode readUntilWhitespace(const Node::NodeBase *node,
-                                    const std::string &astNodeId = "");
+                                    const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE);
 
         ASTNode readStringOrNumberASTNode(const Node::NodeBase *node,
-                                          const std::string &astNodeId = "");
+                                          const ASTNodeId::ASTNodeId &astNodeId = ASTNodeId::NONE);
     };
 
 }// namespace CHelper

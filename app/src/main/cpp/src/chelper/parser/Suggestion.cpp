@@ -4,7 +4,6 @@
 
 #include "Suggestion.h"
 #include "../Core.h"
-#include "../util/TokenUtil.h"
 #include "Parser.h"
 
 namespace CHelper {
@@ -19,22 +18,20 @@ namespace CHelper {
           content(content),
           mHashCode(31 * 31 * content->hashCode() + 31 * start + end) {}
 
-    Suggestion::Suggestion(const VectorView<Token> &tokens,
+    Suggestion::Suggestion(const TokensView &tokens,
                            bool isAddWhitespace,
                            const std::shared_ptr<NormalId> &content)
-        : start(TokenUtil::getStartIndex(tokens)),
-          end(TokenUtil::getEndIndex(tokens)),
+        : start(tokens.getStartIndex()),
+          end(tokens.getEndIndex()),
           isAddWhitespace(isAddWhitespace),
           content(content),
           mHashCode(31 * 31 * content->hashCode() + 31 * start + end) {}
 
-    std::string Suggestion::apply(Core *core, const std::string &before) const {
+    std::string Suggestion::apply(Core *core, const std::string_view &before) const {
         if (content->name == " " && (start == 0 || before[start - 1] == ' ')) {
-            return before;
+            return std::string(before);
         }
-        std::string result = before.substr(0, start)
-                                     .append(content->name)
-                                     .append(before.substr(end));
+        std::string result = std::string().append(before.substr(0, start)).append(content->name).append(before.substr(end));
         if (HEDLEY_UNLIKELY(end != before.length())) {
             return std::move(result);
         }

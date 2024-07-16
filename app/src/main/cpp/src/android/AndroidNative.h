@@ -25,7 +25,7 @@ Java_yancey_chelper_core_CHelperCore_create0(
     try {
         std::string cpackPath = jstring2string(env, cpack_path);
         if (HEDLEY_UNLIKELY(assetManager == nullptr)) {
-            CHelper::Core *core = CHelper::Core::createByJson(cpackPath);
+            CHelper::Core *core = CHelper::Core::createByBinary(cpackPath);
             return reinterpret_cast<jlong>(core);
         } else {
             AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
@@ -209,7 +209,7 @@ Java_yancey_chelper_core_CHelperCore_old2newInit0(
     try {
         blockFixData0 = nlohmann::json::parse(jstring2string(env, blockFixData));
         return true;
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         return false;
     }
 }
