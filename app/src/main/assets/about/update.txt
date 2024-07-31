@@ -1,5 +1,13 @@
 更新日志
 
+v0.2.23 20240731
+1. 新增：支持深色模式
+2. 新增：增加了"/"补全提示作为命令开始字符
+3. 修复：参数介绍在execute命令参数不完整时会错误地显示为“子命令”
+4. 修复："scoreboard players list ..."命令分支的目标选择器参数类型错误
+5. 修复："scoreboard objectives setdisplay below_name ..."中的below_name参数ID错误
+6. 修复：部分参数不支持使用*
+
 v0.2.22 20240716
 1. 修复：json文件组件"with"参数缺少了语法
 

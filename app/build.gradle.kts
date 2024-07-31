@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 35
-        versionName = "0.2.22-beta"
+        versionCode = 36
+        versionName = "0.2.23-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -53,7 +53,6 @@ android {
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
-            version = "3.22.1"
         }
     }
 
@@ -61,7 +60,7 @@ android {
         viewBinding = true
     }
 
-    ndkVersion = "26.3.11579264"
+    ndkVersion = "27.0.12077973"
 
     kotlinOptions {
         jvmTarget = "17"

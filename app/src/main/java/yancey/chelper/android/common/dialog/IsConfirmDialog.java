@@ -84,8 +84,8 @@ public class IsConfirmDialog extends Dialog {
         ((TextView) findViewById(R.id.is_confirm_message)).setText(Objects.requireNonNullElse(message, ""));
         TextView btn_confirm = findViewById(R.id.is_confirm_confirm);
         TextView btn_cancel = findViewById(R.id.is_confirm_cancel);
-        btn_confirm.setText(Objects.requireNonNullElse(confirm, "确认"));
-        btn_cancel.setText(Objects.requireNonNullElse(cancel, "取消"));
+        btn_confirm.setText(Objects.requireNonNullElse(confirm, getContext().getString(R.string.tv_confirm)));
+        btn_cancel.setText(Objects.requireNonNullElse(cancel, getContext().getString(R.string.tv_cancel)));
         btn_confirm.setOnClickListener(view -> {
             if (onConfirm != null) {
                 onConfirm.onClick(view);

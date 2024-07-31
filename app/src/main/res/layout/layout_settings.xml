@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <TextView
@@ -10,7 +10,7 @@
         android:layout_margin="5dp"
         android:layout_marginTop="10dp"
         android:text="@string/setting_basic_settings"
-        android:textColor="@color/black"
+        android:textColor="@color/text_main"
         android:textSize="16sp" />
 
     <ScrollView
@@ -41,7 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/choose_cpack"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_main"
                         android:textSize="14sp" />
 
                     <TextView
@@ -49,7 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/current_cpack"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -80,14 +80,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_checking_by_selection"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_main"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_checking_by_selection_description"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -117,14 +117,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_is_hide_window_when_copying"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_main"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_is_hide_window_when_copying_description"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -154,14 +154,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_is_saving_when_pausing"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_main"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_is_saving_when_pausing_description"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -191,14 +191,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_is_crowed"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_main"
                         android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/setting_is_crowed_description"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -218,7 +218,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/tv_writerIntroduce"
-                android:textColor="@color/grey"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
         </LinearLayout>

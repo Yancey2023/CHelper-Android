@@ -9,11 +9,9 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import yancey.chelper.android.common.util.AssetsUtil;
 import yancey.chelper.android.common.util.ToastUtil;
 
 public class CHelperCore implements Closeable {
@@ -125,14 +123,10 @@ public class CHelperCore implements Closeable {
             return "";
         }
         if (!isOld2NewInit) {
-            try {
-                if(old2newInit0(AssetsUtil.readStringFromAssets(context, "old2new/blockFixData.json"))){
-                    isOld2NewInit = true;
-                }
-            } catch (IOException ignored) {
-
+            if (old2newInit0(context.getAssets(), "old2new/old2new.dat")) {
+                isOld2NewInit = true;
             }
-            if(!isOld2NewInit){
+            if (!isOld2NewInit) {
                 ToastUtil.show(context, "旧版命令转新版命令初始化失败");
                 return old;
             }
@@ -170,7 +164,7 @@ public class CHelperCore implements Closeable {
 
     private static native String onSuggestionClick0(long pointer, int which);
 
-    private static native boolean old2newInit0(@NonNull String blockFixData);
+    private static native boolean old2newInit0(@NonNull AssetManager assetManager, @NonNull String path);
 
     private static native String old2new0(@NonNull String old);
 

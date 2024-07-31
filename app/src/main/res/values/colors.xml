@@ -11,5 +11,17 @@
     <color name="red">#FFCC4444</color>
     <color name="red_start">#fff97652</color>
     <color name="main_color">#ffea5947</color>
-    <color name="text_main">#ff444444</color>
+
+    <color name="statusBarColor">@color/white</color>
+    <color name="windowBackground">@color/white</color>
+    <color name="background">@color/white</color>
+    <color name="background2">#F3F3F3</color>
+    <color name="text_main">@color/black</color>
+    <color name="text_bond">@color/black</color>
+    <color name="text_secondary">@color/grey</color>
+    <color name="text_hint">@color/grey</color>
+    <color name="line">#FFF3F3F3</color>
+    <color name="icon_main">@color/black</color>
+    <color name="icon_secondary">@color/grey</color>
+    <color name="scroll_bar">#99444444</color>
 </resources>

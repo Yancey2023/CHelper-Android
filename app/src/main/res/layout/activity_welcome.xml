@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,7 +9,8 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F3F3F3">
+        android:background="@color/background2"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,7 +20,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/background"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="10dp"
                 android:scaleType="center">
@@ -50,7 +52,7 @@
                         android:ellipsize="end"
                         android:gravity="start"
                         android:text="@string/app_name"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_bond"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
@@ -61,7 +63,7 @@
                         android:ellipsize="end"
                         android:gravity="start"
                         android:text="@string/app_description"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text_bond"
                         android:textSize="18sp" />
 
                 </LinearLayout>
@@ -75,15 +77,15 @@
                 android:gravity="start"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
-                android:text="命令补全"
-                android:textColor="@color/black"
+                android:text="@string/command_completion"
+                android:textColor="@color/text_main"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_white_corner_20dp"
+                android:background="@drawable/bg_background_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -97,13 +99,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/tv_start_app"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -120,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
-                    android:background="#F3F3F3" />
+                    android:background="@color/line" />
 
                 <RelativeLayout
                     android:id="@+id/btn_start_enumeration_window"
@@ -132,13 +134,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/tv_start_window"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -155,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
-                    android:background="#F3F3F3" />
+                    android:background="@color/line" />
 
                 <RelativeLayout
                     android:id="@+id/btn_enumeration_settings"
@@ -167,13 +169,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/settings"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -195,14 +197,14 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
                 android:text="@string/old2new"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_white_corner_20dp"
+                android:background="@drawable/bg_background_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -216,13 +218,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/tv_start_app"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -239,7 +241,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
-                    android:background="#F3F3F3" />
+                    android:background="@color/line" />
 
                 <RelativeLayout
                     android:id="@+id/btn_start_old2new_ime"
@@ -251,13 +253,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/tv_start_ime"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -279,14 +281,14 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
                 android:text="@string/enumeration"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_white_corner_20dp"
+                android:background="@drawable/bg_background_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -300,13 +302,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/enumeration"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -328,14 +330,14 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
                 android:text="@string/experiment_feature"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_white_corner_20dp"
+                android:background="@drawable/bg_background_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -349,13 +351,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/tv_favorite"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -372,7 +374,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
-                    android:background="#F3F3F3" />
+                    android:background="@color/line" />
 
                 <RelativeLayout
                     android:id="@+id/btn_raw_json_studio"
@@ -384,12 +386,12 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:text="@string/raw_json_studio"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -411,14 +413,14 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
                 android:text="@string/about"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_white_corner_20dp"
+                android:background="@drawable/bg_background_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -432,13 +434,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_margin="5dp"
-                        android:background="@android:color/white"
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
                         android:text="@string/about"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="30dp"
@@ -459,7 +461,7 @@
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:text="@string/tv_writerIntroduce"
-                android:textColor="@color/black"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
         </LinearLayout>

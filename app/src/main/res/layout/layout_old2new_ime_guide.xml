@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <TextView
@@ -10,7 +10,7 @@
         android:layout_margin="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/old2new_ime_welcome"
-        android:textColor="@color/black"
+        android:textColor="@color/text_main"
         android:textSize="18sp" />
 
     <TextView

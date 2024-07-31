@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/background">
 
     <FrameLayout
         android:id="@+id/fl_action_container"
@@ -22,38 +22,38 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@id/fl_action_container"
-        android:background="@color/text2_alpha_60" />
+        android:background="@color/line" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="#FFF5F5F5" />
+        android:background="@color/background2" />
 
     <View
         android:id="@+id/btn_action"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="3dp"
+        android:layout_margin="5dp"
         android:background="@drawable/icon_show"
         android:contentDescription="@string/iv_show" />
 
     <View
         android:id="@+id/btn_copy"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:background="@drawable/icon_copy"
         android:contentDescription="@string/copy" />
 
     <yancey.chelper.android.common.view.CommandEditText
         android:id="@+id/ed_input"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@id/btn_copy"
         android:layout_toEndOf="@id/btn_action"
@@ -62,8 +62,8 @@
         android:hint="@string/et_writeCommandHint"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColor="@color/text_main"
+        android:textColorHint="@color/text_hint"
         android:textSize="16sp" />
 
     <androidx.recyclerview.widget.RecyclerView

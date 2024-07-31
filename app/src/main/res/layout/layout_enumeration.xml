@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/background">
 
     <EditText
         android:id="@+id/ed_input"
@@ -18,7 +18,7 @@
         android:inputType="none"
         android:padding="15dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/text_hint"
         android:textSize="16sp"
         tools:ignore="VisualLintTextFieldSize" />
 
@@ -33,7 +33,7 @@
         android:maxLines="1"
         android:padding="5dp"
         android:text="@string/tv_times"
-        android:textColor="@color/black"
+        android:textColor="@color/text_main"
         android:textSize="16sp" />
 
     <EditText
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/variable_name"
-            android:textColor="@color/black"
+            android:textColor="@color/text_main"
             android:textSize="16sp" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/tv_start_value"
-            android:textColor="@color/black"
+            android:textColor="@color/text_main"
             android:textSize="16sp" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/tv_interval"
-            android:textColor="@color/black"
+            android:textColor="@color/text_main"
             android:textSize="16sp" />
 
     </LinearLayout>

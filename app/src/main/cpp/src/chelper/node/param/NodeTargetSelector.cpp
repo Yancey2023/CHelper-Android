@@ -19,6 +19,8 @@ namespace CHelper::Node {
 
     static std::shared_ptr<NodeBase> nodePlayerName = std::make_shared<NodeString>(
             "TARGET_SELECTOR_PLAYER_NAME", "玩家名字", false, true, false);
+    static std::shared_ptr<NodeBase> nodeWildcard = std::make_shared<NodeSingleSymbol>(
+            "TARGET_SELECTOR_AT", "所有正被记分板跟踪的实体", '*');
     static std::shared_ptr<NodeBase> nodeAt = std::make_shared<NodeSingleSymbol>(
             "TARGET_SELECTOR_AT", "@符号", '@');
     static std::shared_ptr<NodeBase> nodeTargetSelectorVariable = std::make_shared<NodeNormalId>(
@@ -174,8 +176,8 @@ namespace CHelper::Node {
                         {"x", "x坐标", false, nodeRelativeFloat.get()},
                         {"y", "y坐标", false, nodeRelativeFloat.get()},
                         {"z", "z坐标", false, nodeRelativeFloat.get()},
-                        {"r", "半径小于等于r", false, nodeFloat.get()},
-                        {"rm", "半径大于等于rm", false, nodeFloat.get()},
+                        {"r", "最大半径", false, nodeFloat.get()},
+                        {"rm", "最小半径", false, nodeFloat.get()},
                         {"dx", "x坐标差异(检查实体的腿部位置)", false, nodeFloat.get()},
                         {"dy", "y坐标差异(检查实体的腿部位置)", false, nodeFloat.get()},
                         {"dz", "z坐标差异(检查实体的腿部位置)", false, nodeFloat.get()},
@@ -184,15 +186,15 @@ namespace CHelper::Node {
                         {"name", "名字", true, nodeString.get()},
                         {"type", "实体类型", true, nodeEntities.get()},
                         {"family", "族", true, nodeFamily.get()},
-                        {"rx", "垂直旋转小于等于rx", false, nodeFloat.get()},
-                        {"rxm", "垂直旋转大于等于rxm", false, nodeFloat.get()},
-                        {"ry", "水平旋转小于等于ry", false, nodeFloat.get()},
-                        {"rym", "水平旋转大于等于rym", false, nodeFloat.get()},
+                        {"rx", "最大垂直旋转", false, nodeFloat.get()},
+                        {"rxm", "最小垂直旋转", false, nodeFloat.get()},
+                        {"ry", "最大水平旋转", false, nodeFloat.get()},
+                        {"rym", "最小水平旋转", false, nodeFloat.get()},
                         {"hasitem", "物品栏", false, nodeHasItem.get()},
                         {"haspermission", "权限", false, nodeHasPermission.get()},
                         {"has_property", "属性", false, nodeHasProperty.get()},
-                        {"l", "经验等级小于等于l", false, nodeFloat.get()},
-                        {"lm", "经验等级大于等于lm", false, nodeFloat.get()},
+                        {"l", "最大经验等级", false, nodeFloat.get()},
+                        {"lm", "最小经验等级", false, nodeFloat.get()},
                         {"m", "游戏模式", true, nodeGameMode.get()},
                         {"c", "目标数量(按照距离排序)", false, nodeInteger.get()},
                 }),
@@ -224,7 +226,21 @@ namespace CHelper::Node {
         DEBUG_GET_NODE_END(nodeAt)
         tokenReader.restore();
         if (HEDLEY_UNLIKELY(at.isError())) {
-            //不是@符号开头，当作玩家名处理
+            //不是@符号开头
+            if (isWildcard) {
+                // 尝试匹配通配符
+                tokenReader.push();
+                DEBUG_GET_NODE_BEGIN(nodeWildcard)
+                ASTNode wildcard = nodeWildcard->getASTNodeWithNextNode(tokenReader, cpack);
+                DEBUG_GET_NODE_END(nodeWildcard)
+                if (wildcard.isError()) {
+                    tokenReader.restore();
+                } else {
+                    tokenReader.pop();
+                    return wildcard;
+                }
+            }
+            // 当作玩家名处理
             DEBUG_GET_NODE_BEGIN(nodePlayerName)
             ASTNode result = getByChildNode(tokenReader, cpack, nodePlayerName.get(), ASTNodeId::NODE_TARGET_SELECTOR_PLAYER_NAME);
             DEBUG_GET_NODE_END(nodePlayerName)
@@ -257,6 +273,9 @@ namespace CHelper::Node {
         if (HEDLEY_UNLIKELY(astNode->tokens.isEmpty())) {
             TokensView tokens = {astNode->tokens.lexerResult, astNode->tokens.end, astNode->tokens.end};
             ASTNode newAstNode = ASTNode::simpleNode(this, tokens);
+            if (isWildcard) {
+                nodeWildcard->collectSuggestions(astNode, index, suggestions);
+            }
             nodeTargetSelectorVariable->collectSuggestions(astNode, index, suggestions);
             nodePlayerName->collectSuggestions(astNode, index, suggestions);
             return true;
@@ -275,6 +294,6 @@ namespace CHelper::Node {
         structure.append(isMustHave, "目标选择器");
     }
 
-    CODEC_NODE(NodeTargetSelector, isMustPlayer, isMustNPC, isOnlyOne)
+    CODEC_NODE(NodeTargetSelector, isMustPlayer, isMustNPC, isOnlyOne, isWildcard)
 
 }// namespace CHelper::Node

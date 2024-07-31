@@ -12,6 +12,8 @@
     <string name="btn_new_folder">新建文件夹</string>
     <string name="btn_move">移动</string>
     <string name="iv_edit">编辑</string>
+    <string name="tv_title">温馨提示</string>
+    <string name="tv_message">信息</string>
     <string name="tv_cancel">取消</string>
     <string name="tv_confirm">确认</string>
     <string name="btn_edit_favorite">编辑</string>
@@ -83,4 +85,5 @@
     <string name="experiment_feature">实验性功能</string>
     <string name="raw_json_studio">原始Json文本生成器（未完工）</string>
     <string name="author">作者</string>
+    <string name="command_completion">命令补全</string>
 </resources>

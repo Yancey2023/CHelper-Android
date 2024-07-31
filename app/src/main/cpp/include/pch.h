@@ -5,10 +5,24 @@
 #ifndef CHELPER_PCH_H
 #define CHELPER_PCH_H
 
-#define CHelperLogger INFO
-#define CHelperDebug false
 #define CHelperAndroid true
+
+#define CHelperLogger INFO
+
+// 可以在运行时增加一些检测，快速定位错误
+#define CHelperDebug true
+
+// 增加一些用于调试方法
 #define CHelperTest false
+
+// 去除一些没有必要的代码，减少体积
+#define CHelperWeb false
+
+#if CHelperWeb == true
+#define CHelperSupportJson false
+#else
+#define CHelperSupportJson true
+#endif
 
 // 与安卓和Java对接的库
 #include <jni.h>
@@ -49,5 +63,7 @@
 #include "../src/chelper/util/SimpleLogger.h"
 // 字符串工具类
 #include "../src/chelper/util/StringUtil.h"
+// KMP字符串匹配算法
+#include "../src/chelper/util/KMPMatcher.h"
 
 #endif //CHELPER_PCH_H

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/tv_undo"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/tv_redo"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/tv_delete"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/tv_turn_off"
-                android:textColor="@color/black"
+                android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>

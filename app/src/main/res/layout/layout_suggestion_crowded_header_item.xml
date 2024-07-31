@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="@string/tv_write_command_title"
-        android:textColor="@color/black"
+        android:textColor="@color/text_main"
         android:textSize="14sp" />
 
     <TextView
@@ -21,13 +21,13 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="@string/tv_write_command_description"
-        android:textColor="@color/grey"
+        android:textColor="@color/text_secondary"
         android:textSize="14sp" />
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/text2_alpha_60" />
+        android:background="@color/line" />
 
 </LinearLayout>

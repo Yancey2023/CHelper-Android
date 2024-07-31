@@ -17,7 +17,7 @@ public class ClipboardUtil {
             if (clipboardManager == null) {
                 return false;
             }
-            clipboardManager.setPrimaryClip(ClipData.newPlainText("label", charSequence));
+            clipboardManager.setPrimaryClip(ClipData.newPlainText(null, charSequence));
             return true;
         } catch (Exception e) {
             Log.e(TAG, "fail to set text in clipboard service", e);

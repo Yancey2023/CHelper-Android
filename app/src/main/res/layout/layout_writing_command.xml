@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/background">
 
     <LinearLayout
         android:id="@+id/top_view"
@@ -20,7 +20,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center_vertical"
             android:text="@string/tv_write_command_title"
-            android:textColor="@color/black"
+            android:textColor="@color/text_main"
             android:textSize="16sp" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center_vertical"
             android:text="@string/tv_write_command_description"
-            android:textColor="@color/grey"
+            android:textColor="@color/text_secondary"
             android:textSize="16sp" />
 
         <TextView
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/top_view"
-        android:background="@color/text2_alpha_60" />
+        android:background="@color/line" />
 
     <FrameLayout
         android:id="@+id/fl_action_container"
@@ -71,13 +71,13 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@id/fl_action_container"
-        android:background="@color/text2_alpha_60" />
+        android:background="@color/line" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="#FFF5F5F5" />
+        android:background="@color/background2" />
 
     <View
         android:id="@+id/btn_action"
@@ -111,8 +111,8 @@
         android:hint="@string/et_writeCommandHint"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColor="@color/text_main"
+        android:textColorHint="@color/text_hint"
         android:textSize="16sp"
         tools:ignore="VisualLintTextFieldSize" />
 
