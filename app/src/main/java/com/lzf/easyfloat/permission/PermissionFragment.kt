@@ -14,7 +14,7 @@ import com.lzf.easyfloat.utils.Logger
  * @function: 用于浮窗权限的申请，自动处理回调结果
  * @date: 2019-07-15  10:36
  */
-internal class PermissionFragment : Fragment() {
+class PermissionFragment : Fragment() {
 
     companion object {
         private var onPermissionResult: OnPermissionResult? = null
