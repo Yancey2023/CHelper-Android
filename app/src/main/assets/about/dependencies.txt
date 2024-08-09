@@ -5,8 +5,13 @@
 介绍：一个c++的json库
 用途：资源包的读写
 
-链接：https://github.com/nemequ/hedley
-协议：Creative Commons Zero v1.0 Universal(https://github.com/nemequ/hedley/blob/master/COPYING)
+链接：https://github.com/fmtlib/fmt
+协议：MIT license(https://github.com/fmtlib/fmt/blob/master/LICENSE)
+介绍：一个c++字符串格式化的库
+用途：字符串格式化
+
+链接：https://github.com/cblck/hedley
+协议：Creative Commons Zero v1.0 Universal(https://github.com/cblck/hedley/blob/master/LICENSE)
 介绍：一些用于开启编译器特性的c++的宏
 用途：开启一些编译器特性，优化程序性能，提高代码质量
 
