@@ -2,6 +2,9 @@ package yancey.chelper.android.common.view;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -12,11 +15,15 @@ import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
+import yancey.chelper.R;
 import yancey.chelper.android.common.util.SelectedString;
 
+/**
+ * 命令输入框
+ */
 public class CommandEditText extends AppCompatEditText {
 
-    private final SelectedString[] inputs = new SelectedString[50];
+    private final SelectedString[] history = new SelectedString[50];
     private int which = 0;
     @Nullable
     private Consumer<String> onTextChanged;
@@ -40,7 +47,7 @@ public class CommandEditText extends AppCompatEditText {
     }
 
     public void init() {
-        inputs[0] = new SelectedString("", 0);
+        history[0] = new SelectedString(null, 0);
     }
 
     public void setListener(@Nullable Consumer<String> onTextChanged, @Nullable Runnable onSelectionChanged, @NonNull BooleanSupplier isGuiLoaded) {
@@ -55,7 +62,7 @@ public class CommandEditText extends AppCompatEditText {
         if (onTextChanged != null) {
             onTextChanged.accept(text.toString());
         }
-        onTextChanged(getSelectedString());
+        tryAddHistory(getSelectedString());
     }
 
     @Override
@@ -66,31 +73,41 @@ public class CommandEditText extends AppCompatEditText {
         }
     }
 
-    public void onTextChanged(SelectedString selectedString) {
-        if (isGuiLoaded == null || !isGuiLoaded.getAsBoolean() || (inputs[which] != null && Objects.equals(selectedString.string, inputs[which].string))) {
+    public void tryAddHistory(SelectedString selectedString) {
+        if (isGuiLoaded == null || !isGuiLoaded.getAsBoolean()) {
             return;
         }
-        if (which == inputs.length - 1) {
+        SelectedString input = history[which];
+        if (input != null) {
+            if (selectedString.editable == null && input.editable == null) {
+                return;
+            }
+            if (selectedString.editable != null && input.editable != null &&
+                Objects.equals(selectedString.editable.toString(), input.editable.toString())) {
+                return;
+            }
+        }
+        if (which == history.length - 1) {
             for (int i = 0; i < which; i++) {
-                inputs[i] = inputs[i + 1];
+                history[i] = history[i + 1];
             }
         } else {
             which++;
-            if (which != inputs.length - 1) {
-                for (int i = which + 1; i < inputs.length; i++) {
-                    inputs[i] = null;
+            if (which != history.length - 1) {
+                for (int i = which + 1; i < history.length; i++) {
+                    history[i] = null;
                 }
             }
         }
-        inputs[which] = selectedString;
+        history[which] = selectedString;
     }
 
     public SelectedString getSelectedString() {
         Editable editable = getText();
         if (editable == null) {
-            return new SelectedString("", 0, 0);
+            return new SelectedString(null, 0, 0);
         } else {
-            return new SelectedString(editable.toString(), getSelectionStart(), getSelectionEnd());
+            return new SelectedString(editable, getSelectionStart(), getSelectionEnd());
         }
     }
 
@@ -99,25 +116,43 @@ public class CommandEditText extends AppCompatEditText {
             setText("");
             return;
         }
-        onTextChanged(selectedString);
-        setText(selectedString.string);
-        setSelection(selectedString.start, selectedString.end);
+        tryAddHistory(selectedString);
+        setText(selectedString.editable);
+        setSelection(selectedString.selectionStart, selectedString.selectionEnd);
     }
 
 
     public void undo() {
         if (which != 0) {
-            setSelectedString(inputs[--which]);
+            setSelectedString(history[--which]);
         }
     }
 
     public void redo() {
-        if (which != inputs.length - 1 && inputs[which + 1] != null) {
-            setSelectedString(inputs[++which]);
+        if (which != history.length - 1 && history[which + 1] != null) {
+            setSelectedString(history[++which]);
         }
     }
 
     public void delete() {
         setText("");
     }
+
+    public void setColors(int[] colors) {
+        int normalColor = getContext().getColor(R.color.text_main);
+        Editable editable = getText();
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editable);
+        for (int i = 0; i < colors.length; i++) {
+            int color = colors[i];
+            if (color == 0) {
+                color = normalColor;
+            }
+            spannableStringBuilder.setSpan(new ForegroundColorSpan(color), i, i + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        }
+        int selectionStart = getSelectionStart();
+        int selectionEnd = getSelectionEnd();
+        setText(spannableStringBuilder);
+        setSelection(selectionStart, selectionEnd);
+    }
+
 }
