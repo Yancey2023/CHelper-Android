@@ -6,6 +6,9 @@ import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.enumeration.view.EnumerationView;
 
+/**
+ * 穷举界面
+ */
 public class EnumerationActivity extends CustomActivity<EnumerationView> {
 
     @Override

@@ -2,6 +2,7 @@ package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -87,7 +88,7 @@ public class CompletionView extends CustomView {
         });
         core.setTvErrorReasons(mtv_errorReasons);
         core.setCommandEditText(commandEditText);
-        core.setUpdateList(adapter::notifyDataSetChanged);
+        core.setUpdateSuggestions(adapter::notifyDataSetChanged);
         view.findViewById(R.id.btn_copy).setOnClickListener(v -> {
             if (ClipboardUtil.setText(getContext(), commandEditText.getText())) {
                 ToastUtil.show(context, "已复制");
@@ -108,14 +109,14 @@ public class CompletionView extends CustomView {
             File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
             if (file.exists()) {
                 try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
-                    selectedString = new SelectedString(dataInputStream.readUTF(), dataInputStream.readInt(), dataInputStream.readInt());
+                    selectedString = new SelectedString(new SpannableStringBuilder(dataInputStream.readUTF()), dataInputStream.readInt(), dataInputStream.readInt());
                 } catch (IOException e) {
                     Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
                 }
             }
         }
         if (selectedString == null) {
-            selectedString = new SelectedString("", 0);
+            selectedString = new SelectedString(null, 0);
         }
         SelectedString finalSelectedString = selectedString;
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -139,20 +140,18 @@ public class CompletionView extends CustomView {
         super.onPause();
         isGuiLoaded = false;
         //保存上次的输入内容
-        if (Settings.getInstance(getContext()).isSavingWhenPausing) {
-            File file = FileUtil.getFile(getContext().getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
-            if (!FileUtil.createParentFile(file)) {
-                Log.e(TAG, "fail to create parent file : " + file.getAbsolutePath());
-                return;
-            }
-            SelectedString selectedString = commandEditText.getSelectedString();
-            try (DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
-                dataOutputStream.writeUTF(selectedString.string);
-                dataOutputStream.writeInt(selectedString.start);
-                dataOutputStream.writeInt(selectedString.end);
-            } catch (IOException e) {
-                Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
-            }
+        File file = FileUtil.getFile(getContext().getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
+        if (!FileUtil.createParentFile(file)) {
+            Log.e(TAG, "fail to create parent file : " + file.getAbsolutePath());
+            return;
+        }
+        SelectedString selectedString = commandEditText.getSelectedString();
+        try (DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
+            dataOutputStream.writeUTF(Objects.requireNonNull(selectedString.editable).toString());
+            dataOutputStream.writeInt(selectedString.selectionStart);
+            dataOutputStream.writeInt(selectedString.selectionEnd);
+        } catch (IOException e) {
+            Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
         }
     }
 
@@ -162,6 +161,7 @@ public class CompletionView extends CustomView {
         isGuiLoaded = true;
         String cpackPath = Settings.getInstance(getContext()).getCpackPath(getContext());
         if (core.getCore() == null || !Objects.equals(core.getCore().getPath(), cpackPath)) {
+            System.out.println("开始加载资源包： " + cpackPath);
             CHelperCore core1 = null;
             try {
                 core1 = CHelperCore.fromAssets(getContext().getAssets(), cpackPath);

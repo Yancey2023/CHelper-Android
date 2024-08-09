@@ -15,6 +15,9 @@ import java.util.stream.Stream;
 import yancey.chelper.R;
 import yancey.chelper.core.CHelperCore;
 
+/**
+ * 旧命令转新命令输入法服务
+ */
 public class Old2NewIMEService extends InputMethodService {
 
     private long time = 0;
@@ -44,7 +47,7 @@ public class Old2NewIMEService extends InputMethodService {
                 return;
             }
         }
-        // 兼容：QQ的输入框在文字改变后后尝试呼出输入法，onWindowShown()被再次调用，撤回的内容会再次被替换成新版命令
+        // 兼容：QQ的输入框在文字改变后会立刻尝试呼出输入法，onWindowShown()被再次调用，撤回的内容会再次被替换成新版命令
         // 所以检测距离上次设置文字的时间间隔小于0.1s，就不再替换成新版命令
         if (System.currentTimeMillis() - time < 100) {
             return;
@@ -70,6 +73,11 @@ public class Old2NewIMEService extends InputMethodService {
         inputConnection = null;
     }
 
+    /**
+     * 获取数据框文本
+     *
+     * @return 数据框的文本
+     */
     private @NonNull String getText() {
         if (inputConnection == null) {
             return "";
@@ -83,6 +91,11 @@ public class Old2NewIMEService extends InputMethodService {
                 .collect(Collectors.joining());
     }
 
+    /**
+     * 设置输入框文本
+     *
+     * @param text 要设置的文本
+     */
     private void setText(String text) {
         if (inputConnection == null) {
             return;

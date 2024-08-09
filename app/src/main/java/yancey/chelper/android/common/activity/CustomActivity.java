@@ -9,6 +9,12 @@ import java.util.function.Consumer;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.common.view.MainView;
 
+/**
+ * 使用单个View组成的界面
+ * 悬浮窗只能使用单个View显示界面，所以为了方便在悬浮窗模式和应用模式共享界面代码，所以设计了CustomActivity
+ *
+ * @param <T> View的内容
+ */
 public abstract class CustomActivity<T extends CustomView> extends AppCompatActivity {
 
     private MainView<T> view;

@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 
+/**
+ * 旧命令转新命令输入法引导界面
+ */
 public class Old2NewIMEGuideActivity extends AppCompatActivity {
 
     @Override

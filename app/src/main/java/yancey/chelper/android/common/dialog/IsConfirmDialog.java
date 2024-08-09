@@ -14,19 +14,30 @@ import java.util.Objects;
 
 import yancey.chelper.R;
 
+/**
+ * 是否确认的对话框
+ */
 public class IsConfirmDialog extends Dialog {
 
+    // 标题，内容，取消按钮文本，确认按钮文本
     private String title, message, confirm, cancel;
+    // 取消按钮按下后的事件
     private View.OnClickListener onConfirm;
+    // 确认按钮按下后的事件
     private View.OnClickListener onCancel;
 
-    public IsConfirmDialog(@NonNull Context context,boolean isBig) {
+    /**
+     * @param context 上下文
+     * @param isBig   是否为大型对话框
+     */
+    public IsConfirmDialog(@NonNull Context context, boolean isBig) {
         super(context);
-        if(isBig){
+        if (isBig) {
             setContentView(R.layout.dialog_is_confirm_big);
-        }else{
+        } else {
             setContentView(R.layout.dialog_is_confirm);
         }
+        // 因为在界面中定义的宽度无效，所以在代码中把宽度设置为0.95倍屏幕宽度，并把背景设置透明
         Window window = Objects.requireNonNull(getWindow());
         window.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams attributes = window.getAttributes();
@@ -80,6 +91,7 @@ public class IsConfirmDialog extends Dialog {
 
     @Override
     public void show() {
+        // 绑定相应的信息
         ((TextView) findViewById(R.id.is_confirm_title)).setText(Objects.requireNonNullElse(title, "温馨提示"));
         ((TextView) findViewById(R.id.is_confirm_message)).setText(Objects.requireNonNullElse(message, ""));
         TextView btn_confirm = findViewById(R.id.is_confirm_confirm);
@@ -98,6 +110,7 @@ public class IsConfirmDialog extends Dialog {
             }
             dismiss();
         });
+        // 显示
         super.show();
     }
 }

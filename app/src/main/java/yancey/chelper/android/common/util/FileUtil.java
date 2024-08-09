@@ -12,10 +12,29 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.StringJoiner;
 
+/**
+ * 文件相关的工具类
+ */
 public class FileUtil {
 
+    /**
+     * 每次读取多少字节
+     */
     private static final int BUFFER_SIZE = 1024;
 
+    /**
+     * 不允许创建实例
+     */
+    private FileUtil() {
+
+    }
+
+    /**
+     * 文件路径拼接
+     *
+     * @param strings 要拼接的文本
+     * @return 文件路径
+     */
     public static String getFilePath(String... strings) {
         StringJoiner sj = new StringJoiner(File.separator);
         for (String string : strings) {
@@ -24,11 +43,23 @@ public class FileUtil {
         return sj.toString();
     }
 
+    /**
+     * 文件路径拼接
+     *
+     * @param strings 要拼接的文本
+     * @return 文件
+     */
     @SuppressWarnings("unused")
     public static File getFile(String... strings) {
         return new File(getFilePath(strings));
     }
 
+    /**
+     * 创建文件所在的文件夹
+     *
+     * @param file 文件
+     * @return 文件所在的文件夹是否存在
+     */
     public static boolean createParentFile(File file) {
         if (file.exists()) {
             return true;
@@ -37,6 +68,13 @@ public class FileUtil {
         return parent == null || parent.exists() || parent.mkdirs();
     }
 
+    /**
+     * 把字符串写入到文本中
+     *
+     * @param file 文件
+     * @param str  字符串
+     * @return 是否成功
+     */
     @SuppressWarnings("UnusedReturnValue")
     public static boolean writeString(File file, String str) {
         if (!createParentFile(file)) {
@@ -50,6 +88,12 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 从文件中读取字符串
+     *
+     * @param file 文件
+     * @return 读取的字符串
+     */
     @Nullable
     public static String readString(File file) {
         try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
@@ -59,6 +103,14 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 复制所有内容
+     *
+     * @param inputStream  输入流
+     * @param outputStream 输出流
+     * @return 复制了多少字节
+     * @throws IOException IO错误
+     */
     @SuppressWarnings("UnusedReturnValue")
     public static int copyAllBytes(InputStream inputStream, OutputStream outputStream) throws IOException {
         int byteCount = 0;
@@ -74,6 +126,13 @@ public class FileUtil {
         return byteCount;
     }
 
+    /**
+     * 读取全部字节
+     *
+     * @param inputStream 输入流
+     * @return 读取的数据列表
+     * @throws IOException IO错误
+     */
     public static byte[] readAllByte(InputStream inputStream) throws IOException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             copyAllBytes(inputStream, byteArrayOutputStream);

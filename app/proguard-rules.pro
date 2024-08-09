@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# ----- 配置一些输出信息 -----
+# ----- Print informations -----
 
 -printseeds release/seeds.txt
 -printusage release/usage.txt
@@ -30,23 +30,5 @@
 # ----- CHelper Native Core -----
 
 -keep class yancey.chelper.core.Suggestion{*;}
-
-# ----- EasyFloating -----
-
-# 保持配置类 config 不被混淆
--keep class com.lzf.easyfloat.data.FloatConfig {*;}
-
-# 保持自定义控件、ContentProvider 不被混淆
--keep public class * extends android.view.View
--keep public class * extends android.content.ContentProvider
-
-# 保持枚举 enum 类不被混淆
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
-# 保持反射不被混淆
--keepattributes EnclosingMethod
 
 # ----- end -----

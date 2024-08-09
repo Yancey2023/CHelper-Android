@@ -10,8 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://redempt.dev")
     }
 }
 
 rootProject.name = "CHelper-Android"
+include(":easyfloat")
 include(":app")

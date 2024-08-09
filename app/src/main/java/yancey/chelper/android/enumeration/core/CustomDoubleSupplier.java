@@ -2,22 +2,25 @@ package yancey.chelper.android.enumeration.core;
 
 import java.util.function.DoubleSupplier;
 
+/**
+ * 穷举表达式的参数提供器
+ */
 public class CustomDoubleSupplier implements DoubleSupplier {
 
     private final double interval;
-    private double a;
+    private double current;
 
     public CustomDoubleSupplier(double start, double interval) {
         this.interval = interval;
-        this.a = start;
+        this.current = start;
     }
 
     @Override
     public double getAsDouble() {
-        return a;
+        return current;
     }
 
     public void nextTime() {
-        a += interval;
+        current += interval;
     }
 }

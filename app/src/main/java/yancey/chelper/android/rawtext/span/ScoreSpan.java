@@ -5,6 +5,9 @@ import android.text.style.ImageSpan;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Json文本组件的分数
+ */
 public class ScoreSpan extends ImageSpan {
 
     /**

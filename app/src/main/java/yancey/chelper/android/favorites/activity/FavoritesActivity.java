@@ -6,6 +6,9 @@ import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.favorites.view.FavoritesView;
 
+/**
+ * 收藏界面
+ */
 public class FavoritesActivity extends CustomActivity<FavoritesView> {
 
     @Override

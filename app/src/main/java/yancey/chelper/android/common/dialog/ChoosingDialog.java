@@ -2,7 +2,6 @@ package yancey.chelper.android.common.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -22,12 +21,26 @@ import java.util.Objects;
 
 import yancey.chelper.R;
 
+/**
+ * 对话框，从多个内容选择一个
+ */
 public class ChoosingDialog extends Dialog {
 
     private final Context context;
+    /**
+     * 可选择的内容
+     */
     private final String[] strings;
+    /**
+     * 选择了内容之后要执行的事件
+     */
     private final OnChooseListener onChooseListener;
 
+    /**
+     * @param context          上下文
+     * @param strings          可选择的内容
+     * @param onChooseListener 选择了内容之后要执行的事件
+     */
     public ChoosingDialog(@NonNull Context context, String[] strings, OnChooseListener onChooseListener) {
         super(context);
         this.context = context;
@@ -35,6 +48,9 @@ public class ChoosingDialog extends Dialog {
         this.onChooseListener = onChooseListener;
     }
 
+    /**
+     * 创建界面
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +82,9 @@ public class ChoosingDialog extends Dialog {
             linearLayout.addView(textView);
         }
         setContentView(scrollView);
+        // 因为在界面中定义的宽度无效，所以在代码中把宽度设置为0.95倍屏幕宽度，并把背景设置透明
         Window window = Objects.requireNonNull(getWindow());
-        window.setDimAmount(0.5F);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams attributes = window.getAttributes();
         Point point = new Point();
         window.getWindowManager().getDefaultDisplay().getSize(point);
@@ -77,6 +94,10 @@ public class ChoosingDialog extends Dialog {
 
     public interface OnChooseListener {
 
+        /**
+         * 当内容被选择了要执行的事件
+         * @param which 第几个被选择了，从0开始
+         */
         void onChoose(int which);
     }
 }

@@ -6,6 +6,9 @@ import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.old2new.view.Old2NewView;
 
+/**
+ * 旧命令转新命令的界面
+ */
 public class Old2NewActivity extends CustomActivity<Old2NewView> {
 
     @Override

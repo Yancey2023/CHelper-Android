@@ -7,6 +7,9 @@ import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.view.SettingsView;
 import yancey.chelper.android.enumeration.view.EnumerationView;
 
+/**
+ * 设置界面
+ */
 public class SettingsActivity extends CustomActivity<SettingsView> {
 
     @Override

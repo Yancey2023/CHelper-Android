@@ -7,6 +7,9 @@ import redempt.crunch.Crunch;
 import redempt.crunch.data.Pair;
 import redempt.crunch.functional.EvaluationEnvironment;
 
+/**
+ * 穷举表达式的工具类
+ */
 public class EnumerationUtil {
 
     private EnumerationUtil() {
@@ -52,12 +55,12 @@ public class EnumerationUtil {
                 expression = content.substring(0, c);
                 isFloat = !content.substring(c + 1).strip().equals("int");
             }
-            params.add(new CommonParam(command.substring(start, a)));
+            params.add(new StringParam(command.substring(start, a)));
             params.add(new ExpressionParam(Crunch.compileExpression(expression, env), isFloat));
             start = b + 1;
         }
         if (start != command.length()) {
-            params.add(new CommonParam(command.substring(start)));
+            params.add(new StringParam(command.substring(start)));
         }
         //开始运行
         StringBuilder stringBuilder = new StringBuilder();
@@ -75,6 +78,7 @@ public class EnumerationUtil {
                 pair.getSecond().nextTime();
             }
         }
+        // 返回结果
         return stringBuilder.toString();
     }
 

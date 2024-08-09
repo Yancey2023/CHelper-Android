@@ -23,6 +23,9 @@ import java.util.Map;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.TextWatcherUtil;
 
+/**
+ * Json文本组件生成器界面
+ */
 public class RawtextActivity extends AppCompatActivity {
 
     private static final Map<Integer, String> colorToString;

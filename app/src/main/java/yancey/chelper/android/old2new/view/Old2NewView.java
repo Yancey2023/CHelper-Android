@@ -16,6 +16,9 @@ import yancey.chelper.android.common.util.TextWatcherUtil;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.core.CHelperCore;
 
+/**
+ * 旧命令转新命令界面
+ */
 @SuppressLint("ViewConstructor")
 public class Old2NewView extends CustomView {
 

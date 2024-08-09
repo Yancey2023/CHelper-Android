@@ -27,6 +27,9 @@ import yancey.chelper.android.favorites.adapter.FavoriteListAdapter;
 import yancey.chelper.android.favorites.data.DataFavorite;
 import yancey.chelper.android.common.util.FileUtil;
 
+/**
+ * 收藏界面
+ */
 @SuppressLint("ViewConstructor")
 public class FavoritesView extends CustomView {
 

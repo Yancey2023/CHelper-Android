@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -14,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lzf.easyfloat.EasyFloat;
 import com.lzf.easyfloat.enums.ShowPattern;
 import com.lzf.easyfloat.permission.PermissionUtils;
-
-import java.util.Objects;
 
 import yancey.chelper.R;
 import yancey.chelper.android.about.activity.AboutActivity;
@@ -28,8 +27,11 @@ import yancey.chelper.android.favorites.activity.FavoritesActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
-import yancey.chelper.android.welcome.view.FloatMainView;
+import yancey.chelper.android.welcome.view.FloatingMainView;
 
+/**
+ * 欢迎界面 + 悬浮窗管理
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override
@@ -59,10 +61,20 @@ public class WelcomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
     }
 
+    /**
+     * 是否使用着悬浮穿
+     *
+     * @return 是否使用着悬浮穿
+     */
     private boolean isUsingFloatingWindow() {
         return EasyFloat.getFloatView("icon_view") != null;
     }
 
+    /**
+     * 开启悬浮窗
+     *
+     * @param iconSize 图标大小
+     */
     private void startFloatingWindow(int iconSize) {
         if (!PermissionUtils.checkPermission(this)) {
             new IsConfirmDialog(this, false)
@@ -81,21 +93,21 @@ public class WelcomeActivity extends AppCompatActivity {
                 iconSize,
                 getResources().getDisplayMetrics()
         );
-        FloatMainView floatMainView = new FloatMainView(this, this::stopFloatingWindow, length);
+        FloatingMainView floatingMainView = new FloatingMainView(this, this::stopFloatingWindow, length);
         Runnable hide = () -> {
-            EasyFloat.updateFloat("icon_view", (int) floatMainView.getIconViewX(), (int) floatMainView.getIconViewY());
+            EasyFloat.updateFloat("icon_view", (int) floatingMainView.getIconViewX(), (int) floatingMainView.getIconViewY());
             EasyFloat.hide("main_view");
             EasyFloat.clearFocus("main_view");
-            floatMainView.onPause();
+            floatingMainView.onPause();
         };
-        floatMainView.setOnIconClickListener(hide);
+        floatingMainView.setOnIconClickListener(hide);
         ImageView iconView = new ImageView(this);
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new FrameLayout.LayoutParams(length, length, Gravity.START | Gravity.TOP));
         iconView.setOnClickListener(v -> {
             if (EasyFloat.getFloatView("main_view") == null) {
                 EasyFloat.with(this)
-                        .setLayout(floatMainView)
+                        .setLayout(floatingMainView)
                         .setTag("main_view")
                         .setShowPattern(ShowPattern.ALL_TIME)
                         .setDragEnable(false)
@@ -103,10 +115,10 @@ public class WelcomeActivity extends AppCompatActivity {
                         .hasEditText(true)
                         .setAnimator(null)
                         .show();
-                floatMainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                floatingMainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        floatMainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        floatingMainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         EasyFloat.requestFocus("main_view");
                     }
                 });
@@ -114,11 +126,11 @@ public class WelcomeActivity extends AppCompatActivity {
                 EasyFloat.show("main_view");
                 EasyFloat.requestFocus("main_view");
             }
-            floatMainView.setIconPosition(
-                    Objects.requireNonNull(EasyFloat.getX("icon_view")),
-                    Objects.requireNonNull(EasyFloat.getY("icon_view"))
-            );
-            floatMainView.onResume();
+            WindowManager.LayoutParams layoutParam = EasyFloat.getLayoutParam("icon_view");
+            if (layoutParam != null) {
+                floatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
+            }
+            floatingMainView.onResume();
         });
         EasyFloat.with(this)
                 .setLayout(iconView)
@@ -130,11 +142,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * 关闭悬浮窗
+     */
     private void stopFloatingWindow() {
-        FloatMainView floatMainView = (FloatMainView) EasyFloat.getFloatView("main_view");
-        if (floatMainView != null) {
-            floatMainView.onPause();
-            floatMainView.onDestroy();
+        FloatingMainView floatingMainView = (FloatingMainView) EasyFloat.getFloatView("main_view");
+        if (floatingMainView != null) {
+            floatingMainView.onPause();
+            floatingMainView.onDestroy();
         }
         EasyFloat.dismiss("icon_view");
         EasyFloat.dismiss("main_view");

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 收藏界面列表中每个视图的数据
+ */
 public class DataFavorite {
 
     public boolean isChoose;

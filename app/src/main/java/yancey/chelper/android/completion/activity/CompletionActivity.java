@@ -6,6 +6,9 @@ import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.view.CompletionView;
 
+/**
+ * 补全提示界面
+ */
 public class CompletionActivity extends CustomActivity<CompletionView> {
 
     @Override

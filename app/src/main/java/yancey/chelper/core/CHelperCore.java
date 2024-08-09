@@ -14,17 +14,38 @@ import java.util.Objects;
 
 import yancey.chelper.android.common.util.ToastUtil;
 
+/**
+ * 软件的内核，与c++代码交互
+ * 支持为不同的资源包同时创建多个内核实例
+ */
 public class CHelperCore implements Closeable {
 
     static {
+        // 加载c++内核
         System.loadLibrary("CHelper");
     }
 
+    /**
+     * "旧命令转新命令"功能是否已经初始化
+     */
     private static boolean isOld2NewInit = false;
+    /**
+     * 读取的资源包是否是
+     */
     private final boolean isAssets;
+    /**
+     * 读取的资源包路径
+     */
     private final String path;
+    /**
+     * c++内核的内存地址
+     */
     private long pointer;
 
+    /**
+     * @param assetManager 软件内置资源管理器
+     * @param path         资源包路径
+     */
     private CHelperCore(@Nullable AssetManager assetManager, @NotNull String path) {
         this.isAssets = assetManager != null;
         this.path = path;
@@ -38,14 +59,33 @@ public class CHelperCore implements Closeable {
         }
     }
 
+    /**
+     * 从软件内置资源包加载内核
+     *
+     * @param assetManager 软件内置资源管理器
+     * @param path         文件路径
+     * @return 软件内核
+     */
     public static CHelperCore fromAssets(@NotNull AssetManager assetManager, String path) {
         return new CHelperCore(Objects.requireNonNull(assetManager), path);
     }
 
+    /**
+     * 从文件加载内核
+     *
+     * @param path 文件路径
+     * @return 软件内核
+     */
     public static CHelperCore fromFile(String path) {
         return new CHelperCore(null, path);
     }
 
+    /**
+     * 文本改变时通知c++内核
+     *
+     * @param text  文本内容
+     * @param index 光标位置
+     */
     public void onTextChanged(@NonNull String text, int index) {
         if (pointer == 0) {
             return;
@@ -53,6 +93,11 @@ public class CHelperCore implements Closeable {
         onTextChanged0(pointer, text, index);
     }
 
+    /**
+     * 光标改变时通知c++内核
+     *
+     * @param index 光标位置
+     */
     public void onSelectionChanged(int index) {
         if (pointer == 0) {
             return;
@@ -60,6 +105,9 @@ public class CHelperCore implements Closeable {
         onSelectionChanged0(pointer, index);
     }
 
+    /**
+     * 获取当前命令参数的介绍
+     */
     public String getDescription() {
         if (pointer == 0) {
             return null;
@@ -67,6 +115,9 @@ public class CHelperCore implements Closeable {
         return getDescription0(pointer);
     }
 
+    /**
+     * 获取当前命令的错误原因
+     */
     public String getErrorReasons() {
         if (pointer == 0) {
             return null;
@@ -74,6 +125,9 @@ public class CHelperCore implements Closeable {
         return getErrorReasons0(pointer);
     }
 
+    /**
+     * 获取当前命令的补全提示数量
+     */
     public int getSuggestionsSize() {
         if (pointer == 0) {
             return 0;
@@ -81,6 +135,11 @@ public class CHelperCore implements Closeable {
         return getSuggestionsSize0(pointer);
     }
 
+    /**
+     * 获取当前命令其中一个补全提示
+     *
+     * @param which 第几个补全提示，从0开始
+     */
     public Suggestion getSuggestion(int which) {
         if (pointer == 0) {
             return null;
@@ -88,6 +147,12 @@ public class CHelperCore implements Closeable {
         return getSuggestion0(pointer, which);
     }
 
+    /**
+     * 获取当前命令的所有补全提示
+     * 由于性能原因，不建议使用这个方法，建议按需获取
+     *
+     * @return 所有补全提示
+     */
     public List<Suggestion> getSuggestions() {
         if (pointer == 0) {
             return null;
@@ -95,6 +160,9 @@ public class CHelperCore implements Closeable {
         return getSuggestions0(pointer);
     }
 
+    /**
+     * 获取当前命令的语法结构
+     */
     public String getStructure() {
         if (pointer == 0) {
             return null;
@@ -102,6 +170,11 @@ public class CHelperCore implements Closeable {
         return getStructure0(pointer);
     }
 
+    /**
+     * 补全提示被使用时通知c++内核
+     *
+     * @param which 第几个补全提示，从0开始
+     */
     public String onSuggestionClick(int which) {
         if (pointer == 0) {
             return null;
@@ -109,6 +182,21 @@ public class CHelperCore implements Closeable {
         return onSuggestionClick0(pointer, which);
     }
 
+    /**
+     * 获取文本颜色
+     *
+     * @return 每个字符的颜色
+     */
+    public int[] getColors() {
+        if (pointer == 0) {
+            return null;
+        }
+        return getColors(pointer);
+    }
+
+    /**
+     * 关闭内核，释放内存
+     */
     @Override
     public void close() {
         if (pointer == 0) {
@@ -118,6 +206,12 @@ public class CHelperCore implements Closeable {
         pointer = 0;
     }
 
+    /**
+     * 是否是软件内置的资源包
+     *
+     * @param context 上下文
+     * @return old 旧命令
+     */
     public static @NonNull String old2new(Context context, String old) {
         if (old == null) {
             return "";
@@ -134,38 +228,133 @@ public class CHelperCore implements Closeable {
         return old2new0(old);
     }
 
+    /**
+     * 是否是软件内置的资源包
+     *
+     * @return 是否是软件内置的资源包
+     */
     public boolean isAssets() {
         return isAssets;
     }
 
+    /**
+     * 获取当前使用的资源包路径
+     *
+     * @return 当前使用的资源包路径
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * 调用c++创建内核
+     *
+     * @param assetManager 软件内置资源管理器
+     * @param cpackPath    资源包路径
+     * @return 内核的内存地址
+     */
     private static native long create0(@Nullable AssetManager assetManager, @NonNull String cpackPath);
 
+    /**
+     * 调用c++释放内核
+     *
+     * @param pointer 内核的内存地址
+     */
     private static native void release0(long pointer);
 
+    /**
+     * 文本改变时通知c++内核
+     *
+     * @param pointer 内核的内存地址
+     * @param text    文本内容
+     * @param index   光标位置
+     */
     private static native void onTextChanged0(long pointer, @NonNull String text, int index);
 
+    /**
+     * 光标改变时通知c++内核
+     *
+     * @param pointer 内核的内存地址
+     * @param index   光标位置
+     */
     private static native void onSelectionChanged0(long pointer, int index);
 
+    /**
+     * 获取当前命令参数的介绍
+     *
+     * @param pointer 内核的内存地址
+     */
     private static native String getDescription0(long pointer);
 
+    /**
+     * 获取当前命令的错误原因
+     *
+     * @param pointer 内核的内存地址
+     */
     private static native String getErrorReasons0(long pointer);
 
+    /**
+     * 获取当前命令的补全提示数量
+     *
+     * @param pointer 内核的内存地址
+     */
     private static native int getSuggestionsSize0(long pointer);
 
+    /**
+     * 获取当前命令其中一个补全提示
+     *
+     * @param pointer 内核的内存地址
+     * @param which   第几个补全提示，从0开始
+     */
     private static native Suggestion getSuggestion0(long pointer, int which);
 
+    /**
+     * 获取当前命令的所有补全提示
+     * 由于性能原因，不建议使用这个方法，建议按需获取
+     *
+     * @param pointer 第几个补全提示，从0开始
+     * @return 所有补全提示
+     */
     public static native List<Suggestion> getSuggestions0(long pointer);
 
+    /**
+     * 获取当前命令的语法结构
+     *
+     * @param pointer 内核的内存地址
+     */
     private static native String getStructure0(long pointer);
 
+    /**
+     * 补全提示被使用时通知c++内核
+     *
+     * @param pointer 内核的内存地址
+     * @param which   第几个补全提示，从0开始
+     */
     private static native String onSuggestionClick0(long pointer, int which);
 
+    /**
+     * 获取文本颜色
+     *
+     * @param pointer 内核的内存地址
+     * @return 每个字符的颜色
+     */
+    private static native int[] getColors(long pointer);
+
+    /**
+     * 初始化"旧命令转新命令"功能
+     *
+     * @param assetManager 软件内置资源管理器
+     * @param path         数据文件路径
+     */
     private static native boolean old2newInit0(@NonNull AssetManager assetManager, @NonNull String path);
 
+    /**
+     * 旧命令转新命令
+     * 使用前记得先初始化
+     *
+     * @param old 旧命令
+     * @return 新命令
+     */
     private static native String old2new0(@NonNull String old);
 
 

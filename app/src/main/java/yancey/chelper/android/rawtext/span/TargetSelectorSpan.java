@@ -5,6 +5,9 @@ import android.text.style.ImageSpan;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Json文本组件生成器的目标选择器
+ */
 public class TargetSelectorSpan extends ImageSpan {
 
     /**

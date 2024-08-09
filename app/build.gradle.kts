@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import com.android.build.gradle.internal.cxx.configure.abiOf
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -21,8 +22,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
+            // 为了减少软件体积，只兼容arm架构
             abiFilters.add("armeabi-v7a")
             abiFilters.add("arm64-v8a")
+//            abiFilters.add("x86")
+//            abiFilters.add("x86_64")
         }
     }
 
@@ -92,10 +96,12 @@ if (keystorePropertiesFile.exists()) {
 }
 
 dependencies {
+    implementation(project(":easyfloat"))
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.github.Redempt:Crunch:2.0.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

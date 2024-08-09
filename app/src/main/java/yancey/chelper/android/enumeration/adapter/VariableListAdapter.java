@@ -18,6 +18,9 @@ import yancey.chelper.android.common.util.TextWatcherUtil;
 import yancey.chelper.android.enumeration.core.CustomDoubleSupplier;
 import yancey.chelper.android.enumeration.data.DataVariable;
 
+/**
+ * 穷举界面的参数列表适配器
+ */
 public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapter.VariableListViewHolder> {
 
     private final Context context;

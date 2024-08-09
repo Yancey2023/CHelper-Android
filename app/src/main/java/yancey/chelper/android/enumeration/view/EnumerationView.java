@@ -28,6 +28,9 @@ import yancey.chelper.android.enumeration.core.CustomDoubleSupplier;
 import yancey.chelper.android.enumeration.core.EnumerationUtil;
 import yancey.chelper.android.enumeration.data.DataVariable;
 
+/**
+ * 穷举界面
+ */
 @SuppressLint("ViewConstructor")
 public class EnumerationView extends CustomView {
 

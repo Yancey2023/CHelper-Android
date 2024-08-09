@@ -10,14 +10,25 @@ import androidx.annotation.StringRes;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/**
+ * 显示通知
+ */
 public class ToastUtil {
 
+    /**
+     * 通知的显示时长
+     * Toast.LENGTH_SHORT 长时间
+     * Toast.LENGTH_LONG  短时间
+     */
     @IntDef({Toast.LENGTH_SHORT, Toast.LENGTH_LONG})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Duration {
 
     }
 
+    /**
+     * 不允许创建实例
+     */
     private ToastUtil() {
 
     }

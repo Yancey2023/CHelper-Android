@@ -17,6 +17,9 @@ import yancey.chelper.R;
 import yancey.chelper.android.favorites.data.DataFavorite;
 import yancey.chelper.android.favorites.adapter.FavoriteListAdapter;
 
+/**
+ * 修改收藏命令的对话框
+ */
 public class EditFavoriteDialog extends Dialog {
 
     private final DataFavorite dataFavorite;

@@ -11,6 +11,9 @@ import java.io.IOException;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.AssetsUtil;
 
+/**
+ * 软件的关于界面
+ */
 public class AboutActivity extends AppCompatActivity {
 
     @Override
@@ -22,6 +25,7 @@ public class AboutActivity extends AppCompatActivity {
         TextView tv_permissions = findViewById(R.id.permissions);
         TextView tv_dependencies = findViewById(R.id.dependencies);
         TextView tv_thanks = findViewById(R.id.thanks);
+        // 从软件的内置资源读取内容并显示出来
         try {
             tv_about.setText(AssetsUtil.readStringFromAssets(this, "about/about.txt"));
             tv_updateNote.setText(AssetsUtil.readStringFromAssets(this, "about/update.txt"));

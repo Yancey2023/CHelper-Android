@@ -12,24 +12,51 @@ import java.util.List;
 
 import yancey.chelper.android.common.util.FileUtil;
 
+/**
+ * 软件设置
+ */
 public class Settings {
 
+    /**
+     * 内置资源包的文件夹名称
+     */
     public static final String DIR_NAME = "cpack";
-    public static final String DEFAULT_CPACK = "release-experiment-1.21.1.03.cpack";
+    /**
+     * 默认命令分支
+     */
+    public static final String DEFAULT_CPACK = "release-experiment";
     private static Settings INSTANCE;
 
+    /**
+     * 可选择的资源包
+     */
     private List<String> cpackPaths;
+    /**
+     * 根据光标位置提供补全提示
+     */
     public Boolean isCheckingBySelection;
+    /**
+     * 复制后隐藏悬浮窗
+     */
     public Boolean isHideWindowWhenCopying;
+    /**
+     * 是否在进入界面时保留上次输入的内容
+     */
     public Boolean isSavingWhenPausing;
+    /**
+     * 根据光标位置提供补全提示
+     */
     public Boolean isCrowed;
+    /**
+     * 选择的资源包分支
+     */
     private String cpackPath;
 
     public void init(Context context) {
         try {
             cpackPaths = Arrays.asList(context.getAssets().list(DIR_NAME));
-        } catch (IOException ignored) {
-            cpackPaths = List.of(DEFAULT_CPACK);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -37,22 +64,45 @@ public class Settings {
         this.cpackPath = cpackPath;
     }
 
+    private static String getRealFileName(String cpackPath) {
+        return switch (cpackPath) {
+            case "release-vanilla" -> INSTANCE.cpackPath = "release-vanilla-1.21.2.02.cpack";
+            case "release-experiment" -> INSTANCE.cpackPath = "release-experiment-1.21.2.02.cpack";
+            case "beta-vanilla" -> INSTANCE.cpackPath = "beta-vanilla-1.21.30.21.cpack";
+            case "beta-experiment" -> INSTANCE.cpackPath = "beta-experiment-1.21.30.21.cpack";
+            case "netease-vanilla" -> INSTANCE.cpackPath = "netease-vanilla-1.20.10.25.cpack";
+            case "netease-experiment" -> INSTANCE.cpackPath = "netease-experiment-1.20.10.25.cpack";
+            default -> getRealFileName(DEFAULT_CPACK);
+        };
+    }
+
     public String getCpackPath(Context context) {
         if (!cpackPaths.contains(cpackPath)) {
             cpackPath = DEFAULT_CPACK;
             save(context);
         }
-        return DIR_NAME + "/" + cpackPath;
+        return DIR_NAME + "/" + getRealFileName(cpackPath);
     }
 
     private static File getFileByContext(Context context) {
         return FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "settings", "settings.json");
     }
 
+    /**
+     * 保存设置到文件
+     *
+     * @param context 上下文
+     */
     public void save(Context context) {
         FileUtil.writeString(getFileByContext(context), new Gson().toJson(this));
     }
 
+    /**
+     * 获取设置，如果不存在就从文件读取设置
+     *
+     * @param context 上下文
+     * @return 设置
+     */
     public static Settings getInstance(Context context) {
         if (INSTANCE == null) {
             try {
@@ -88,15 +138,21 @@ public class Settings {
                 isDirty = true;
             } else {
                 boolean isOldVersion = true;
+                // 为了对软件旧版本兼容，需要把一些旧版本的内容转为新版本内容
                 switch (INSTANCE.cpackPath) {
-                    case "release-vanilla-1.20.80.05.cpack" ->
-                            INSTANCE.cpackPath = "release-vanilla-1.21.1.03.cpack";
-                    case "release-experiment-1.20.80.05.cpack" ->
-                            INSTANCE.cpackPath = "release-experiment-1.21.1.03.cpack";
-                    case "beta-vanilla-1.21.0.23.cpack" ->
-                            INSTANCE.cpackPath = "beta-vanilla-1.21.20.21.cpack";
-                    case "beta-experiment-1.21.0.23.cpack" ->
-                            INSTANCE.cpackPath = "beta-experiment-1.21.20.21.cpack";
+                    case "release-vanilla-1.20.80.05.cpack", "release-vanilla-1.21.1.03.cpack" ->
+                            INSTANCE.cpackPath = "release-vanilla";
+                    case "release-experiment-1.20.80.05.cpack",
+                         "release-experiment-1.21.1.03.cpack" ->
+                            INSTANCE.cpackPath = "release-experiment";
+                    case "beta-vanilla-1.21.0.23.cpack", "beta-vanilla-1.21.20.21.cpack" ->
+                            INSTANCE.cpackPath = "beta-vanilla";
+                    case "beta-experiment-1.21.0.23.cpack", "beta-experiment-1.21.20.21.cpack" ->
+                            INSTANCE.cpackPath = "beta-experiment";
+                    case "netease-vanilla-1.20.10.25.cpack" ->
+                            INSTANCE.cpackPath = "netease-vanilla";
+                    case "netease-experiment-1.20.10.25.cpack" ->
+                            INSTANCE.cpackPath = "netease-experiment";
                     default -> isOldVersion = false;
                 }
                 if (isOldVersion) {

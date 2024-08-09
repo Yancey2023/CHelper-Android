@@ -5,8 +5,14 @@ import android.text.TextWatcher;
 
 import java.util.function.Consumer;
 
+/**
+ * 对TextWatcher的包装，文本改变事件的监听
+ */
 public class TextWatcherUtil {
 
+    /**
+     * 不允许创建实例
+     */
     private TextWatcherUtil() {
 
     }

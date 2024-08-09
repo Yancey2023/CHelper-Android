@@ -22,6 +22,9 @@ import yancey.chelper.android.common.util.ToastUtil;
 import yancey.chelper.android.favorites.data.DataFavorite;
 import yancey.chelper.android.favorites.dialog.EditFavoriteDialog;
 
+/**
+ * 收藏界面列表适配器
+ */
 public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.CommandListViewHolder> {
 
     private final Context context;

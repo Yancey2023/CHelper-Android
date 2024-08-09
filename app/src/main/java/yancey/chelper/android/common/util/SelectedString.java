@@ -1,31 +1,31 @@
 package yancey.chelper.android.common.util;
 
-import androidx.annotation.NonNull;
+import android.text.Editable;
 
+import androidx.annotation.Nullable;
+
+/**
+ * 用于存储被选择着的文本
+ */
 public class SelectedString {
-    public final String string;
-    public final int start;
-    public final int end;
+    // 文本
+    @Nullable
+    public final Editable editable;
+    // 光标开始位置
+    public final int selectionStart;
+    // 光标结束位置
+    public final int selectionEnd;
 
-    public SelectedString(String string, int position) {
-        this.string = string;
-        this.start = position;
-        this.end = position;
+    public SelectedString(@Nullable Editable editable, int position) {
+        this.editable = editable;
+        this.selectionStart = position;
+        this.selectionEnd = position;
     }
 
-    public SelectedString(String string, int start, int end) {
-        this.string = string;
-        this.start = start;
-        this.end = end;
+    public SelectedString(@Nullable Editable editable, int selectionStart, int selectionEnd) {
+        this.editable = editable;
+        this.selectionStart = selectionStart;
+        this.selectionEnd = selectionEnd;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "SelectedString{" +
-                "string='" + string + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
-    }
 }

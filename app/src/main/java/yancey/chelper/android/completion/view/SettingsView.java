@@ -17,6 +17,9 @@ import yancey.chelper.android.common.dialog.ChoosingDialog;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.data.Settings;
 
+/**
+ * 设置界面
+ */
 @SuppressLint("ViewConstructor")
 public class SettingsView extends CustomView {
 
@@ -34,21 +37,21 @@ public class SettingsView extends CustomView {
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
         Settings settings = Settings.getInstance(context);
         String[] showStrings = {
-                "正式版-原版-1.21.1.03",
-                "正式版-实验性玩法-1.21.1.03",
-                "测试版-原版-1.21.20.21",
-                "测试版-实验性玩法-1.21.20.21",
+                "正式版-原版-1.21.10.25",
+                "正式版-实验性玩法-1.21.10.25",
+                "测试版-原版-1.21.30.21",
+                "测试版-实验性玩法-1.21.30.21",
                 "中国版-原版-1.20.10.25",
                 "中国版-实验性玩法-1.20.10.25"
         };
         //noinspection SpellCheckingInspection
         String[] cpackPaths = {
-                "release-vanilla-1.21.1.03.cpack",
-                "release-experiment-1.21.1.03.cpack",
-                "beta-vanilla-1.21.20.21.cpack",
-                "beta-experiment-1.21.20.21.cpack",
-                "netease-vanilla-1.20.10.25.cpack",
-                "netease-experiment-1.20.10.25.cpack"
+                "release-vanilla",
+                "release-experiment",
+                "beta-vanilla",
+                "beta-experiment",
+                "netease-vanilla",
+                "netease-experiment"
         };
         String cpackPath = settings.getCpackPath(context);
         String prefix = Settings.DIR_NAME + "/";
@@ -79,8 +82,8 @@ public class SettingsView extends CustomView {
     @Override
     public void onPause() {
         super.onPause();
+        // 保存设置到文件
         Settings.getInstance(getContext()).save(getContext());
     }
-
 
 }
