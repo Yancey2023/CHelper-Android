@@ -50,17 +50,17 @@ public class Settings {
 
     private static String getRealFileName(String cpackPath) {
         return switch (cpackPath) {
-            case "release-vanilla" -> INSTANCE.cpackPath = "release-vanilla-1.21.2.02.cpack";
-            case "release-experiment" -> INSTANCE.cpackPath = "release-experiment-1.21.2.02.cpack";
-            case "beta-vanilla" -> INSTANCE.cpackPath = "beta-vanilla-1.21.30.22.cpack";
-            case "beta-experiment" -> INSTANCE.cpackPath = "beta-experiment-1.21.30.22.cpack";
-            case "netease-vanilla" -> INSTANCE.cpackPath = "netease-vanilla-1.20.10.25.cpack";
-            case "netease-experiment" -> INSTANCE.cpackPath = "netease-experiment-1.20.10.25.cpack";
+            case "release-vanilla" -> "release-vanilla-1.21.2.02.cpack";
+            case "release-experiment" -> "release-experiment-1.21.2.02.cpack";
+            case "beta-vanilla" -> "beta-vanilla-1.21.30.22.cpack";
+            case "beta-experiment" -> "beta-experiment-1.21.30.22.cpack";
+            case "netease-vanilla" -> "netease-vanilla-1.20.10.25.cpack";
+            case "netease-experiment" -> "netease-experiment-1.20.10.25.cpack";
             default -> getRealFileName(DEFAULT_CPACK);
         };
     }
 
-    public String getCpackPath(Context context) {
+    public String getCpackPath() {
         return DIR_NAME + "/" + getRealFileName(cpackPath);
     }
 

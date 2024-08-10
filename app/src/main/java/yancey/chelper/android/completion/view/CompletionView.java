@@ -161,7 +161,7 @@ public class CompletionView extends CustomView {
     public void onResume() {
         super.onResume();
         isGuiLoaded = true;
-        String cpackPath = Settings.getInstance(getContext()).getCpackPath(getContext());
+        String cpackPath = Settings.getInstance(getContext()).getCpackPath();
         if (core.getCore() == null || !Objects.equals(core.getCore().getPath(), cpackPath)) {
             CHelperCore core1 = null;
             try {
