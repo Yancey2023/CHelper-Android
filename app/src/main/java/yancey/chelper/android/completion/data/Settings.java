@@ -68,8 +68,8 @@ public class Settings {
         return switch (cpackPath) {
             case "release-vanilla" -> INSTANCE.cpackPath = "release-vanilla-1.21.2.02.cpack";
             case "release-experiment" -> INSTANCE.cpackPath = "release-experiment-1.21.2.02.cpack";
-            case "beta-vanilla" -> INSTANCE.cpackPath = "beta-vanilla-1.21.30.21.cpack";
-            case "beta-experiment" -> INSTANCE.cpackPath = "beta-experiment-1.21.30.21.cpack";
+            case "beta-vanilla" -> INSTANCE.cpackPath = "beta-vanilla-1.21.30.22.cpack";
+            case "beta-experiment" -> INSTANCE.cpackPath = "beta-experiment-1.21.30.22.cpack";
             case "netease-vanilla" -> INSTANCE.cpackPath = "netease-vanilla-1.20.10.25.cpack";
             case "netease-experiment" -> INSTANCE.cpackPath = "netease-experiment-1.20.10.25.cpack";
             default -> getRealFileName(DEFAULT_CPACK);
