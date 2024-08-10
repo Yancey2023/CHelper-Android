@@ -6,9 +6,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import yancey.chelper.android.common.util.FileUtil;
 
@@ -26,11 +23,6 @@ public class Settings {
      */
     public static final String DEFAULT_CPACK = "release-experiment";
     private static Settings INSTANCE;
-
-    /**
-     * 可选择的资源包
-     */
-    private List<String> cpackPaths;
     /**
      * 根据光标位置提供补全提示
      */
@@ -52,14 +44,6 @@ public class Settings {
      */
     private String cpackPath;
 
-    public void init(Context context) {
-        try {
-            cpackPaths = Arrays.asList(context.getAssets().list(DIR_NAME));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void setCpackPath(String cpackPath) {
         this.cpackPath = cpackPath;
     }
@@ -77,10 +61,6 @@ public class Settings {
     }
 
     public String getCpackPath(Context context) {
-        if (!cpackPaths.contains(cpackPath)) {
-            cpackPath = DEFAULT_CPACK;
-            save(context);
-        }
         return DIR_NAME + "/" + getRealFileName(cpackPath);
     }
 
@@ -111,14 +91,12 @@ public class Settings {
         if (INSTANCE == null) {
             try {
                 INSTANCE = new Gson().fromJson(FileUtil.readString(getFileByContext(context)), Settings.class);
-                INSTANCE.init(context);
             } catch (Exception e) {
                 Log.e("Settings", "fail to read settings", e);
             }
             boolean isDirty = false;
             if (INSTANCE == null) {
                 INSTANCE = new Settings();
-                INSTANCE.init(context);
                 isDirty = true;
             }
             if (INSTANCE.isCheckingBySelection == null) {

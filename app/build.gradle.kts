@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
-import com.android.build.gradle.internal.cxx.configure.abiOf
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -16,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 38
-        versionName = "0.2.25-beta"
+        versionCode = 39
+        versionName = "0.2.26-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
