@@ -47,7 +47,7 @@ public class CommandEditText extends AppCompatEditText {
     }
 
     public void init() {
-        history[0] = new SelectedString(null, 0);
+        history[0] = new SelectedString("", 0);
     }
 
     public void setListener(@Nullable Consumer<String> onTextChanged, @Nullable Runnable onSelectionChanged, @NonNull BooleanSupplier isGuiLoaded) {
@@ -74,18 +74,8 @@ public class CommandEditText extends AppCompatEditText {
     }
 
     public void tryAddHistory(SelectedString selectedString) {
-        if (isGuiLoaded == null || !isGuiLoaded.getAsBoolean()) {
+        if (isGuiLoaded == null || !isGuiLoaded.getAsBoolean() || (history[which] != null && Objects.equals(selectedString, history[which]))) {
             return;
-        }
-        SelectedString input = history[which];
-        if (input != null) {
-            if (selectedString.editable == null && input.editable == null) {
-                return;
-            }
-            if (selectedString.editable != null && input.editable != null &&
-                Objects.equals(selectedString.editable.toString(), input.editable.toString())) {
-                return;
-            }
         }
         if (which == history.length - 1) {
             for (int i = 0; i < which; i++) {
@@ -105,9 +95,9 @@ public class CommandEditText extends AppCompatEditText {
     public SelectedString getSelectedString() {
         Editable editable = getText();
         if (editable == null) {
-            return new SelectedString(null, 0, 0);
+            return new SelectedString("", 0, 0);
         } else {
-            return new SelectedString(editable, getSelectionStart(), getSelectionEnd());
+            return new SelectedString(editable.toString(), getSelectionStart(), getSelectionEnd());
         }
     }
 
@@ -117,7 +107,7 @@ public class CommandEditText extends AppCompatEditText {
             return;
         }
         tryAddHistory(selectedString);
-        setText(selectedString.editable);
+        setText(selectedString.text);
         setSelection(selectedString.selectionStart, selectedString.selectionEnd);
     }
 

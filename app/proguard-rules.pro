@@ -30,5 +30,6 @@
 # ----- CHelper Native Core -----
 
 -keep class yancey.chelper.core.Suggestion{*;}
+-keep class yancey.chelper.core.Theme{*;}
 
 # ----- end -----

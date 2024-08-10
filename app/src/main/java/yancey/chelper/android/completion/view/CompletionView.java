@@ -2,7 +2,7 @@ package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.SpannableStringBuilder;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -35,6 +35,7 @@ import yancey.chelper.android.completion.adater.SuggestionListAdapter;
 import yancey.chelper.android.completion.data.Settings;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
+import yancey.chelper.core.Theme;
 
 @SuppressLint("ViewConstructor")
 public class CompletionView extends CustomView {
@@ -63,7 +64,8 @@ public class CompletionView extends CustomView {
     @Override
     public void onCreateView(Context context, View view) {
         isGuiLoaded = false;
-        core = new CHelperGuiCore();
+        boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+        core = new CHelperGuiCore(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
         TextView mtv_structure = view.findViewById(R.id.tv_structure);
         TextView mtv_description = view.findViewById(R.id.tv_description);
         TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
@@ -109,14 +111,14 @@ public class CompletionView extends CustomView {
             File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
             if (file.exists()) {
                 try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
-                    selectedString = new SelectedString(new SpannableStringBuilder(dataInputStream.readUTF()), dataInputStream.readInt(), dataInputStream.readInt());
+                    selectedString = new SelectedString(dataInputStream.readUTF(), dataInputStream.readInt(), dataInputStream.readInt());
                 } catch (IOException e) {
                     Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
                 }
             }
         }
         if (selectedString == null) {
-            selectedString = new SelectedString(null, 0);
+            selectedString = new SelectedString("", 0);
         }
         SelectedString finalSelectedString = selectedString;
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -147,7 +149,7 @@ public class CompletionView extends CustomView {
         }
         SelectedString selectedString = commandEditText.getSelectedString();
         try (DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
-            dataOutputStream.writeUTF(Objects.requireNonNull(selectedString.editable).toString());
+            dataOutputStream.writeUTF(selectedString.text);
             dataOutputStream.writeInt(selectedString.selectionStart);
             dataOutputStream.writeInt(selectedString.selectionEnd);
         } catch (IOException e) {
@@ -161,7 +163,6 @@ public class CompletionView extends CustomView {
         isGuiLoaded = true;
         String cpackPath = Settings.getInstance(getContext()).getCpackPath(getContext());
         if (core.getCore() == null || !Objects.equals(core.getCore().getPath(), cpackPath)) {
-            System.out.println("开始加载资源包： " + cpackPath);
             CHelperCore core1 = null;
             try {
                 core1 = CHelperCore.fromAssets(getContext().getAssets(), cpackPath);

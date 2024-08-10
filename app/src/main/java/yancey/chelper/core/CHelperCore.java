@@ -191,7 +191,19 @@ public class CHelperCore implements Closeable {
         if (pointer == 0) {
             return null;
         }
-        return getColors(pointer);
+        return getColors0(pointer);
+    }
+
+    /**
+     * 设置命令高亮显示主题
+     *
+     * @param theme 命令高亮显示主题
+     */
+    public void setTheme(Theme theme) {
+        if (pointer == 0) {
+            return;
+        }
+        setTheme0(pointer, theme);
     }
 
     /**
@@ -338,7 +350,15 @@ public class CHelperCore implements Closeable {
      * @param pointer 内核的内存地址
      * @return 每个字符的颜色
      */
-    private static native int[] getColors(long pointer);
+    private static native int[] getColors0(long pointer);
+
+    /**
+     * 设置命令高亮显示主题
+     *
+     * @param pointer 内核的内存地址
+     * @param theme 命令高亮显示主题
+     */
+    private static native void setTheme0(long pointer, Theme theme);
 
     /**
      * 初始化"旧命令转新命令"功能

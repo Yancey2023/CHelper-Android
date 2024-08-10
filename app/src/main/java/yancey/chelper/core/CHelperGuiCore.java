@@ -1,6 +1,5 @@
 package yancey.chelper.core;
 
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +27,10 @@ public class CHelperGuiCore implements Closeable {
      */
     private @Nullable CHelperCore core;
     /**
+     * 命令高亮显示主题
+     */
+    private @NotNull Theme theme;
+    /**
      * 补全建议列表更新要执行的操作
      */
     private @Nullable Runnable updateSuggestions;
@@ -49,12 +52,8 @@ public class CHelperGuiCore implements Closeable {
     private @Nullable TextView mtv_errorReasons;
     // TODO 未来要把这个类与安卓组件彻底隔绝开，不要存储commandEditText和mtv_errorReasons
 
-    public CHelperGuiCore(@Nullable CHelperCore core) {
-        this.core = core;
-    }
-
-    public CHelperGuiCore() {
-        this(null);
+    public CHelperGuiCore(@NotNull Theme theme) {
+        this.theme = theme;
     }
 
     public void setCommandEditText(@NotNull CommandEditText commandEditText) {
@@ -95,7 +94,6 @@ public class CHelperGuiCore implements Closeable {
         }
         String text = Objects.requireNonNull(commandEditText.getText()).toString();
         if (text.isEmpty()) {
-            System.out.println("onSelectionChanged(empty text): " + text);
             // 输入内容为空
             lastInput = text;
             // 显示欢迎词
@@ -126,7 +124,6 @@ public class CHelperGuiCore implements Closeable {
         }
         if (text.equals(lastInput)) {
             if (lastSelection == commandEditText.getSelectionStart()) {
-                System.out.println("onSelectionChanged(same text): " + text);
                 return;
             }
             lastSelection = commandEditText.getSelectionStart();
@@ -145,7 +142,6 @@ public class CHelperGuiCore implements Closeable {
             // 文本内容和光标都改变了
             // 因为c++内核使用utf-8，所以传给c++内核之前要获取真正的光标位置
             // 如果关闭了"根据光标位置提供补全提示"，就在通知内核时把光标位置当成在文本最后面
-            System.out.println("onSelectionChanged(changed text): " + text);
             int selectionStart;
             if (Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
                 selectionStart = text.substring(0, commandEditText.getSelectionStart()).getBytes(StandardCharsets.UTF_8).length;
@@ -192,7 +188,7 @@ public class CHelperGuiCore implements Closeable {
         }
         String string = core.onSuggestionClick(which);
         if (string != null) {
-            commandEditText.setSelectedString(new SelectedString(new SpannableStringBuilder(string), string.length(), string.length()));
+            commandEditText.setSelectedString(new SelectedString(string, string.length(), string.length()));
         }
     }
 
@@ -253,9 +249,24 @@ public class CHelperGuiCore implements Closeable {
         }
         // 设置新内核
         this.core = core;
+        if (this.core != null) {
+            this.core.setTheme(theme);
+        }
         // 更新界面
         lastInput = "";
         onSelectionChanged();
+    }
+
+    /**
+     * 设置命令高亮显示主题
+     *
+     * @param theme 命令高亮显示主题
+     */
+    public void setTheme(@NotNull Theme theme) {
+        this.theme = theme;
+        if (this.core != null) {
+            this.core.setTheme(theme);
+        }
     }
 
     /**
