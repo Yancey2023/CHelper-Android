@@ -75,14 +75,17 @@ public class CommandEditText extends AppCompatEditText {
     }
 
     public void tryAddHistory(SelectedString selectedString) {
-        if (isGuiLoaded == null || !isGuiLoaded.getAsBoolean() || (history[which] != null && Objects.equals(selectedString, history[which]))) {
+        // 如果界面没有加载出来或着与当前历史记录相同，就不记录
+        if (isGuiLoaded == null || !isGuiLoaded.getAsBoolean() || (history[which] != null && Objects.equals(selectedString.text, history[which].text))) {
             return;
         }
         if (which == history.length - 1) {
+            // 如果达到数量限制，就舍弃历史最旧的记录
             for (int i = 0; i < which; i++) {
                 history[i] = history[i + 1];
             }
         } else {
+            // 如果还可以记录，就把后面的记录全部设置为空
             which++;
             if (which != history.length - 1) {
                 for (int i = which + 1; i < history.length; i++) {
@@ -90,9 +93,13 @@ public class CommandEditText extends AppCompatEditText {
                 }
             }
         }
+        // 记录当前内容
         history[which] = selectedString;
     }
 
+    /**
+     * 获取当前选中的内容
+     */
     public SelectedString getSelectedString() {
         Editable editable = getText();
         if (editable == null) {
@@ -102,6 +109,11 @@ public class CommandEditText extends AppCompatEditText {
         }
     }
 
+    /**
+     * 设置当前选中的内容
+     *
+     * @param selectedString 被选择着的文本
+     */
     public void setSelectedString(SelectedString selectedString) {
         if (selectedString == null) {
             setText("");
@@ -112,23 +124,36 @@ public class CommandEditText extends AppCompatEditText {
         setSelection(selectedString.selectionStart, selectedString.selectionEnd);
     }
 
-
+    /**
+     * 撤回
+     */
     public void undo() {
         if (which != 0) {
             setSelectedString(history[--which]);
         }
     }
 
+    /**
+     * 恢复
+     */
     public void redo() {
         if (which != history.length - 1 && history[which + 1] != null) {
             setSelectedString(history[++which]);
         }
     }
 
+    /**
+     * 删除所有内容
+     */
     public void delete() {
         setText("");
     }
 
+    /**
+     * 设置文本颜色
+     *
+     * @param colors 每个字符的颜色
+     */
     public void setColors(int[] colors) {
         Editable text = this.getText();
         if (text == null) {
@@ -153,12 +178,12 @@ public class CommandEditText extends AppCompatEditText {
             }
             spannableStringBuilder.setSpan(new ForegroundColorSpan(color), i, i + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         }
-        int selectionStart = getSelectionStart();
-        int selectionEnd = getSelectionEnd();
         if (!isSpannableStringBuilder) {
+            int selectionStart = getSelectionStart();
+            int selectionEnd = getSelectionEnd();
             setText(spannableStringBuilder);
+            setSelection(selectionStart, selectionEnd);
         }
-        setSelection(selectionStart, selectionEnd);
     }
 
 }
