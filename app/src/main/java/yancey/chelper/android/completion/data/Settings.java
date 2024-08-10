@@ -84,6 +84,10 @@ public class Settings {
         return DIR_NAME + "/" + getRealFileName(cpackPath);
     }
 
+    public String getCpackBranch() {
+        return cpackPath;
+    }
+
     private static File getFileByContext(Context context) {
         return FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "settings", "settings.json");
     }

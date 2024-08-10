@@ -53,13 +53,9 @@ public class SettingsView extends CustomView {
                 "netease-vanilla",
                 "netease-experiment"
         };
-        String cpackPath = settings.getCpackPath(context);
-        String prefix = Settings.DIR_NAME + "/";
-        if (cpackPath.startsWith(prefix)) {
-            cpackPath = cpackPath.substring(prefix.length());
-        }
+        String cpackBranch = settings.getCpackBranch();
         for (int i = 0; i < cpackPaths.length; i++) {
-            if (Objects.equals(cpackPath, cpackPaths[i])) {
+            if (Objects.equals(cpackBranch, cpackPaths[i])) {
                 tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings[i]));
                 break;
             }

@@ -1,5 +1,6 @@
 package yancey.chelper.core;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -150,29 +151,36 @@ public class CHelperGuiCore implements Closeable {
             }
             // 通知内核
             core.onTextChanged(text, selectionStart);
+            // 更新颜色
+            // 因为c++内核使用utf-8，所以接收之后要正确处理
+            // TODO 这里也许可以优化
+            int[] colors0 = core.getColors();
+            int[] colors = new int[text.length()];
+            for (int i = 0; i < text.length(); i++) {
+                colors[i] = colors0[text.substring(0, i).getBytes(StandardCharsets.UTF_8).length];
+            }
+            commandEditText.setColors(colors);
+            // 更新命令语法结构
             if (updateStructure != null) {
-                // 更新命令语法结构
                 updateStructure.accept(core.getStructure());
             }
+            // 更新错误原因，如果没有错误，就隐藏视图
             if (mtv_errorReasons != null) {
-                // 更新错误原因，如果没有错误，就隐藏视图
                 String errorReasons = core.getErrorReasons();
-                if (errorReasons == null || errorReasons.isEmpty()) {
+                if (TextUtils.isEmpty(errorReasons)) {
                     mtv_errorReasons.setVisibility(View.GONE);
                 } else {
                     mtv_errorReasons.setText(errorReasons);
                     mtv_errorReasons.setVisibility(View.VISIBLE);
                 }
             }
-            // 更新颜色
-            commandEditText.setColors(core.getColors());
         }
+        // 更新命令参数介绍
         if (updateDescription != null) {
-            // 更新命令参数介绍
             updateDescription.accept(core.getDescription());
         }
+        // 更新补全提示列表
         if (updateSuggestions != null) {
-            // 更新补全提示列表
             updateSuggestions.run();
         }
     }

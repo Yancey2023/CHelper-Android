@@ -15,7 +15,7 @@ import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.Suggestion;
 
 /**
- * 补全提示列表适配器，用于管理列表
+ * 补全提示列表适配器
  */
 public class SuggestionListAdapter extends RecyclerView.Adapter<SuggestionListAdapter.CommandListViewHolder> {
 

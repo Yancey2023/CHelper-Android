@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -129,9 +130,22 @@ public class CommandEditText extends AppCompatEditText {
     }
 
     public void setColors(int[] colors) {
+        Editable text = this.getText();
+        if (text == null) {
+            return;
+        }
+        boolean isSpannableStringBuilder;
+        SpannableStringBuilder spannableStringBuilder;
+        if (text instanceof SpannableStringBuilder spannableStringBuilder0) {
+            isSpannableStringBuilder = true;
+            spannableStringBuilder = spannableStringBuilder0;
+        } else {
+            isSpannableStringBuilder = false;
+            spannableStringBuilder = new SpannableStringBuilder(text);
+        }
+        Arrays.stream(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ForegroundColorSpan.class))
+                .forEach(spannableStringBuilder::removeSpan);
         int normalColor = getContext().getColor(R.color.text_main);
-        Editable editable = getText();
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editable);
         for (int i = 0; i < colors.length; i++) {
             int color = colors[i];
             if (color == 0) {
@@ -141,7 +155,9 @@ public class CommandEditText extends AppCompatEditText {
         }
         int selectionStart = getSelectionStart();
         int selectionEnd = getSelectionEnd();
-        setText(spannableStringBuilder);
+        if (!isSpannableStringBuilder) {
+            setText(spannableStringBuilder);
+        }
         setSelection(selectionStart, selectionEnd);
     }
 
