@@ -120,8 +120,12 @@ public class CommandEditText extends AppCompatEditText {
             return;
         }
         tryAddHistory(selectedString);
-        setText(selectedString.text);
-        setSelection(selectedString.selectionStart, selectedString.selectionEnd);
+        if (!Objects.equals(selectedString.text, Objects.requireNonNull(getText()).toString())) {
+            setText(selectedString.text);
+        }
+        if (getSelectionStart() != selectedString.selectionStart || getSelectionEnd() != selectedString.selectionEnd) {
+            setSelection(selectedString.selectionStart, selectedString.selectionEnd);
+        }
     }
 
     /**
