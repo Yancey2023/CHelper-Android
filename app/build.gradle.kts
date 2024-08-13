@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 40
-        versionName = "0.2.27-beta"
+        versionCode = 41
+        versionName = "0.2.28-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
