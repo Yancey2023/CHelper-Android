@@ -31,5 +31,6 @@
 
 -keep class yancey.chelper.core.Suggestion{*;}
 -keep class yancey.chelper.core.Theme{*;}
+-keep class yancey.chelper.core.ErrorReason{*;}
 
 # ----- end -----
