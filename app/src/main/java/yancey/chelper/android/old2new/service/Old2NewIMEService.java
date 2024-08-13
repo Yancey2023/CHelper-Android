@@ -7,6 +7,7 @@ import android.view.inputmethod.InputConnection;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ import yancey.chelper.core.CHelperCore;
 public class Old2NewIMEService extends InputMethodService {
 
     private long time = 0;
-    private InputConnection inputConnection;
+    private @Nullable InputConnection inputConnection;
     private String oldCommand, newCommand;
     private boolean lastIsUndo;
 
@@ -47,20 +48,20 @@ public class Old2NewIMEService extends InputMethodService {
                 return;
             }
         }
-        // 兼容：QQ的输入框在文字改变后会立刻尝试呼出输入法，onWindowShown()被再次调用，撤回的内容会再次被替换成新版命令
+        // 兼容：QQ的输入框在文字改变后会立刻尝试弹出输入法，onWindowShown()被再次调用，撤回的内容会再次被替换成新版命令
         // 所以检测距离上次设置文字的时间间隔小于0.1s，就不再替换成新版命令
         if (System.currentTimeMillis() - time < 100) {
             return;
         }
-        if (inputConnection == null) {
-            return;
-        }
         String oldCommand = getText();
+        // 如果与前一次命令转换后的结果相同，说明用户再次点了文本框，不作处理
         if (Objects.equals(oldCommand, this.newCommand)) {
             return;
         }
         this.oldCommand = oldCommand;
+        // 转换为新版命令
         newCommand = CHelperCore.old2new(this, oldCommand);
+        // 如果与转换后新版指令与旧版一样，也不作处理
         lastIsUndo = !Objects.equals(oldCommand, newCommand);
         if (lastIsUndo) {
             setText(newCommand);
@@ -74,9 +75,9 @@ public class Old2NewIMEService extends InputMethodService {
     }
 
     /**
-     * 获取数据框文本
+     * 获取输入框文本
      *
-     * @return 数据框的文本
+     * @return 输入框的文本
      */
     private @NonNull String getText() {
         if (inputConnection == null) {
@@ -101,11 +102,14 @@ public class Old2NewIMEService extends InputMethodService {
             return;
         }
         time = System.currentTimeMillis();
+        // 这里使用Short.MAX_VALUE，因为使用Integer.MAX_VALUE太大，QQ会崩
         CharSequence before = inputConnection.getTextBeforeCursor(Short.MAX_VALUE, 0);
+        CharSequence selected = inputConnection.getSelectedText(0);
         CharSequence after = inputConnection.getTextAfterCursor(Short.MAX_VALUE, 0);
         int beforeLength = before == null ? 0 : before.length();
+        int selectedLength = selected == null ? 0 : selected.length();
         int afterLength = after == null ? 0 : after.length();
-        inputConnection.deleteSurroundingText(beforeLength, afterLength);
+        inputConnection.setSelection(0, beforeLength + selectedLength + afterLength);
         inputConnection.commitText(text, text.length());
     }
 
