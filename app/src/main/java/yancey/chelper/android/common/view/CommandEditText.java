@@ -1,11 +1,16 @@
 package yancey.chelper.android.common.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +23,7 @@ import java.util.function.Consumer;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.SelectedString;
+import yancey.chelper.core.ErrorReason;
 
 /**
  * 命令输入框
@@ -31,6 +37,7 @@ public class CommandEditText extends AppCompatEditText {
     @Nullable
     private Runnable onSelectionChanged;
     private BooleanSupplier isGuiLoaded;
+    private ErrorReason[] errorReasons;
 
     public CommandEditText(Context context) {
         super(context);
@@ -187,6 +194,64 @@ public class CommandEditText extends AppCompatEditText {
             int selectionEnd = getSelectionEnd();
             setText(spannableStringBuilder);
             setSelection(selectionStart, selectionEnd);
+        }
+    }
+
+    /**
+     * 设置错误文本样式
+     *
+     * @param errorReasons 错误原因
+     */
+    public void setErrorReasons(ErrorReason[] errorReasons) {
+        this.errorReasons = errorReasons;
+    }
+
+    @Override
+    public void draw(@NonNull Canvas canvas) {
+        super.draw(canvas);
+
+        // 绘制命令错误位置的下划线
+        if (errorReasons != null) {
+            Paint paint = new Paint();
+            paint.setColor(Color.RED);
+            paint.setStrokeWidth(2);
+
+            int offsetY = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_SP,
+                    10,
+                    getResources().getDisplayMetrics()
+            );
+
+            Layout layout = getLayout();
+            int length = Objects.requireNonNull(getText()).length();
+            for (ErrorReason errorReason : errorReasons) {
+                int start = errorReason.start;
+                int end = errorReason.end;
+                if (start < 0 || end > length) {
+                    continue;
+                }
+                if (start == end && length != 0) {
+                    if (start == length) {
+                        start--;
+                    } else {
+                        end++;
+                    }
+                }
+
+                int lineStart = layout.getLineForOffset(start);
+                int lineEnd = layout.getLineForOffset(end);
+
+                if (lineStart == lineEnd) {
+                    // 只有同一行生效
+                    int lineBottom = layout.getLineBottom(lineStart);
+                    float y = lineBottom + offsetY;
+                    float startX = layout.getPrimaryHorizontal(start);
+                    float endX = layout.getSecondaryHorizontal(end);
+                    canvas.drawLine(startX, y, endX, y, paint);
+                } else {
+                    // TODO 待实现多行逻辑
+                }
+            }
         }
     }
 

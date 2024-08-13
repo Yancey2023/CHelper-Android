@@ -1,6 +1,5 @@
 package yancey.chelper.core;
 
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -109,6 +107,7 @@ public class CHelperGuiCore implements Closeable {
             if (mtv_errorReasons != null) {
                 mtv_errorReasons.setVisibility(View.GONE);
             }
+            commandEditText.setErrorReasons(null);
             // 通知内核
             if (core != null) {
                 core.onTextChanged(text, 0);
@@ -166,12 +165,37 @@ public class CHelperGuiCore implements Closeable {
             }
             // 更新错误原因，如果没有错误，就隐藏视图
             if (mtv_errorReasons != null) {
-                String errorReasons = core.getErrorReasons();
-                if (TextUtils.isEmpty(errorReasons)) {
+                ErrorReason[] errorReasons = core.getErrorReasons();
+                if (errorReasons.length == 0) {
                     mtv_errorReasons.setVisibility(View.GONE);
+                    commandEditText.setErrorReasons(null);
                 } else {
-                    mtv_errorReasons.setText(errorReasons);
+                    if (errorReasons.length == 1) {
+                        mtv_errorReasons.setText(errorReasons[0].errorReason);
+                    } else {
+                        StringBuilder errorReasonStr = new StringBuilder("可能的错误原因：");
+                        for (int i = 0; i < errorReasons.length; i++) {
+                            errorReasonStr.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
+                        }
+                        mtv_errorReasons.setText(errorReasonStr);
+                    }
+                    // 因为c++使用utf-8，所以这里做一下转换
+                    // TODO 这里也许可以优化
+                    int[] indexTransform = new int[text.getBytes(StandardCharsets.UTF_8).length + 1];
+                    int i = 0;
+                    for (int j = 0; j <= text.length(); j++) {
+                        int k = text.substring(0, j).getBytes(StandardCharsets.UTF_8).length;
+                        while (i <= k) {
+                            indexTransform[i] = j;
+                            i++;
+                        }
+                    }
+                    for (ErrorReason errorReason : errorReasons) {
+                        errorReason.start = indexTransform[errorReason.start];
+                        errorReason.end = indexTransform[errorReason.end];
+                    }
                     mtv_errorReasons.setVisibility(View.VISIBLE);
+                    commandEditText.setErrorReasons(errorReasons);
                 }
             }
         }
@@ -228,7 +252,7 @@ public class CHelperGuiCore implements Closeable {
      *
      * @return 所有补全提示
      */
-    public @Nullable List<Suggestion> getSuggestions() {
+    public @Nullable Suggestion[] getSuggestions() {
         if (core == null) {
             return null;
         }

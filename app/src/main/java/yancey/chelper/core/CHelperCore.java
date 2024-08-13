@@ -118,7 +118,7 @@ public class CHelperCore implements Closeable {
     /**
      * 获取当前命令的错误原因
      */
-    public String getErrorReasons() {
+    public ErrorReason[] getErrorReasons() {
         if (pointer == 0) {
             return null;
         }
@@ -153,7 +153,7 @@ public class CHelperCore implements Closeable {
      *
      * @return 所有补全提示
      */
-    public List<Suggestion> getSuggestions() {
+    public Suggestion[] getSuggestions() {
         if (pointer == 0) {
             return null;
         }
@@ -303,7 +303,7 @@ public class CHelperCore implements Closeable {
      *
      * @param pointer 内核的内存地址
      */
-    private static native String getErrorReasons0(long pointer);
+    private static native ErrorReason[] getErrorReasons0(long pointer);
 
     /**
      * 获取当前命令的补全提示数量
@@ -327,7 +327,7 @@ public class CHelperCore implements Closeable {
      * @param pointer 第几个补全提示，从0开始
      * @return 所有补全提示
      */
-    public static native List<Suggestion> getSuggestions0(long pointer);
+    public static native Suggestion[] getSuggestions0(long pointer);
 
     /**
      * 获取当前命令的语法结构
