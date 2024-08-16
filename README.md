@@ -9,7 +9,7 @@ Command Helper.
 git clone --recursive https://github.com/Yancey2023/CHelper-Andoird
 # if you clone it without --recursive, you should run the following:
 cd CHelper-Andoird
-git submoudle update --init --recursive
+git submodule update --init --recursive --progress
 ```
 
 ## CHelper-Core
