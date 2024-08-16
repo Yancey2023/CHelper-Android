@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import yancey.chelper.android.common.util.CharsetsSelectionUtil;
 import yancey.chelper.android.common.util.SelectedString;
 import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.completion.data.Settings;
@@ -140,23 +141,24 @@ public class CHelperGuiCore implements Closeable {
             lastInput = text;
             lastSelection = commandEditText.getSelectionStart();
             // 文本内容和光标都改变了
-            // 因为c++内核使用utf-8，所以传给c++内核之前要获取真正的光标位置
             // 如果关闭了"根据光标位置提供补全提示"，就在通知内核时把光标位置当成在文本最后面
             int selectionStart;
             if (Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
-                selectionStart = text.substring(0, commandEditText.getSelectionStart()).getBytes(StandardCharsets.UTF_8).length;
+                selectionStart = commandEditText.getSelectionStart();
             } else {
-                selectionStart = text.getBytes(StandardCharsets.UTF_8).length;
+                selectionStart = text.length();
             }
+            // 因为c++内核使用utf-8，所以传给c++内核之前要获取真正的光标位置
+            selectionStart = CharsetsSelectionUtil.utf16ToUtf8(text, selectionStart);
             // 通知内核
             core.onTextChanged(text, selectionStart);
             // 更新颜色
             // 因为c++内核使用utf-8，所以接收之后要正确处理
-            // TODO 这里也许可以优化
+            int[] indexTransform = CharsetsSelectionUtil.utf16ToUtf8(text);
             int[] colors0 = core.getColors();
             int[] colors = new int[text.length()];
             for (int i = 0; i < text.length(); i++) {
-                colors[i] = colors0[text.substring(0, i).getBytes(StandardCharsets.UTF_8).length];
+                colors[i] = colors0[indexTransform[i]];
             }
             commandEditText.setColors(colors);
             // 更新命令语法结构
@@ -180,19 +182,10 @@ public class CHelperGuiCore implements Closeable {
                         mtv_errorReasons.setText(errorReasonStr);
                     }
                     // 因为c++使用utf-8，所以这里做一下转换
-                    // TODO 这里也许可以优化
-                    int[] indexTransform = new int[text.getBytes(StandardCharsets.UTF_8).length + 1];
-                    int i = 0;
-                    for (int j = 0; j <= text.length(); j++) {
-                        int k = text.substring(0, j).getBytes(StandardCharsets.UTF_8).length;
-                        while (i <= k) {
-                            indexTransform[i] = j;
-                            i++;
-                        }
-                    }
+                    int[] indexTransform1 = CharsetsSelectionUtil.utf8ToUtf16(text);
                     for (ErrorReason errorReason : errorReasons) {
-                        errorReason.start = indexTransform[errorReason.start];
-                        errorReason.end = indexTransform[errorReason.end];
+                        errorReason.start = indexTransform1[errorReason.start];
+                        errorReason.end = indexTransform1[errorReason.end];
                     }
                     mtv_errorReasons.setVisibility(View.VISIBLE);
                     commandEditText.setErrorReasons(errorReasons);
@@ -218,9 +211,9 @@ public class CHelperGuiCore implements Closeable {
         if (core == null || commandEditText == null) {
             return;
         }
-        String string = core.onSuggestionClick(which);
-        if (string != null) {
-            commandEditText.setSelectedString(new SelectedString(string, string.length(), string.length()));
+        ClickSuggestionResult result = core.onSuggestionClick(which);
+        if (result != null) {
+            commandEditText.setSelectedString(new SelectedString(result.text, result.selection, result.selection));
         }
     }
 

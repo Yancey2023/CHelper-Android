@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
-import java.util.List;
 import java.util.Objects;
 
 import yancey.chelper.android.common.util.ToastUtil;
@@ -175,7 +174,7 @@ public class CHelperCore implements Closeable {
      *
      * @param which 第几个补全提示，从0开始
      */
-    public String onSuggestionClick(int which) {
+    public ClickSuggestionResult onSuggestionClick(int which) {
         if (pointer == 0) {
             return null;
         }
@@ -342,7 +341,7 @@ public class CHelperCore implements Closeable {
      * @param pointer 内核的内存地址
      * @param which   第几个补全提示，从0开始
      */
-    private static native String onSuggestionClick0(long pointer, int which);
+    private static native ClickSuggestionResult onSuggestionClick0(long pointer, int which);
 
     /**
      * 获取文本颜色
