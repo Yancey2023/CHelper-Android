@@ -22,6 +22,21 @@ public class Settings {
      * 默认命令分支
      */
     public static final String DEFAULT_CPACK = "release-experiment";
+    /**
+     * 正式版的版本号
+     */
+    public static final String VERSION_RELEASE = "1.21.20.03";
+    /**
+     * 测试版的版本号
+     */
+    public static final String VERSION_BETA = "1.21.30.22";
+    /**
+     * 中国版的版本号
+     */
+    public static final String VERSION_NETEASE = "1.20.10.25";
+    /**
+     * 设置实例
+     */
     private static Settings INSTANCE;
     /**
      * 根据光标位置提供补全提示
@@ -50,12 +65,12 @@ public class Settings {
 
     private static String getRealFileName(String cpackPath) {
         return switch (cpackPath) {
-            case "release-vanilla" -> "release-vanilla-1.21.2.02.cpack";
-            case "release-experiment" -> "release-experiment-1.21.2.02.cpack";
-            case "beta-vanilla" -> "beta-vanilla-1.21.30.22.cpack";
-            case "beta-experiment" -> "beta-experiment-1.21.30.22.cpack";
-            case "netease-vanilla" -> "netease-vanilla-1.20.10.25.cpack";
-            case "netease-experiment" -> "netease-experiment-1.20.10.25.cpack";
+            case "release-vanilla" -> "release-vanilla-" + VERSION_RELEASE + ".cpack";
+            case "release-experiment" -> "release-experiment-" + VERSION_RELEASE + ".cpack";
+            case "beta-vanilla" -> "beta-vanilla-" + VERSION_BETA + ".cpack";
+            case "beta-experiment" -> "beta-experiment-" + VERSION_BETA + ".cpack";
+            case "netease-vanilla" -> "netease-vanilla-" + VERSION_RELEASE + ".cpack";
+            case "netease-experiment" -> "netease-experiment-" + VERSION_RELEASE + ".cpack";
             default -> getRealFileName(DEFAULT_CPACK);
         };
     }

@@ -37,12 +37,12 @@ public class SettingsView extends CustomView {
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
         Settings settings = Settings.getInstance(context);
         String[] showStrings = {
-                "正式版-原版-1.21.10.25",
-                "正式版-实验性玩法-1.21.10.25",
-                "测试版-原版-1.21.30.22",
-                "测试版-实验性玩法-1.21.30.22",
-                "中国版-原版-1.20.10.25",
-                "中国版-实验性玩法-1.20.10.25"
+                "正式版-原版-" + Settings.VERSION_RELEASE,
+                "正式版-实验性玩法-" + Settings.VERSION_RELEASE,
+                "测试版-原版-" + Settings.VERSION_BETA,
+                "测试版-实验性玩法-" + Settings.VERSION_BETA,
+                "中国版-原版-" + Settings.VERSION_NETEASE,
+                "中国版-实验性玩法-" + Settings.VERSION_NETEASE
         };
         //noinspection SpellCheckingInspection
         String[] cpackPaths = {
