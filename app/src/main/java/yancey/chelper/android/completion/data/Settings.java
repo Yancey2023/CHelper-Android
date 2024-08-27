@@ -69,8 +69,8 @@ public class Settings {
             case "release-experiment" -> "release-experiment-" + VERSION_RELEASE + ".cpack";
             case "beta-vanilla" -> "beta-vanilla-" + VERSION_BETA + ".cpack";
             case "beta-experiment" -> "beta-experiment-" + VERSION_BETA + ".cpack";
-            case "netease-vanilla" -> "netease-vanilla-" + VERSION_RELEASE + ".cpack";
-            case "netease-experiment" -> "netease-experiment-" + VERSION_RELEASE + ".cpack";
+            case "netease-vanilla" -> "netease-vanilla-" + VERSION_NETEASE + ".cpack";
+            case "netease-experiment" -> "netease-experiment-" + VERSION_NETEASE + ".cpack";
             default -> getRealFileName(DEFAULT_CPACK);
         };
     }
