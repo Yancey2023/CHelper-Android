@@ -101,8 +101,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
     // https://github.com/boxbeam/Crunch
     implementation("com.github.Redempt:Crunch:2.0.3")
-//    // https://github.com/Rosemoe/sora-editor
-//    implementation("io.github.Rosemoe.sora-editor:editor")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.core:core-ktx:1.12.0")
