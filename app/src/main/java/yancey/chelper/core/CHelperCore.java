@@ -21,7 +21,7 @@ public class CHelperCore implements Closeable {
 
     static {
         // 加载c++内核
-        System.loadLibrary("CHelper");
+        System.loadLibrary("CHelperAndroid");
     }
 
     /**

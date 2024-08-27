@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 34
-        versionCode = 41
-        versionName = "0.2.28-beta"
+        versionCode = 42
+        versionName = "0.2.29-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -55,7 +55,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
+            path = file("src/main/cpp/CHelper-Core/CHelper-Android/CMakeLists.txt")
         }
     }
 
@@ -95,12 +95,17 @@ if (keystorePropertiesFile.exists()) {
 }
 
 dependencies {
+    // https://github.com/princekin-f/EasyFloat
     implementation(project(":easyfloat"))
+    // https://github.com/google/gson
+    implementation("com.google.code.gson:gson:2.11.0")
+    // https://github.com/boxbeam/Crunch
+    implementation("com.github.Redempt:Crunch:2.0.3")
+//    // https://github.com/Rosemoe/sora-editor
+//    implementation("io.github.Rosemoe.sora-editor:editor")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.github.Redempt:Crunch:2.0.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

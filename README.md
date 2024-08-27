@@ -18,15 +18,16 @@ It is writing by c++. Please refer to [CHelper-Core](https://github.com/Yancey20
 
 ## Dependencies
 
-|                        project                        |                                         description                                         |                                           license                                           |
-|:-----------------------------------------------------:|:-------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
-|       [json](https://github.com/nlohmann/json)        |                                     JSON for Modern C++                                     |           [MIT license](https://github.com/nlohmann/json/blob/master/LICENSE.MIT)           |
-|         [fmt](https://github.com/fmtlib/fmt)          |                                     formatting library                                      |              [MIT license](https://github.com/fmtlib/fmt/blob/master/LICENSE)               |
-|       [Hedley](https://github.com/cblck/hedley)       |     enable compiler-specific features while retaining compatibility with all compilers      | [Creative Commons Zero v1.0 Universal](https://github.com/cblck/hedley/blob/master/LICENSE) |
-|      [Crunch](https://github.com/boxbeam/Crunch)      |                       The fastest Java expression compiler/evaluator                        |            [MIT license](https://github.com/boxbeam/Crunch/blob/master/LICENSE)             |
-| [EasyFloat](https://github.com/princekin-f/EasyFloat) |                              Android Floating Window Framework                              |     [Apache-2.0 license](https://github.com/princekin-f/EasyFloat/blob/master/LICENSE)      |
-|        [Gson](https://github.com/google/gson)         |   a Java library that can be used to convert Java Objects into their JSON representation    |           [Apache-2.0 license](https://github.com/google/gson/blob/main/LICENSE)            |
-|   [androidx](https://github.com/androidx/androidx)    | a suite of libraries, tools, and guidance to help developers write high-quality apps easier |  [Apache-2.0 license](https://github.com/androidx/androidx/blob/androidx-main/LICENSE.txt)  |
+|                        project                        |                                         description                                         |                                          license                                          |
+|:-----------------------------------------------------:|:-------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
+|         [fmt](https://github.com/fmtlib/fmt)          |                                     formatting library                                      |             [MIT license](https://github.com/fmtlib/fmt/blob/master/LICENSE)              |
+|       [json](https://github.com/nlohmann/json)        |                                     JSON for Modern C++                                     |          [MIT license](https://github.com/nlohmann/json/blob/master/LICENSE.MIT)          |
+|      [utfcpp](https://github.com/nemtrif/utfcpp)      |                              UTF-8 with C++ in a Portable Way                               |          [BSL-1.0 license](https://github.com/cblck/hedley/blob/master/LICENSE)           |
+|       [Hedley](https://github.com/cblck/hedley)       |     enable compiler-specific features while retaining compatibility with all compilers      |              [CC0 1.0](https://github.com/cblck/hedley/blob/master/LICENSE)               |
+|   [androidx](https://github.com/androidx/androidx)    | a suite of libraries, tools, and guidance to help developers write high-quality apps easier | [Apache-2.0 license](https://github.com/androidx/androidx/blob/androidx-main/LICENSE.txt) |
+|        [Gson](https://github.com/google/gson)         |   a Java library that can be used to convert Java Objects into their JSON representation    |          [Apache-2.0 license](https://github.com/google/gson/blob/main/LICENSE)           |
+|      [Crunch](https://github.com/boxbeam/Crunch)      |                       The fastest Java expression compiler/evaluator                        |           [MIT license](https://github.com/boxbeam/Crunch/blob/master/LICENSE)            |
+| [EasyFloat](https://github.com/princekin-f/EasyFloat) |                              Android Floating Window Framework                              |    [Apache-2.0 license](https://github.com/princekin-f/EasyFloat/blob/master/LICENSE)     |
 
 ## Special Thanks
 

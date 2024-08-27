@@ -1,4 +1,4 @@
-[submodule "app/src/main/cpp/include/CHelper-Core"]
-	path = app/src/main/cpp/include/CHelper-Core
-	url = https://github.com/Yancey2023/CHelper-Core
+[submodule "app/src/main/cpp/CHelper-Core"]
+	path = app/src/main/cpp/CHelper-Core
+	url = https://github.com/Yancey2023/CHelper-Core.git
 	branch = master

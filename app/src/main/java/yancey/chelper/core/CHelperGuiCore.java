@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import yancey.chelper.android.common.util.CharsetsSelectionUtil;
 import yancey.chelper.android.common.util.SelectedString;
 import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.completion.data.Settings;
@@ -149,18 +148,10 @@ public class CHelperGuiCore implements Closeable {
                 selectionStart = text.length();
             }
             // 因为c++内核使用utf-8，所以传给c++内核之前要获取真正的光标位置
-            selectionStart = CharsetsSelectionUtil.utf16ToUtf8(text, selectionStart);
             // 通知内核
             core.onTextChanged(text, selectionStart);
             // 更新颜色
-            // 因为c++内核使用utf-8，所以接收之后要正确处理
-            int[] indexTransform = CharsetsSelectionUtil.utf16ToUtf8(text);
-            int[] colors0 = core.getColors();
-            int[] colors = new int[text.length()];
-            for (int i = 0; i < text.length(); i++) {
-                colors[i] = colors0[indexTransform[i]];
-            }
-            commandEditText.setColors(colors);
+            commandEditText.setColors(core.getColors());
             // 更新命令语法结构
             if (updateStructure != null) {
                 updateStructure.accept(core.getStructure());
@@ -180,12 +171,6 @@ public class CHelperGuiCore implements Closeable {
                             errorReasonStr.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
                         }
                         mtv_errorReasons.setText(errorReasonStr);
-                    }
-                    // 因为c++使用utf-8，所以这里做一下转换
-                    int[] indexTransform1 = CharsetsSelectionUtil.utf8ToUtf16(text);
-                    for (ErrorReason errorReason : errorReasons) {
-                        errorReason.start = indexTransform1[errorReason.start];
-                        errorReason.end = indexTransform1[errorReason.end];
                     }
                     mtv_errorReasons.setVisibility(View.VISIBLE);
                     commandEditText.setErrorReasons(errorReasons);
