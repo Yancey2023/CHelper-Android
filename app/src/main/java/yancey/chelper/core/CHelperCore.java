@@ -355,7 +355,7 @@ public class CHelperCore implements Closeable {
      * 设置命令高亮显示主题
      *
      * @param pointer 内核的内存地址
-     * @param theme 命令高亮显示主题
+     * @param theme   命令高亮显示主题
      */
     private static native void setTheme0(long pointer, Theme theme);
 

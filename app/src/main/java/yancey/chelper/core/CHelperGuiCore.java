@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -132,10 +131,8 @@ public class CHelperGuiCore implements Closeable {
             if (!Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
                 return;
             }
-            // 因为c++内核使用utf-8，所以传给c++内核之前要获取真正的光标位置
-            int selectionStart = text.substring(0, commandEditText.getSelectionStart()).getBytes(StandardCharsets.UTF_8).length;
             // 通知内核
-            core.onSelectionChanged(selectionStart);
+            core.onSelectionChanged(commandEditText.getSelectionStart());
         } else {
             lastInput = text;
             lastSelection = commandEditText.getSelectionStart();
@@ -147,7 +144,6 @@ public class CHelperGuiCore implements Closeable {
             } else {
                 selectionStart = text.length();
             }
-            // 因为c++内核使用utf-8，所以传给c++内核之前要获取真正的光标位置
             // 通知内核
             core.onTextChanged(text, selectionStart);
             // 更新颜色
