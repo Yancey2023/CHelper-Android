@@ -25,11 +25,11 @@ public class Settings {
     /**
      * 正式版的版本号
      */
-    public static final String VERSION_RELEASE = "1.21.30.03";
+    public static final String VERSION_RELEASE = "1.21.50.07";
     /**
      * 测试版的版本号
      */
-    public static final String VERSION_BETA = "1.21.40.22";
+    public static final String VERSION_BETA = "1.21.60.21";
     /**
      * 中国版的版本号
      */
@@ -51,9 +51,13 @@ public class Settings {
      */
     public Boolean isSavingWhenPausing;
     /**
-     * 根据光标位置提供补全提示
+     * 紧凑模式
      */
     public Boolean isCrowed;
+    /**
+     * 语法高亮
+     */
+    public Boolean isSyntaxHighlight;
     /**
      * 选择的资源包分支
      */
@@ -128,6 +132,10 @@ public class Settings {
             }
             if (INSTANCE.isCrowed == null) {
                 INSTANCE.isCrowed = false;
+                isDirty = true;
+            }
+            if (INSTANCE.isSyntaxHighlight == null) {
+                INSTANCE.isSyntaxHighlight = true;
                 isDirty = true;
             }
             if (INSTANCE.cpackPath == null) {

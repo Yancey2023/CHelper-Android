@@ -64,6 +64,8 @@
     <string name="app_description">我的世界基岩版命令助手</string>
     <string name="setting_is_crowed">紧凑模式</string>
     <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，悬浮窗模式需要重新打开悬浮窗才可以生效</string>
+    <string name="setting_is_syntax_highlight">语法高亮</string>
+    <string name="setting_is_syntax_highlight_description">使用彩色文本显示命令，目前的代码实现性能较差，建议对长文本不使用语法高亮</string>
     <string name="permissions">权限</string>
     <string name="ed_hint_old_command">请输入1.18版本的命令，下方会显示转换成的1.20命令（方块数据值转方块状态，execute、setblock、fill、summon、structure命令转新语法）</string>
     <string name="tv_old2new">转换</string>

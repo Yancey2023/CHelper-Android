@@ -25,8 +25,8 @@
             android:inputType="text"
             android:maxLines="1"
             android:padding="5dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
+            android:textColor="@color/text_main"
+            android:textColorHint="@color/text_hint"
             android:textSize="16sp" />
 
         <EditText
@@ -41,8 +41,8 @@
             android:inputType="numberSigned"
             android:maxLines="1"
             android:padding="5dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
+            android:textColor="@color/text_main"
+            android:textColorHint="@color/text_hint"
             android:textSize="16sp" />
 
         <EditText
@@ -57,8 +57,8 @@
             android:inputType="numberSigned"
             android:maxLines="1"
             android:padding="5dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
+            android:textColor="@color/text_main"
+            android:textColorHint="@color/text_hint"
             android:textSize="16sp" />
 
     </LinearLayout>

@@ -35,6 +35,7 @@ public class SettingsView extends CustomView {
         SwitchCompat isHideWindowWhenCopying = view.findViewById(R.id.cb_is_hide_window_when_copying);
         SwitchCompat isSavingWhenPausing = view.findViewById(R.id.cb_is_saving_when_pausing);
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
+        SwitchCompat isSyntaxHighlight = view.findViewById(R.id.cb_is_syntax_highlight);
         Settings settings = Settings.getInstance(context);
         String[] showStrings = {
                 "正式版-原版-" + Settings.VERSION_RELEASE,
@@ -73,6 +74,8 @@ public class SettingsView extends CustomView {
         isSavingWhenPausing.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isSavingWhenPausing = isChecked);
         isCrowed.setChecked(settings.isCrowed);
         isCrowed.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isCrowed = isChecked);
+        isSyntaxHighlight.setChecked(settings.isSyntaxHighlight);
+        isSyntaxHighlight.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isSyntaxHighlight = isChecked);
     }
 
     @Override

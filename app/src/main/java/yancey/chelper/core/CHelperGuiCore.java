@@ -147,7 +147,10 @@ public class CHelperGuiCore implements Closeable {
             // 通知内核
             core.onTextChanged(text, selectionStart);
             // 更新颜色
-            commandEditText.setColors(core.getColors());
+            boolean isSyntaxHighlight = Settings.getInstance(commandEditText.getContext()).isSyntaxHighlight;
+            if (isSyntaxHighlight) {
+                commandEditText.setColors(core.getColors());
+            }
             // 更新命令语法结构
             if (updateStructure != null) {
                 updateStructure.accept(core.getStructure());
@@ -169,7 +172,7 @@ public class CHelperGuiCore implements Closeable {
                         mtv_errorReasons.setText(errorReasonStr);
                     }
                     mtv_errorReasons.setVisibility(View.VISIBLE);
-                    commandEditText.setErrorReasons(errorReasons);
+                    commandEditText.setErrorReasons(isSyntaxHighlight ? errorReasons : null);
                 }
             }
         }

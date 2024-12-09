@@ -5,18 +5,18 @@
 介绍：一个c++字符串格式化的库
 用途：字符串格式化
 
-链接：https://github.com/nlohmann/json
-协议：MIT license(https://github.com/nlohmann/json/blob/master/LICENSE.MIT)
+链接：https://github.com/Tencent/rapidjson
+协议：MIT license(https://github.com/Tencent/rapidjson/blob/master/license.txt)
 介绍：一个c++的json库
 用途：资源包的读写
 
-链接：https://github.com/nemtrif/utfcp
-协议：BSL-1.0 license(https://github.com/cblck/hedley/blob/master/LICENSE)
+链接：https://github.com/nemtrif/utfcpp
+协议：BSL-1.0 license(https://github.com/nemtrif/utfcpp/blob/master/LICENSE)
 介绍：一个c++的utf编码转换工具库
 用途：utf编码转换
 
-链接：https://github.com/cblck/hedley
-协议：CC0 1.0(https://github.com/cblck/hedley/blob/master/LICENSE)
+链接：https://github.com/Yancey2023/hedley
+协议：CC0 1.0(https://github.com/Yancey2023/hedley/blob/master/LICENSE)
 介绍：一些用于开启编译器特性的c++的宏
 用途：开启一些编译器特性，优化程序性能，提高代码质量
 

@@ -17,7 +17,7 @@
         android:importantForAutofill="no"
         android:inputType="none"
         android:padding="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/text_main"
         android:textColorHint="@color/text_hint"
         android:textSize="16sp"
         tools:ignore="VisualLintTextFieldSize" />
@@ -53,7 +53,8 @@
         android:inputType="number"
         android:maxLines="1"
         android:padding="5dp"
-        android:textColorHint="@color/grey"
+        android:textColor="@color/text_main"
+        android:textColorHint="@color/text_hint"
         android:textSize="16sp"
         tools:ignore="VisualLintTextFieldSize" />
 
