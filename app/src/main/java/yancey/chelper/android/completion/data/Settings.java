@@ -25,11 +25,11 @@ public class Settings {
     /**
      * 正式版的版本号
      */
-    public static final String VERSION_RELEASE = "1.21.50.07";
+    public static final String VERSION_RELEASE = "1.21.51.02";
     /**
      * 测试版的版本号
      */
-    public static final String VERSION_BETA = "1.21.60.21";
+    public static final String VERSION_BETA = "1.21.60.27";
     /**
      * 中国版的版本号
      */

@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.lzf.easyfloat'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 34
+        targetSdkVersion 35
 
         // aar 打包混淆配置
         consumerProguardFiles "proguard-rules.pro"

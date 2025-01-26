@@ -22,7 +22,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import yancey.chelper.R;
-import yancey.chelper.android.common.util.SelectedString;
+import yancey.chelper.core.SelectedString;
 import yancey.chelper.core.ErrorReason;
 
 /**

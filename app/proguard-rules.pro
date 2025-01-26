@@ -29,9 +29,9 @@
 
 # ----- CHelper Native Core -----
 
--keep class yancey.chelper.core.Suggestion{*;}
--keep class yancey.chelper.core.Theme{*;}
--keep class yancey.chelper.core.ErrorReason{*;}
--keep class yancey.chelper.core.ClickSuggestionResult{*;}
+-keep class yancey.chelper.core.Suggestion{ *; }
+-keep class yancey.chelper.core.Theme{ *; }
+-keep class yancey.chelper.core.ErrorReason{ *; }
+-keep class yancey.chelper.core.ClickSuggestionResult{ *; }
 
 # ----- end -----

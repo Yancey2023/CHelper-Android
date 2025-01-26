@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import yancey.chelper.android.common.util.ToastUtil;
 
@@ -236,7 +238,9 @@ public class CHelperCore implements Closeable {
                 return old;
             }
         }
-        return old2new0(old);
+        return Arrays.stream(old.split("\n"))
+                .map(CHelperCore::old2new0)
+                .collect(Collectors.joining("\n"));
     }
 
     /**

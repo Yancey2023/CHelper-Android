@@ -1,4 +1,4 @@
-package yancey.chelper.android.common.util;
+package yancey.chelper.core;
 
 import org.jetbrains.annotations.NotNull;
 

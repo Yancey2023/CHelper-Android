@@ -69,7 +69,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_command_list"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="match_parent"
         android:layout_above="@id/line2"
         android:layout_alignParentTop="true"
         android:scrollbars="vertical"

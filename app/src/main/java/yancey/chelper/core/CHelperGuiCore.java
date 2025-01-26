@@ -1,19 +1,9 @@
 package yancey.chelper.core;
 
-import android.view.View;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Closeable;
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import yancey.chelper.android.common.util.SelectedString;
-import yancey.chelper.android.common.view.CommandEditText;
-import yancey.chelper.android.completion.data.Settings;
 
 /**
  * 对CHelperCore的包装，增加了Gui相关的逻辑
@@ -24,166 +14,107 @@ public class CHelperGuiCore implements Closeable {
      * 软件内核
      */
     private @Nullable CHelperCore core;
+
     /**
      * 命令高亮显示主题
      */
     private @NotNull Theme theme;
+
     /**
-     * 补全建议列表更新要执行的操作
+     * GUI相关的接口
      */
-    private @Nullable Runnable updateSuggestions;
+    private @Nullable CommandGuiCoreInterface commandGuiCoreInterface;
+
     /**
-     * 更新命令语法结构时要执行的操作
+     * 上一次输入的命令
      */
-    private @Nullable Consumer<String> updateStructure;
-    /**
-     * 更新命令参数介绍时要执行的操作
-     */
-    private @Nullable Consumer<String> updateDescription;
-    /**
-     * 输入框
-     */
-    private @Nullable CommandEditText commandEditText;
-    /**
-     * 错误原因显示
-     */
-    private @Nullable TextView mtv_errorReasons;
-    // TODO 未来要把这个类与安卓组件彻底隔绝开，不要存储commandEditText和mtv_errorReasons
+    private SelectedString lastInput = new SelectedString("", 0, 0);
 
     public CHelperGuiCore(@NotNull Theme theme) {
         this.theme = theme;
     }
 
-    public void setCommandEditText(@NotNull CommandEditText commandEditText) {
-        this.commandEditText = commandEditText;
+    public void setCommandGuiCoreInterface(@NotNull CommandGuiCoreInterface commandGuiCoreInterface) {
+        this.commandGuiCoreInterface = commandGuiCoreInterface;
     }
-
-    public void setUpdateSuggestions(@NotNull Runnable updateSuggestions) {
-        this.updateSuggestions = updateSuggestions;
-    }
-
-    public void setUpdateStructure(@NotNull Consumer<String> updateStructure) {
-        this.updateStructure = updateStructure;
-    }
-
-    public void setUpdateDescription(@NotNull Consumer<String> updateDescription) {
-        this.updateDescription = updateDescription;
-    }
-
-    public void setTvErrorReasons(@NotNull TextView mtv_errorReasons) {
-        this.mtv_errorReasons = mtv_errorReasons;
-    }
-
-    /**
-     * 上一次输入的命令
-     */
-    private String lastInput = "";
-    /**
-     * 上一次的光标位置
-     */
-    private int lastSelection = 0;
 
     /**
      * 当光标改变时要执行的内容
      */
     public void onSelectionChanged() {
-        if (commandEditText == null) {
+        if (commandGuiCoreInterface == null) {
             return;
         }
-        String text = Objects.requireNonNull(commandEditText.getText()).toString();
-        if (text.isEmpty()) {
+        SelectedString selectedString = commandGuiCoreInterface.getSelectedString();
+        if (selectedString.text.isEmpty()) {
             // 输入内容为空
-            lastInput = text;
+            lastInput = selectedString;
             // 显示欢迎词
-            if (updateStructure != null) {
-                updateStructure.accept("欢迎使用CHelper");
+            if (commandGuiCoreInterface.isUpdateStructure()) {
+                commandGuiCoreInterface.updateStructure("欢迎使用CHelper");
             }
             // 显示作者信息
-            if (updateDescription != null) {
-                updateDescription.accept("作者：Yancey");
+            if (commandGuiCoreInterface.isUpdateDescription()) {
+                commandGuiCoreInterface.updateDescription("作者：Yancey");
             }
-            // 隐藏错误原因视图
-            if (mtv_errorReasons != null) {
-                mtv_errorReasons.setVisibility(View.GONE);
+            // 更新错误原因
+            if (commandGuiCoreInterface.isUpdateErrorReason()) {
+                commandGuiCoreInterface.updateErrorReason(null);
             }
-            commandEditText.setErrorReasons(null);
             // 通知内核
             if (core != null) {
-                core.onTextChanged(text, 0);
+                core.onTextChanged(selectedString.text, 0);
             }
             // 更新补全提示
-            if (updateSuggestions != null) {
-                updateSuggestions.run();
-            }
-            lastSelection = 0;
+            commandGuiCoreInterface.updateSuggestions();
             return;
         }
         if (core == null) {
             return;
         }
-        if (text.equals(lastInput)) {
-            if (lastSelection == commandEditText.getSelectionStart()) {
+        if (selectedString.text.equals(lastInput.text)) {
+            if (selectedString.selectionStart == lastInput.selectionStart) {
                 return;
             }
-            lastSelection = commandEditText.getSelectionStart();
+            lastInput = selectedString;
             // 文本内容不变和光标都改变了
             // 如果关闭了"根据光标位置提供补全提示"，就什么都不做
-            if (!Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
+            if (!commandGuiCoreInterface.isCheckingBySelection()) {
                 return;
             }
             // 通知内核
-            core.onSelectionChanged(commandEditText.getSelectionStart());
+            core.onSelectionChanged(selectedString.selectionStart);
         } else {
-            lastInput = text;
-            lastSelection = commandEditText.getSelectionStart();
+            lastInput = selectedString;
             // 文本内容和光标都改变了
             // 如果关闭了"根据光标位置提供补全提示"，就在通知内核时把光标位置当成在文本最后面
             int selectionStart;
-            if (Settings.getInstance(commandEditText.getContext()).isCheckingBySelection) {
-                selectionStart = commandEditText.getSelectionStart();
+            if (commandGuiCoreInterface.isCheckingBySelection()) {
+                selectionStart = selectedString.selectionStart;
             } else {
-                selectionStart = text.length();
+                selectionStart = selectedString.text.length();
             }
             // 通知内核
-            core.onTextChanged(text, selectionStart);
+            core.onTextChanged(selectedString.text, selectionStart);
             // 更新颜色
-            boolean isSyntaxHighlight = Settings.getInstance(commandEditText.getContext()).isSyntaxHighlight;
-            if (isSyntaxHighlight) {
-                commandEditText.setColors(core.getColors());
+            if (commandGuiCoreInterface.isSyntaxHighlight()) {
+                commandGuiCoreInterface.updateSyntaxHighlight(core.getColors());
             }
             // 更新命令语法结构
-            if (updateStructure != null) {
-                updateStructure.accept(core.getStructure());
+            if (commandGuiCoreInterface.isUpdateStructure()) {
+                commandGuiCoreInterface.updateStructure(core.getStructure());
             }
-            // 更新错误原因，如果没有错误，就隐藏视图
-            if (mtv_errorReasons != null) {
-                ErrorReason[] errorReasons = core.getErrorReasons();
-                if (errorReasons.length == 0) {
-                    mtv_errorReasons.setVisibility(View.GONE);
-                    commandEditText.setErrorReasons(null);
-                } else {
-                    if (errorReasons.length == 1) {
-                        mtv_errorReasons.setText(errorReasons[0].errorReason);
-                    } else {
-                        StringBuilder errorReasonStr = new StringBuilder("可能的错误原因：");
-                        for (int i = 0; i < errorReasons.length; i++) {
-                            errorReasonStr.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
-                        }
-                        mtv_errorReasons.setText(errorReasonStr);
-                    }
-                    mtv_errorReasons.setVisibility(View.VISIBLE);
-                    commandEditText.setErrorReasons(isSyntaxHighlight ? errorReasons : null);
-                }
+            // 更新错误原因图
+            if (commandGuiCoreInterface.isUpdateErrorReason()) {
+                commandGuiCoreInterface.updateErrorReason(core.getErrorReasons());
             }
         }
         // 更新命令参数介绍
-        if (updateDescription != null) {
-            updateDescription.accept(core.getDescription());
+        if (commandGuiCoreInterface.isUpdateDescription()) {
+            commandGuiCoreInterface.updateDescription(core.getDescription());
         }
         // 更新补全提示列表
-        if (updateSuggestions != null) {
-            updateSuggestions.run();
-        }
+        commandGuiCoreInterface.updateSuggestions();
     }
 
     /**
@@ -192,12 +123,12 @@ public class CHelperGuiCore implements Closeable {
      * @param which 第几个补全提示，从0开始
      */
     public void onItemClick(int which) {
-        if (core == null || commandEditText == null) {
+        if (core == null || commandGuiCoreInterface == null) {
             return;
         }
         ClickSuggestionResult result = core.onSuggestionClick(which);
         if (result != null) {
-            commandEditText.setSelectedString(new SelectedString(result.text, result.selection, result.selection));
+            commandGuiCoreInterface.setSelectedString(new SelectedString(result.text, result.selection, result.selection));
         }
     }
 
@@ -262,7 +193,7 @@ public class CHelperGuiCore implements Closeable {
             this.core.setTheme(theme);
         }
         // 更新界面
-        lastInput = "";
+        lastInput = new SelectedString("", 0, 0);
         onSelectionChanged();
     }
 
@@ -287,12 +218,8 @@ public class CHelperGuiCore implements Closeable {
             core.close();
             core = null;
         }
-        updateSuggestions = null;
-        updateStructure = null;
-        updateDescription = null;
-        commandEditText = null;
-        mtv_errorReasons = null;
-        lastInput = "";
+        commandGuiCoreInterface = null;
+        lastInput = new SelectedString("", 0, 0);
     }
 
 }

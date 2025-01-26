@@ -85,7 +85,7 @@ public class Old2NewIMEService extends InputMethodService {
         }
         // 这里使用Short.MAX_VALUE，因为使用Integer.MAX_VALUE太大，QQ会崩
         CharSequence textBeforeCursor = inputConnection.getTextBeforeCursor(Short.MAX_VALUE, 0);
-        CharSequence selectedText = inputConnection.getSelectedText(0);
+        CharSequence selectedText = inputConnection.getSelectedText(Short.MAX_VALUE);
         CharSequence textAfterCursor = inputConnection.getTextAfterCursor(Short.MAX_VALUE, 0);
         return Stream.of(textBeforeCursor, selectedText, textAfterCursor)
                 .filter(Objects::nonNull)
@@ -104,7 +104,7 @@ public class Old2NewIMEService extends InputMethodService {
         time = System.currentTimeMillis();
         // 这里使用Short.MAX_VALUE，因为使用Integer.MAX_VALUE太大，QQ会崩
         CharSequence before = inputConnection.getTextBeforeCursor(Short.MAX_VALUE, 0);
-        CharSequence selected = inputConnection.getSelectedText(0);
+        CharSequence selected = inputConnection.getSelectedText(Short.MAX_VALUE);
         CharSequence after = inputConnection.getTextAfterCursor(Short.MAX_VALUE, 0);
         int beforeLength = before == null ? 0 : before.length();
         int selectedLength = selected == null ? 0 : selected.length();

@@ -9,14 +9,14 @@ plugins {
 
 android {
     namespace = "yancey.chelper"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "yancey.chelper"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 46
-        versionName = "0.2.33-beta"
+        targetSdk = 35
+        versionCode = 47
+        versionName = "0.2.34-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -81,6 +81,11 @@ if (keystorePropertiesFile.exists()) {
             keyPassword = keystoreProperties["keyPassword"] as String
             storeFile = file(keystoreProperties["storeFile"] as String)
             storePassword = keystoreProperties["storePassword"] as String
+
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            enableV4Signing = true
         }
     }
     android.buildTypes["release"].signingConfig = android.signingConfigs["sign"]
