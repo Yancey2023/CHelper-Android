@@ -70,10 +70,10 @@ public class PublicLibraryUploadView extends CustomView {
         ed_author = view.findViewById(R.id.author);
         ed_description = view.findViewById(R.id.description);
         ed_commands = view.findViewById(R.id.commands);
-        ed_name.setFilters(new InputFilter[]{new MyInputFilter("+#")});
-        ed_author.setFilters(new InputFilter[]{new MyInputFilter("+#")});
-        ed_description.setFilters(new InputFilter[]{new MyInputFilter("+#")});
-        ed_commands.setFilters(new InputFilter[]{new MyInputFilter("+")});
+        ed_name.setFilters(new InputFilter[]{new MyInputFilter("+#∅")});
+        ed_author.setFilters(new InputFilter[]{new MyInputFilter("+#∅")});
+        ed_description.setFilters(new InputFilter[]{new MyInputFilter("+#∅")});
+        ed_commands.setFilters(new InputFilter[]{new MyInputFilter("+∅")});
         view.findViewById(R.id.btn_preview).setOnClickListener(view1 -> {
             Library library = getLibrary();
             if (library != null) {
@@ -101,6 +101,10 @@ public class PublicLibraryUploadView extends CustomView {
             new IsConfirmDialog(getContext(), false).message("名字未填写").show();
             return null;
         }
+        if (library.name.contains("---")) {
+            new IsConfirmDialog(getContext(), false).message("名字不能包含---").show();
+            return null;
+        }
         if (libraryNames != null && libraryNames.contains(library.name)) {
             new IsConfirmDialog(getContext(), false).message("名字与已有命令库重复").show();
             return null;
@@ -110,9 +114,17 @@ public class PublicLibraryUploadView extends CustomView {
             new IsConfirmDialog(getContext(), false).message("作者未填写").show();
             return null;
         }
+        if (library.author.contains("---")) {
+            new IsConfirmDialog(getContext(), false).message("名字不能包含---").show();
+            return null;
+        }
         library.description = ed_description.getText().toString();
         if (library.description.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("介绍未填写").show();
+            return null;
+        }
+        if (library.description.contains("---")) {
+            new IsConfirmDialog(getContext(), false).message("名字不能包含---").show();
             return null;
         }
         String commands = ed_commands.getText().toString();
@@ -134,9 +146,19 @@ public class PublicLibraryUploadView extends CustomView {
                     return command;
                 }).collect(Collectors.toList());
         for (Library.Command command : library.commands) {
-            if (command.description != null && command.content.indexOf('#') != -1) {
-                new IsConfirmDialog(getContext(), false).message("#字符不能出现在命令中：" + command.content).show();
+            if (command.content.contains("---")) {
+                new IsConfirmDialog(getContext(), false).message("---不能出现再在命令中：" + command.content).show();
                 return null;
+            }
+            if (command.description != null) {
+                if (command.description.contains("---")) {
+                    new IsConfirmDialog(getContext(), false).message("---不能出现再在命令介绍中：" + command.description).show();
+                    return null;
+                }
+                if (command.content.indexOf('#') != -1) {
+                    new IsConfirmDialog(getContext(), false).message("#字符不能出现在命令中：" + command.content).show();
+                    return null;
+                }
             }
         }
         return library;
