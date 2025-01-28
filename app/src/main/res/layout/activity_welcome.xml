@@ -404,6 +404,40 @@
 
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_public_library"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="5dp"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:text="@string/public_library"
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:gravity="end"
+                        android:src="@drawable/icon_right" />
+
+                </RelativeLayout>
+
             </LinearLayout>
 
             <TextView
@@ -460,7 +494,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="@string/tv_writerIntroduce"
+                android:text="@string/tv_made_by_yancey"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 

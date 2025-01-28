@@ -1,5 +1,9 @@
 致谢
 
+链接：https://github.com/tabler/tabler-icons
+协议：MIT License(https://github.com/tabler/tabler-icons/blob/main/LICENSE)
+帮助：提供软件的部分图标
+
 链接：https://github.com/XeroAlpha/caidlist
 协议：GPL-3.0 license(https://github.com/XeroAlpha/caidlist/blob/master/LICENSE)
 帮助：提供我的世界基岩版中的各种ID及其注释

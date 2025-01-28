@@ -60,9 +60,9 @@ internal class ParentFrameLayout(
      * 按键转发到视图的分发方法，在这里关闭输入法
      */
     override fun dispatchKeyEventPreIme(event: KeyEvent?): Boolean {
-        if (config.hasEditText && event?.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_BACK) {
-            InputMethodUtils.closedInputMethod(config.floatTag)
-        }
+//        if (config.hasEditText && event?.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_BACK) {
+//            InputMethodUtils.closedInputMethod(config.floatTag)
+//        }
         return super.dispatchKeyEventPreIme(event)
     }
 

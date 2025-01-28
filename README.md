@@ -31,10 +31,11 @@ It is writing by c++. Please refer to [CHelper-Core](https://github.com/Yancey20
 
 ## Special Thanks
 
-|                       project                       |                        description                         |                                   license                                    |
-|:---------------------------------------------------:|:----------------------------------------------------------:|:----------------------------------------------------------------------------:|
-|  [caidlist](https://github.com/XeroAlpha/caidlist)  | provide IDs and descriptions for Minecraft Bedrock Edition | [GPL-3.0 license](https://github.com/XeroAlpha/caidlist/blob/master/LICENSE) |
-| [chinese minecraft wiki](https://zh.minecraft.wiki) |              provide information in Minecraft              |     [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0)     |
+|                        project                         |                        description                         |                                   license                                    |
+|:------------------------------------------------------:|:----------------------------------------------------------:|:----------------------------------------------------------------------------:|
+| [tabler-icons](https://github.com/tabler/tabler-icons) |                       provide icons                        |   [MIT License](https://github.com/tabler/tabler-icons/blob/main/LICENSE)    |
+|   [caidlist](https://github.com/XeroAlpha/caidlist)    | provide IDs and descriptions for Minecraft Bedrock Edition | [GPL-3.0 license](https://github.com/XeroAlpha/caidlist/blob/master/LICENSE) |
+|  [chinese minecraft wiki](https://zh.minecraft.wiki)   |              provide information in Minecraft              |     [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0)     |
 
 - JetBrains License for Open Source Development
 

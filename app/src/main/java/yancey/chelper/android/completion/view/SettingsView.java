@@ -1,3 +1,21 @@
+/**
+ * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * Copyright (C) 2025  Yancey
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
@@ -7,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.Objects;
@@ -23,12 +42,12 @@ import yancey.chelper.android.completion.data.Settings;
 @SuppressLint("ViewConstructor")
 public class SettingsView extends CustomView {
 
-    public SettingsView(@NonNull Context context, Consumer<CustomView> openView) {
-        super(context, openView, R.layout.layout_settings);
+    public SettingsView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment) {
+        super(context, openView, environment, R.layout.layout_settings);
     }
 
     @Override
-    public void onCreateView(Context context, View view) {
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         TextView tv_currentCPack = view.findViewById(R.id.tv_current_cpack);
         RelativeLayout btn_chooseCpack = view.findViewById(R.id.btn_choose_cpack);
         SwitchCompat isCheckingBySelection = view.findViewById(R.id.cb_is_checking_by_selection);

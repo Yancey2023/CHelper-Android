@@ -4,10 +4,21 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-08-13T05:08:49.490434500Z">
+        <DropdownSelection timestamp="2025-01-28T08:08:45.074693Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="Default" identifier="serial=emulator-5554;connection=f177fa84" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=4HMBB21B26004113" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="testXmlParser()">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-01-27T05:45:41.270822300Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Yancey666\.android\avd\Medium_Phone_API_34_1.avd" />
             </handle>
           </Target>
         </DropdownSelection>

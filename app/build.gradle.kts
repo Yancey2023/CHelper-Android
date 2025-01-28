@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 47
-        versionName = "0.2.34-beta"
+        versionCode = 48
+        versionName = "0.2.35-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -106,10 +106,17 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
     // https://github.com/boxbeam/Crunch
     implementation("com.github.Redempt:Crunch:2.0.3")
+    // https://github.com/androidx/androidx
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.core:core-ktx:1.13.0")
+    // https://github.com/square/okhttp
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:okhttp-brotli")
+    // https://github.com/junit-team/junit4
     testImplementation("junit:junit:4.13.2")
+    // https://github.com/androidx/androidx
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

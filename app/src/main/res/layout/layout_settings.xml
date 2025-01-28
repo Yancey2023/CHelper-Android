@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tv_writerIntroduce"
+                android:text="@string/tv_made_by_yancey"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 

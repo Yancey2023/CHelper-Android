@@ -1,3 +1,21 @@
+/**
+ * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * Copyright (C) 2025  Yancey
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package yancey.chelper.android.favorites.view;
 
 import android.annotation.SuppressLint;
@@ -6,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +41,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.favorites.adapter.FavoriteListAdapter;
 import yancey.chelper.android.favorites.data.DataFavorite;
-import yancey.chelper.android.common.util.FileUtil;
 
 /**
  * 收藏界面
@@ -33,15 +52,15 @@ import yancey.chelper.android.common.util.FileUtil;
 @SuppressLint("ViewConstructor")
 public class FavoritesView extends CustomView {
 
-    public static final String TAG = "FavoriteActivity";
-    public FavoriteListAdapter adapter;
+    private static final String TAG = "FavoriteActivity";
+    private FavoriteListAdapter adapter;
 
-    public FavoritesView(@NonNull Context context, Consumer<CustomView> openView) {
-        super(context, openView, R.layout.layout_favorites);
+    public FavoritesView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment) {
+        super(context, openView, environment, R.layout.layout_favorites);
     }
 
     @Override
-    public void onCreateView(Context context, View view) {
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "favorites", "favorites.dat");
         List<DataFavorite> dataFavoriteList;
         if (file.canRead()) {

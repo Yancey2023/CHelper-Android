@@ -184,31 +184,29 @@ class EasyFloat {
         /**
          * 这是Yancey增加的方法，用于获取焦点
          * @author Yancey
-         * @param tag   浮窗标签
+         * @param tag 浮窗标签
          */
         @JvmStatic
         @JvmOverloads
-        fun requestFocus(tag: String? = null) {
+        fun setFocusable(tag: String? = null) {
             FloatingWindowManager.getHelper(tag)?.apply {
                 params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 windowManager.updateViewLayout(frameLayout, params)
-                frameLayout?.requestFocus()
             }
         }
 
         /**
          * 这是Yancey增加的方法，用于取消焦点
          * @author Yancey
-         * @param tag   浮窗标签
+         * @param tag 浮窗标签
          */
         @JvmStatic
         @JvmOverloads
-        fun clearFocus(tag: String? = null) {
+        fun setUnFocusable(tag: String? = null) {
             FloatingWindowManager.getHelper(tag)?.apply {
                 params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 windowManager.updateViewLayout(frameLayout, params)
-                frameLayout?.clearFocus()
             }
         }
     }

@@ -1,3 +1,21 @@
+/**
+ * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * Copyright (C) 2025  Yancey
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
@@ -33,6 +51,7 @@ import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
 import yancey.chelper.android.completion.data.Settings;
+import yancey.chelper.android.library.view.PublicLibraryListView;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;
@@ -54,18 +73,19 @@ public class CompletionView extends CustomView {
 
     public CompletionView(
             @NonNull Context context,
-            Runnable shutDown,
-            Runnable hideView,
-            Consumer<CustomView> openView
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Environment environment,
+            @NonNull Runnable shutDown,
+            @Nullable Runnable hideView
     ) {
-        super(context, openView, Settings.getInstance(context).isCrowed ?
+        super(context, openView, environment, Settings.getInstance(context).isCrowed ?
                 R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
         this.shutDown = shutDown;
         this.hideView = hideView;
     }
 
     @Override
-    public void onCreateView(Context context, View view) {
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         core = new CHelperGuiCore(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
@@ -190,6 +210,7 @@ public class CompletionView extends CustomView {
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
+        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(PublicLibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
         // 加载上次的输入内容
         SelectedString selectedString = null;

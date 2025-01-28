@@ -1,3 +1,21 @@
+/**
+ * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * Copyright (C) 2025  Yancey
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package yancey.chelper.android.welcome.activity;
 
 import android.content.Intent;
@@ -24,6 +42,7 @@ import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.activity.SettingsActivity;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
 import yancey.chelper.android.favorites.activity.FavoritesActivity;
+import yancey.chelper.android.library.activity.PublicLibraryListActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
@@ -56,15 +75,16 @@ public class WelcomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_start_old2new_app).setOnClickListener(v -> startActivity(new Intent(this, Old2NewActivity.class)));
         findViewById(R.id.btn_start_old2new_ime).setOnClickListener(v -> startActivity(new Intent(this, Old2NewIMEGuideActivity.class)));
         findViewById(R.id.btn_raw_json_studio).setOnClickListener(v -> startActivity(new Intent(this, RawtextActivity.class)));
+        findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, PublicLibraryListActivity.class)));
         findViewById(R.id.btn_enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
         findViewById(R.id.btn_favorite).setOnClickListener(v -> startActivity(new Intent(this, FavoritesActivity.class)));
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
     }
 
     /**
-     * 是否使用着悬浮穿
+     * 是否正在使用悬浮窗
      *
-     * @return 是否使用着悬浮穿
+     * @return 是否正在使用悬浮窗
      */
     private boolean isUsingFloatingWindow() {
         return EasyFloat.getFloatView("icon_view") != null;
@@ -93,11 +113,16 @@ public class WelcomeActivity extends AppCompatActivity {
                 iconSize,
                 getResources().getDisplayMetrics()
         );
-        FloatingMainView floatingMainView = new FloatingMainView(this, this::stopFloatingWindow, length);
+        FloatingMainView floatingMainView = new FloatingMainView(
+                this,
+                this::stopFloatingWindow,
+                () -> EasyFloat.setFocusable("main_view"),
+                length
+        );
         Runnable hide = () -> {
             EasyFloat.updateFloat("icon_view", (int) floatingMainView.getIconViewX(), (int) floatingMainView.getIconViewY());
             EasyFloat.hide("main_view");
-            EasyFloat.clearFocus("main_view");
+            EasyFloat.setUnFocusable("main_view");
             floatingMainView.onPause();
         };
         floatingMainView.setOnIconClickListener(hide);
@@ -119,12 +144,12 @@ public class WelcomeActivity extends AppCompatActivity {
                     @Override
                     public void onGlobalLayout() {
                         floatingMainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        EasyFloat.requestFocus("main_view");
+                        EasyFloat.setFocusable("main_view");
                     }
                 });
             } else {
                 EasyFloat.show("main_view");
-                EasyFloat.requestFocus("main_view");
+                EasyFloat.setFocusable("main_view");
             }
             WindowManager.LayoutParams layoutParam = EasyFloat.getLayoutParam("icon_view");
             if (layoutParam != null) {

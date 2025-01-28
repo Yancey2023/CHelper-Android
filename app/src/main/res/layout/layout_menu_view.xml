@@ -20,6 +20,7 @@
                 android:id="@+id/btn_undo"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
                 android:background="@drawable/icon_undo"
                 android:contentDescription="@string/tv_undo" />
 
@@ -43,6 +44,7 @@
                 android:id="@+id/btn_redo"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
                 android:background="@drawable/icon_redo"
                 android:contentDescription="@string/tv_redo" />
 
@@ -66,6 +68,7 @@
                 android:id="@+id/btn_delete"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
                 android:background="@drawable/icon_delete"
                 android:contentDescription="@string/tv_delete" />
 
@@ -86,9 +89,34 @@
             android:orientation="vertical">
 
             <View
+                android:id="@+id/btn_public_library"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/icon_box"
+                android:contentDescription="@string/public_library" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/tv_public_library"
+                android:textColor="@color/text_main"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <View
                 android:id="@+id/btn_shut_down"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
                 android:background="@drawable/icon_power"
                 android:contentDescription="@string/tv_delete" />
 
