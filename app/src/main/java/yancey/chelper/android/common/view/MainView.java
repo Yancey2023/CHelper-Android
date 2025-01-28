@@ -31,11 +31,15 @@ import java.util.function.Function;
 @SuppressLint("ViewConstructor")
 public class MainView<T extends CustomView> extends FrameLayout {
 
+    private final CustomView.Environment environment;
+
     public MainView(
             @NonNull Context context,
+            @NonNull CustomView.Environment environment,
             @NonNull Function<Consumer<CustomView>, T> createView
     ) {
         super(context);
+        this.environment = environment;
         openView(createView.apply(this::openView));
     }
 
@@ -45,7 +49,9 @@ public class MainView<T extends CustomView> extends FrameLayout {
         if (index >= 0) {
             ((CustomView) getChildAt(index)).onPause();
         }
-        view.requestFocus();
+        if (environment == CustomView.Environment.FLOATING_WINDOW) {
+            view.requestFocus();
+        }
     }
 
     public boolean backView() {
@@ -71,7 +77,9 @@ public class MainView<T extends CustomView> extends FrameLayout {
 
     public void onResume() {
         ((CustomView) getChildAt(getChildCount() - 1)).onResume();
-        requestFocus();
+        if (environment == CustomView.Environment.FLOATING_WINDOW) {
+            requestFocus();
+        }
     }
 
     public boolean onBackPressed() {

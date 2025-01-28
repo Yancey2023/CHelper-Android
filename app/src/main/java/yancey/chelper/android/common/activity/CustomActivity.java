@@ -42,7 +42,7 @@ public abstract class CustomActivity<T extends CustomView> extends AppCompatActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = new MainView<>(this, this::createView);
+        view = new MainView<>(this, CustomView.Environment.APPLICATION, this::createView);
         setContentView(view);
     }
 
