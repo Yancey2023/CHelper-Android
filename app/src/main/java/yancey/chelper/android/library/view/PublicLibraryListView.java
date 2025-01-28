@@ -28,6 +28,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -83,6 +84,7 @@ public class PublicLibraryListView extends CustomView {
         ed_search = view.findViewById(R.id.search);
         ed_search.addTextChangedListener(TextWatcherUtil.onTextChanged(this::update));
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         adapter = new PublicLibraryListAdapter(context, libraryName -> openView((context1, openView, environment) ->
                 new PublicLibraryView(context1, openView, environment, libraryName)));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));

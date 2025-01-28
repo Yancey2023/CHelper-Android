@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,19 +56,14 @@ public class PublicLibraryView extends CustomView {
         String libraryName = (String) Objects.requireNonNull(privateData);
         TextView tv_name = view.findViewById(R.id.name);
         tv_name.setText(libraryName);
-        TextView tv_description = view.findViewById(R.id.description);
-        tv_description.setText("加载中");
-        TextView tv_author = view.findViewById(R.id.author);
-        tv_author.setText("加载中");
-        adapter = new PublicLibraryAdapter(context, null);
+        adapter = new PublicLibraryAdapter(context);
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
         Handler handler = new Handler(Looper.getMainLooper());
-        CommandLibraryAPI.getDescriptionAndAuthor(libraryName, library -> handler.post(() -> {
-            tv_description.setText(library.description);
-            tv_author.setText(library.author);
-        }));
+        CommandLibraryAPI.getDescriptionAndAuthor(libraryName, library -> handler.post(() ->
+                adapter.setDescriptionAndAuthor(library.description, library.author)));
         CommandLibraryAPI.getContent(libraryName, library -> post(() -> adapter.setCommands(library.commands)));
     }
 

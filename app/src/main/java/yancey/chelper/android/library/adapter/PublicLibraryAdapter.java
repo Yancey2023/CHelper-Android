@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
@@ -42,38 +43,66 @@ public class PublicLibraryAdapter extends RecyclerView.Adapter<PublicLibraryAdap
 
     private final Context context;
     private List<Library.Command> commands;
+    private String description;
+    private String author;
 
-    public PublicLibraryAdapter(Context context, List<Library.Command> commands) {
+    public PublicLibraryAdapter(Context context) {
         this.context = context;
-        this.commands = commands;
+    }
+
+    public PublicLibraryAdapter(Context context, Library library) {
+        this.context = context;
+        this.description = library.description;
+        this.author = library.author;
+        this.commands = library.commands;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? 0 : 1;
     }
 
     @NonNull
     @Override
     public CommandListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_public_library_item, parent, false));
+        if (viewType == 0) {
+            return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_public_library_author_and_description, parent, false), viewType);
+        } else {
+            return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_public_library_item, parent, false), viewType);
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
-        Library.Command command = commands.get(position);
-        holder.mTv_content.setText(command.content);
-        holder.mTv_description.setText(command.description);
-        holder.mBtn_copy.setOnClickListener(view -> {
-            if (ClipboardUtil.setText(context, command.content)) {
-                ToastUtil.show(context, "已复制");
-            } else {
-                ToastUtil.show(context, "复制失败");
-            }
-        });
+        if (holder.viewType == 0) {
+            holder.mTv_author.setText(Objects.requireNonNullElse(author, "加载中"));
+            holder.mTv_description.setText(Objects.requireNonNullElse(description, "加载中"));
+        } else {
+            Library.Command command = commands.get(position - 1);
+            holder.mTv_content.setText(command.content);
+            holder.mTv_description.setText(command.description);
+            holder.mBtn_copy.setOnClickListener(view -> {
+                if (ClipboardUtil.setText(context, command.content)) {
+                    ToastUtil.show(context, "已复制");
+                } else {
+                    ToastUtil.show(context, "复制失败");
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
         if (commands == null) {
-            return 0;
+            return 1;
         }
-        return commands.size();
+        return commands.size() + 1;
+    }
+
+    public void setDescriptionAndAuthor(String description, String author) {
+        this.description = description;
+        this.author = author;
+        notifyItemChanged(0);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -83,15 +112,23 @@ public class PublicLibraryAdapter extends RecyclerView.Adapter<PublicLibraryAdap
     }
 
     public static class CommandListViewHolder extends RecyclerView.ViewHolder {
-        private final TextView mTv_content;
+        private final int viewType;
+        private TextView mTv_author;
+        private TextView mTv_content;
         private final TextView mTv_description;
-        private final View mBtn_copy;
+        private View mBtn_copy;
 
-        public CommandListViewHolder(View itemView) {
+        public CommandListViewHolder(View itemView, int viewType) {
             super(itemView);
-            mTv_content = itemView.findViewById(R.id.content);
-            mTv_description = itemView.findViewById(R.id.description);
-            mBtn_copy = itemView.findViewById(R.id.btn_copy);
+            this.viewType = viewType;
+            if (viewType == 0) {
+                mTv_description = itemView.findViewById(R.id.description);
+                mTv_author = itemView.findViewById(R.id.author);
+            } else {
+                mTv_content = itemView.findViewById(R.id.content);
+                mTv_description = itemView.findViewById(R.id.description);
+                mBtn_copy = itemView.findViewById(R.id.btn_copy);
+            }
         }
     }
 }

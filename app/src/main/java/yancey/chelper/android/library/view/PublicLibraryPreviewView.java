@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,12 +52,9 @@ public class PublicLibraryPreviewView extends CustomView {
         Library library = (Library) Objects.requireNonNull(privateData);
         TextView tv_name = view.findViewById(R.id.name);
         tv_name.setText(library.name);
-        TextView tv_description = view.findViewById(R.id.description);
-        tv_description.setText(library.description);
-        TextView tv_author = view.findViewById(R.id.author);
-        tv_author.setText(library.author);
-        PublicLibraryAdapter adapter = new PublicLibraryAdapter(context, library.commands);
+        PublicLibraryAdapter adapter = new PublicLibraryAdapter(context, library);
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
     }
