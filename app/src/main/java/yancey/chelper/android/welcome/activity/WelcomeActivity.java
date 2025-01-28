@@ -116,7 +116,6 @@ public class WelcomeActivity extends AppCompatActivity {
         FloatingMainView floatingMainView = new FloatingMainView(
                 this,
                 this::stopFloatingWindow,
-                () -> EasyFloat.setFocusable("main_view"),
                 length
         );
         Runnable hide = () -> {

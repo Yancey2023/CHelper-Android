@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -32,21 +31,12 @@ import java.util.function.Function;
 @SuppressLint("ViewConstructor")
 public class MainView<T extends CustomView> extends FrameLayout {
 
-    @NonNull
-    private final CustomView.Environment environment;
-    @Nullable
-    private final Runnable setFocusable;
-
     public MainView(
             @NonNull Context context,
-            @NonNull CustomView.Environment environment,
-            @Nullable Runnable setFocusable,
-            @NonNull Function<Consumer<CustomView>, T> function
+            @NonNull Function<Consumer<CustomView>, T> createView
     ) {
         super(context);
-        this.environment = environment;
-        this.setFocusable = setFocusable;
-        openView(function.apply(this::openView));
+        openView(createView.apply(this::openView));
     }
 
     public void openView(@NonNull CustomView view) {

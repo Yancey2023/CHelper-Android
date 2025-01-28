@@ -62,16 +62,10 @@ public class PublicLibraryView extends CustomView {
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
         CommandLibraryAPI.getDescriptionAndAuthor(libraryName, library -> post(() -> {
-            if (getContext() != null) {
-                tv_description.setText(library.description);
-                tv_author.setText(library.author);
-            }
+            tv_description.setText(library.description);
+            tv_author.setText(library.author);
         }));
-        CommandLibraryAPI.getContent(libraryName, library -> post(() -> {
-            if (getContext() != null) {
-                adapter.setCommands(library.commands);
-            }
-        }));
+        CommandLibraryAPI.getContent(libraryName, library -> post(() -> adapter.setCommands(library.commands)));
     }
 
 }

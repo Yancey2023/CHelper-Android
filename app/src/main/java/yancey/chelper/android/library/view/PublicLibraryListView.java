@@ -86,10 +86,8 @@ public class PublicLibraryListView extends CustomView {
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
         CommandLibraryAPI.getAllLibraryNames(result -> post(() -> {
-            if (getContext() != null) {
-                libraryNames = result;
-                update(ed_search.getText());
-            }
+            libraryNames = result;
+            update(ed_search.getText());
         }));
     }
 

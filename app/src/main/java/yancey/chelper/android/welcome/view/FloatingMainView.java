@@ -43,13 +43,13 @@ public class FloatingMainView extends FrameLayout {
     private final DraggableView iconView;
     private final MainView<CompletionView> mainView;
 
-    public FloatingMainView(@NonNull Context context, Runnable shutDown, Runnable setFocusable, int iconEdgeLength) {
+    public FloatingMainView(@NonNull Context context, Runnable shutDown, int iconEdgeLength) {
         super(context);
         this.iconEdgeLength = iconEdgeLength;
         iconView = new DraggableView(context);
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new LayoutParams(iconEdgeLength, iconEdgeLength, Gravity.START | Gravity.TOP));
-        mainView = new MainView<>(context, CustomView.Environment.FLOATING_WINDOW, setFocusable, openView ->
+        mainView = new MainView<>(context, openView ->
                 new CompletionView(context, openView, CustomView.Environment.FLOATING_WINDOW, shutDown, iconView::callOnClick));
         addView(mainView);
         addView(iconView);

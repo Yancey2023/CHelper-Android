@@ -56,11 +56,7 @@ public class PublicLibraryUploadView extends CustomView {
         super(context, openView, environment, R.layout.layout_public_library_upload);
         this.libraryNames = libraryNames;
         if (this.libraryNames == null) {
-            CommandLibraryAPI.getAllLibraryNames(result -> post(() -> {
-                if (getContext() != null) {
-                    this.libraryNames = result;
-                }
-            }));
+            CommandLibraryAPI.getAllLibraryNames(result -> post(() -> this.libraryNames = result));
         }
     }
 
