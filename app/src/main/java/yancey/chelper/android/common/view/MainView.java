@@ -55,9 +55,6 @@ public class MainView<T extends CustomView> extends FrameLayout {
         if (index >= 0) {
             ((CustomView) getChildAt(index)).onPause();
         }
-//        if (environment == CustomView.Environment.FLOATING_WINDOW && setFocusable != null) {
-//            setFocusable.run();
-//        }
         view.requestFocus();
     }
 
@@ -74,21 +71,17 @@ public class MainView<T extends CustomView> extends FrameLayout {
         CustomView backView = (CustomView) getChildAt(childCount - 2);
         backView.onResume();
         removeViewAt(childCount - 1);
-//        if (environment == CustomView.Environment.FLOATING_WINDOW && setFocusable != null) {
-//            setFocusable.run();
-//            requestFocus();
-//        }
         return true;
     }
 
     public void onPause() {
-//        clearFocus();
+        clearFocus();
         ((CustomView) getChildAt(getChildCount() - 1)).onPause();
     }
 
     public void onResume() {
         ((CustomView) getChildAt(getChildCount() - 1)).onResume();
-//        requestFocus();
+        requestFocus();
     }
 
     public boolean onBackPressed() {
@@ -96,7 +89,7 @@ public class MainView<T extends CustomView> extends FrameLayout {
     }
 
     public void onDestroy() {
-//        clearFocus();
+        clearFocus();
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             ((CustomView) getChildAt(i)).onDestroy();
