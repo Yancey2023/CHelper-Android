@@ -20,6 +20,8 @@ package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
@@ -51,17 +53,19 @@ public class PublicLibraryUploadView extends CustomView {
     private EditText ed_description;
     private EditText ed_commands;
     private List<String> libraryNames;
+    private Handler handler;
 
     public PublicLibraryUploadView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment, @Nullable List<String> libraryNames) {
         super(context, openView, environment, R.layout.layout_public_library_upload);
         this.libraryNames = libraryNames;
         if (this.libraryNames == null) {
-            CommandLibraryAPI.getAllLibraryNames(result -> post(() -> this.libraryNames = result));
+            CommandLibraryAPI.getAllLibraryNames(result -> handler.post(() -> this.libraryNames = result));
         }
     }
 
     @Override
     public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
+        handler = new Handler(Looper.getMainLooper());
         ed_name = view.findViewById(R.id.name);
         ed_author = view.findViewById(R.id.author);
         ed_description = view.findViewById(R.id.description);
@@ -83,7 +87,7 @@ public class PublicLibraryUploadView extends CustomView {
                 new IsConfirmDialog(context, false)
                         .title("上传")
                         .message("是否确认上传？上传后，您提交的命令将被送往审核，审核通过后才会出现在公有命令库中。如果没有特殊说明，您提交的命令将以CC BY-SA 4.0（署名-相同方式共享 4.0）协议授权给本命令库使用。")
-                        .onConfirm(view1 -> CommandLibraryAPI.upload(library, s -> post(() -> ToastUtil.show(context, s))))
+                        .onConfirm(view1 -> CommandLibraryAPI.upload(library, s -> handler.post(() -> ToastUtil.show(context, s))))
                         .show();
             }
         });

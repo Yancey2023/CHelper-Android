@@ -20,6 +20,8 @@ package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -61,7 +63,8 @@ public class PublicLibraryView extends CustomView {
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
-        CommandLibraryAPI.getDescriptionAndAuthor(libraryName, library -> post(() -> {
+        Handler handler = new Handler(Looper.getMainLooper());
+        CommandLibraryAPI.getDescriptionAndAuthor(libraryName, library -> handler.post(() -> {
             tv_description.setText(library.description);
             tv_author.setText(library.author);
         }));

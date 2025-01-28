@@ -20,6 +20,8 @@ package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -85,7 +87,8 @@ public class PublicLibraryListView extends CustomView {
                 new PublicLibraryView(context1, openView, environment, libraryName)));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
-        CommandLibraryAPI.getAllLibraryNames(result -> post(() -> {
+        Handler handler = new Handler(Looper.getMainLooper());
+        CommandLibraryAPI.getAllLibraryNames(result -> handler.post(() -> {
             libraryNames = result;
             update(ed_search.getText());
         }));
