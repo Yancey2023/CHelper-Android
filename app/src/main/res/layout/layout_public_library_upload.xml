@@ -133,7 +133,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:paddingVertical="10dp"
-        android:text="@string/power_by_avery_chims"
+        android:text="@string/powered_by_avery_chims"
         android:textColor="@color/text_secondary"
         android:textSize="14sp" />
 

@@ -7,7 +7,7 @@
     <string name="tv_public_library">命令库</string>
     <string name="et_writeCommandHint"> 点我输入文字</string>
     <string name="tv_made_by_yancey">--- Made by Yancey ---</string>
-    <string name="power_by_avery_chims">Power by Avery Chims</string>
+    <string name="powered_by_avery_chims">Powered by Avery Chims</string>
     <string name="btn_select_all">全选</string>
     <string name="btn_invert">反选</string>
     <string name="btn_deselect">全不选</string>
