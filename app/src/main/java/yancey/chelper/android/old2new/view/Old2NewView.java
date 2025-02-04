@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
@@ -44,8 +45,13 @@ public class Old2NewView extends CustomView {
     private EditText mEd_oldCommand;
     private TextView mTv_newCommand;
 
-    public Old2NewView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment) {
-        super(context, openView, environment, R.layout.layout_old2new);
+    public Old2NewView(
+            @NonNull Context context,
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> backView,
+            @NonNull Environment environment
+    ) {
+        super(context, openView, backView, environment, R.layout.layout_old2new);
     }
 
     @Override

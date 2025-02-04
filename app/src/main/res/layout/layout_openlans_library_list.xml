@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="2"
+            android:text="@string/openlans_library"
+            android:textColor="@color/text_main"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_library_not_allow_edit_in_floating_window"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/title"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="2"
+            android:text="@string/public_library_not_allow_edit_in_floating_window"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_library_not_allow_upload_in_floating_window"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/title"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="2"
+            android:text="@string/public_library_not_allow_upload_in_floating_window"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/btn_update"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/btn_upload"
+            android:background="@drawable/icon_edit"
+            android:contentDescription="@string/public_library_upload"
+            android:scaleType="fitXY" />
+
+        <View
+            android:id="@+id/btn_upload"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/icon_upload"
+            android:contentDescription="@string/public_library_upload"
+            android:scaleType="fitXY" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/rl_title"
+        android:layout_marginHorizontal="20dp"
+        android:autofillHints="username"
+        android:background="@drawable/bg_search"
+        android:gravity="center_vertical"
+        android:hint="@string/search_library"
+        android:inputType="text"
+        android:maxLength="30"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/text_main"
+        android:textColorHint="@color/text_hint"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/copyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/powered_by_openlans"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/copyright"
+        android:layout_below="@id/search"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical"
+        tools:itemCount="10"
+        tools:listitem="@layout/layout_openlans_library_list_item" />
+
+</RelativeLayout>

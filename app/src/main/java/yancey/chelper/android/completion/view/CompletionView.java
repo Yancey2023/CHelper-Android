@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
@@ -51,7 +52,7 @@ import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
 import yancey.chelper.android.completion.data.Settings;
-import yancey.chelper.android.library.view.PublicLibraryListView;
+import yancey.chelper.android.library.openlans.view.OpenLansLibraryListView;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;
@@ -74,11 +75,12 @@ public class CompletionView extends CustomView {
     public CompletionView(
             @NonNull Context context,
             @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> backView,
             @NonNull Environment environment,
             @NonNull Runnable shutDown,
             @Nullable Runnable hideView
     ) {
-        super(context, openView, environment, Settings.getInstance(context).isCrowed ?
+        super(context, openView, backView, environment, Settings.getInstance(context).isCrowed ?
                 R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
         this.shutDown = shutDown;
         this.hideView = hideView;
@@ -210,7 +212,7 @@ public class CompletionView extends CustomView {
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
-        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(PublicLibraryListView::new));
+        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(OpenLansLibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
         // 加载上次的输入内容
         SelectedString selectedString = null;

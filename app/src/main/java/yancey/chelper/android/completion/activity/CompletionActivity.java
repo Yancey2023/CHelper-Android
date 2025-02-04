@@ -18,7 +18,10 @@
 
 package yancey.chelper.android.completion.activity;
 
+import androidx.annotation.NonNull;
+
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
@@ -29,9 +32,8 @@ import yancey.chelper.android.completion.view.CompletionView;
  */
 public class CompletionActivity extends CustomActivity<CompletionView> {
 
-    @Override
-    protected CompletionView createView(Consumer<CustomView> openView) {
-        return new CompletionView(this, openView, CustomView.Environment.APPLICATION, this::finishAffinity, null);
+    protected CompletionView createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> bacKView) {
+        return new CompletionView(this, openView, bacKView, CustomView.Environment.APPLICATION, this::finishAffinity, null);
     }
 
 }

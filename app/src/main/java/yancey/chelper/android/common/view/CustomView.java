@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * 使用单个View组成的界面
@@ -52,6 +53,11 @@ public abstract class CustomView extends FrameLayout {
     protected final Consumer<CustomView> openView;
 
     /**
+     * 返回界面的相关代码
+     */
+    protected final Supplier<Boolean> backView;
+
+    /**
      * 运行环境：应用 / 悬浮窗
      */
     protected final Environment environment;
@@ -63,9 +69,17 @@ public abstract class CustomView extends FrameLayout {
      * @param layoutId    视图界面ID
      * @param privateData 私有数据
      */
-    public CustomView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment, @LayoutRes int layoutId, @Nullable Object privateData) {
+    public CustomView(
+            @NonNull Context context,
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> onBackPress,
+            @NonNull Environment environment,
+            @LayoutRes int layoutId,
+            @Nullable Object privateData
+    ) {
         super(context);
         this.openView = openView;
+        this.backView = onBackPress;
         this.environment = environment;
         // 添加界面
         View view = LayoutInflater.from(context).inflate(layoutId, this, false);
@@ -80,8 +94,14 @@ public abstract class CustomView extends FrameLayout {
      * @param environment 运行环境
      * @param layoutId    视图界面ID
      */
-    public CustomView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment, @LayoutRes int layoutId) {
-        this(context, openView, environment, layoutId, null);
+    public CustomView(
+            @NonNull Context context,
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> backView,
+            @NonNull Environment environment,
+            @LayoutRes int layoutId
+    ) {
+        this(context, openView, backView, environment, layoutId, null);
     }
 
     /**
@@ -124,9 +144,9 @@ public abstract class CustomView extends FrameLayout {
         return false;
     }
 
-    public interface ViewFactory {
+    public interface ViewInterface {
 
-        CustomView createView(Context context, Consumer<CustomView> openView, Environment environment);
+        CustomView createView(Context context, Consumer<CustomView> openView, Supplier<Boolean> backView, Environment environment);
     }
 
     /**
@@ -134,12 +154,12 @@ public abstract class CustomView extends FrameLayout {
      *
      * @param createView 新界面的创建方法，可以使用lambda表达式提供
      */
-    protected void openView(@NonNull ViewFactory createView) {
+    protected void openView(@NonNull ViewInterface createView) {
         // 隐藏输入法软键盘
         ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), 0);
         // 打开界面
-        openView.accept(createView.createView(getContext(), openView, environment));
+        openView.accept(createView.createView(getContext(), openView, backView, environment));
     }
 
     @Override

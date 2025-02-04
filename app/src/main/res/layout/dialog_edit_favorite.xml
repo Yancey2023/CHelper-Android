@@ -83,7 +83,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/tv_cancel"
+            android:text="@string/cancel"
             android:textColor="@color/main_color"
             android:textSize="20sp" />
 
@@ -98,7 +98,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/tv_confirm"
+            android:text="@string/confirm"
             android:textColor="@color/main_color"
             android:textSize="20.0sp" />
     </LinearLayout>

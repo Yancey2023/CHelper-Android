@@ -59,7 +59,11 @@
             android:exported="true" />
 
         <activity
-            android:name=".android.library.activity.PublicLibraryListActivity"
+            android:name=".android.library.averychims.activity.AveryChimsLibraryListActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".android.library.openlans.activity.OpenLansLibraryListActivity"
             android:exported="true" />
 
         <service

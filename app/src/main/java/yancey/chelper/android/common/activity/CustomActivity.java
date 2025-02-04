@@ -20,9 +20,11 @@ package yancey.chelper.android.common.activity;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.common.view.MainView;
@@ -37,7 +39,7 @@ public abstract class CustomActivity<T extends CustomView> extends AppCompatActi
 
     private MainView<T> view;
 
-    protected abstract T createView(Consumer<CustomView> openView);
+    protected abstract T createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> backView);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

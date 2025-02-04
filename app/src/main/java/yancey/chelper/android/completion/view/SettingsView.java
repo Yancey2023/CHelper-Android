@@ -28,8 +28,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.ChoosingDialog;
@@ -42,8 +44,13 @@ import yancey.chelper.android.completion.data.Settings;
 @SuppressLint("ViewConstructor")
 public class SettingsView extends CustomView {
 
-    public SettingsView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment) {
-        super(context, openView, environment, R.layout.layout_settings);
+    public SettingsView(
+            @NonNull Context context,
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> backView,
+            @NonNull Environment environment
+    ) {
+        super(context, openView, backView, environment, R.layout.layout_settings);
     }
 
     @Override
@@ -56,14 +63,14 @@ public class SettingsView extends CustomView {
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
         SwitchCompat isSyntaxHighlight = view.findViewById(R.id.cb_is_syntax_highlight);
         Settings settings = Settings.getInstance(context);
-        String[] showStrings = {
+        List<String> showStrings = List.of(
                 "正式版-原版-" + Settings.VERSION_RELEASE,
                 "正式版-实验性玩法-" + Settings.VERSION_RELEASE,
                 "测试版-原版-" + Settings.VERSION_BETA,
                 "测试版-实验性玩法-" + Settings.VERSION_BETA,
                 "中国版-原版-" + Settings.VERSION_NETEASE,
                 "中国版-实验性玩法-" + Settings.VERSION_NETEASE
-        };
+        );
         //noinspection SpellCheckingInspection
         String[] cpackPaths = {
                 "release-vanilla",
@@ -76,13 +83,13 @@ public class SettingsView extends CustomView {
         String cpackBranch = settings.getCpackBranch();
         for (int i = 0; i < cpackPaths.length; i++) {
             if (Objects.equals(cpackBranch, cpackPaths[i])) {
-                tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings[i]));
+                tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings.get(i)));
                 break;
             }
         }
         btn_chooseCpack.setOnClickListener(v -> new ChoosingDialog(context, showStrings, which -> {
             String cpackPath1 = cpackPaths[which];
-            tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings[which]));
+            tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings.get(which)));
             settings.setCpackPath(cpackPath1);
         }).show());
         isCheckingBySelection.setChecked(settings.isCheckingBySelection);

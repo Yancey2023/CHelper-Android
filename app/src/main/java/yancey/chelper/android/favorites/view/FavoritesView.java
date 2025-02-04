@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.FileUtil;
@@ -55,8 +56,13 @@ public class FavoritesView extends CustomView {
     private static final String TAG = "FavoriteActivity";
     private FavoriteListAdapter adapter;
 
-    public FavoritesView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment) {
-        super(context, openView, environment, R.layout.layout_favorites);
+    public FavoritesView(
+            @NonNull Context context,
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> backView,
+            @NonNull Environment environment
+    ) {
+        super(context, openView, backView, environment, R.layout.layout_favorites);
     }
 
     @Override

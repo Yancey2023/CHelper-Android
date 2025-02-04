@@ -42,7 +42,8 @@ import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.activity.SettingsActivity;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
 import yancey.chelper.android.favorites.activity.FavoritesActivity;
-import yancey.chelper.android.library.activity.PublicLibraryListActivity;
+import yancey.chelper.android.library.averychims.activity.AveryChimsLibraryListActivity;
+import yancey.chelper.android.library.openlans.activity.OpenLansLibraryListActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
@@ -74,8 +75,9 @@ public class WelcomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_enumeration_settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
         findViewById(R.id.btn_start_old2new_app).setOnClickListener(v -> startActivity(new Intent(this, Old2NewActivity.class)));
         findViewById(R.id.btn_start_old2new_ime).setOnClickListener(v -> startActivity(new Intent(this, Old2NewIMEGuideActivity.class)));
+        // findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, AveryChimsLibraryListActivity.class)));
+        findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, OpenLansLibraryListActivity.class)));
         findViewById(R.id.btn_raw_json_studio).setOnClickListener(v -> startActivity(new Intent(this, RawtextActivity.class)));
-        findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, PublicLibraryListActivity.class)));
         findViewById(R.id.btn_enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
         findViewById(R.id.btn_favorite).setOnClickListener(v -> startActivity(new Intent(this, FavoritesActivity.class)));
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
@@ -99,7 +101,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if (!PermissionUtils.checkPermission(this)) {
             new IsConfirmDialog(this, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
-                    .onConfirm("打开设置", v -> PermissionUtils.requestPermission(this, isOpen -> {
+                    .onConfirm("打开设置", () -> PermissionUtils.requestPermission(this, isOpen -> {
                         if (isOpen) {
                             startFloatingWindow(iconSize);
                         } else {

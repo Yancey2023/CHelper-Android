@@ -18,7 +18,10 @@
 
 package yancey.chelper.android.old2new.activity;
 
+import androidx.annotation.NonNull;
+
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
@@ -30,8 +33,8 @@ import yancey.chelper.android.old2new.view.Old2NewView;
 public class Old2NewActivity extends CustomActivity<Old2NewView> {
 
     @Override
-    protected Old2NewView createView(Consumer<CustomView> openView) {
-        return new Old2NewView(this, openView, CustomView.Environment.APPLICATION);
+    protected Old2NewView createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> bacKView) {
+        return new Old2NewView(this, openView, bacKView, CustomView.Environment.APPLICATION);
     }
 
 }

@@ -18,12 +18,14 @@
 
 package yancey.chelper.android.completion.activity;
 
+import androidx.annotation.NonNull;
+
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.view.SettingsView;
-import yancey.chelper.android.enumeration.view.EnumerationView;
 
 /**
  * 设置界面
@@ -31,8 +33,8 @@ import yancey.chelper.android.enumeration.view.EnumerationView;
 public class SettingsActivity extends CustomActivity<SettingsView> {
 
     @Override
-    protected SettingsView createView(Consumer<CustomView> openView) {
-        return new SettingsView(this, openView, CustomView.Environment.APPLICATION);
+    protected SettingsView createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> bacKView) {
+        return new SettingsView(this, openView, bacKView, CustomView.Environment.APPLICATION);
     }
 
 }

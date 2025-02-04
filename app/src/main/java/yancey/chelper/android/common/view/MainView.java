@@ -26,21 +26,26 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 @SuppressLint("ViewConstructor")
 public class MainView<T extends CustomView> extends FrameLayout {
 
     private final CustomView.Environment environment;
 
+    public interface ViewInterface<T> {
+
+        T createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> backView);
+    }
+
     public MainView(
             @NonNull Context context,
             @NonNull CustomView.Environment environment,
-            @NonNull Function<Consumer<CustomView>, T> createView
+            @NonNull ViewInterface<T> createView
     ) {
         super(context);
         this.environment = environment;
-        openView(createView.apply(this::openView));
+        openView(createView.createView(this::openView, this::backView));
     }
 
     public void openView(@NonNull CustomView view) {
@@ -51,6 +56,8 @@ public class MainView<T extends CustomView> extends FrameLayout {
         }
         if (environment == CustomView.Environment.FLOATING_WINDOW) {
             view.requestFocus();
+        } else {
+            clearFocus();
         }
     }
 

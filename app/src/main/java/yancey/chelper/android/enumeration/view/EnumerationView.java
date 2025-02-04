@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import redempt.crunch.data.Pair;
 import redempt.crunch.exceptions.ExpressionCompilationException;
@@ -58,8 +59,13 @@ public class EnumerationView extends CustomView {
     private EditText mEd_input, mEd_times;
     private ClipboardManager clipboardManager;
 
-    public EnumerationView(@NonNull Context context, @NonNull Consumer<CustomView> openView, @NonNull Environment environment) {
-        super(context, openView, environment, R.layout.layout_enumeration);
+    public EnumerationView(
+            @NonNull Context context,
+            @NonNull Consumer<CustomView> openView,
+            @NonNull Supplier<Boolean> backView,
+            @NonNull Environment environment
+    ) {
+        super(context, openView, backView, environment, R.layout.layout_enumeration);
     }
 
     @Override
@@ -118,10 +124,14 @@ public class EnumerationView extends CustomView {
                 ToastUtil.show(context, "运行时出错");
                 return;
             }
-            new IsConfirmDialog(context, true).title("输出预览").message(output).onConfirm("复制", v1 -> {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, output));
-                ToastUtil.show(context, "已复制");
-            }).show();
+            new IsConfirmDialog(context, true)
+                    .title("输出预览")
+                    .message(output)
+                    .onConfirm("复制", () -> {
+                        clipboardManager.setPrimaryClip(ClipData.newPlainText(null, output));
+                        ToastUtil.show(context, "已复制");
+                    })
+                    .show();
         });
     }
 
