@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hjq.toast.Toaster;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -47,12 +49,11 @@ import java.util.function.Supplier;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.FileUtil;
-import yancey.chelper.android.common.util.ToastUtil;
 import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
 import yancey.chelper.android.completion.data.Settings;
-import yancey.chelper.android.library.openlans.view.OpenLansLibraryListView;
+import yancey.chelper.android.library.view.LibraryListView;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;
@@ -201,18 +202,18 @@ public class CompletionView extends CustomView {
         });
         view.findViewById(R.id.btn_copy).setOnClickListener(v -> {
             if (ClipboardUtil.setText(getContext(), commandEditText.getText())) {
-                ToastUtil.show(context, "已复制");
+                Toaster.show("已复制");
                 if (hideView != null && Settings.getInstance(context).isHideWindowWhenCopying) {
                     hideView.run();
                 }
             } else {
-                ToastUtil.show(context, "复制失败");
+                Toaster.show("复制失败");
             }
         });
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
-        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(OpenLansLibraryListView::new));
+        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(LibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
         // 加载上次的输入内容
         SelectedString selectedString = null;
@@ -269,10 +270,10 @@ public class CompletionView extends CustomView {
     private void updateActions() {
         if (isShowActions) {
             fl_action_container.addView(fl_actions);
-            btn_action.setBackgroundResource(R.drawable.icon_show);
+            btn_action.setBackgroundResource(R.drawable.chevron_down);
         } else {
             fl_action_container.removeView(fl_actions);
-            btn_action.setBackgroundResource(R.drawable.icon_hide);
+            btn_action.setBackgroundResource(R.drawable.chevron_up);
         }
     }
 
@@ -286,7 +287,7 @@ public class CompletionView extends CustomView {
             try {
                 core1 = CHelperCore.fromAssets(getContext().getAssets(), cpackPath);
             } catch (Exception e) {
-                ToastUtil.show(getContext(), "资源包加载失败");
+                Toaster.show("资源包加载失败");
             }
             core.setCore(core1);
         }

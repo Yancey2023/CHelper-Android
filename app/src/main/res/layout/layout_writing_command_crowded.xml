@@ -37,7 +37,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="5dp"
-        android:background="@drawable/icon_show"
+        android:background="@drawable/chevron_down"
         android:contentDescription="@string/iv_show" />
 
     <View
@@ -47,7 +47,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
-        android:background="@drawable/icon_copy"
+        android:background="@drawable/copy"
         android:contentDescription="@string/copy" />
 
     <yancey.chelper.android.common.view.CommandEditText

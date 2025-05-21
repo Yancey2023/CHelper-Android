@@ -19,7 +19,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/icon_text"
+            android:background="@drawable/align_justified"
             android:contentDescription="@string/iv_edit" />
 
         <View
@@ -28,7 +28,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/icon_edit"
+            android:background="@drawable/pencil"
             android:contentDescription="@string/iv_edit" />
 
     </LinearLayout>

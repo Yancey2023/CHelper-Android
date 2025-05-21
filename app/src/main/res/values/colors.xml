@@ -16,7 +16,6 @@
     <color name="text_secondary">@color/grey</color>
     <color name="text_hint">@color/grey</color>
     <color name="line">#FFF3F3F3</color>
-    <color name="icon_main">@color/black</color>
-    <color name="icon_secondary">@color/grey</color>
+    <color name="icon_main">@color/grey</color>
     <color name="scroll_bar">#99444444</color>
 </resources>

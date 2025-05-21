@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -70,6 +70,18 @@ public class FileUtil {
     @SuppressWarnings("unused")
     public static File getFile(String... strings) {
         return new File(getFilePath(strings));
+    }
+
+    /**
+     * 文件路径拼接
+     *
+     * @param file 文件
+     * @param strings 要拼接的文本
+     * @return 文件
+     */
+    @SuppressWarnings("unused")
+    public static File getFile(File file, String... strings) {
+        return getFile(file.getPath(), getFilePath(strings));
     }
 
     /**

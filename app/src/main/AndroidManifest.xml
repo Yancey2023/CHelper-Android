@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
+        android:name=".android.CHelperApplication"
         android:allowBackup="true"
         android:icon="@drawable/pack_icon"
         android:label="@string/app_name"
@@ -25,6 +26,10 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".android.about.activity.ShowTextActivity"
+            android:exported="true" />
 
         <activity
             android:name=".android.about.activity.AboutActivity"
@@ -59,11 +64,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".android.library.averychims.activity.AveryChimsLibraryListActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".android.library.openlans.activity.OpenLansLibraryListActivity"
+            android:name=".android.library.activity.PublicLibraryListActivity"
             android:exported="true" />
 
         <service
@@ -78,6 +79,16 @@
                 android:name="android.view.im"
                 android:resource="@xml/method" />
         </service>
+
+        <!--适配华为（huawei）刘海屏-->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
 
     </application>
 

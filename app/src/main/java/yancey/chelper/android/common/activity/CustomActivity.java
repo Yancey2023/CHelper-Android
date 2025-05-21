@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -51,27 +51,22 @@ public abstract class CustomActivity<T extends CustomView> extends AppCompatActi
     @Override
     protected void onPause() {
         super.onPause();
-        if (view == null) {
-            return;
+        if (view != null) {
+            view.onPause();
         }
-        view.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (view == null) {
-            return;
+        if (view != null) {
+            view.onResume();
         }
-        view.onResume();
     }
 
     @Override
     public void onBackPressed() {
-        if (view == null) {
-            return;
-        }
-        if (!view.onBackPressed()) {
+        if (view == null || !view.onBackPressed()) {
             super.onBackPressed();
         }
     }
@@ -79,9 +74,8 @@ public abstract class CustomActivity<T extends CustomView> extends AppCompatActi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (view == null) {
-            return;
+        if (view != null) {
+            view.onDestroy();
         }
-        view.onDestroy();
     }
 }

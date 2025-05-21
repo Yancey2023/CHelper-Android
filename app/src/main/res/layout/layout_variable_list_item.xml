@@ -70,6 +70,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:background="@drawable/icon_delete" />
+        android:background="@drawable/x" />
 
 </RelativeLayout>

@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 49
-        versionName = "0.2.36-beta"
+        versionCode = 50
+        versionName = "0.2.37-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -100,23 +100,37 @@ if (keystorePropertiesFile.exists()) {
 }
 
 dependencies {
-    // https://github.com/princekin-f/EasyFloat
-    implementation(project(":easyfloat"))
     // https://github.com/google/gson
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.google.code.gson:gson:2.13.1")
     // https://github.com/boxbeam/Crunch
     implementation("com.github.Redempt:Crunch:2.0.3")
     // https://github.com/androidx/androidx
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    // https://github.com/ReactiveX/RxJava
+    implementation("io.reactivex.rxjava3:rxjava:3.1.10")
+    // https://github.com/ReactiveX/RxAndroid
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     // https://github.com/square/okhttp
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:okhttp-brotli")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    // https://github.com/square/retrofit
+    implementation(platform("com.squareup.retrofit2:retrofit-bom:3.0.0"))
+    implementation("com.squareup.retrofit2:retrofit")
+    implementation("com.squareup.retrofit2:converter-gson")
+    implementation("com.squareup.retrofit2:adapter-rxjava3")
+    // https://github.com/getActivity/XXPermissions
+    implementation("com.github.getActivity:XXPermissions:21.3")
+    // https://github.com/getActivity/Toaster
+    implementation("com.github.getActivity:Toaster:12.8")
+    // https://github.com/getActivity/EasyWindow
+    implementation("com.github.getActivity:EasyWindow:12.0")
     // https://github.com/junit-team/junit4
     testImplementation("junit:junit:4.13.2")
     // https://github.com/androidx/androidx
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test:core:1.6.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
 }

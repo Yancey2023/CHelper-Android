@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -43,11 +43,11 @@ public class Settings {
     /**
      * 正式版的版本号
      */
-    public static final String VERSION_RELEASE = "1.21.51.02";
+    public static final String VERSION_RELEASE = "1.21.81.2";
     /**
      * 测试版的版本号
      */
-    public static final String VERSION_BETA = "1.21.60.27";
+    public static final String VERSION_BETA = "1.21.90.26";
     /**
      * 中国版的版本号
      */

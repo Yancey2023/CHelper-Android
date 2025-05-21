@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -19,24 +19,23 @@
 package yancey.chelper.android.favorites.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.hjq.toast.Toaster;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import yancey.chelper.R;
-import yancey.chelper.android.common.util.ToastUtil;
+import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.favorites.data.DataFavorite;
 import yancey.chelper.android.favorites.dialog.EditFavoriteDialog;
 
@@ -48,7 +47,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     private final Context context;
     public List<DataFavorite> dataFavoriteList;
     public final List<List<DataFavorite>> history;
-    private final ClipboardManager clipboardManager;
 
     public FavoriteListAdapter(Context context, List<DataFavorite> dataFavoriteList) {
         this.context = context;
@@ -57,7 +55,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             dataFavorite.isChoose = false;
         }
         history = new ArrayList<>();
-        clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
     @NonNull
@@ -77,13 +74,13 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             notifyItemChanged(holder.getLayoutPosition());
         });
         if (data.dataFavoriteList == null) {
-            holder.mIv_icon.setBackgroundResource(R.drawable.icon_text);
+            holder.mIv_icon.setBackgroundResource(R.drawable.align_justified);
             holder.itemView.setOnClickListener(v -> {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, data.title));
-                ToastUtil.show(context, "已复制");
+                ClipboardUtil.setText(context, data.title);
+                Toaster.show("已复制");
             });
         } else {
-            holder.mIv_icon.setBackgroundResource(R.drawable.icon_folder);
+            holder.mIv_icon.setBackgroundResource(R.drawable.folder);
             holder.itemView.setOnClickListener(view -> {
                 history.add(dataFavoriteList);
                 setDataList(data.dataFavoriteList);
@@ -170,12 +167,12 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     }
 
     public void bulkCopy() {
-        for (DataFavorite dataFavorite : dataFavoriteList) {
-            if (dataFavorite.dataFavoriteList == null) {
-                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, dataFavorite.title));
+        for (DataFavorite data : dataFavoriteList) {
+            if (data.dataFavoriteList == null) {
+                ClipboardUtil.setText(context, data.title);
             }
         }
-        ToastUtil.show(context, "已批量复制");
+        Toaster.show("已批量复制");
     }
 
     public static class CommandListViewHolder extends RecyclerView.ViewHolder {

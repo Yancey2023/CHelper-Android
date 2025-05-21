@@ -8,7 +8,7 @@
     <string name="tv_averychims_library">命令库</string>
     <string name="tv_openlans_library">命令库</string>
     <string name="et_writeCommandHint"> 点我输入文字</string>
-    <string name="tv_made_by_yancey">--- Made by Yancey ---</string>
+    <string name="copyright_yancey">Copyright \u00a9 2025 Yancey</string>
     <string name="powered_by_avery_chims">Powered by Avery Chims</string>
     <string name="powered_by_openlans">Powered by OpenLANS</string>
     <string name="btn_select_all">全选</string>
@@ -62,11 +62,17 @@
     <string name="setting_is_hide_window_when_copying">复制后隐藏悬浮窗</string>
     <string name="setting_is_hide_window_when_copying_description">可以方便地把命令粘贴到游戏中</string>
     <string name="about">关于</string>
-    <string name="update_note">更新日志</string>
+    <string name="current_version">当前版本</string>
+    <string name="release_note">更新日志</string>
     <string name="setting_is_saving_when_pausing">进入应用后自动恢复上次输入的命令</string>
     <string name="setting_is_saving_when_pausing_description">如果开启，仅恢复文字，不恢复撤回和恢复按钮所需要的历史记录</string>
-    <string name="dependencies">依赖</string>
-    <string name="thanks">致谢</string>
+    <string name="open_source_terms">开源条款</string>
+    <string name="qq_personal">QQ号</string>
+    <string name="qq_group">QQ群号</string>
+    <string name="bilibili">bilibili</string>
+    <string name="core_source_code">内核源码</string>
+    <string name="app_source_code">软件源码</string>
+    <string name="privacy_policy">隐私政策</string>
     <string name="app_description">我的世界基岩版命令助手</string>
     <string name="setting_is_crowed">紧凑模式</string>
     <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，悬浮窗模式需要重新打开悬浮窗才可以生效</string>
@@ -111,8 +117,8 @@
     <string name="public_library_update">更新</string>
     <string name="public_library_upload">上传</string>
     <string name="public_library_delete">删除</string>
-    <string name="public_library_update_with_need_review">更新（需审核）</string>
     <string name="public_library_upload_with_need_review">上传（需审核）</string>
+    <string name="public_library_update_with_need_review">更新（需审核）</string>
     <string name="add">添加</string>
     <string name="averychims_library_upload_note">一行一个命令，#符号后面是注释：\n/give @s apple 2 # 给我2个苹果</string>
     <string name="openlans_library_upload_note">类似mcfunction，每一行一个命令或一个注释：\n# 给我2个苹果\n/give @s apple 2\n# 在坐标(0, 0, 0)处放置一个钻石块\nsetblock 0 0 0 minecraft:diamond_block</string>
@@ -122,4 +128,16 @@
     <string name="like">点赞</string>
     <string name="like_count_sample">520</string>
     <string name="input_hint">点我输入内容</string>
+    <string name="confirm_read">我已阅读并同意。</string>
+    <string name="read_privacy_policy">去阅读</string>
+    <string name="input_login_name">请输入邮箱</string>
+    <string name="input_login_password">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="logging">正在登录中</string>
+    <string name="login_error_logging">正在登录中，请不要反复点击登录</string>
+    <string name="login_error_no_parameter">请输入用户名和密码</string>
+    <string name="login_error_password">用户名或密码错误</string>
+    <string name="login_successfully">登录成功</string>
+    <string name="hide_password">显示/隐藏密码</string>
+    <string name="clear_text_name">清除名字</string>
 </resources>

@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,14 @@ import android.content.res.AssetManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.hjq.toast.Toaster;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import yancey.chelper.android.common.util.ToastUtil;
 
 /**
  * 软件的内核，与c++代码交互
@@ -252,7 +252,7 @@ public class CHelperCore implements Closeable {
                 isOld2NewInit = true;
             }
             if (!isOld2NewInit) {
-                ToastUtil.show(context, "旧版命令转新版命令初始化失败");
+                Toaster.show("旧版命令转新版命令初始化失败");
                 return old;
             }
         }

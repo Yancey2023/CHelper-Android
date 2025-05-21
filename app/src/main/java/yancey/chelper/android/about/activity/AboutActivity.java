@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -18,13 +18,17 @@
 
 package yancey.chelper.android.about.activity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
+import com.hjq.permissions.BuildConfig;
+import com.hjq.permissions.XXPermissions;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.AssetsUtil;
@@ -38,21 +42,39 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_about);
-        TextView tv_about = findViewById(R.id.about);
-        TextView tv_updateNote = findViewById(R.id.update_note);
-        TextView tv_permissions = findViewById(R.id.permissions);
-        TextView tv_dependencies = findViewById(R.id.dependencies);
-        TextView tv_thanks = findViewById(R.id.thanks);
-        // 从软件的内置资源读取内容并显示出来
         try {
-            tv_about.setText(AssetsUtil.readStringFromAssets(this, "about/about.txt"));
-            tv_updateNote.setText(AssetsUtil.readStringFromAssets(this, "about/update.txt"));
-            tv_permissions.setText(AssetsUtil.readStringFromAssets(this, "about/permissions.txt"));
-            tv_dependencies.setText(AssetsUtil.readStringFromAssets(this, "about/dependencies.txt"));
-            tv_thanks.setText(AssetsUtil.readStringFromAssets(this, "about/thanks.txt"));
-        } catch (IOException e) {
+            ((TextView) findViewById(R.id.current_version)).setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(e);
         }
+        findViewById(R.id.back).setOnClickListener(v -> finish());
+        ((TextView) findViewById(R.id.author)).setText("Yancey");
+        ((TextView) findViewById(R.id.qq_personal)).setText("1709185482");
+        ((TextView) findViewById(R.id.qq_group)).setText("766625597");
+        findViewById(R.id.btn_bilibili).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://space.bilibili.com/470179011"))));
+        findViewById(R.id.btn_core_source_code).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Yancey2023/CHelper-Core"))));
+        findViewById(R.id.btn_app_source_code).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Yancey2023/CHelper-Android"))));
+        findViewById(R.id.btn_release_note).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ShowTextActivity.class);
+            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.release_note));
+            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/release_note.txt"));
+            startActivity(intent);
+        });
+        findViewById(R.id.btn_privacy_policy).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ShowTextActivity.class);
+            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.privacy_policy));
+            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/privacy_policy.txt"));
+            startActivity(intent);
+        });
+        findViewById(R.id.btn_open_source_terms).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ShowTextActivity.class);
+            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.open_source_terms));
+            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/open_source_terms.txt"));
+            startActivity(intent);
+        });
     }
 
 }

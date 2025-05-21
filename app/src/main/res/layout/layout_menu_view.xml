@@ -21,7 +21,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/icon_undo"
+                android:background="@drawable/arrow_back_up"
                 android:contentDescription="@string/tv_undo" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/icon_redo"
+                android:background="@drawable/arrow_forward_up"
                 android:contentDescription="@string/tv_redo" />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/icon_delete"
+                android:background="@drawable/x"
                 android:contentDescription="@string/tv_delete" />
 
             <TextView
@@ -117,7 +117,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/icon_box"
+                android:background="@drawable/box"
                 android:contentDescription="@string/openlans_library" />
 
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/icon_power"
+                android:background="@drawable/power"
                 android:contentDescription="@string/tv_delete" />
 
             <TextView

@@ -11,9 +11,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://redempt.dev")
+        maven("https://jitpack.io")
     }
 }
 
 rootProject.name = "CHelper-Android"
-include(":easyfloat")
 include(":app")

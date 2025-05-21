@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lzf.easyfloat.EasyFloat;
-import com.lzf.easyfloat.enums.ShowPattern;
-import com.lzf.easyfloat.permission.PermissionUtils;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.Toaster;
+import com.hjq.window.EasyWindow;
+import com.hjq.window.draggable.MovingWindowDraggableRule;
+
+import java.io.File;
+import java.util.List;
+import java.util.Objects;
 
 import yancey.chelper.R;
 import yancey.chelper.android.about.activity.AboutActivity;
+import yancey.chelper.android.about.activity.ShowTextActivity;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
-import yancey.chelper.android.common.util.ToastUtil;
+import yancey.chelper.android.common.dialog.PrivacyPolicyDialog;
+import yancey.chelper.android.common.util.AssetsUtil;
+import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.activity.SettingsActivity;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
 import yancey.chelper.android.favorites.activity.FavoritesActivity;
-import yancey.chelper.android.library.averychims.activity.AveryChimsLibraryListActivity;
-import yancey.chelper.android.library.openlans.activity.OpenLansLibraryListActivity;
+import yancey.chelper.android.library.activity.PublicLibraryListActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
@@ -54,13 +63,15 @@ import yancey.chelper.android.welcome.view.FloatingMainView;
  */
 public class WelcomeActivity extends AppCompatActivity {
 
+    private EasyWindow<?> mainViewWindow, iconViewWindow;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         findViewById(R.id.btn_start_suggestion_app).setOnClickListener(v -> {
             if (isUsingFloatingWindow()) {
-                ToastUtil.show(this, "你必须关闭悬浮窗模式才可以进入应用模式");
+                Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式");
                 return;
             }
             startActivity(new Intent(this, CompletionActivity.class));
@@ -75,12 +86,40 @@ public class WelcomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_enumeration_settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
         findViewById(R.id.btn_start_old2new_app).setOnClickListener(v -> startActivity(new Intent(this, Old2NewActivity.class)));
         findViewById(R.id.btn_start_old2new_ime).setOnClickListener(v -> startActivity(new Intent(this, Old2NewIMEGuideActivity.class)));
-        // findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, AveryChimsLibraryListActivity.class)));
-        findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, OpenLansLibraryListActivity.class)));
+        findViewById(R.id.btn_public_library).setOnClickListener(v -> Toaster.show("命令库将会在后续版本中开放，敬请期待！"));
+//        findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, PublicLibraryListActivity.class)));
         findViewById(R.id.btn_raw_json_studio).setOnClickListener(v -> startActivity(new Intent(this, RawtextActivity.class)));
         findViewById(R.id.btn_enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
         findViewById(R.id.btn_favorite).setOnClickListener(v -> startActivity(new Intent(this, FavoritesActivity.class)));
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String privacyPolicy = AssetsUtil.readStringFromAssets(this, "about/privacy_policy.txt");
+        String privacyPolicyHashStr = String.valueOf(privacyPolicy.hashCode());
+        File lastReadContent = new File(getCacheDir(), "lastReadContent.txt");
+        String message = null;
+        if (!lastReadContent.exists()) {
+            message = "为保障您的权益，请阅读并同意《CHelper 隐私政策》，了解我们如何收集、使用您的信息。";
+        } else {
+            String lastRead = FileUtil.readString(lastReadContent);
+            if (!Objects.equals(privacyPolicyHashStr, lastRead)) {
+                message = "我们更新了《CHelper 隐私政策》，请务必仔细阅读以清晰了解您的权利与数据处理规则变化。";
+            }
+        }
+        if (message != null) {
+            new PrivacyPolicyDialog(this)
+                    .message(message)
+                    .onRead(() -> {
+                        Intent intent = new Intent(this, ShowTextActivity.class);
+                        intent.putExtra(ShowTextActivity.TITLE, getString(R.string.privacy_policy));
+                        intent.putExtra(ShowTextActivity.CONTENT, privacyPolicy);
+                        startActivity(intent);
+                    }).onConfirm(() -> FileUtil.writeString(lastReadContent, privacyPolicyHashStr))
+                    .show();
+        }
     }
 
     /**
@@ -89,7 +128,7 @@ public class WelcomeActivity extends AppCompatActivity {
      * @return 是否正在使用悬浮窗
      */
     private boolean isUsingFloatingWindow() {
-        return EasyFloat.getFloatView("icon_view") != null;
+        return iconViewWindow != null;
     }
 
     /**
@@ -97,18 +136,24 @@ public class WelcomeActivity extends AppCompatActivity {
      *
      * @param iconSize 图标大小
      */
+    @SuppressWarnings("SameParameterValue")
     private void startFloatingWindow(int iconSize) {
-        if (!PermissionUtils.checkPermission(this)) {
+        if (!XXPermissions.isGranted(this, Permission.SYSTEM_ALERT_WINDOW)) {
             new IsConfirmDialog(this, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
-                    .onConfirm("打开设置", () -> PermissionUtils.requestPermission(this, isOpen -> {
-                        if (isOpen) {
-                            startFloatingWindow(iconSize);
-                        } else {
-                            ToastUtil.show(WelcomeActivity.this, "悬浮窗权限获取失败");
-                        }
-                    })).show();
-            return;
+                    .onConfirm("打开设置", () -> XXPermissions.with(this)
+                            .permission(Permission.SYSTEM_ALERT_WINDOW)
+                            .request(new OnPermissionCallback() {
+                                @Override
+                                public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                                    startFloatingWindow(iconSize);
+                                }
+
+                                @Override
+                                public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                                    Toaster.show("悬浮窗权限获取失败");
+                                }
+                            })).show();
         }
         int length = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -120,10 +165,16 @@ public class WelcomeActivity extends AppCompatActivity {
                 this::stopFloatingWindow,
                 length
         );
+        mainViewWindow = EasyWindow.with(getApplication())
+                .setContentView(floatingMainView)
+                .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
+                .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
+                .setAnimStyle(android.R.style.Animation_Dialog)
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         Runnable hide = () -> {
-            EasyFloat.updateFloat("icon_view", (int) floatingMainView.getIconViewX(), (int) floatingMainView.getIconViewY());
-            EasyFloat.hide("main_view");
-            EasyFloat.setUnFocusable("main_view");
+            iconViewWindow.setXOffset((int) floatingMainView.getIconViewX());
+            iconViewWindow.setYOffset((int) floatingMainView.getIconViewY());
+            mainViewWindow.cancel();
             floatingMainView.onPause();
         };
         floatingMainView.setOnIconClickListener(hide);
@@ -131,54 +182,37 @@ public class WelcomeActivity extends AppCompatActivity {
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new FrameLayout.LayoutParams(length, length, Gravity.START | Gravity.TOP));
         iconView.setOnClickListener(v -> {
-            if (EasyFloat.getFloatView("main_view") == null) {
-                EasyFloat.with(this)
-                        .setLayout(floatingMainView)
-                        .setTag("main_view")
-                        .setShowPattern(ShowPattern.ALL_TIME)
-                        .setDragEnable(false)
-                        .setMatchParent(true, true)
-                        .hasEditText(true)
-                        .setAnimator(null)
-                        .show();
-                floatingMainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        floatingMainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        EasyFloat.setFocusable("main_view");
-                    }
-                });
-            } else {
-                EasyFloat.show("main_view");
-                EasyFloat.setFocusable("main_view");
-            }
-            WindowManager.LayoutParams layoutParam = EasyFloat.getLayoutParam("icon_view");
-            if (layoutParam != null) {
-                floatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
-            }
+            mainViewWindow.show();
+            WindowManager.LayoutParams layoutParam = iconViewWindow.getWindowParams();
+            floatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
             floatingMainView.onResume();
         });
-        EasyFloat.with(this)
-                .setLayout(iconView)
-                .setTag("icon_view")
-                .setShowPattern(ShowPattern.ALL_TIME)
-                .setDragEnable(true)
+        iconViewWindow = EasyWindow.with(getApplication())
+                .setContentView(iconView)
+                .setWindowDraggableRule(new MovingWindowDraggableRule())
+                .setOutsideTouchable(true)
                 .setGravity(Gravity.START | Gravity.TOP)
-                .setAnimator(null)
-                .show();
+                .setAnimStyle(android.R.style.Animation_Toast);
+        iconViewWindow.show();
     }
 
     /**
      * 关闭悬浮窗
      */
     private void stopFloatingWindow() {
-        FloatingMainView floatingMainView = (FloatingMainView) EasyFloat.getFloatView("main_view");
-        if (floatingMainView != null) {
-            floatingMainView.onPause();
-            floatingMainView.onDestroy();
+        if (mainViewWindow != null) {
+            FloatingMainView floatingMainView = (FloatingMainView) mainViewWindow.getContentView();
+            if (floatingMainView != null) {
+                floatingMainView.onPause();
+                floatingMainView.onDestroy();
+            }
+            mainViewWindow.recycle();
+            mainViewWindow = null;
         }
-        EasyFloat.dismiss("icon_view");
-        EasyFloat.dismiss("main_view");
+        if (iconViewWindow != null) {
+            iconViewWindow.recycle();
+            iconViewWindow = null;
+        }
     }
 
     @Override

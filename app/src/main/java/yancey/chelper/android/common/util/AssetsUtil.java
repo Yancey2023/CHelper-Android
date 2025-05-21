@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -42,9 +42,8 @@ public class AssetsUtil {
      * @param context 上下文
      * @param path    资源路径
      * @return 读取的文本
-     * @throws IOException IO错误
      */
-    public static String readStringFromAssets(Context context, String path) throws IOException {
+    public static String readStringFromAssets(Context context, String path) {
         try (BufferedInputStream bis = new BufferedInputStream(context.getAssets().open(path))) {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
@@ -52,6 +51,8 @@ public class AssetsUtil {
                 os.write(buffer, 0, count);
             }
             return os.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

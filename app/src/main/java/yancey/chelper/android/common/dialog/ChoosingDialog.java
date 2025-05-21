@@ -1,5 +1,5 @@
 /**
- * It is part of CHelper. CHelper a command helper for Minecraft Bedrock Edition.
+ * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,7 @@ public class ChoosingDialog extends FixedDialog {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackgroundColor(Color.WHITE);
+        linearLayout.setBackgroundResource(R.color.background);
         scrollView.addView(linearLayout);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dp50 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
@@ -86,7 +86,7 @@ public class ChoosingDialog extends FixedDialog {
         textView.setGravity(Gravity.CENTER);
         textView.setBackgroundResource(R.drawable.bg_ripple);
         textView.setText(strings.get(i));
-        textView.setTextColor(Color.BLACK);
+        textView.setTextColor(getContext().getColor(R.color.text_main));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         textView.setOnClickListener(view -> {
             onChooseListener.onChoose(i);
