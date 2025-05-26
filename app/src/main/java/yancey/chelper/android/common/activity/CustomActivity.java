@@ -22,6 +22,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -45,6 +48,11 @@ public abstract class CustomActivity<T extends CustomView> extends AppCompatActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = new MainView<>(this, CustomView.Environment.APPLICATION, this::createView);
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+            return insets;
+        });
         setContentView(view);
     }
 

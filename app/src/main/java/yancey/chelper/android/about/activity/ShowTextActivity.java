@@ -24,6 +24,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Objects;
 
@@ -41,6 +44,11 @@ public class ShowTextActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_show_text);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+            return insets;
+        });
         Bundle extras = Objects.requireNonNull(getIntent().getExtras());
         String title = extras.getString(TITLE);
         String content = extras.getString(CONTENT);

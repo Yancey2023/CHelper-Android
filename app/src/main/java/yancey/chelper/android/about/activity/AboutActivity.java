@@ -26,6 +26,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.hjq.permissions.BuildConfig;
 import com.hjq.permissions.XXPermissions;
@@ -42,6 +45,11 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_about);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+            return insets;
+        });
         try {
             ((TextView) findViewById(R.id.current_version)).setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {

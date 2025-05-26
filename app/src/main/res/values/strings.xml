@@ -85,7 +85,7 @@
     <string name="btn_old2new_copy">复制新命令</string>
     <string name="btn_old2new_run">复制</string>
     <string name="old2new_ime_name">命令转换输入法</string>
-    <string name="old2new_ime_welcome">1.18版本命令转1.20版本命令（方块数据值转方块状态，execute、setblock、fill、summon、structure命令转新语法）。点击输入框即可自动转换，点击弹出的按钮可进行撤回。</string>
+    <string name="old2new_ime_welcome">支持1.18版本命令转1.20版本命令（方块数据值转方块状态，execute、setblock、fill、summon、structure命令转新语法）。使用该输入法点击输入框即可自动转换，点击弹出的按钮可进行撤回。</string>
     <string name="old2new_ime_step1">第一步：进入设置启用输入法</string>
     <string name="old2new_ime_step2">第二步：切换输入法</string>
     <string name="old2new_ime_warn">你的系统不支持使用第三方输入法</string>

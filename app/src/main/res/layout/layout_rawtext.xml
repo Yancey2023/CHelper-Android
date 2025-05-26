@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -438,18 +439,18 @@
         android:textColor="@color/white"
         android:textSize="18sp" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/btn_insert"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="45dp"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:layout_marginHorizontal="15dp"-->
-    <!--        android:layout_marginTop="5dp"-->
-    <!--        android:layout_marginBottom="15dp"-->
-    <!--        android:background="@drawable/bg_btn"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="@string/insert"-->
-    <!--        android:textColor="@color/white"-->
-    <!--        android:textSize="18sp" />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/btn_insert"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="45dp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:layout_marginHorizontal="15dp"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:layout_marginBottom="15dp"-->
+    <!--            android:background="@drawable/bg_btn"-->
+    <!--            android:gravity="center"-->
+    <!--            android:text="@string/insert"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            android:textSize="18sp" />-->
 
 </RelativeLayout>

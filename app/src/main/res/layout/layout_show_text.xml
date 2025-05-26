@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background2"
@@ -33,16 +34,17 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/sv_add_content"
         android:layout_width="match_parent"
-        android:layout_margin="15dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round">
 
         <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:background="@drawable/bg_round"
             android:textColor="@color/text_main"
             android:textIsSelectable="true"
             android:textSize="14sp" />

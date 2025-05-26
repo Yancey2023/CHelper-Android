@@ -29,6 +29,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
@@ -52,7 +55,6 @@ import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.activity.SettingsActivity;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
 import yancey.chelper.android.favorites.activity.FavoritesActivity;
-import yancey.chelper.android.library.activity.PublicLibraryListActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
@@ -69,6 +71,11 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+            return insets;
+        });
         findViewById(R.id.btn_start_suggestion_app).setOnClickListener(v -> {
             if (isUsingFloatingWindow()) {
                 Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式");
@@ -169,8 +176,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 .setContentView(floatingMainView)
                 .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
                 .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
-                .setAnimStyle(android.R.style.Animation_Dialog)
-                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+                .setAnimStyle(0);
         Runnable hide = () -> {
             iconViewWindow.setXOffset((int) floatingMainView.getIconViewX());
             iconViewWindow.setYOffset((int) floatingMainView.getIconViewY());
@@ -192,7 +199,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 .setWindowDraggableRule(new MovingWindowDraggableRule())
                 .setOutsideTouchable(true)
                 .setGravity(Gravity.START | Gravity.TOP)
-                .setAnimStyle(android.R.style.Animation_Toast);
+                .setAnimStyle(0);
         iconViewWindow.show();
     }
 
