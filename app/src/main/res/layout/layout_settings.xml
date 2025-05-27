@@ -112,6 +112,12 @@
 
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
                 <RelativeLayout
                     android:id="@+id/btn_restore_background"
                     android:layout_width="match_parent"
@@ -154,6 +160,12 @@
                         android:src="@drawable/chevron_right" />
 
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
 
                 <RelativeLayout
                     android:id="@+id/btn_choose_theme"

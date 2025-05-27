@@ -124,6 +124,8 @@
     <string name="library_upload">上传</string>
     <string name="library_add">添加</string>
     <string name="library_delete">删除</string>
+    <string name="library_edit">编辑</string>
+    <string name="library_save">保存</string>
     <string name="library_upload_with_need_review">上传（需审核）</string>
     <string name="library_update_with_need_review">更新（需审核）</string>
     <string name="add">添加</string>

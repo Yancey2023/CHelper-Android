@@ -106,17 +106,22 @@ public class CustomTheme {
             float scale = Math.max(scaleX, scaleY);
             Matrix matrix = new Matrix();
             matrix.setScale(scale, scale);
-            int skipX = (int) ((sourceWidth - targetWidth / scale) / 2);
-            int skipY = (int) ((sourceHeight - targetHeight / scale) / 2);
-            tagetBitmap = Bitmap.createBitmap(backgroundBitmap, skipX, skipY, sourceWidth - skipX, sourceHeight - skipY, matrix, false);
+            float skipX = sourceWidth - targetWidth / scale;
+            float skipY = sourceHeight - targetHeight / scale;
+            tagetBitmap = Bitmap.createBitmap(
+                    backgroundBitmap,
+                    (int) (skipX / 2),
+                    (int) (skipY / 2),
+                    (int) (sourceWidth - skipX),
+                    (int) (sourceHeight - skipY),
+                    matrix,
+                    false
+            );
         } catch (Exception e) {
             Log.e(TAG, "fail to scale background", e);
             return;
         }
         view.setBackground(new BitmapDrawable(view.getResources(), tagetBitmap));
-//        if (environment == CustomView.Environment.FLOATING_WINDOW) {
-//            view.requestFocus();
-//        }
     }
 
     public void setBackGroundDrawable(@Nullable Bitmap backGroundBitmap) throws IOException {

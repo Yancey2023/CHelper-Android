@@ -21,6 +21,7 @@ package yancey.chelper.android.library.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ import yancey.chelper.network.library.service.CommandLabPublicService;
  * 命令库显示视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryShowView extends CustomView<LibraryFunction> {
+public class LibraryShowView extends CustomView<Pair<LibraryFunction, Boolean>> {
 
     private LibraryFunction libraryFunction, library;
     private LibraryShowAdapter adapter;
@@ -58,9 +59,10 @@ public class LibraryShowView extends CustomView<LibraryFunction> {
 
     public LibraryShowView(
             @NonNull CustomContext customContext,
-            @NonNull LibraryFunction libraryFunction
+            @NonNull LibraryFunction libraryFunction,
+            boolean isLocal
     ) {
-        super(customContext, R.layout.layout_library_show, libraryFunction);
+        super(customContext, R.layout.layout_library_show, new Pair<>(libraryFunction, isLocal));
     }
 
     void updateLike(LibraryFunction libraryFunction) {
@@ -74,8 +76,10 @@ public class LibraryShowView extends CustomView<LibraryFunction> {
 
     @Override
     @SuppressLint("HardwareIds")
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable LibraryFunction libraryFunction) {
-        this.libraryFunction = Objects.requireNonNull(libraryFunction);
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Pair<LibraryFunction, Boolean> pair) {
+        Objects.requireNonNull(pair);
+        LibraryFunction libraryFunction = pair.first;
+        boolean isLocal = pair.second;
         view.findViewById(R.id.back).setOnClickListener(v -> backView());
         btn_like = view.findViewById(R.id.btn_like);
         tv_like_count = view.findViewById(R.id.tv_like_count);
@@ -85,7 +89,10 @@ public class LibraryShowView extends CustomView<LibraryFunction> {
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
-        if (libraryFunction.id == null) {
+        if (isLocal) {
+            btn_like.setVisibility(View.GONE);
+            tv_like_count.setVisibility(View.GONE);
+        } else if (libraryFunction.id == null) {
             libraryFunction.is_liked = false;
             libraryFunction.like_count = 520;
             btn_like.setOnClickListener(view1 -> {

@@ -112,7 +112,8 @@ public class LibraryListView extends CustomView<Boolean> {
                                                 Toaster.show("命令库寻找失败");
                                                 return;
                                             }
-                                            openView(customContext -> new LibraryEditView(customContext, authKey, () -> isDirty = true, data));
+                                            openView(customContext ->
+                                                    new LibraryEditView(customContext, authKey, () -> isDirty = true, data, isLocal));
                                         }, throwable -> Toaster.show(throwable.getMessage()));
                             })
                             .show();
@@ -132,8 +133,8 @@ public class LibraryListView extends CustomView<Boolean> {
         }
         btn_upload.setOnClickListener(v -> {
             if (getEnvironment() == Environment.APPLICATION) {
-                openView(customContext -> new LibraryEditView(
-                        customContext, null, () -> isDirty = true, null));
+                openView(customContext ->
+                        new LibraryEditView(customContext, null, () -> isDirty = true, null, isLocal));
             } else {
                 Toaster.show(R.string.library_not_allow_upload_in_floating_window);
                 btn_update.setVisibility(View.GONE);
@@ -148,8 +149,10 @@ public class LibraryListView extends CustomView<Boolean> {
         adapter = new LibraryListAdapter(
                 context,
                 doLike,
-                libraryFunction -> openView(customContext -> new LibraryShowView(customContext, libraryFunction)),
-                libraryFunction -> openView(customContext -> new LibraryEditView(customContext, null, () -> isDirty = true, libraryFunction))
+                libraryFunction -> openView(customContext ->
+                        new LibraryShowView(customContext, libraryFunction, isLocal)),
+                libraryFunction -> openView(customContext ->
+                        new LibraryEditView(customContext, null, () -> isDirty = true, libraryFunction, isLocal))
         );
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);

@@ -20,6 +20,7 @@ package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,7 +50,7 @@ import yancey.chelper.network.library.util.CommandLabUtil;
  * 命令库编辑视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryEditView extends CustomView<LibraryFunction> {
+public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> {
 
     private EditText ed_name;
     private EditText ed_version;
@@ -65,15 +66,19 @@ public class LibraryEditView extends CustomView<LibraryFunction> {
             @NonNull CustomContext customContext,
             @Nullable String authKey,
             @NonNull Runnable setDirty,
-            @Nullable LibraryFunction libraryFunction
+            @Nullable LibraryFunction libraryFunction,
+            boolean isLocal
     ) {
-        super(customContext, R.layout.layout_library_edit, libraryFunction);
+        super(customContext, R.layout.layout_library_edit, new Pair<>(libraryFunction, isLocal));
         this.authKey = authKey;
         this.setDirty = setDirty;
     }
 
     @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable LibraryFunction libraryFunction) {
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Pair<LibraryFunction, Boolean> pair) {
+        Objects.requireNonNull(pair);
+        LibraryFunction libraryFunction = pair.first;
+        boolean isLocal = pair.second;
         view.findViewById(R.id.back).setOnClickListener(v -> backView());
         TextView tv_title = view.findViewById(R.id.title);
         ed_name = view.findViewById(R.id.name);
@@ -83,27 +88,51 @@ public class LibraryEditView extends CustomView<LibraryFunction> {
         ed_tags = view.findViewById(R.id.tags);
         ed_commands = view.findViewById(R.id.commands);
         TextView btn_preview = view.findViewById(R.id.btn_preview);
+        TextView btn_save = view.findViewById(R.id.btn_save);
         TextView btn_upload = view.findViewById(R.id.btn_upload);
         TextView btn_update = view.findViewById(R.id.btn_update);
         TextView btn_delete = view.findViewById(R.id.btn_delete);
-        if (libraryFunction == null) {
-            tv_title.setText(R.string.library_upload_with_need_review);
+        if (isLocal) {
+            if (libraryFunction == null) {
+                tv_title.setText(R.string.library_add);
+            } else {
+                tv_title.setText(R.string.library_edit);
+                ed_name.setText(libraryFunction.name);
+                ed_version.setText(libraryFunction.version);
+                ed_author.setText(libraryFunction.author);
+                ed_description.setText(libraryFunction.note);
+                ed_tags.setText(libraryFunction.tags == null ? "" : String.join(",", libraryFunction.tags));
+                ed_commands.setText(libraryFunction.content);
+            }
         } else {
-            tv_title.setText(R.string.library_update_with_need_review);
-            ed_name.setText(libraryFunction.name);
-            ed_version.setText(libraryFunction.version);
-            ed_author.setText(libraryFunction.author);
-            ed_description.setText(libraryFunction.note);
-            ed_tags.setText(libraryFunction.tags == null ? "" : String.join(",", libraryFunction.tags));
-            ed_commands.setText(libraryFunction.content);
+            if (libraryFunction == null) {
+                tv_title.setText(R.string.library_upload_with_need_review);
+            } else {
+                tv_title.setText(R.string.library_update_with_need_review);
+                ed_name.setText(libraryFunction.name);
+                ed_version.setText(libraryFunction.version);
+                ed_author.setText(libraryFunction.author);
+                ed_description.setText(libraryFunction.note);
+                ed_tags.setText(libraryFunction.tags == null ? "" : String.join(",", libraryFunction.tags));
+                ed_commands.setText(libraryFunction.content);
+            }
         }
         btn_preview.setOnClickListener(view1 -> {
             LibraryFunction library = getLibrary();
             if (library != null) {
-                openView(customContext -> new LibraryShowView(customContext, library));
+                openView(customContext -> new LibraryShowView(customContext, library, isLocal));
             }
         });
-        if (libraryFunction == null) {
+        if (isLocal) {
+            btn_save.setOnClickListener(v -> {
+                // TODO
+            });
+        } else {
+            btn_save.setVisibility(View.GONE);
+        }
+        if (isLocal || libraryFunction != null) {
+            btn_upload.setVisibility(View.GONE);
+        } else {
             btn_upload.setOnClickListener(view2 -> {
                 LibraryFunction library = getLibrary();
                 if (library == null) {
@@ -142,10 +171,10 @@ public class LibraryEditView extends CustomView<LibraryFunction> {
                         })
                         .show();
             });
+        }
+        if (isLocal || libraryFunction == null) {
             btn_update.setVisibility(View.GONE);
-            btn_delete.setVisibility(View.GONE);
         } else {
-            btn_upload.setVisibility(View.GONE);
             btn_update.setOnClickListener(view2 -> {
                 LibraryFunction library = getLibrary();
                 if (library == null) {
@@ -181,27 +210,36 @@ public class LibraryEditView extends CustomView<LibraryFunction> {
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         }).show();
             });
+        }
+        if (libraryFunction == null) {
+            btn_delete.setVisibility(View.GONE);
+        } else {
             btn_delete.setOnClickListener(view2 -> new IsConfirmDialog(context, false)
                     .title("删除")
                     .message("删除后将无法找回，是否确认删除？")
                     .onConfirm(() -> {
-                        if (delete != null) {
-                            delete.dispose();
+                        if (isLocal) {
+                            // TODO
+                            backView();
+                        } else {
+                            if (delete != null) {
+                                delete.dispose();
+                            }
+                            CommandLabPublicService.DeleteFunctionRequest request = new CommandLabPublicService.DeleteFunctionRequest();
+                            request.auth_key = authKey;
+                            delete = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
+                                    .deleteFunction(Objects.requireNonNull(Objects.requireNonNull(libraryFunction).id), request)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(result -> {
+                                        if (!Objects.equals(result.status, "success")) {
+                                            Toaster.show(result.message);
+                                            return;
+                                        }
+                                        Toaster.show("删除成功");
+                                    }, throwable -> Toaster.show(throwable.getMessage()));
+                            backView();
                         }
-                        CommandLabPublicService.DeleteFunctionRequest request = new CommandLabPublicService.DeleteFunctionRequest();
-                        request.auth_key = authKey;
-                        delete = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                                .deleteFunction(Objects.requireNonNull(Objects.requireNonNull(libraryFunction).id), request)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(result -> {
-                                    if (!Objects.equals(result.status, "success")) {
-                                        Toaster.show(result.message);
-                                        return;
-                                    }
-                                    Toaster.show("删除成功");
-                                }, throwable -> Toaster.show(throwable.getMessage()));
-                        backView();
                     }).show());
         }
     }
