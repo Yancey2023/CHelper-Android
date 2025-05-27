@@ -109,11 +109,6 @@ public class FavoritesView extends CustomView<Object> {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public boolean onBackPressed() {
         return adapter.back();
     }

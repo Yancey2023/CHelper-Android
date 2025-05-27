@@ -51,7 +51,7 @@ import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
-import yancey.chelper.android.completion.data.Settings;
+import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;

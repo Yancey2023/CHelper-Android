@@ -32,7 +32,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.util.AssetsUtil;
+import yancey.chelper.android.common.view.CustomView;
 
 /**
  * 软件的关于界面
@@ -45,7 +47,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_about);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
@@ -84,4 +86,9 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    }
 }

@@ -27,7 +27,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.R;
 import yancey.chelper.android.completion.view.CompletionView;
 
 /**
@@ -40,11 +39,10 @@ public class FloatingMainView extends FrameLayout {
     private final DraggableView iconView;
     private final MainView<CompletionView> mainView;
 
-    public FloatingMainView(@NonNull Context context, Runnable shutDown, int iconEdgeLength) {
+    public FloatingMainView(@NonNull Context context, Runnable shutDown, DraggableView iconView, int iconEdgeLength) {
         super(context);
         this.iconEdgeLength = iconEdgeLength;
-        iconView = new DraggableView(context);
-        iconView.setImageResource(R.drawable.pack_icon);
+        this.iconView = iconView;
         iconView.setLayoutParams(new LayoutParams(iconEdgeLength, iconEdgeLength, Gravity.START | Gravity.TOP));
         mainView = new MainView<>(
                 context,

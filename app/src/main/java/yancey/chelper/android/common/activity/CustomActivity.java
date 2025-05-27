@@ -26,6 +26,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import yancey.chelper.R;
+import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.common.view.MainView;
 
@@ -54,7 +56,7 @@ public abstract class CustomActivity<T extends CustomView<?>> extends AppCompatA
                 }
         );
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });

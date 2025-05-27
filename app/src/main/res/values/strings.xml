@@ -94,6 +94,12 @@
     <string name="choose_cpack">切换命令分支</string>
     <string name="current_cpack">当前命令分支：%s</string>
     <string name="old2new">旧版本命令转新版本命令</string>
+    <string name="choose_background">选择背景图片</string>
+    <string name="choose_background_description">从相册导入图片作为背景</string>
+    <string name="restore_background">背景复原</string>
+    <string name="restore_background_description">使用自带背景</string>
+    <string name="choose_theme">选择主题</string>
+    <string name="choose_theme_description">选择软件内置的主题</string>
     <string name="experiment_feature">实验性功能</string>
     <string name="raw_json_studio">原始Json文本生成器（未完工，期待有人接手）</string>
     <string name="command_completion">命令补全</string>

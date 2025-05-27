@@ -56,6 +56,7 @@ public class MainView<T extends CustomView<?>> extends FrameLayout {
             getChildAt(index).onPause();
         }
         if (environment == CustomView.Environment.FLOATING_WINDOW) {
+            view.onResume();
             view.requestFocus();
         } else {
             clearFocus();
@@ -87,7 +88,7 @@ public class MainView<T extends CustomView<?>> extends FrameLayout {
     public void onResume() {
         getChildAt(getChildCount() - 1).onResume();
         if (environment == CustomView.Environment.FLOATING_WINDOW) {
-            requestFocus();
+            getChildAt(getChildCount() - 1).requestFocus();
         }
     }
 

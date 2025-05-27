@@ -31,6 +31,8 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Objects;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.style.CustomTheme;
+import yancey.chelper.android.common.view.CustomView;
 
 /**
  * 文本展示界面
@@ -45,7 +47,7 @@ public class ShowTextActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_show_text);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
@@ -60,4 +62,9 @@ public class ShowTextActivity extends AppCompatActivity {
         tv_content.setText(content);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    }
 }

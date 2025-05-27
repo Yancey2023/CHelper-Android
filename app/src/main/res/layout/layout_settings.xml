@@ -1,4 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -24,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@color/background_component"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
@@ -57,272 +58,430 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginVertical="15dp"
-            android:background="@drawable/bg_corner_20dp"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:paddingTop="15dp">
 
-            <RelativeLayout
-                android:id="@+id/btn_choose_cpack"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="15dp">
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/btn_choose_background"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/jump"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/choose_cpack"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="39dp"
+                        android:orientation="vertical"
+                        tools:ignore="RelativeOverlap">
 
-                    <TextView
-                        android:id="@+id/tv_current_cpack"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/choose_background"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/choose_background_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:src="@drawable/chevron_right" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_restore_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/current_cpack"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="39dp"
+                        android:orientation="vertical"
+                        tools:ignore="RelativeOverlap">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/restore_background"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
 
-                <ImageView
-                    android:id="@+id/jump"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/jump"
-                    android:src="@drawable/chevron_right" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/restore_background_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
 
-            </RelativeLayout>
+                    </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="5dp"
-                android:background="@color/line" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:src="@drawable/chevron_right" />
 
-            <RelativeLayout
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_choose_theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="39dp"
+                        android:orientation="vertical"
+                        tools:ignore="RelativeOverlap">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/choose_theme"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/choose_theme_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:src="@drawable/chevron_right"
+                        tools:ignore="DuplicateIds" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="15dp">
+                android:background="@drawable/bg_corner_20dp"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/btn_choose_cpack"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/cb_is_checking_by_selection"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_checking_by_selection"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="39dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/setting_checking_by_selection_description"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/choose_cpack"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_current_cpack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/current_cpack"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/cb_is_checking_by_selection"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/jump"
+                        android:src="@drawable/chevron_right" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="5dp"
-                android:background="@color/line" />
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="15dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/cb_is_hide_window_when_copying"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_is_hide_window_when_copying"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/cb_is_checking_by_selection"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/setting_is_hide_window_when_copying_description"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/setting_checking_by_selection"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/setting_checking_by_selection_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/cb_is_hide_window_when_copying"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cb_is_checking_by_selection"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="5dp"
-                android:background="@color/line" />
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="15dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/cb_is_saving_when_pausing"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_is_saving_when_pausing"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/cb_is_hide_window_when_copying"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/setting_is_saving_when_pausing_description"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/setting_is_hide_window_when_copying"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/setting_is_hide_window_when_copying_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/cb_is_saving_when_pausing"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cb_is_hide_window_when_copying"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="5dp"
-                android:background="@color/line" />
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="15dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/cb_is_crowed"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_is_crowed"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/cb_is_saving_when_pausing"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/setting_is_crowed_description"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/setting_is_saving_when_pausing"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/setting_is_saving_when_pausing_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/cb_is_crowed"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    </LinearLayout>
 
-            </RelativeLayout>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cb_is_saving_when_pausing"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="5dp"
-                android:background="@color/line" />
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="15dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/cb_is_syntax_highlight"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_is_syntax_highlight"
-                        android:textColor="@color/text_main"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/cb_is_crowed"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/setting_is_crowed"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/setting_is_crowed_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cb_is_crowed"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/setting_is_syntax_highlight_description"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/cb_is_syntax_highlight"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/setting_is_syntax_highlight"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/cb_is_syntax_highlight"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/setting_is_syntax_highlight_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
 
-            </RelativeLayout>
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/cb_is_syntax_highlight"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

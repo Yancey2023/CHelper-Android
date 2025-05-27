@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#1E1F22</color>
-    <color name="background_component">#2b2d30</color>
+    <color name="background_component">#AA2b2d30</color>
+    <color name="background_component_no_translate">#FF2b2d30</color>
     <color name="text_main">#FFDDDDDD</color>
     <color name="text_bond">@color/white</color>
     <color name="text_secondary">@color/grey_lite</color>

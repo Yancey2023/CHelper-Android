@@ -34,6 +34,10 @@
 -keep class yancey.chelper.core.ErrorReason{ *; }
 -keep class yancey.chelper.core.ClickSuggestionResult{ *; }
 
+# -----Settings -----
+
+-keep class yancey.chelper.android.common.util.Settings{ *; }
+
 # -----Command Lab -----
 
 -keep class yancey.chelper.network.library.data.**{ *; }

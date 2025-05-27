@@ -90,6 +90,7 @@ public class FileUtil {
      * @param file 文件
      * @return 文件所在的文件夹是否存在
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean createParentFile(File file) {
         if (file.exists()) {
             return true;

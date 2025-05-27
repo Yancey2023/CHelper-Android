@@ -20,40 +20,29 @@ package yancey.chelper.android.welcome.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.Toaster;
-import com.hjq.window.EasyWindow;
-import com.hjq.window.draggable.MovingWindowDraggableRule;
 
 import java.io.File;
-import java.util.List;
 import java.util.Objects;
 
 import yancey.chelper.R;
 import yancey.chelper.android.about.activity.AboutActivity;
 import yancey.chelper.android.about.activity.ShowTextActivity;
-import yancey.chelper.android.common.dialog.IsConfirmDialog;
+import yancey.chelper.android.common.activity.SettingsActivity;
 import yancey.chelper.android.common.dialog.PrivacyPolicyDialog;
+import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.util.AssetsUtil;
 import yancey.chelper.android.common.util.FileUtil;
-import yancey.chelper.android.common.view.FloatingMainView;
+import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.activity.CompletionActivity;
-import yancey.chelper.android.completion.activity.SettingsActivity;
+import yancey.chelper.android.completion.util.CompletionWindowManager;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
 import yancey.chelper.android.favorites.activity.FavoritesActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
@@ -61,33 +50,31 @@ import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
 
 /**
- * 欢迎界面 + 悬浮窗管理
+ * 欢迎界面
  */
 public class WelcomeActivity extends AppCompatActivity {
-
-    private EasyWindow<?> mainViewWindow, iconViewWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
         findViewById(R.id.btn_start_suggestion_app).setOnClickListener(v -> {
-            if (isUsingFloatingWindow()) {
+            if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
                 Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式");
                 return;
             }
             startActivity(new Intent(this, CompletionActivity.class));
         });
         findViewById(R.id.btn_start_enumeration_window).setOnClickListener(v -> {
-            if (isUsingFloatingWindow()) {
-                stopFloatingWindow();
+            if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
+                CompletionWindowManager.INSTANCE.stopFloatingWindow();
             } else {
-                startFloatingWindow(40, true);
+                CompletionWindowManager.INSTANCE.startFloatingWindow(this, 40, true);
             }
         });
         findViewById(R.id.btn_enumeration_settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
@@ -104,6 +91,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
         String privacyPolicy = AssetsUtil.readStringFromAssets(this, "about/privacy_policy.txt");
         String privacyPolicyHashStr = String.valueOf(privacyPolicy.hashCode());
         File lastReadContent = new File(getDataDir(), "lastReadContent.txt");
@@ -129,120 +117,10 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 是否正在使用悬浮窗
-     *
-     * @return 是否正在使用悬浮窗
-     */
-    private boolean isUsingFloatingWindow() {
-        return iconViewWindow != null;
-    }
-
-    /**
-     * 开启悬浮窗
-     *
-     * @param iconSize                            图标大小
-     * @param isShowXiaomiClipboardPermissionTips 是否为小米用户或红米用户显示剪切板权限提示
-     */
-    @SuppressWarnings("SameParameterValue")
-    private void startFloatingWindow(int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
-        if (!XXPermissions.isGranted(this, Permission.SYSTEM_ALERT_WINDOW)) {
-            new IsConfirmDialog(this, false)
-                    .message("需要悬浮窗权限，请进入设置进行授权")
-                    .onConfirm("打开设置", () -> XXPermissions.with(this)
-                            .permission(Permission.SYSTEM_ALERT_WINDOW)
-                            .request(new OnPermissionCallback() {
-                                @Override
-                                public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                    Toaster.show("悬浮窗权限获取成功");
-                                }
-
-                                @Override
-                                public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                    Toaster.show("悬浮窗权限获取失败");
-                                }
-                            })).show();
-            return;
-        }
-//        if (isShowXiaomiClipboardPermissionTips && RomUtils.isXiaomi()) {
-        if (isShowXiaomiClipboardPermissionTips) {
-            File file = FileUtil.getFile(getDataDir(), "xiaomi_clipboard_permission_no_tips.txt");
-            if (!file.exists()) {
-                new IsConfirmDialog(this, false)
-                        .message("对于小米手机和红米手机，需要将写入剪切板权限设置为始终允许才能在悬浮窗复制文本。具体设置方式如下：设置-应用设置-权限管理-应用权限管理-CHelper-写入剪切板-始终允许。")
-                        .onConfirm(() -> startFloatingWindow(iconSize, false))
-                        .onCancel("不再提示", () -> {
-                            FileUtil.writeString(file, "");
-                            startFloatingWindow(iconSize, false);
-                        })
-                        .show();
-                return;
-            }
-        }
-        int length = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                iconSize,
-                getResources().getDisplayMetrics()
-        );
-        FloatingMainView floatingMainView = new FloatingMainView(
-                this,
-                this::stopFloatingWindow,
-                length
-        );
-        mainViewWindow = EasyWindow.with(getApplication())
-                .setContentView(floatingMainView)
-                .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
-                .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
-                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-                .setAnimStyle(0);
-        Runnable hide = () -> {
-            iconViewWindow.setXOffset((int) floatingMainView.getIconViewX());
-            iconViewWindow.setYOffset((int) floatingMainView.getIconViewY());
-            mainViewWindow.cancel();
-            floatingMainView.onPause();
-        };
-        floatingMainView.setOnIconClickListener(hide);
-        ImageView iconView = new ImageView(this);
-        iconView.setImageResource(R.drawable.pack_icon);
-        iconView.setLayoutParams(new FrameLayout.LayoutParams(length, length, Gravity.START | Gravity.TOP));
-        iconView.setOnClickListener(v -> {
-            mainViewWindow.show();
-            WindowManager.LayoutParams layoutParam = iconViewWindow.getWindowParams();
-            floatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
-            floatingMainView.onResume();
-        });
-        iconViewWindow = EasyWindow.with(getApplication())
-                .setContentView(iconView)
-                .setWindowDraggableRule(new MovingWindowDraggableRule())
-                .setOutsideTouchable(true)
-                .setGravity(Gravity.START | Gravity.TOP)
-                .setAnimStyle(0);
-        iconViewWindow.show();
-    }
-
-    /**
-     * 关闭悬浮窗
-     */
-    private void stopFloatingWindow() {
-        if (mainViewWindow != null) {
-            FloatingMainView floatingMainView = (FloatingMainView) mainViewWindow.getContentView();
-            if (floatingMainView != null) {
-                floatingMainView.onPause();
-                floatingMainView.onDestroy();
-            }
-            mainViewWindow.recycle();
-            mainViewWindow = null;
-        }
-        if (iconViewWindow != null) {
-            iconViewWindow.recycle();
-            iconViewWindow = null;
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopFloatingWindow();
+        CompletionWindowManager.INSTANCE.stopFloatingWindow();
     }
 
 }

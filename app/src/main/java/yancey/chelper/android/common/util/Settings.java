@@ -16,15 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.completion.data;
+package yancey.chelper.android.common.util;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.File;
-
-import yancey.chelper.android.common.util.FileUtil;
 
 /**
  * 软件设置
@@ -59,6 +58,10 @@ public class Settings {
      * 设置实例
      */
     public static Settings INSTANCE;
+    /**
+     * 当前主题
+     */
+    public String themeId;
     /**
      * 根据光标位置提供补全提示
      */
@@ -174,6 +177,10 @@ public class Settings {
                 default -> isOldVersion = false;
             }
             if (isOldVersion) {
+                isDirty = true;
+            }
+            if (INSTANCE.themeId == null) {
+                INSTANCE.themeId = "MODE_NIGHT_FOLLOW_SYSTEM";
                 isDirty = true;
             }
         }

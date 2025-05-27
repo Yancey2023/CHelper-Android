@@ -33,6 +33,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
+import yancey.chelper.android.common.style.CustomTheme;
+import yancey.chelper.android.common.view.CustomView;
 
 /**
  * 旧命令转新命令输入法引导界面
@@ -44,7 +46,7 @@ public class Old2NewIMEGuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_old2new_ime_guide);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
@@ -72,4 +74,9 @@ public class Old2NewIMEGuideActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    }
 }

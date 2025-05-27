@@ -1,7 +1,7 @@
 CHelper 隐私政策
 
-更新日期：2025年5月25日
-生效日期：2025年5月25日
+更新日期：2025年5月27日
+生效日期：2025年5月27日
 
 感谢您使用CHelper！我们致力于保护您的隐私并透明化数据处理方式。请您仔细阅读以下条款，了解我们如何收集、使用、共享和保护您的信息。
 
@@ -14,6 +14,9 @@ CHelper 隐私政策
 
 权限名称：android.permission.SYSTEM_ALERT_WINDOW
 用途说明：用于显示悬浮窗。
+
+权限名称：android.permission.READ_EXTERNAL_STORAGE、android.permission.READ_MEDIA_IMAGES、android.permission.READ_MEDIA_VISUAL_USER_SELECTED
+用途说明：用于在选择用户自定义背景时读取图片。
 
 二、信息收集类型
 

@@ -34,6 +34,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import yancey.chelper.R;
+import yancey.chelper.android.common.style.CustomTheme;
+
 /**
  * 使用单个View组成的界面
  * 悬浮窗只能使用单个View显示界面，所以为了方便在悬浮窗模式和应用模式共享界面代码，所以设计了CustomView
@@ -130,7 +133,8 @@ public abstract class CustomView<T> extends FrameLayout {
      * 界面恢复前台事件
      */
     public void onResume() {
-
+        // 支持自定义背景
+        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), getEnvironment());
     }
 
     /**

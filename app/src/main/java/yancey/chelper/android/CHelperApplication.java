@@ -24,8 +24,12 @@ import android.view.Gravity;
 
 import com.hjq.toast.Toaster;
 
+import java.io.File;
+
+import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.util.FileUtil;
-import yancey.chelper.android.completion.data.Settings;
+import yancey.chelper.android.common.util.Settings;
+import yancey.chelper.android.completion.util.CompletionWindowManager;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.util.LoginUtil;
 
@@ -39,6 +43,8 @@ public class CHelperApplication extends Application {
         ServiceManager.init();
         LoginUtil.init(FileUtil.getFile(getDataDir(), "library", "user.json"));
         Settings.init(FileUtil.getFile(getDataDir(), "settings", "settings.json"));
+        CompletionWindowManager.init(this, FileUtil.getFile(getDataDir(), "xiaomi_clipboard_permission_no_tips.txt"));
+        CustomTheme.init(new File(getDataDir(), "theme"));
     }
 
 }

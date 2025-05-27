@@ -42,7 +42,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.util.TextWatcherUtil;
+import yancey.chelper.android.common.view.CustomView;
 
 /**
  * Json文本组件生成器界面
@@ -119,7 +121,7 @@ public class RawtextActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_rawtext);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
@@ -179,6 +181,12 @@ public class RawtextActivity extends AppCompatActivity {
 //        findViewById(R.id.btn_insert).setOnClickListener(v -> {
 //            insertTargetSelector();
 //        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
     }
 
     private void setColor(int color) {
