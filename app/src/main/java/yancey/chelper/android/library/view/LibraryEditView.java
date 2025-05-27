@@ -31,8 +31,6 @@ import com.hjq.toast.Toaster;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -48,10 +46,10 @@ import yancey.chelper.network.library.service.CommandLabPublicService;
 import yancey.chelper.network.library.util.CommandLabUtil;
 
 /**
- * 公有命令库
+ * 命令库编辑视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryEditView extends CustomView {
+public class LibraryEditView extends CustomView<LibraryFunction> {
 
     private EditText ed_name;
     private EditText ed_version;
@@ -64,22 +62,19 @@ public class LibraryEditView extends CustomView {
     private Disposable upload, update, delete;
 
     public LibraryEditView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment,
+            @NonNull CustomContext customContext,
             @Nullable String authKey,
             @NonNull Runnable setDirty,
             @Nullable LibraryFunction libraryFunction
     ) {
-        super(context, openView, backView, environment, R.layout.layout_library_edit, libraryFunction);
+        super(customContext, R.layout.layout_library_edit, libraryFunction);
         this.authKey = authKey;
         this.setDirty = setDirty;
     }
 
     @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
-        LibraryFunction libraryFunction = (LibraryFunction) privateData;
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable LibraryFunction libraryFunction) {
+        view.findViewById(R.id.back).setOnClickListener(v -> backView());
         TextView tv_title = view.findViewById(R.id.title);
         ed_name = view.findViewById(R.id.name);
         ed_version = view.findViewById(R.id.version);
@@ -92,9 +87,9 @@ public class LibraryEditView extends CustomView {
         TextView btn_update = view.findViewById(R.id.btn_update);
         TextView btn_delete = view.findViewById(R.id.btn_delete);
         if (libraryFunction == null) {
-            tv_title.setText(R.string.public_library_upload_with_need_review);
+            tv_title.setText(R.string.library_upload_with_need_review);
         } else {
-            tv_title.setText(R.string.public_library_update_with_need_review);
+            tv_title.setText(R.string.library_update_with_need_review);
             ed_name.setText(libraryFunction.name);
             ed_version.setText(libraryFunction.version);
             ed_author.setText(libraryFunction.author);
@@ -105,8 +100,7 @@ public class LibraryEditView extends CustomView {
         btn_preview.setOnClickListener(view1 -> {
             LibraryFunction library = getLibrary();
             if (library != null) {
-                openView((context1, openView, backView, environment) ->
-                        new LibraryShowView(context1, openView, backView, environment, library));
+                openView(customContext -> new LibraryShowView(customContext, library));
             }
         });
         if (libraryFunction == null) {
@@ -141,10 +135,9 @@ public class LibraryEditView extends CustomView {
                                         new IsConfirmDialog(context, false)
                                                 .message("上传成功，您的密钥为：" + Objects.requireNonNull(Objects.requireNonNull(result.data).functions).get(0).user_key + "。本密钥只显示一次，用于后续更新或删除本次上传的内容，请妥善保存。")
                                                 .onConfirm("复制密钥", () -> ClipboardUtil.setText(context, Objects.requireNonNull(Objects.requireNonNull(result.data).functions).get(0).user_key))
-                                                .onDismiss(backView::get)
+                                                .onDismiss(this::backView)
                                                 .show();
                                         setDirty.run();
-                                        backView.get();
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         })
                         .show();
@@ -184,7 +177,7 @@ public class LibraryEditView extends CustomView {
                                         }
                                         Toaster.show("更改成功");
                                         setDirty.run();
-                                        backView.get();
+                                        backView();
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         }).show();
             });
@@ -208,7 +201,7 @@ public class LibraryEditView extends CustomView {
                                     }
                                     Toaster.show("删除成功");
                                 }, throwable -> Toaster.show(throwable.getMessage()));
-                        backView.get();
+                        backView();
                     }).show());
         }
     }

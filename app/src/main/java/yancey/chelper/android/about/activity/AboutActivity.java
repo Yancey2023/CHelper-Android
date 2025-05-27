@@ -18,6 +18,7 @@
 
 package yancey.chelper.android.about.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -30,9 +31,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.hjq.permissions.BuildConfig;
-import com.hjq.permissions.XXPermissions;
-
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.AssetsUtil;
 
@@ -42,6 +40,7 @@ import yancey.chelper.android.common.util.AssetsUtil;
 public class AboutActivity extends AppCompatActivity {
 
     @Override
+    @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_about);

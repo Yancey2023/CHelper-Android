@@ -20,21 +20,18 @@ package yancey.chelper.android.library.activity;
 
 import androidx.annotation.NonNull;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.library.view.LibraryListView;
 
 /**
- * 公有命令库
+ * 公有命令库列表
  */
 public class PublicLibraryListActivity extends CustomActivity<LibraryListView> {
 
     @Override
-    protected LibraryListView createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> bacKView) {
-        return new LibraryListView(this, openView, bacKView, CustomView.Environment.APPLICATION);
+    protected LibraryListView createView(@NonNull CustomView.CustomContext customContext) {
+        return new LibraryListView(customContext, false);
     }
 
 }

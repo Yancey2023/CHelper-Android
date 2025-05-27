@@ -6,28 +6,60 @@
     android:background="@color/background"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/background_component"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevron_left" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/background_component"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/old2new"
+            android:textColor="@color/text_main"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_paste">
+        android:layout_above="@id/btn_paste"
+        android:layout_below="@id/header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/ed_old_command"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/bg_edittext"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/bg_corner_10dp"
                 android:gravity="start"
                 android:hint="@string/ed_hint_old_command"
                 android:importantForAutofill="no"
                 android:inputType="none"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:textColor="@color/text_main"
                 android:textColorHint="@color/text_hint"
                 android:textSize="16sp"
@@ -37,10 +69,11 @@
                 android:id="@+id/tv_new_command"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/bg_edittext3"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_corner_10dp"
                 android:gravity="start"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:textColor="@color/text_main"
                 android:textSize="16sp" />
 

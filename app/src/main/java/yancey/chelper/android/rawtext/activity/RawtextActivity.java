@@ -112,7 +112,7 @@ public class RawtextActivity extends AppCompatActivity {
     private EditText mEd_text;
     private TextView mTv_preview;
     private GridLayout mGl_colorBoard;
-    private boolean isShowColorBoard = false;
+    private boolean isShowColorBoard = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,11 +123,15 @@ public class RawtextActivity extends AppCompatActivity {
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
+        findViewById(R.id.back).setOnClickListener(v -> finish());
         mEd_text = findViewById(R.id.ed_text);
         mTv_preview = findViewById(R.id.tv_preview);
         mGl_colorBoard = findViewById(R.id.color_board);
-        mEd_text.addTextChangedListener(TextWatcherUtil.onTextChanged(s ->
-                mTv_preview.setText(getRawJson())));
+        mEd_text.addTextChangedListener(TextWatcherUtil.onTextChanged(s -> {
+            if (!isShowColorBoard) {
+                mTv_preview.setText(getRawJson());
+            }
+        }));
         findViewById(R.id.btn_color_0).setOnClickListener(v -> setColor(COLOR_0));
         findViewById(R.id.btn_color_1).setOnClickListener(v -> setColor(COLOR_1));
         findViewById(R.id.btn_color_2).setOnClickListener(v -> setColor(COLOR_2));
@@ -166,6 +170,7 @@ public class RawtextActivity extends AppCompatActivity {
                 mGl_colorBoard.setVisibility(View.VISIBLE);
             } else {
                 btn_change.setText(R.string.color);
+                mTv_preview.setText(getRawJson());
                 btn_copy.setVisibility(View.VISIBLE);
                 mTv_preview.setVisibility(View.VISIBLE);
                 mGl_colorBoard.setVisibility(View.GONE);

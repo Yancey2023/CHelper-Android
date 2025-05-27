@@ -45,19 +45,21 @@ import yancey.chelper.network.library.data.LibraryFunction;
 import yancey.chelper.network.library.service.CommandLabPublicService;
 
 /**
- * 命令库
+ * 命令库列表适配器
  */
 public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.CommandListViewHolder> {
 
     private final Context context;
     private List<LibraryFunction> libraryNames;
-    private final Consumer<LibraryFunction> onLibraryChoose;
+    private final Consumer<LibraryFunction> onLibraryShow;
+    private final Consumer<LibraryFunction> onLibraryEdit;
     private final AtomicReference<Disposable> doLike;
 
-    public LibraryListAdapter(Context context, AtomicReference<Disposable> doLike, Consumer<LibraryFunction> onLibraryChoose) {
+    public LibraryListAdapter(Context context, AtomicReference<Disposable> doLike, Consumer<LibraryFunction> onLibraryShow, Consumer<LibraryFunction> onLibraryEdit) {
         this.context = context;
         this.doLike = doLike;
-        this.onLibraryChoose = onLibraryChoose;
+        this.onLibraryShow = onLibraryShow;
+        this.onLibraryEdit = onLibraryEdit;
     }
 
     @NonNull
@@ -67,26 +69,27 @@ public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.
     }
 
     @Override
-    @SuppressLint("SetTextI18n")
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         LibraryFunction libraryFunction = libraryNames.get(position);
         holder.mTv_name.setText(libraryFunction.name);
-        holder.mTv_author.setText("作者：" + libraryFunction.author);
+        holder.mTv_author.setText(context.getString(R.string.library_author_formatter, libraryFunction.author));
         if (doLike == null) {
-            holder.mBtn_like.setVisibility(View.GONE);
+            holder.mBtn_like.setBackgroundResource(R.drawable.pencil);
+            holder.mBtn_like.setContentDescription(context.getString(R.string.edit));
+            holder.mBtn_like.setOnClickListener(v -> onLibraryEdit.accept(libraryFunction));
         } else {
-            holder.mBtn_like.setVisibility(View.VISIBLE);
             if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
                 holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
             } else {
                 holder.mBtn_like.setBackgroundResource(R.drawable.heart);
             }
+            holder.mBtn_like.setContentDescription(context.getString(R.string.like));
             if (libraryFunction.id != null) {
-                holder.mBtn_like.setOnClickListener(view1 -> doLike(position));
+                holder.mBtn_like.setOnClickListener(v -> doLike(position));
             }
         }
         holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.like_count, 0)));
-        holder.itemView.setOnClickListener(view -> onLibraryChoose.accept(libraryFunction));
+        holder.itemView.setOnClickListener(v -> onLibraryShow.accept(libraryFunction));
     }
 
     @SuppressLint("HardwareIds")

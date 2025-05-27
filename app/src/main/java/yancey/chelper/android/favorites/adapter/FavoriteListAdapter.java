@@ -166,14 +166,14 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
         notifyItemInserted(dataFavoriteList.size() - 1);
     }
 
-    public void bulkCopy() {
-        for (DataFavorite data : dataFavoriteList) {
-            if (data.dataFavoriteList == null) {
-                ClipboardUtil.setText(context, data.title);
-            }
-        }
-        Toaster.show("已批量复制");
-    }
+//    public void bulkCopy() {
+//        for (DataFavorite data : dataFavoriteList) {
+//            if (data.dataFavoriteList == null) {
+//                ClipboardUtil.setText(context, data.title);
+//            }
+//        }
+//        Toaster.show("已批量复制");
+//    }
 
     public static class CommandListViewHolder extends RecyclerView.ViewHolder {
         private final View itemView;

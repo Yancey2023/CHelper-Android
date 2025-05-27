@@ -39,15 +39,15 @@ import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.network.library.data.LibraryFunction;
 
 /**
- * 命令库
+ * 命令列表适配器
  */
-public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.CommandListViewHolder> {
+public class LibraryShowAdapter extends RecyclerView.Adapter<LibraryShowAdapter.CommandListViewHolder> {
 
     private final Context context;
     private LibraryFunction library;
     private List<String> content;
 
-    public LibraryAdapter(Context context, LibraryFunction library) {
+    public LibraryShowAdapter(Context context, LibraryFunction library) {
         this.context = context;
         this.library = library;
         this.content = library.content == null ? List.of() :
@@ -66,9 +66,9 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.CommandL
     @Override
     public CommandListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_meta_information, parent, false), viewType);
+            return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_show_meta_information, parent, false), viewType);
         } else {
-            return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_item, parent, false), viewType);
+            return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_show_item, parent, false), viewType);
         }
     }
 
@@ -76,10 +76,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.CommandL
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         if (holder.viewType == 0) {
             if (library == null) {
-                holder.mTv_version.setText("加载中");
-                holder.mTv_author.setText("加载中");
-                holder.mTv_description.setText("加载中");
-                holder.mTv_tags.setText("加载中");
+                holder.mTv_version.setText(R.string.library_loading);
+                holder.mTv_author.setText(R.string.library_loading);
+                holder.mTv_description.setText(R.string.library_loading);
+                holder.mTv_tags.setText(R.string.library_loading);
             } else {
                 holder.mTv_version.setText(library.version);
                 holder.mTv_author.setText(library.author);

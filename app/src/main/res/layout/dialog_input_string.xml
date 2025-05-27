@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_background_corner_20dp"
+    android:background="@drawable/bg_corner_20dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -25,6 +25,7 @@
         android:layout_marginBottom="10dp"
         android:autofillHints="no"
         android:gravity="center"
+        android:background="@color/background_component"
         android:hint="@string/input_hint"
         android:inputType="text"
         android:minWidth="200dp"

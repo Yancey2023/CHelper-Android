@@ -20,9 +20,6 @@ package yancey.chelper.android.enumeration.activity;
 
 import androidx.annotation.NonNull;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.enumeration.view.EnumerationView;
@@ -33,8 +30,8 @@ import yancey.chelper.android.enumeration.view.EnumerationView;
 public class EnumerationActivity extends CustomActivity<EnumerationView> {
 
     @Override
-    protected EnumerationView createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> bacKView) {
-        return new EnumerationView(this, openView, bacKView, CustomView.Environment.APPLICATION);
+    protected EnumerationView createView(@NonNull CustomView.CustomContext customContext) {
+        return new EnumerationView(customContext);
     }
 
 }

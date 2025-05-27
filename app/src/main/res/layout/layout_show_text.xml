@@ -2,14 +2,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background2"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/background"
+        android:background="@color/background_component"
         android:orientation="horizontal">
 
         <View
@@ -25,7 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@color/background"
+            android:background="@color/background_component"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:text="@string/open_source_terms"
             android:textColor="@color/text_main"
             android:textIsSelectable="true"
@@ -37,8 +40,8 @@
         android:id="@+id/sv_add_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_round">
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_corner_10dp">
 
         <TextView
             android:id="@+id/content"

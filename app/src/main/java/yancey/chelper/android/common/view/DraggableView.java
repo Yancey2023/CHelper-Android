@@ -26,6 +26,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
+/**
+ * 可拖拽的视图
+ */
 public class DraggableView extends AppCompatImageView {
 
     private float downX;

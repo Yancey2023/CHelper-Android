@@ -51,6 +51,7 @@ import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.dialog.PrivacyPolicyDialog;
 import yancey.chelper.android.common.util.AssetsUtil;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.view.FloatingMainView;
 import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.activity.SettingsActivity;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
@@ -58,7 +59,6 @@ import yancey.chelper.android.favorites.activity.FavoritesActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
-import yancey.chelper.android.welcome.view.FloatingMainView;
 
 /**
  * 欢迎界面 + 悬浮窗管理
@@ -87,7 +87,7 @@ public class WelcomeActivity extends AppCompatActivity {
             if (isUsingFloatingWindow()) {
                 stopFloatingWindow();
             } else {
-                startFloatingWindow(40);
+                startFloatingWindow(40, true);
             }
         });
         findViewById(R.id.btn_enumeration_settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
@@ -106,7 +106,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onResume();
         String privacyPolicy = AssetsUtil.readStringFromAssets(this, "about/privacy_policy.txt");
         String privacyPolicyHashStr = String.valueOf(privacyPolicy.hashCode());
-        File lastReadContent = new File(getCacheDir(), "lastReadContent.txt");
+        File lastReadContent = new File(getDataDir(), "lastReadContent.txt");
         String message = null;
         if (!lastReadContent.exists()) {
             message = "为保障您的权益，请阅读并同意《CHelper 隐私政策》，了解我们如何收集、使用您的信息。";
@@ -141,10 +141,11 @@ public class WelcomeActivity extends AppCompatActivity {
     /**
      * 开启悬浮窗
      *
-     * @param iconSize 图标大小
+     * @param iconSize                            图标大小
+     * @param isShowXiaomiClipboardPermissionTips 是否为小米用户或红米用户显示剪切板权限提示
      */
     @SuppressWarnings("SameParameterValue")
-    private void startFloatingWindow(int iconSize) {
+    private void startFloatingWindow(int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
         if (!XXPermissions.isGranted(this, Permission.SYSTEM_ALERT_WINDOW)) {
             new IsConfirmDialog(this, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
@@ -153,7 +154,7 @@ public class WelcomeActivity extends AppCompatActivity {
                             .request(new OnPermissionCallback() {
                                 @Override
                                 public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                    startFloatingWindow(iconSize);
+                                    Toaster.show("悬浮窗权限获取成功");
                                 }
 
                                 @Override
@@ -161,6 +162,22 @@ public class WelcomeActivity extends AppCompatActivity {
                                     Toaster.show("悬浮窗权限获取失败");
                                 }
                             })).show();
+            return;
+        }
+//        if (isShowXiaomiClipboardPermissionTips && RomUtils.isXiaomi()) {
+        if (isShowXiaomiClipboardPermissionTips) {
+            File file = FileUtil.getFile(getDataDir(), "xiaomi_clipboard_permission_no_tips.txt");
+            if (!file.exists()) {
+                new IsConfirmDialog(this, false)
+                        .message("对于小米手机和红米手机，需要将写入剪切板权限设置为始终允许才能在悬浮窗复制文本。具体设置方式如下：设置-应用设置-权限管理-应用权限管理-CHelper-写入剪切板-始终允许。")
+                        .onConfirm(() -> startFloatingWindow(iconSize, false))
+                        .onCancel("不再提示", () -> {
+                            FileUtil.writeString(file, "");
+                            startFloatingWindow(iconSize, false);
+                        })
+                        .show();
+                return;
+            }
         }
         int length = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,

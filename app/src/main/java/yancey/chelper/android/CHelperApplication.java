@@ -24,9 +24,8 @@ import android.view.Gravity;
 
 import com.hjq.toast.Toaster;
 
-import java.io.File;
-
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.completion.data.Settings;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.util.LoginUtil;
 
@@ -39,6 +38,7 @@ public class CHelperApplication extends Application {
         Toaster.setGravity(Gravity.BOTTOM, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
         ServiceManager.init();
         LoginUtil.init(FileUtil.getFile(getDataDir(), "library", "user.json"));
+        Settings.init(FileUtil.getFile(getDataDir(), "settings", "settings.json"));
     }
 
 }

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.welcome.view;
+package yancey.chelper.android.common.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,13 +28,10 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import yancey.chelper.R;
-import yancey.chelper.android.common.view.CustomView;
-import yancey.chelper.android.common.view.DraggableView;
-import yancey.chelper.android.common.view.MainView;
 import yancey.chelper.android.completion.view.CompletionView;
 
 /**
- * 悬浮窗
+ * 悬浮窗主视图
  */
 @SuppressLint("ViewConstructor")
 public class FloatingMainView extends FrameLayout {
@@ -49,8 +46,12 @@ public class FloatingMainView extends FrameLayout {
         iconView = new DraggableView(context);
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new LayoutParams(iconEdgeLength, iconEdgeLength, Gravity.START | Gravity.TOP));
-        mainView = new MainView<>(context, CustomView.Environment.FLOATING_WINDOW, (openView, backView) ->
-                new CompletionView(context, openView, backView, CustomView.Environment.FLOATING_WINDOW, shutDown, iconView::callOnClick));
+        mainView = new MainView<>(
+                context,
+                CustomView.Environment.FLOATING_WINDOW,
+                customContext -> new CompletionView(customContext, shutDown, iconView::callOnClick),
+                iconView::callOnClick
+        );
         addView(mainView);
         addView(iconView);
     }

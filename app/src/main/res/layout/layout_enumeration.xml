@@ -5,18 +5,51 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/background_component"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevron_left" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/background_component"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/enumeration"
+            android:textColor="@color/text_main"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/ed_input"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
-        android:background="@drawable/bg_edittext"
+        android:layout_below="@id/header"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_corner_10dp"
         android:gravity="start"
         android:hint="@string/ed_enumeration_hint"
         android:importantForAutofill="no"
         android:inputType="none"
-        android:padding="15dp"
+        android:padding="10dp"
         android:textColor="@color/text_main"
         android:textColorHint="@color/text_hint"
         android:textSize="16sp"
@@ -25,13 +58,13 @@
     <TextView
         android:id="@+id/tv_times"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_below="@id/ed_input"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="15dp"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:padding="5dp"
+        android:paddingHorizontal="10dp"
         android:text="@string/tv_times"
         android:textColor="@color/text_main"
         android:textSize="16sp" />
@@ -43,16 +76,14 @@
         android:layout_below="@id/ed_input"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="15dp"
         android:layout_toEndOf="@id/tv_times"
-        android:background="@drawable/bg_edittext2"
+        android:background="@drawable/bg_corner_10dp"
         android:gravity="center_vertical"
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLines="1"
-        android:padding="5dp"
+        android:paddingHorizontal="10dp"
         android:textColor="@color/text_main"
         android:textColorHint="@color/text_hint"
         android:textSize="16sp"
@@ -64,7 +95,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ed_times"
         android:layout_alignParentStart="true"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -103,6 +136,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/btn_add"
         android:layout_below="@id/description"
+        android:layout_alignParentEnd="true"
+        android:layout_marginVertical="10dp"
         android:scrollbars="vertical"
         tools:itemCount="10"
         tools:listitem="@layout/layout_variable_list_item" />

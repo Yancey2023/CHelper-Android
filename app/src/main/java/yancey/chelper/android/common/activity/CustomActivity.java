@@ -26,9 +26,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.common.view.MainView;
 
@@ -38,16 +35,24 @@ import yancey.chelper.android.common.view.MainView;
  *
  * @param <T> View的内容
  */
-public abstract class CustomActivity<T extends CustomView> extends AppCompatActivity {
+public abstract class CustomActivity<T extends CustomView<?>> extends AppCompatActivity {
 
     private MainView<T> view;
 
-    protected abstract T createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> backView);
+    protected abstract T createView(@NonNull CustomView.CustomContext customContext);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = new MainView<>(this, CustomView.Environment.APPLICATION, this::createView);
+        view = new MainView<>(
+                this,
+                CustomView.Environment.APPLICATION,
+                this::createView,
+                () -> {
+                    super.onBackPressed();
+                    return true;
+                }
+        );
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
@@ -74,8 +79,10 @@ public abstract class CustomActivity<T extends CustomView> extends AppCompatActi
 
     @Override
     public void onBackPressed() {
-        if (view == null || !view.onBackPressed()) {
+        if (view == null) {
             super.onBackPressed();
+        } else {
+            view.onBackPressed();
         }
     }
 

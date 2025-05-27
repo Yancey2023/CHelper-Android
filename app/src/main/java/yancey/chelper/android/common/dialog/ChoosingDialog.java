@@ -19,7 +19,6 @@
 package yancey.chelper.android.common.dialog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -66,7 +65,7 @@ public class ChoosingDialog extends FixedDialog {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackgroundResource(R.color.background);
+        linearLayout.setBackgroundResource(R.color.background_component);
         scrollView.addView(linearLayout);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dp50 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);

@@ -34,8 +34,6 @@ import com.hjq.toast.Toaster;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import redempt.crunch.data.Pair;
 import redempt.crunch.exceptions.ExpressionCompilationException;
@@ -52,19 +50,14 @@ import yancey.chelper.android.enumeration.data.DataVariable;
  * 穷举界面
  */
 @SuppressLint("ViewConstructor")
-public class EnumerationView extends CustomView {
+public class EnumerationView extends CustomView<Object> {
 
     private static final String TAG = "ExpressionView";
     private VariableListAdapter adapter;
     private EditText mEd_input, mEd_times;
 
-    public EnumerationView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment
-    ) {
-        super(context, openView, backView, environment, R.layout.layout_enumeration);
+    public EnumerationView(@NonNull CustomContext customContext) {
+        super(customContext, R.layout.layout_enumeration);
     }
 
     @Override
@@ -75,6 +68,7 @@ public class EnumerationView extends CustomView {
         recyclerView.setAdapter(adapter);
         mEd_input = view.findViewById(R.id.ed_input);
         mEd_times = view.findViewById(R.id.ed_times);
+        view.findViewById(R.id.back).setOnClickListener(v -> backView());
         view.findViewById(R.id.btn_add).setOnClickListener(v -> adapter.add(new DataVariable()));
         view.findViewById(R.id.btn_run).setOnClickListener(v -> {
             Editable editable = mEd_input.getText();

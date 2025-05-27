@@ -21,6 +21,7 @@ package yancey.chelper.android.completion.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -43,8 +44,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
@@ -53,7 +52,6 @@ import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
 import yancey.chelper.android.completion.data.Settings;
-import yancey.chelper.android.library.view.LibraryListView;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;
@@ -62,7 +60,7 @@ import yancey.chelper.core.SelectedString;
 import yancey.chelper.core.Theme;
 
 @SuppressLint("ViewConstructor")
-public class CompletionView extends CustomView {
+public class CompletionView extends CustomView<Object> {
 
     private static final String TAG = "WritingCommandView";
     private FrameLayout fl_action_container, fl_actions;
@@ -74,15 +72,11 @@ public class CompletionView extends CustomView {
     private CHelperGuiCore core;
 
     public CompletionView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment,
+            @NonNull CustomContext customContext,
             @NonNull Runnable shutDown,
             @Nullable Runnable hideView
     ) {
-        super(context, openView, backView, environment, Settings.getInstance(context).isCrowed ?
-                R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
+        super(customContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
         this.shutDown = shutDown;
         this.hideView = hideView;
     }
@@ -92,13 +86,12 @@ public class CompletionView extends CustomView {
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         core = new CHelperGuiCore(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
-        Settings settings = Settings.getInstance(getContext());
         TextView mtv_structure = view.findViewById(R.id.tv_structure);
         TextView mtv_description = view.findViewById(R.id.tv_description);
         TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
         commandEditText = view.findViewById(R.id.ed_input);
         commandEditText.setListener(null, core::onSelectionChanged, () -> isGuiLoaded);
-        SuggestionListAdapter adapter = new SuggestionListAdapter(context, core, settings.isCrowed);
+        SuggestionListAdapter adapter = new SuggestionListAdapter(context, core, Settings.INSTANCE.isCrowed);
         RecyclerView recyclerView = view.findViewById(R.id.rv_command_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
@@ -120,17 +113,21 @@ public class CompletionView extends CustomView {
 
             @Override
             public boolean isCheckingBySelection() {
-                return settings.isCheckingBySelection;
+                return Settings.INSTANCE.isCheckingBySelection;
             }
 
             @Override
             public boolean isSyntaxHighlight() {
-                return settings.isSyntaxHighlight;
+                if (!Settings.INSTANCE.isSyntaxHighlight) {
+                    return false;
+                }
+                Editable text = commandEditText.getText();
+                return text != null && text.length() < 200;
             }
 
             @Override
             public void updateStructure(@Nullable String structure) {
-                if (settings.isCrowed) {
+                if (Settings.INSTANCE.isCrowed) {
                     adapter.setStructure(structure);
                 } else {
                     mtv_structure.setText(structure);
@@ -139,7 +136,7 @@ public class CompletionView extends CustomView {
 
             @Override
             public void updateDescription(@Nullable String description) {
-                if (settings.isCrowed) {
+                if (Settings.INSTANCE.isCrowed) {
                     adapter.setDescription(description);
                 } else {
                     mtv_description.setText(description);
@@ -150,7 +147,7 @@ public class CompletionView extends CustomView {
             public void updateErrorReason(@Nullable ErrorReason[] errorReasons) {
                 if (errorReasons == null || errorReasons.length == 0) {
                     if (mtv_errorReasons != null) {
-                        mtv_errorReasons.setVisibility(GONE);
+                        mtv_errorReasons.setVisibility(View.GONE);
                     }
                     commandEditText.setErrorReasons(null);
                 } else {
@@ -168,7 +165,7 @@ public class CompletionView extends CustomView {
                         }
                     }
                     if (mtv_errorReasons != null) {
-                        mtv_errorReasons.setVisibility(VISIBLE);
+                        mtv_errorReasons.setVisibility(View.VISIBLE);
                     }
                     commandEditText.setErrorReasons(isSyntaxHighlight() ? errorReasons : null);
                 }
@@ -203,7 +200,7 @@ public class CompletionView extends CustomView {
         view.findViewById(R.id.btn_copy).setOnClickListener(v -> {
             if (ClipboardUtil.setText(getContext(), commandEditText.getText())) {
                 Toaster.show("已复制");
-                if (hideView != null && Settings.getInstance(context).isHideWindowWhenCopying) {
+                if (hideView != null && Settings.INSTANCE.isHideWindowWhenCopying) {
                     hideView.run();
                 }
             } else {
@@ -213,11 +210,11 @@ public class CompletionView extends CustomView {
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
-        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(LibraryListView::new));
+//        view.findViewById(R.id.btn_public_library).setOnClickListener(v -> openView(LibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
         // 加载上次的输入内容
         SelectedString selectedString = null;
-        if (Settings.getInstance(context).isSavingWhenPausing) {
+        if (Settings.INSTANCE.isSavingWhenPausing) {
             File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
             if (file.exists()) {
                 try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
@@ -281,7 +278,7 @@ public class CompletionView extends CustomView {
     public void onResume() {
         super.onResume();
         isGuiLoaded = true;
-        String cpackPath = Settings.getInstance(getContext()).getCpackPath();
+        String cpackPath = Settings.INSTANCE.getCpackPath();
         if (core.getCore() == null || !Objects.equals(core.getCore().getPath(), cpackPath)) {
             CHelperCore core1 = null;
             try {

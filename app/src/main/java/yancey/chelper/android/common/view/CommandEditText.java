@@ -141,7 +141,7 @@ public class CommandEditText extends AppCompatEditText {
      */
     public void setSelectedString(SelectedString selectedString) {
         if (selectedString == null) {
-            setText("");
+            setText(null);
             return;
         }
         tryAddHistory(selectedString);
@@ -175,7 +175,7 @@ public class CommandEditText extends AppCompatEditText {
      * 删除所有内容
      */
     public void delete() {
-        setText("");
+        setText(null);
     }
 
     /**

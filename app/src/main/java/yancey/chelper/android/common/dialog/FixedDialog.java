@@ -20,6 +20,8 @@ package yancey.chelper.android.common.dialog;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -70,13 +72,19 @@ public abstract class FixedDialog extends AppCompatDialog {
         fixWidth();
     }
 
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     private void fixWidth() {
         Window window = Objects.requireNonNull(getWindow());
         window.setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams attributes = window.getAttributes();
-        Point point = new Point();
-        window.getWindowManager().getDefaultDisplay().getSize(point);
-        attributes.width = (int) (((double) point.x) * 0.95d);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Rect size = window.getWindowManager().getCurrentWindowMetrics().getBounds();
+            attributes.width = (int) (size.width() * 0.9);
+        } else {
+            Point point = new Point();
+            window.getWindowManager().getDefaultDisplay().getSize(point);
+            attributes.width = (int) (((double) point.x) * 0.9d);
+        }
         window.setAttributes(attributes);
     }
 

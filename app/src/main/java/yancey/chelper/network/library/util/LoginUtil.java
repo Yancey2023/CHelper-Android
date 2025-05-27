@@ -35,13 +35,13 @@ public class LoginUtil {
 
     private static final String TAG = "LoginUtil";
 
-    public static File cacheFile;
+    private static File file;
     public static User user;
 
-    public static void init(File cacheFile) {
-        LoginUtil.cacheFile = cacheFile;
-        if (cacheFile.exists()) {
-            user = ServiceManager.GSON.fromJson(FileUtil.readString(cacheFile), User.class);
+    public static void init(File file) {
+        LoginUtil.file = file;
+        if (file.exists()) {
+            user = ServiceManager.GSON.fromJson(FileUtil.readString(file), User.class);
         }
     }
 
@@ -62,7 +62,7 @@ public class LoginUtil {
         if (response.body() != null && Objects.equals(response.body().status, "success")) {
             Log.i(TAG, "登录成功");
             user.lastLoginTimestamp = System.currentTimeMillis();
-            FileUtil.writeString(cacheFile, ServiceManager.GSON.toJson(user));
+            FileUtil.writeString(file, ServiceManager.GSON.toJson(user));
             return user.token;
         } else {
             Log.i(TAG, "登录失败");

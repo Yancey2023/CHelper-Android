@@ -38,8 +38,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.FileUtil;
@@ -51,18 +49,13 @@ import yancey.chelper.android.favorites.data.DataFavorite;
  * 收藏界面
  */
 @SuppressLint("ViewConstructor")
-public class FavoritesView extends CustomView {
+public class FavoritesView extends CustomView<Object> {
 
     private static final String TAG = "FavoriteActivity";
     private FavoriteListAdapter adapter;
 
-    public FavoritesView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment
-    ) {
-        super(context, openView, backView, environment, R.layout.layout_favorites);
+    public FavoritesView(@NonNull CustomContext customContext) {
+        super(customContext, R.layout.layout_favorites);
     }
 
     @Override
@@ -86,13 +79,14 @@ public class FavoritesView extends CustomView {
         adapter = new FavoriteListAdapter(context, dataFavoriteList);
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
+        view.findViewById(R.id.back).setOnClickListener(v -> backView());
         view.findViewById(R.id.btn_favorite_select_all).setOnClickListener(v -> adapter.selectAll());
         view.findViewById(R.id.btn_favorite_invert).setOnClickListener(v -> adapter.invert());
         view.findViewById(R.id.btn_favorite_deselect).setOnClickListener(v -> adapter.deselect());
         view.findViewById(R.id.btn_new).setOnClickListener(v -> adapter.newOne(false));
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> adapter.delete());
         view.findViewById(R.id.btn_new_folder).setOnClickListener(v -> adapter.newOne(true));
-        view.findViewById(R.id.btn_bulk_copy).setOnClickListener(v -> adapter.bulkCopy());
+//        view.findViewById(R.id.btn_bulk_copy).setOnClickListener(v -> adapter.bulkCopy());
         //findViewById(R.id.btn_move).setOnClickListener(this);
     }
 

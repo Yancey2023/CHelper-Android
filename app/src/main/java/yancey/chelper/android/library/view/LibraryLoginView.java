@@ -15,9 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
@@ -30,23 +27,18 @@ import yancey.chelper.network.library.data.User;
 import yancey.chelper.network.library.util.LoginUtil;
 
 /**
- * 命令库
+ * 命令库登录视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryLoginView extends CustomView {
+public class LibraryLoginView extends CustomView<Object> {
 
     private TextView tv_message;
     private boolean isShowPassword = false;
     private boolean isLogging = false;
     private Disposable login;
 
-    public LibraryLoginView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment
-    ) {
-        super(context, openView, backView, environment, R.layout.layout_library_login);
+    public LibraryLoginView(@NonNull CustomContext customContext) {
+        super(customContext, R.layout.layout_library_login);
     }
 
     @Override

@@ -27,9 +27,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.TextWatcherUtil;
@@ -40,24 +37,20 @@ import yancey.chelper.core.CHelperCore;
  * 旧命令转新命令界面
  */
 @SuppressLint("ViewConstructor")
-public class Old2NewView extends CustomView {
+public class Old2NewView extends CustomView<Object> {
 
     private EditText mEd_oldCommand;
     private TextView mTv_newCommand;
 
-    public Old2NewView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment
-    ) {
-        super(context, openView, backView, environment, R.layout.layout_old2new);
+    public Old2NewView(@NonNull CustomContext customContext) {
+        super(customContext, R.layout.layout_old2new);
     }
 
     @Override
     public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         mEd_oldCommand = view.findViewById(R.id.ed_old_command);
         mTv_newCommand = view.findViewById(R.id.tv_new_command);
+        findViewById(R.id.back).setOnClickListener(v -> backView());
         view.findViewById(R.id.btn_paste).setOnClickListener(v -> {
             CharSequence charSequence = ClipboardUtil.getText(context);
             if (charSequence != null) {

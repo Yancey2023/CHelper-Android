@@ -33,39 +33,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hjq.toast.Toaster;
 
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.view.CustomView;
-import yancey.chelper.android.library.adapter.LibraryAdapter;
+import yancey.chelper.android.library.adapter.LibraryShowAdapter;
+import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.data.LibraryFunction;
 import yancey.chelper.network.library.service.CommandLabPublicService;
-import yancey.chelper.network.ServiceManager;
 
 /**
- * 命令库
+ * 命令库显示视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryShowView extends CustomView {
+public class LibraryShowView extends CustomView<LibraryFunction> {
 
     private LibraryFunction libraryFunction, library;
-    private LibraryAdapter adapter;
+    private LibraryShowAdapter adapter;
     private View btn_like;
     private TextView tv_like_count;
     private Disposable loadData, doLike;
 
     public LibraryShowView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment,
+            @NonNull CustomContext customContext,
             @NonNull LibraryFunction libraryFunction
     ) {
-        super(context, openView, backView, environment, R.layout.layout_library_show, libraryFunction);
+        super(customContext, R.layout.layout_library_show, libraryFunction);
     }
 
     void updateLike(LibraryFunction libraryFunction) {
@@ -79,12 +74,13 @@ public class LibraryShowView extends CustomView {
 
     @Override
     @SuppressLint("HardwareIds")
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
-        libraryFunction = (LibraryFunction) Objects.requireNonNull(privateData);
+    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable LibraryFunction libraryFunction) {
+        this.libraryFunction = Objects.requireNonNull(libraryFunction);
+        view.findViewById(R.id.back).setOnClickListener(v -> backView());
         btn_like = view.findViewById(R.id.btn_like);
         tv_like_count = view.findViewById(R.id.tv_like_count);
         TextView tv_name = view.findViewById(R.id.name);
-        adapter = new LibraryAdapter(context, libraryFunction);
+        adapter = new LibraryShowAdapter(context, libraryFunction);
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));

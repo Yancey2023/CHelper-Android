@@ -20,9 +20,6 @@ package yancey.chelper.android.favorites.activity;
 
 import androidx.annotation.NonNull;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import yancey.chelper.android.common.activity.CustomActivity;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.favorites.view.FavoritesView;
@@ -33,8 +30,8 @@ import yancey.chelper.android.favorites.view.FavoritesView;
 public class FavoritesActivity extends CustomActivity<FavoritesView> {
 
     @Override
-    protected FavoritesView createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> bacKView) {
-        return new FavoritesView(this, openView, bacKView, CustomView.Environment.APPLICATION);
+    protected FavoritesView createView(@NonNull CustomView.CustomContext customContext) {
+        return new FavoritesView(customContext);
     }
 
 }

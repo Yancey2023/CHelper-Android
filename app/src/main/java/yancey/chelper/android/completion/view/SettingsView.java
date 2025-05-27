@@ -30,8 +30,6 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.ChoosingDialog;
@@ -42,19 +40,15 @@ import yancey.chelper.android.completion.data.Settings;
  * 设置界面
  */
 @SuppressLint("ViewConstructor")
-public class SettingsView extends CustomView {
+public class SettingsView extends CustomView<Object> {
 
-    public SettingsView(
-            @NonNull Context context,
-            @NonNull Consumer<CustomView> openView,
-            @NonNull Supplier<Boolean> backView,
-            @NonNull Environment environment
-    ) {
-        super(context, openView, backView, environment, R.layout.layout_settings);
+    public SettingsView(@NonNull CustomView.CustomContext customContext) {
+        super(customContext, R.layout.layout_settings);
     }
 
     @Override
     public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
+        findViewById(R.id.back).setOnClickListener(v -> backView());
         TextView tv_currentCPack = view.findViewById(R.id.tv_current_cpack);
         RelativeLayout btn_chooseCpack = view.findViewById(R.id.btn_choose_cpack);
         SwitchCompat isCheckingBySelection = view.findViewById(R.id.cb_is_checking_by_selection);
@@ -62,7 +56,6 @@ public class SettingsView extends CustomView {
         SwitchCompat isSavingWhenPausing = view.findViewById(R.id.cb_is_saving_when_pausing);
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
         SwitchCompat isSyntaxHighlight = view.findViewById(R.id.cb_is_syntax_highlight);
-        Settings settings = Settings.getInstance(context);
         List<String> showStrings = List.of(
                 "正式版-原版-" + Settings.VERSION_RELEASE,
                 "正式版-实验性玩法-" + Settings.VERSION_RELEASE,
@@ -80,7 +73,7 @@ public class SettingsView extends CustomView {
                 "netease-vanilla",
                 "netease-experiment"
         };
-        String cpackBranch = settings.getCpackBranch();
+        String cpackBranch = Settings.INSTANCE.getCpackBranch();
         for (int i = 0; i < cpackPaths.length; i++) {
             if (Objects.equals(cpackBranch, cpackPaths[i])) {
                 tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings.get(i)));
@@ -90,25 +83,25 @@ public class SettingsView extends CustomView {
         btn_chooseCpack.setOnClickListener(v -> new ChoosingDialog(context, showStrings, which -> {
             String cpackPath1 = cpackPaths[which];
             tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings.get(which)));
-            settings.setCpackPath(cpackPath1);
+            Settings.INSTANCE.setCpackPath(cpackPath1);
         }).show());
-        isCheckingBySelection.setChecked(settings.isCheckingBySelection);
-        isCheckingBySelection.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isCheckingBySelection = isChecked);
-        isHideWindowWhenCopying.setChecked(settings.isHideWindowWhenCopying);
-        isHideWindowWhenCopying.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isHideWindowWhenCopying = isChecked);
-        isSavingWhenPausing.setChecked(settings.isSavingWhenPausing);
-        isSavingWhenPausing.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isSavingWhenPausing = isChecked);
-        isCrowed.setChecked(settings.isCrowed);
-        isCrowed.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isCrowed = isChecked);
-        isSyntaxHighlight.setChecked(settings.isSyntaxHighlight);
-        isSyntaxHighlight.setOnCheckedChangeListener((buttonView, isChecked) -> settings.isSyntaxHighlight = isChecked);
+        isCheckingBySelection.setChecked(Settings.INSTANCE.isCheckingBySelection);
+        isCheckingBySelection.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isCheckingBySelection = isChecked);
+        isHideWindowWhenCopying.setChecked(Settings.INSTANCE.isHideWindowWhenCopying);
+        isHideWindowWhenCopying.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isHideWindowWhenCopying = isChecked);
+        isSavingWhenPausing.setChecked(Settings.INSTANCE.isSavingWhenPausing);
+        isSavingWhenPausing.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isSavingWhenPausing = isChecked);
+        isCrowed.setChecked(Settings.INSTANCE.isCrowed);
+        isCrowed.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isCrowed = isChecked);
+        isSyntaxHighlight.setChecked(Settings.INSTANCE.isSyntaxHighlight);
+        isSyntaxHighlight.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isSyntaxHighlight = isChecked);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         // 保存设置到文件
-        Settings.getInstance(getContext()).save(getContext());
+        Settings.INSTANCE.save();
     }
 
 }

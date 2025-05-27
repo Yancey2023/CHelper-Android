@@ -18,12 +18,8 @@
 
 package yancey.chelper.android.favorites.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,13 +28,14 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 
 import yancey.chelper.R;
-import yancey.chelper.android.favorites.data.DataFavorite;
+import yancey.chelper.android.common.dialog.FixedDialog;
 import yancey.chelper.android.favorites.adapter.FavoriteListAdapter;
+import yancey.chelper.android.favorites.data.DataFavorite;
 
 /**
  * 修改收藏命令的对话框
  */
-public class EditFavoriteDialog extends Dialog {
+public class EditFavoriteDialog extends FixedDialog {
 
     private final DataFavorite dataFavorite;
     private final int position;
@@ -60,16 +57,23 @@ public class EditFavoriteDialog extends Dialog {
         setContentView(R.layout.dialog_edit_favorite);
         mEd_command = findViewById(R.id.ed_command);
         mEd_description = findViewById(R.id.ed_description);
-        TextView mTv_title = findViewById(R.id.tv_title);
+        TextView tv_title = findViewById(R.id.tv_title);
+        TextView tv_content = findViewById(R.id.tv_content);
+        TextView btn_confirm = findViewById(R.id.btn_confirm);
+        TextView btn_cancel = findViewById(R.id.btn_cancel);
+        Objects.requireNonNull(tv_title);
+        Objects.requireNonNull(tv_content);
+        Objects.requireNonNull(btn_confirm);
+        Objects.requireNonNull(btn_cancel);
         if (isCreating) {
-            mTv_title.setText(R.string.tv_create);
+            tv_title.setText(R.string.tv_create);
         } else {
-            mTv_title.setText(R.string.tv_edit);
+            tv_title.setText(R.string.tv_edit);
             mEd_command.setText(dataFavorite.title);
             mEd_description.setText(dataFavorite.description);
         }
-        ((TextView) findViewById(R.id.tv_content)).setText(dataFavorite.dataFavoriteList == null ? R.string.tv_command_name : R.string.tv_filename);
-        findViewById(R.id.btn_confirm).setOnClickListener(v -> {
+        tv_content.setText(dataFavorite.dataFavoriteList == null ? R.string.tv_command_name : R.string.tv_filename);
+        btn_confirm.setOnClickListener(v -> {
             dataFavorite.title = mEd_command.getText().toString();
             dataFavorite.description = mEd_description.getText().toString();
             if (isCreating) {
@@ -79,13 +83,6 @@ public class EditFavoriteDialog extends Dialog {
             }
             dismiss();
         });
-        findViewById(R.id.btn_cancel).setOnClickListener(v -> dismiss());
-        Window window = Objects.requireNonNull(getWindow());
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        Point point = new Point();
-        window.getWindowManager().getDefaultDisplay().getSize(point);
-        attributes.width = (int) (((double) point.x) * 0.95d);
-        window.setAttributes(attributes);
+        btn_cancel.setOnClickListener(v -> dismiss());
     }
 }

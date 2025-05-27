@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -19,15 +21,16 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_edittext2"
+            android:background="@drawable/bg_corner_10dp"
             android:gravity="center"
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1"
-            android:padding="5dp"
+            android:paddingHorizontal="10dp"
             android:textColor="@color/text_main"
             android:textColorHint="@color/text_hint"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/mEd_start"
@@ -35,15 +38,16 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_edittext2"
+            android:background="@drawable/bg_corner_10dp"
             android:gravity="center"
             android:importantForAutofill="no"
             android:inputType="numberSigned"
             android:maxLines="1"
-            android:padding="5dp"
+            android:paddingHorizontal="10dp"
             android:textColor="@color/text_main"
             android:textColorHint="@color/text_hint"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/mEd_interval"
@@ -51,15 +55,16 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_edittext2"
+            android:background="@drawable/bg_corner_10dp"
             android:gravity="center"
             android:importantForAutofill="no"
             android:inputType="numberSigned"
             android:maxLines="1"
-            android:padding="5dp"
+            android:paddingHorizontal="10dp"
             android:textColor="@color/text_main"
             android:textColorHint="@color/text_hint"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 

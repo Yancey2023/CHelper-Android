@@ -20,39 +20,40 @@ package yancey.chelper.android.common.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressLint("ViewConstructor")
-public class MainView<T extends CustomView> extends FrameLayout {
+public class MainView<T extends CustomView<?>> extends FrameLayout {
 
-    private final CustomView.Environment environment;
-
-    public interface ViewInterface<T> {
-
-        T createView(@NonNull Consumer<CustomView> openView, @NonNull Supplier<Boolean> backView);
-    }
+    private final @NonNull CustomView.Environment environment;
+    private final @NonNull Supplier<Boolean> backView;
 
     public MainView(
             @NonNull Context context,
             @NonNull CustomView.Environment environment,
-            @NonNull ViewInterface<T> createView
+            @NonNull Function<CustomView.CustomContext, T> createView,
+            @NonNull Supplier<Boolean> backView
     ) {
         super(context);
         this.environment = environment;
-        openView(createView.createView(this::openView, this::backView));
+        this.backView = backView;
+        openView(createView.apply(new CustomView.CustomContext(context, this::openView, this::backView, environment)));
     }
 
-    public void openView(@NonNull CustomView view) {
+    public CustomView<?> getChildAt(int index) {
+        return (CustomView<?>) super.getChildAt(index);
+    }
+
+    public void openView(@NonNull CustomView<?> view) {
         addView(view);
         int index = getChildCount() - 2;
         if (index >= 0) {
-            ((CustomView) getChildAt(index)).onPause();
+            getChildAt(index).onPause();
         }
         if (environment == CustomView.Environment.FLOATING_WINDOW) {
             view.requestFocus();
@@ -64,15 +65,15 @@ public class MainView<T extends CustomView> extends FrameLayout {
     public boolean backView() {
         int childCount = getChildCount();
         if (childCount <= 1) {
-            return false;
+            return backView.get();
         }
-        View currentView = getChildAt(childCount - 1);
-        if (((CustomView) currentView).onBackPressed()) {
+        CustomView<?> currentView = getChildAt(childCount - 1);
+        if (currentView.onBackPressed()) {
             return true;
         }
-        ((CustomView) currentView).onPause();
-        ((CustomView) currentView).onDestroy();
-        CustomView backView = (CustomView) getChildAt(childCount - 2);
+        currentView.onPause();
+        currentView.onDestroy();
+        CustomView<?> backView = getChildAt(childCount - 2);
         backView.onResume();
         removeViewAt(childCount - 1);
         return true;
@@ -80,16 +81,17 @@ public class MainView<T extends CustomView> extends FrameLayout {
 
     public void onPause() {
         clearFocus();
-        ((CustomView) getChildAt(getChildCount() - 1)).onPause();
+        getChildAt(getChildCount() - 1).onPause();
     }
 
     public void onResume() {
-        ((CustomView) getChildAt(getChildCount() - 1)).onResume();
+        getChildAt(getChildCount() - 1).onResume();
         if (environment == CustomView.Environment.FLOATING_WINDOW) {
             requestFocus();
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean onBackPressed() {
         return backView();
     }
@@ -98,7 +100,7 @@ public class MainView<T extends CustomView> extends FrameLayout {
         clearFocus();
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
-            ((CustomView) getChildAt(i)).onDestroy();
+            getChildAt(i).onDestroy();
         }
         removeAllViews();
     }

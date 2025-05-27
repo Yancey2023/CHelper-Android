@@ -6,43 +6,58 @@
     android:background="@color/background">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="10dp">
+        android:layout_alignParentTop="true"
+        android:background="@color/background_component"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp">
+
+        <View
+            android:id="@+id/back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevron_left" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
+            android:layout_toStartOf="@id/tv_like_count"
+            android:layout_toEndOf="@id/back"
             android:ellipsize="end"
-            android:gravity="start"
+            android:gravity="center_vertical"
             android:maxLines="2"
             android:text="@string/tv_command_name"
             android:textColor="@color/text_main"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_like_count"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@id/btn_like"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:maxLines="2"
             android:text="@string/like_count_sample"
             android:textColor="@color/red"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="RelativeOverlap" />
 
         <View
             android:id="@+id/btn_like"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
@@ -68,11 +83,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/copyright"
-        android:layout_below="@id/title"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="16dp"
+        android:layout_below="@id/header"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_corner_10dp"
         android:scrollbars="vertical"
         tools:itemCount="10"
-        tools:listitem="@layout/layout_library_item" />
+        tools:listitem="@layout/layout_library_show_item" />
 
 </RelativeLayout>

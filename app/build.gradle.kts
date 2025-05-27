@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 51
-        versionName = "0.2.38-beta"
+        versionCode = 52
+        versionName = "0.2.39-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -67,6 +67,13 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    gradle.projectsEvaluated {
+        tasks.withType<JavaCompile> {
+            options.compilerArgs.add("-Xlint:unchecked")
+            options.compilerArgs.add("-Xlint:deprecation")
+        }
     }
 
 }
