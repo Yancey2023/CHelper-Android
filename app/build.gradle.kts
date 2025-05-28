@@ -15,14 +15,14 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 54
-        versionName = "0.2.41-beta"
+        versionCode = 55
+        versionName = "0.2.42-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            // 为了减少软件体积，只兼容arm架构
-            abiFilters.add("armeabi-v7a")
+            // 为了减少软件体积，只兼容arm64-v8a架构
+//            abiFilters.add("armeabi-v7a")
             abiFilters.add("arm64-v8a")
 //            abiFilters.add("x86")
 //            abiFilters.add("x86_64")
@@ -134,6 +134,11 @@ dependencies {
     implementation("com.github.getActivity:Toaster:12.8")
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:12.0")
+    // https://www.umeng.com
+     implementation("com.umeng.umsdk:common:9.8.4")
+     implementation("com.umeng.umsdk:asms:1.8.7.2")
+    // noinspection Aligned16KB
+     implementation("com.umeng.umsdk:apm:2.0.3")
     // https://github.com/junit-team/junit4
     testImplementation("junit:junit:4.13.2")
     // https://github.com/androidx/androidx

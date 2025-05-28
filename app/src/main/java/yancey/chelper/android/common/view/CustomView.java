@@ -28,21 +28,20 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.style.CustomTheme;
+import yancey.chelper.android.common.util.MonitorUtil;
 
 /**
  * 使用单个View组成的界面
  * 悬浮窗只能使用单个View显示界面，所以为了方便在悬浮窗模式和应用模式共享界面代码，所以设计了CustomView
  * 相比于普通的View，它有完整的声明周期监听事件
  */
-public abstract class CustomView<T> extends FrameLayout {
+public abstract class CustomView extends FrameLayout {
 
     /**
      * 运行环境：应用 / 悬浮窗
@@ -55,8 +54,8 @@ public abstract class CustomView<T> extends FrameLayout {
     public static class CustomContext {
 
         private final @NonNull Context context;
-        private final @NonNull Consumer<CustomView<?>> openView;
-        private final @NonNull Supplier<Boolean> backView;
+        private final @NonNull Consumer<CustomView> openView;
+        private final @NonNull Runnable backView;
         private final @NonNull Environment environment;
 
         /**
@@ -69,8 +68,8 @@ public abstract class CustomView<T> extends FrameLayout {
          */
         public CustomContext(
                 @NonNull Context context,
-                @NonNull Consumer<CustomView<?>> openView,
-                @NonNull Supplier<Boolean> backView,
+                @NonNull Consumer<CustomView> openView,
+                @NonNull Runnable backView,
                 @NonNull Environment environment
         ) {
             this.context = context;
@@ -81,25 +80,8 @@ public abstract class CustomView<T> extends FrameLayout {
     }
 
     private final @NonNull CustomContext customContext;
-
-    /**
-     * @param customContext 自定义上下文
-     * @param layoutId      视图界面ID
-     * @param privateData   私有数据
-     */
-    public CustomView(
-            @NonNull CustomContext customContext,
-            @LayoutRes int layoutId,
-            @Nullable T privateData
-    ) {
-        super(customContext.context);
-        this.customContext = customContext;
-        // 添加界面
-        View view = LayoutInflater.from(customContext.context).inflate(layoutId, this, false);
-        addView(view);
-        // 调用创建界面的事件
-        onCreateView(customContext.context, view, privateData);
-    }
+    protected final @NonNull Context context;
+    protected final @NonNull View view;
 
     /**
      * @param customContext 自定义上下文
@@ -109,30 +91,30 @@ public abstract class CustomView<T> extends FrameLayout {
             @NonNull CustomContext customContext,
             @LayoutRes int layoutId
     ) {
-        this(customContext, layoutId, null);
+        super(customContext.context);
+        this.customContext = customContext;
+        this.context = customContext.context;
+        // 添加界面
+        view = LayoutInflater.from(customContext.context).inflate(layoutId, this, false);
+        addView(view);
     }
 
-    /**
-     * 界面创建事件
-     *
-     * @param context 上下文
-     * @param view    创建的视图
-     */
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable T privateData) {
-
-    }
+    protected abstract String gePageName();
 
     /**
      * 界面切换后台事件
      */
     public void onPause() {
-
+        // 友盟统计页面关闭
+        MonitorUtil.onPageEnd(gePageName());
     }
 
     /**
      * 界面恢复前台事件
      */
     public void onResume() {
+        // 友盟统计页面启动
+        MonitorUtil.onPageStart(gePageName());
         // 支持自定义背景
         CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), getEnvironment());
     }
@@ -147,7 +129,7 @@ public abstract class CustomView<T> extends FrameLayout {
     /**
      * 返回键按下事件
      *
-     * @return 是否不回到上一个界面
+     * @return 是否在当前页面处理了返回事件
      */
     public boolean onBackPressed() {
         return false;
@@ -158,7 +140,7 @@ public abstract class CustomView<T> extends FrameLayout {
      *
      * @param createView 新界面的创建方法，可以使用lambda表达式提供
      */
-    protected void openView(@NonNull Function<CustomContext, CustomView<?>> createView) {
+    protected void openView(@NonNull Function<CustomContext, CustomView> createView) {
         // 隐藏输入法软键盘
         ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), 0);
@@ -170,7 +152,7 @@ public abstract class CustomView<T> extends FrameLayout {
      * 返回界面
      */
     protected void backView() {
-        customContext.backView.get();
+        customContext.backView.run();
     }
 
     /**

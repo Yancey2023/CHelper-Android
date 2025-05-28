@@ -1,7 +1,7 @@
 CHelper 隐私政策
 
-更新日期：2025年5月27日
-生效日期：2025年5月27日
+更新日期：2025年5月28日
+生效日期：2025年5月28日
 
 感谢您使用CHelper！我们致力于保护您的隐私并透明化数据处理方式。请您仔细阅读以下条款，了解我们如何收集、使用、共享和保护您的信息。
 
@@ -9,8 +9,8 @@ CHelper 隐私政策
 
 为确保功能正常运行，我们可能会请求以下设备权限，您可随时在系统设置中关闭：
 
-权限名称：android.permission.ACCESS_NETWORK_STATE、android.permission.INTERNET
-用途说明：用于访问网络。仅在使用在线命令库（上传、访问命令或点赞）时需启用。基础命令补全功能无需网络即可运行。
+权限名称：android.permission.ACCESS_NETWORK_STATE、android.permission.INTERNET、android.permission.INTERNET
+用途说明：用于访问网络。用于使用在线命令库（上传、访问命令或点赞）、上传统计分析数据和上传性能监控数据。
 
 权限名称：android.permission.SYSTEM_ALERT_WINDOW
 用途说明：用于显示悬浮窗。
@@ -32,8 +32,10 @@ CHelper 隐私政策
 
 3. 常规信息
 
-设备信息：匿名收集操作系统版本、应用版本号，用于兼容性优化。
-使用日志：匿名记录功能使用频率、崩溃报告（如发生错误），用于改进产品体验。
+使用SDK名称：友盟SDK
+服务类型：统计分析、性能监控
+收集个人信息类型：设备信息（Android ID/IDFA/IDFV/OAID/OpenUDID/GUID；可选-IMEI/IMSI/ICCID）、网络信息、位置（可选）、应用列表（可选）
+隐私权政策链接：https://www.umeng.com/page/policy
 
 三、信息使用目的
 

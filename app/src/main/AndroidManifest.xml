@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
@@ -20,12 +21,19 @@
         tools:targetApi="35">
 
         <activity
-            android:name=".android.welcome.activity.WelcomeActivity"
+            android:name=".android.home.activity.HomeActivity"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="um.6836aa2bbc47b67d8374e464" />
             </intent-filter>
 
         </activity>
@@ -64,6 +72,10 @@
 
         <activity
             android:name=".android.completion.activity.CompletionActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".android.library.activity.LocalLibraryListActivity"
             android:exported="true" />
 
         <activity

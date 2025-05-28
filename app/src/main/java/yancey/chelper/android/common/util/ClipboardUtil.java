@@ -56,6 +56,7 @@ public class ClipboardUtil {
             return true;
         } catch (Exception e) {
             Log.e(TAG, "fail to set text in clipboard service", e);
+            MonitorUtil.generateCustomLog(e, "ClipboardException");
             return false;
         }
     }
@@ -79,6 +80,7 @@ public class ClipboardUtil {
             return clip.getItemAt(0).coerceToText(context);
         } catch (Exception e) {
             Log.e(TAG, "fail to get text in clipboard service", e);
+            MonitorUtil.generateCustomLog(e, "ClipboardException");
             return null;
         }
     }

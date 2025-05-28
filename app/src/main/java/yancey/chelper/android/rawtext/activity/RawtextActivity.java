@@ -30,7 +30,6 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -42,14 +41,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yancey.chelper.R;
-import yancey.chelper.android.common.style.CustomTheme;
+import yancey.chelper.android.common.activity.BaseActivity;
 import yancey.chelper.android.common.util.TextWatcherUtil;
-import yancey.chelper.android.common.view.CustomView;
 
 /**
  * Json文本组件生成器界面
  */
-public class RawtextActivity extends AppCompatActivity {
+public class RawtextActivity extends BaseActivity {
 
     private static final Map<Integer, String> colorToString;
     private static final int COLOR_0 = 0xFF000000;
@@ -184,9 +182,8 @@ public class RawtextActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    protected String gePageName() {
+        return "Rawtext";
     }
 
     private void setColor(int color) {

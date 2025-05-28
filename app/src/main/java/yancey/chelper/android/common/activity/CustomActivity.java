@@ -26,8 +26,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import yancey.chelper.R;
-import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.common.view.MainView;
 
@@ -37,7 +35,7 @@ import yancey.chelper.android.common.view.MainView;
  *
  * @param <T> View的内容
  */
-public abstract class CustomActivity<T extends CustomView<?>> extends AppCompatActivity {
+public abstract class CustomActivity<T extends CustomView> extends AppCompatActivity {
 
     private MainView<T> view;
 
@@ -50,10 +48,7 @@ public abstract class CustomActivity<T extends CustomView<?>> extends AppCompatA
                 this,
                 CustomView.Environment.APPLICATION,
                 this::createView,
-                () -> {
-                    super.onBackPressed();
-                    return true;
-                }
+                super::onBackPressed
         );
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());

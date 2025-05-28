@@ -19,7 +19,6 @@
 package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.text.Editable;
 import android.util.Log;
@@ -48,10 +47,11 @@ import java.util.Objects;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.util.MonitorUtil;
+import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
-import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;
@@ -60,16 +60,15 @@ import yancey.chelper.core.SelectedString;
 import yancey.chelper.core.Theme;
 
 @SuppressLint("ViewConstructor")
-public class CompletionView extends CustomView<Object> {
+public class CompletionView extends CustomView {
 
     private static final String TAG = "WritingCommandView";
-    private FrameLayout fl_action_container, fl_actions;
-    private View btn_action;
-    private CommandEditText commandEditText;
+    private final FrameLayout fl_action_container, fl_actions;
+    private final View btn_action;
+    private final CommandEditText commandEditText;
     private boolean isShowActions = false;
-    public boolean isGuiLoaded = false;
-    private final Runnable shutDown, hideView;
-    private CHelperGuiCore core;
+    public boolean isGuiLoaded;
+    private final CHelperGuiCore core;
 
     public CompletionView(
             @NonNull CustomContext customContext,
@@ -77,12 +76,6 @@ public class CompletionView extends CustomView<Object> {
             @Nullable Runnable hideView
     ) {
         super(customContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
-        this.shutDown = shutDown;
-        this.hideView = hideView;
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         core = new CHelperGuiCore(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
@@ -221,6 +214,7 @@ public class CompletionView extends CustomView<Object> {
                     selectedString = new SelectedString(dataInputStream.readUTF(), dataInputStream.readInt(), dataInputStream.readInt());
                 } catch (IOException e) {
                     Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
+                    MonitorUtil.generateCustomLog(e, "IOException");
                 }
             }
         }
@@ -245,6 +239,11 @@ public class CompletionView extends CustomView<Object> {
     }
 
     @Override
+    protected String gePageName() {
+        return "Completion";
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         isGuiLoaded = false;
@@ -261,6 +260,7 @@ public class CompletionView extends CustomView<Object> {
             dataOutputStream.writeInt(selectedString.selectionEnd);
         } catch (IOException e) {
             Log.e(TAG, "fail to save file : " + file.getAbsolutePath(), e);
+            MonitorUtil.generateCustomLog(e, "IOException");
         }
     }
 
@@ -285,6 +285,7 @@ public class CompletionView extends CustomView<Object> {
                 core1 = CHelperCore.fromAssets(getContext().getAssets(), cpackPath);
             } catch (Exception e) {
                 Toaster.show("资源包加载失败");
+                MonitorUtil.generateCustomLog(e, "LoadResourcePackException");
             }
             core.setCore(core1);
         }

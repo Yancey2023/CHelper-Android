@@ -37,6 +37,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
+import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.common.view.SettingsView;
@@ -63,15 +64,14 @@ public class SettingsActivity extends CustomActivity<SettingsView> {
                         try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
                             bitmap = BitmapFactory.decodeStream(inputStream);
                         }
+                        CustomTheme.INSTANCE.setBackGroundDrawableWithoutSave(bitmap);
                         emitter.onNext(bitmap);
+                        CustomTheme.INSTANCE.setBackGroundDrawable(bitmap);
                         emitter.onComplete();
                     }).subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            bitmap -> {
-                                CustomTheme.INSTANCE.setBackGroundDrawable(bitmap);
-                                CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
-                            },
+                            bitmap -> CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION),
                             throwable -> Toaster.show(throwable.getMessage())
                     );
         });
@@ -83,6 +83,17 @@ public class SettingsActivity extends CustomActivity<SettingsView> {
                     .build());
         };
         return new SettingsView(customContext, backgroundPicker);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (setBackGroundDrawable != null && !setBackGroundDrawable.isDisposed()) {
+            new IsConfirmDialog(this)
+                    .message("背景图片正在保存中，请稍候")
+                    .show();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override

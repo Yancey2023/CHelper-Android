@@ -19,8 +19,6 @@
 package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,35 +48,35 @@ import yancey.chelper.network.library.util.CommandLabUtil;
  * 命令库编辑视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> {
+public class LibraryEditView extends CustomView {
 
-    private EditText ed_name;
-    private EditText ed_version;
-    private EditText ed_author;
-    private EditText ed_description;
-    private EditText ed_tags;
-    private EditText ed_commands;
-    private final String authKey;
-    private final Runnable setDirty;
+    private final EditText ed_name;
+    private final EditText ed_version;
+    private final EditText ed_author;
+    private final EditText ed_description;
+    private final EditText ed_tags;
+    private final EditText ed_commands;
+    private final boolean isLocal;
     private Disposable upload, update, delete;
+
+    public interface OnEditListener {
+        void onCreate(@NonNull LibraryFunction libraryFunction);
+
+        void onUpdate(@Nullable Integer position, @NonNull LibraryFunction before, @NonNull LibraryFunction after);
+
+        void onDelete(@Nullable Integer position, @NonNull LibraryFunction libraryFunction);
+    }
 
     public LibraryEditView(
             @NonNull CustomContext customContext,
             @Nullable String authKey,
-            @NonNull Runnable setDirty,
-            @Nullable LibraryFunction libraryFunction,
+            @NonNull OnEditListener onEditListener,
+            @Nullable Integer position,
+            @Nullable LibraryFunction before,
             boolean isLocal
     ) {
-        super(customContext, R.layout.layout_library_edit, new Pair<>(libraryFunction, isLocal));
-        this.authKey = authKey;
-        this.setDirty = setDirty;
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Pair<LibraryFunction, Boolean> pair) {
-        Objects.requireNonNull(pair);
-        LibraryFunction libraryFunction = pair.first;
-        boolean isLocal = pair.second;
+        super(customContext, R.layout.layout_library_edit);
+        this.isLocal = isLocal;
         view.findViewById(R.id.back).setOnClickListener(v -> backView());
         TextView tv_title = view.findViewById(R.id.title);
         ed_name = view.findViewById(R.id.name);
@@ -93,56 +91,64 @@ public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> 
         TextView btn_update = view.findViewById(R.id.btn_update);
         TextView btn_delete = view.findViewById(R.id.btn_delete);
         if (isLocal) {
-            if (libraryFunction == null) {
+            if (before == null) {
                 tv_title.setText(R.string.library_add);
             } else {
                 tv_title.setText(R.string.library_edit);
-                ed_name.setText(libraryFunction.name);
-                ed_version.setText(libraryFunction.version);
-                ed_author.setText(libraryFunction.author);
-                ed_description.setText(libraryFunction.note);
-                ed_tags.setText(libraryFunction.tags == null ? "" : String.join(",", libraryFunction.tags));
-                ed_commands.setText(libraryFunction.content);
+                ed_name.setText(before.name);
+                ed_version.setText(before.version);
+                ed_author.setText(before.author);
+                ed_description.setText(before.note);
+                ed_tags.setText(before.tags == null ? "" : String.join(",", before.tags));
+                ed_commands.setText(before.content);
             }
         } else {
-            if (libraryFunction == null) {
+            if (before == null) {
                 tv_title.setText(R.string.library_upload_with_need_review);
             } else {
                 tv_title.setText(R.string.library_update_with_need_review);
-                ed_name.setText(libraryFunction.name);
-                ed_version.setText(libraryFunction.version);
-                ed_author.setText(libraryFunction.author);
-                ed_description.setText(libraryFunction.note);
-                ed_tags.setText(libraryFunction.tags == null ? "" : String.join(",", libraryFunction.tags));
-                ed_commands.setText(libraryFunction.content);
+                ed_name.setText(before.name);
+                ed_version.setText(before.version);
+                ed_author.setText(before.author);
+                ed_description.setText(before.note);
+                ed_tags.setText(before.tags == null ? "" : String.join(",", before.tags));
+                ed_commands.setText(before.content);
             }
         }
         btn_preview.setOnClickListener(view1 -> {
-            LibraryFunction library = getLibrary();
-            if (library != null) {
-                openView(customContext -> new LibraryShowView(customContext, library, isLocal));
+            LibraryFunction after = getLibrary();
+            if (after != null) {
+                openView(customContext1 -> new LibraryShowView(customContext1, after, isLocal));
             }
         });
         if (isLocal) {
             btn_save.setOnClickListener(v -> {
-                // TODO
+                LibraryFunction after = getLibrary();
+                if (after != null) {
+                    if (before == null) {
+                        onEditListener.onCreate(after);
+                    } else {
+                        onEditListener.onUpdate(position, before, after);
+                    }
+                    backView();
+                }
             });
         } else {
             btn_save.setVisibility(View.GONE);
         }
-        if (isLocal || libraryFunction != null) {
+        if (isLocal || before != null) {
             btn_upload.setVisibility(View.GONE);
         } else {
             btn_upload.setOnClickListener(view2 -> {
-                LibraryFunction library = getLibrary();
-                if (library == null) {
+                LibraryFunction after = getLibrary();
+                if (after == null) {
                     return;
                 }
                 new IsConfirmDialog(context, false)
-                        .title("上传")
+                        .title(context.getString(R.string.library_upload))
                         .message("是否确认上传？上传后，您提交的命令将被送往审核，审核通过后才会出现在公有命令库中。如果没有特殊说明，您提交的命令将以CC BY-SA 4.0（署名-相同方式共享 4.0）协议授权给本命令库使用。")
                         .onConfirm(() -> {
-                            String content = CommandLabUtil.libraryToStr(library);
+                            String content = CommandLabUtil.libraryToStr(after);
                             if (content.length() > CommandLabUtil.getMaxLength()) {
                                 Toaster.show("内容长度过长，请减少字数");
                                 return;
@@ -166,25 +172,25 @@ public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> 
                                                 .onConfirm("复制密钥", () -> ClipboardUtil.setText(context, Objects.requireNonNull(Objects.requireNonNull(result.data).functions).get(0).user_key))
                                                 .onDismiss(this::backView)
                                                 .show();
-                                        setDirty.run();
+                                        onEditListener.onCreate(after);
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         })
                         .show();
             });
         }
-        if (isLocal || libraryFunction == null) {
+        if (isLocal || before == null) {
             btn_update.setVisibility(View.GONE);
         } else {
             btn_update.setOnClickListener(view2 -> {
-                LibraryFunction library = getLibrary();
-                if (library == null) {
+                LibraryFunction after = getLibrary();
+                if (after == null) {
                     return;
                 }
                 new IsConfirmDialog(context, false)
-                        .title("更新")
+                        .title(context.getString(R.string.library_update))
                         .message("是否确认更新？更新后，您提交的命令将被送往审核，审核通过后才会出现在公有命令库中。如果没有特殊说明，您提交的命令将以CC BY-SA 4.0（署名-相同方式共享 4.0）协议授权给本命令库使用。")
                         .onConfirm(() -> {
-                            String content = CommandLabUtil.libraryToStr(library);
+                            String content = CommandLabUtil.libraryToStr(after);
                             if (content.length() > CommandLabUtil.getMaxLength()) {
                                 Toaster.show("内容长度过长，请减少字数");
                                 return;
@@ -196,7 +202,7 @@ public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> 
                             request.auth_key = authKey;
                             request.content = content;
                             update = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                                    .updateFunction(Objects.requireNonNull(Objects.requireNonNull(libraryFunction).id), request)
+                                    .updateFunction(Objects.requireNonNull(Objects.requireNonNull(before).id), request)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(result -> {
@@ -205,21 +211,21 @@ public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> 
                                             return;
                                         }
                                         Toaster.show("更改成功");
-                                        setDirty.run();
+                                        onEditListener.onUpdate(position, before, after);
                                         backView();
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         }).show();
             });
         }
-        if (libraryFunction == null) {
+        if (before == null) {
             btn_delete.setVisibility(View.GONE);
         } else {
             btn_delete.setOnClickListener(view2 -> new IsConfirmDialog(context, false)
-                    .title("删除")
+                    .title(context.getString(R.string.library_delete))
                     .message("删除后将无法找回，是否确认删除？")
                     .onConfirm(() -> {
                         if (isLocal) {
-                            // TODO
+                            onEditListener.onDelete(position, before);
                             backView();
                         } else {
                             if (delete != null) {
@@ -228,7 +234,7 @@ public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> 
                             CommandLabPublicService.DeleteFunctionRequest request = new CommandLabPublicService.DeleteFunctionRequest();
                             request.auth_key = authKey;
                             delete = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                                    .deleteFunction(Objects.requireNonNull(Objects.requireNonNull(libraryFunction).id), request)
+                                    .deleteFunction(Objects.requireNonNull(Objects.requireNonNull(before).id), request)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(result -> {
@@ -237,11 +243,17 @@ public class LibraryEditView extends CustomView<Pair<LibraryFunction, Boolean>> 
                                             return;
                                         }
                                         Toaster.show("删除成功");
+                                        onEditListener.onDelete(position, before);
+                                        backView();
                                     }, throwable -> Toaster.show(throwable.getMessage()));
-                            backView();
                         }
                     }).show());
         }
+    }
+
+    @Override
+    protected String gePageName() {
+        return isLocal ? "LocalLibraryEdit" : "PublicLibraryEdit";
     }
 
     @Override

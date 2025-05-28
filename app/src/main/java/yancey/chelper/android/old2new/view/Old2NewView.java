@@ -19,13 +19,10 @@
 package yancey.chelper.android.old2new.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
@@ -37,19 +34,12 @@ import yancey.chelper.core.CHelperCore;
  * 旧命令转新命令界面
  */
 @SuppressLint("ViewConstructor")
-public class Old2NewView extends CustomView<Object> {
-
-    private EditText mEd_oldCommand;
-    private TextView mTv_newCommand;
+public class Old2NewView extends CustomView {
 
     public Old2NewView(@NonNull CustomContext customContext) {
         super(customContext, R.layout.layout_old2new);
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
-        mEd_oldCommand = view.findViewById(R.id.ed_old_command);
-        mTv_newCommand = view.findViewById(R.id.tv_new_command);
+        EditText mEd_oldCommand = view.findViewById(R.id.ed_old_command);
+        TextView mTv_newCommand = view.findViewById(R.id.tv_new_command);
         findViewById(R.id.back).setOnClickListener(v -> backView());
         view.findViewById(R.id.btn_paste).setOnClickListener(v -> {
             CharSequence charSequence = ClipboardUtil.getText(context);
@@ -62,6 +52,11 @@ public class Old2NewView extends CustomView<Object> {
                 ClipboardUtil.setText(getContext(), mTv_newCommand.getText()));
         mEd_oldCommand.addTextChangedListener(TextWatcherUtil.onTextChanged(charSequence ->
                 mTv_newCommand.setText(CHelperCore.old2new(getContext(), mEd_oldCommand.getText().toString()))));
+    }
+
+    @Override
+    protected String gePageName() {
+        return "Old2New";
     }
 
 }

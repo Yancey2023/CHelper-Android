@@ -45,13 +45,15 @@ import yancey.chelper.android.favorites.dialog.EditFavoriteDialog;
 public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.CommandListViewHolder> {
 
     private final Context context;
-    public List<DataFavorite> dataFavoriteList;
+    public List<DataFavorite> root;
+    public List<DataFavorite> current;
     public final List<List<DataFavorite>> history;
 
-    public FavoriteListAdapter(Context context, List<DataFavorite> dataFavoriteList) {
+    public FavoriteListAdapter(Context context, List<DataFavorite> root) {
         this.context = context;
-        this.dataFavoriteList = dataFavoriteList;
-        for (DataFavorite dataFavorite : dataFavoriteList) {
+        this.root = root;
+        this.current = root;
+        for (DataFavorite dataFavorite : current) {
             dataFavorite.isChoose = false;
         }
         history = new ArrayList<>();
@@ -65,7 +67,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
-        DataFavorite data = dataFavoriteList.get(position);
+        DataFavorite data = current.get(position);
         holder.mTv_title.setText(data.title);
         holder.mTv_description.setText(data.description);
         holder.mCb_isChoose.setChecked(data.isChoose);
@@ -82,7 +84,8 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
         } else {
             holder.mIv_icon.setBackgroundResource(R.drawable.folder);
             holder.itemView.setOnClickListener(view -> {
-                history.add(dataFavoriteList);
+                history.add(current);
+                System.out.println("history.size(): " + history.size());
                 setDataList(data.dataFavoriteList);
             });
         }
@@ -91,15 +94,15 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     @Override
     public int getItemCount() {
-        if (dataFavoriteList == null) {
+        if (current == null) {
             return 0;
         }
-        return dataFavoriteList.size();
+        return current.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setDataList(List<DataFavorite> dataFavoriteList) {
-        this.dataFavoriteList = dataFavoriteList;
+        this.current = dataFavoriteList;
         for (DataFavorite dataFavorite : dataFavoriteList) {
             dataFavorite.isChoose = false;
         }
@@ -107,6 +110,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     }
 
     public boolean back() {
+        System.out.println("history.size(): " + history.size());
         int position = history.size();
         if (position == 0) {
             return false;
@@ -119,7 +123,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     @SuppressLint("NotifyDataSetChanged")
     public void selectAll() {
-        for (DataFavorite dataFavorite : dataFavoriteList) {
+        for (DataFavorite dataFavorite : current) {
             dataFavorite.isChoose = true;
         }
         notifyDataSetChanged();
@@ -127,7 +131,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     @SuppressLint("NotifyDataSetChanged")
     public void invert() {
-        for (DataFavorite dataFavorite : dataFavoriteList) {
+        for (DataFavorite dataFavorite : current) {
             dataFavorite.isChoose = !dataFavorite.isChoose;
         }
         notifyDataSetChanged();
@@ -135,7 +139,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
 
     @SuppressLint("NotifyDataSetChanged")
     public void deselect() {
-        for (DataFavorite dataFavorite : dataFavoriteList) {
+        for (DataFavorite dataFavorite : current) {
             dataFavorite.isChoose = false;
         }
         notifyDataSetChanged();
@@ -145,10 +149,10 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     public void delete() {
         DataFavorite dataFavorite;
         int i = 0;
-        while (i < dataFavoriteList.size()) {
-            dataFavorite = dataFavoriteList.get(i);
+        while (i < current.size()) {
+            dataFavorite = current.get(i);
             if (dataFavorite.isChoose) {
-                dataFavoriteList.remove(i);
+                current.remove(i);
             } else {
                 i++;
             }
@@ -162,8 +166,8 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     }
 
     public void add(DataFavorite dataFavorite) {
-        dataFavoriteList.add(dataFavorite);
-        notifyItemInserted(dataFavoriteList.size() - 1);
+        current.add(dataFavorite);
+        notifyItemInserted(current.size() - 1);
     }
 
 //    public void bulkCopy() {

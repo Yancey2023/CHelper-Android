@@ -37,6 +37,7 @@ public class TextWatcherUtil {
 
     /**
      * 文字改变的事件
+     *
      * @param consumer 要执行的事件
      * @return 文字改变的事件
      */
@@ -61,6 +62,7 @@ public class TextWatcherUtil {
 
     /**
      * 文字改变之后的事件
+     *
      * @param consumer 要执行的事件
      * @return 文字改变之后的事件
      */

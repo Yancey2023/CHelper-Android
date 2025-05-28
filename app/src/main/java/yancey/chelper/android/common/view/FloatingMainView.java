@@ -63,9 +63,8 @@ public class FloatingMainView extends FrameLayout {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if (!mainView.backView()) {
-                return super.dispatchKeyEvent(event);
-            }
+            mainView.backView();
+            return true;
         }
         return super.dispatchKeyEvent(event);
     }

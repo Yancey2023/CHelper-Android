@@ -19,14 +19,11 @@
 package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.provider.Settings;
-import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,20 +46,84 @@ import yancey.chelper.network.library.service.CommandLabPublicService;
  * 命令库显示视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryShowView extends CustomView<Pair<LibraryFunction, Boolean>> {
+public class LibraryShowView extends CustomView {
 
-    private LibraryFunction libraryFunction, library;
-    private LibraryShowAdapter adapter;
-    private View btn_like;
-    private TextView tv_like_count;
+    private final LibraryFunction before;
+    private LibraryFunction after;
+    private final View btn_like;
+    private final TextView tv_like_count;
+    private final boolean isLocal;
     private Disposable loadData, doLike;
 
+    @SuppressLint("HardwareIds")
     public LibraryShowView(
             @NonNull CustomContext customContext,
-            @NonNull LibraryFunction libraryFunction,
+            @NonNull LibraryFunction before,
             boolean isLocal
     ) {
-        super(customContext, R.layout.layout_library_show, new Pair<>(libraryFunction, isLocal));
+        super(customContext, R.layout.layout_library_show);
+        this.before = before;
+        this.after = before;
+        this.isLocal = isLocal;
+        view.findViewById(R.id.back).setOnClickListener(v -> backView());
+        btn_like = view.findViewById(R.id.btn_like);
+        tv_like_count = view.findViewById(R.id.tv_like_count);
+        TextView tv_name = view.findViewById(R.id.name);
+        LibraryShowAdapter adapter = new LibraryShowAdapter(context, before);
+        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
+        rv_favoriteList.setAdapter(adapter);
+        if (isLocal) {
+            btn_like.setVisibility(View.GONE);
+            tv_like_count.setVisibility(View.GONE);
+        } else if (before.id == null) {
+            after.is_liked = false;
+            after.like_count = 520;
+            btn_like.setOnClickListener(view1 -> {
+                if (after.is_liked) {
+                    after.like_count--;
+                } else {
+                    after.like_count++;
+                }
+                after.is_liked = !after.is_liked;
+                updateLike(after);
+            });
+        } else {
+            if (loadData != null) {
+                loadData.dispose();
+            }
+            String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            loadData = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
+                    .getFunction(before.id, androidId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
+                        if (!Objects.equals(result.status, "success") || result.data == null) {
+                            LibraryFunction function = new LibraryFunction();
+                            function.version = "数据获取失败";
+                            adapter.setLibraryFunction(function);
+                            Toaster.show(result.message);
+                            return;
+                        }
+                        after = result.data;
+                        updateLike(after);
+                        btn_like.setOnClickListener(view1 -> doLike());
+                        adapter.setLibraryFunction(after);
+                    }, throwable -> {
+                        LibraryFunction loadError = new LibraryFunction();
+                        loadError.version = "数据获取失败";
+                        adapter.setLibraryFunction(loadError);
+                        Toaster.show(throwable.getMessage());
+                    });
+        }
+        tv_name.setText(before.name);
+        updateLike(before);
+    }
+
+    @Override
+    protected String gePageName() {
+        return isLocal ? "LocalLibraryShow" : "PublicLibraryShow";
     }
 
     void updateLike(LibraryFunction libraryFunction) {
@@ -74,68 +135,6 @@ public class LibraryShowView extends CustomView<Pair<LibraryFunction, Boolean>> 
         tv_like_count.setText(String.valueOf(libraryFunction.like_count));
     }
 
-    @Override
-    @SuppressLint("HardwareIds")
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Pair<LibraryFunction, Boolean> pair) {
-        Objects.requireNonNull(pair);
-        LibraryFunction libraryFunction = pair.first;
-        boolean isLocal = pair.second;
-        view.findViewById(R.id.back).setOnClickListener(v -> backView());
-        btn_like = view.findViewById(R.id.btn_like);
-        tv_like_count = view.findViewById(R.id.tv_like_count);
-        TextView tv_name = view.findViewById(R.id.name);
-        adapter = new LibraryShowAdapter(context, libraryFunction);
-        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
-        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
-        rv_favoriteList.setAdapter(adapter);
-        if (isLocal) {
-            btn_like.setVisibility(View.GONE);
-            tv_like_count.setVisibility(View.GONE);
-        } else if (libraryFunction.id == null) {
-            libraryFunction.is_liked = false;
-            libraryFunction.like_count = 520;
-            btn_like.setOnClickListener(view1 -> {
-                if (libraryFunction.is_liked) {
-                    libraryFunction.like_count--;
-                } else {
-                    libraryFunction.like_count++;
-                }
-                libraryFunction.is_liked = !libraryFunction.is_liked;
-                updateLike(libraryFunction);
-            });
-        } else {
-            if (loadData != null) {
-                loadData.dispose();
-            }
-            String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            loadData = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                    .getFunction(libraryFunction.id, androidId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        if (!Objects.equals(result.status, "success") || result.data == null) {
-                            LibraryFunction function = new LibraryFunction();
-                            function.version = "数据获取失败";
-                            adapter.setLibraryFunction(function);
-                            Toaster.show(result.message);
-                            return;
-                        }
-                        library = result.data;
-                        updateLike(library);
-                        btn_like.setOnClickListener(view1 -> doLike());
-                        adapter.setLibraryFunction(library);
-                    }, throwable -> {
-                        LibraryFunction loadError = new LibraryFunction();
-                        loadError.version = "数据获取失败";
-                        adapter.setLibraryFunction(loadError);
-                        Toaster.show(throwable.getMessage());
-                    });
-        }
-        tv_name.setText(libraryFunction.name);
-        updateLike(libraryFunction);
-    }
-
     @SuppressLint("HardwareIds")
     void doLike() {
         if (doLike != null) {
@@ -144,7 +143,7 @@ public class LibraryShowView extends CustomView<Pair<LibraryFunction, Boolean>> 
         CommandLabPublicService.LikeFunctionRequest request = new CommandLabPublicService.LikeFunctionRequest();
         request.android_id = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         doLike = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                .like(Objects.requireNonNull(libraryFunction.id), request)
+                .like(Objects.requireNonNull(before.id), request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result2 -> {
@@ -153,11 +152,11 @@ public class LibraryShowView extends CustomView<Pair<LibraryFunction, Boolean>> 
                         return;
                     }
                     CommandLabPublicService.LibraryLikeResponse libraryLikeState = result2.data;
-                    library.is_liked = !Objects.equals(libraryLikeState.action, "unlike");
-                    library.like_count = libraryLikeState.like_count;
-                    libraryFunction.is_liked = library.is_liked;
-                    libraryFunction.like_count = library.like_count;
-                    updateLike(library);
+                    after.is_liked = !Objects.equals(libraryLikeState.action, "unlike");
+                    after.like_count = libraryLikeState.like_count;
+                    before.is_liked = after.is_liked;
+                    before.like_count = after.like_count;
+                    updateLike(after);
                 }, throwable -> Toaster.show(throwable.getMessage()));
     }
 

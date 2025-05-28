@@ -26,20 +26,18 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import yancey.chelper.R;
-import yancey.chelper.android.common.style.CustomTheme;
+import yancey.chelper.android.common.activity.BaseActivity;
 import yancey.chelper.android.common.util.AssetsUtil;
-import yancey.chelper.android.common.view.CustomView;
 
 /**
  * 软件的关于界面
  */
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseActivity {
 
     @Override
     @SuppressLint("SetTextI18n")
@@ -87,8 +85,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    protected String gePageName() {
+        return "About";
     }
 }

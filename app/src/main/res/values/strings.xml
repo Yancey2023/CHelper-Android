@@ -3,6 +3,7 @@
     <string name="tv_write_command_title">CHelper</string>
     <string name="tv_write_command_description">欢迎使用命令助手(作者：Yancey)</string>
     <string name="tv_favorite">收藏（已过时，新版正在研发中）</string>
+    <string name="local_library">本地命令库</string>
     <string name="public_library">公有命令库（待开放）</string>
     <string name="library">命令库</string>
     <string name="et_writeCommandHint">点我输入文字</string>

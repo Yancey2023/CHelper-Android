@@ -26,20 +26,18 @@ import android.provider.Settings;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.activity.BaseActivity;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
-import yancey.chelper.android.common.style.CustomTheme;
-import yancey.chelper.android.common.view.CustomView;
 
 /**
  * 旧命令转新命令输入法引导界面
  */
-public class Old2NewIMEGuideActivity extends AppCompatActivity {
+public class Old2NewIMEGuideActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,8 +73,8 @@ public class Old2NewIMEGuideActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    protected String gePageName() {
+        return "Old2NewIMEGuide";
     }
+
 }

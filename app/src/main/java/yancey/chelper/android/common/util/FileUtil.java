@@ -75,7 +75,7 @@ public class FileUtil {
     /**
      * 文件路径拼接
      *
-     * @param file 文件
+     * @param file    文件
      * @param strings 要拼接的文本
      * @return 文件
      */
@@ -115,6 +115,7 @@ public class FileUtil {
             fos.write(str.getBytes());
             return true;
         } catch (IOException e) {
+            MonitorUtil.generateCustomLog(e, "IOException");
             return false;
         }
     }
@@ -130,6 +131,7 @@ public class FileUtil {
         try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
             return new String(readAllByte(inputStream));
         } catch (IOException e) {
+            MonitorUtil.generateCustomLog(e, "IOException");
             return null;
         }
     }

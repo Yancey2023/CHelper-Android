@@ -19,7 +19,6 @@
 package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
@@ -46,6 +45,7 @@ import yancey.chelper.android.common.dialog.InputStringDialog;
 import yancey.chelper.android.common.util.TextWatcherUtil;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.library.adapter.LibraryListAdapter;
+import yancey.chelper.android.library.util.LocalLibraryManager;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.data.LibraryFunction;
 
@@ -53,36 +53,19 @@ import yancey.chelper.network.library.data.LibraryFunction;
  * 命令库列表视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryListView extends CustomView<Boolean> {
+public class LibraryListView extends CustomView {
 
-    private LibraryListAdapter adapter;
+    private final LibraryListAdapter adapter;
     private List<LibraryFunction> libraryFunctions;
-    private EditText ed_search;
+    private final EditText ed_search;
     private boolean isDirty = false;
     private Disposable loadData, getFunctionByKey;
+    private final boolean isLocal;
     private AtomicReference<Disposable> doLike;
 
     public LibraryListView(@NonNull CustomView.CustomContext customContext, boolean isLocal) {
-        super(customContext, R.layout.layout_library_list, isLocal);
-    }
-
-    public void update(CharSequence keyword) {
-        if (libraryFunctions == null) {
-            return;
-        }
-        if (TextUtils.isEmpty(keyword)) {
-            adapter.setLibraryFunctions(libraryFunctions);
-        } else {
-            adapter.setLibraryFunctions(libraryFunctions.stream()
-                    .filter(libraryFunction -> libraryFunction.name != null &&
-                                               libraryFunction.name.contains(ed_search.getText()))
-                    .collect(Collectors.toList()));
-        }
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Boolean isLocal) {
-        Objects.requireNonNull(isLocal);
+        super(customContext, R.layout.layout_library_list);
+        this.isLocal = isLocal;
         view.findViewById(R.id.back).setOnClickListener(v -> backView());
         View btn_update = view.findViewById(R.id.btn_update);
         View btn_upload = view.findViewById(R.id.btn_upload);
@@ -112,8 +95,23 @@ public class LibraryListView extends CustomView<Boolean> {
                                                 Toaster.show("命令库寻找失败");
                                                 return;
                                             }
-                                            openView(customContext ->
-                                                    new LibraryEditView(customContext, authKey, () -> isDirty = true, data, isLocal));
+                                            openView(customContext1 ->
+                                                    new LibraryEditView(customContext1, authKey, new LibraryEditView.OnEditListener() {
+                                                        @Override
+                                                        public void onCreate(@NonNull LibraryFunction libraryFunction) {
+                                                            throw new RuntimeException("it is impossible to call onCreate() when edit");
+                                                        }
+
+                                                        @Override
+                                                        public void onUpdate(@Nullable Integer position, @NonNull LibraryFunction before, @NonNull LibraryFunction after) {
+                                                            isDirty = true;
+                                                        }
+
+                                                        @Override
+                                                        public void onDelete(@Nullable Integer position, @NonNull LibraryFunction libraryFunction) {
+                                                            isDirty = true;
+                                                        }
+                                                    }, null, data, false));
                                         }, throwable -> Toaster.show(throwable.getMessage()));
                             })
                             .show();
@@ -133,8 +131,29 @@ public class LibraryListView extends CustomView<Boolean> {
         }
         btn_upload.setOnClickListener(v -> {
             if (getEnvironment() == Environment.APPLICATION) {
-                openView(customContext ->
-                        new LibraryEditView(customContext, null, () -> isDirty = true, null, isLocal));
+                openView(customContext1 ->
+                        new LibraryEditView(customContext1, null, new LibraryEditView.OnEditListener() {
+                            @Override
+                            public void onCreate(@NonNull LibraryFunction libraryFunction) {
+                                if (isLocal) {
+                                    libraryFunctions.add(libraryFunction);
+                                    adapter.notifyItemInserted(libraryFunctions.size() - 1);
+                                    LocalLibraryManager.INSTANCE.save();
+                                } else {
+                                    isDirty = true;
+                                }
+                            }
+
+                            @Override
+                            public void onUpdate(@Nullable Integer position, @NonNull LibraryFunction before, @NonNull LibraryFunction after) {
+                                throw new RuntimeException("it is impossible to call onUpdate() when upload");
+                            }
+
+                            @Override
+                            public void onDelete(@Nullable Integer position, @NonNull LibraryFunction libraryFunction) {
+                                throw new RuntimeException("it is impossible to call onDelete() when upload");
+                            }
+                        }, null, null, isLocal));
             } else {
                 Toaster.show(R.string.library_not_allow_upload_in_floating_window);
                 btn_update.setVisibility(View.GONE);
@@ -145,18 +164,84 @@ public class LibraryListView extends CustomView<Boolean> {
         ed_search.addTextChangedListener(TextWatcherUtil.onTextChanged(this::update));
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        doLike = new AtomicReference<>();
+        if (!isLocal) {
+            doLike = new AtomicReference<>();
+        }
         adapter = new LibraryListAdapter(
                 context,
                 doLike,
-                libraryFunction -> openView(customContext ->
-                        new LibraryShowView(customContext, libraryFunction, isLocal)),
-                libraryFunction -> openView(customContext ->
-                        new LibraryEditView(customContext, null, () -> isDirty = true, libraryFunction, isLocal))
+                libraryFunction -> openView(customContext1 ->
+                        new LibraryShowView(customContext1, libraryFunction, isLocal)),
+                libraryFunction -> openView(customContext1 ->
+                        new LibraryEditView(customContext1, null, new LibraryEditView.OnEditListener() {
+                            @Override
+                            public void onCreate(@NonNull LibraryFunction libraryFunction) {
+                                throw new RuntimeException("it is impossible to call onCreate() when edit");
+                            }
+
+                            @Override
+                            public void onUpdate(@Nullable Integer position, @NonNull LibraryFunction before, @NonNull LibraryFunction after) {
+                                if (position != null && position > 0 && position < libraryFunctions.size() && libraryFunctions.get(position) == before) {
+                                    libraryFunctions.set(position, after);
+                                    adapter.notifyItemChanged(position);
+                                } else {
+                                    boolean isFind = false;
+                                    for (int i = 0; i < libraryFunctions.size(); i++) {
+                                        if (libraryFunctions.get(i) == before) {
+                                            libraryFunctions.set(i, after);
+                                            adapter.notifyItemChanged(i);
+                                            isFind = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!isFind) {
+                                        libraryFunctions.add(after);
+                                        adapter.notifyItemInserted(libraryFunctions.size() - 1);
+                                    }
+                                }
+                                LocalLibraryManager.INSTANCE.save();
+                            }
+
+                            @Override
+                            public void onDelete(@Nullable Integer position, @NonNull LibraryFunction libraryFunction) {
+                                if (position != null && position > 0 && position < libraryFunctions.size() && libraryFunctions.get(position) == libraryFunction) {
+                                    libraryFunctions.remove((int) position);
+                                    adapter.notifyItemRemoved(position);
+                                } else {
+                                    for (int i = 0; i < libraryFunctions.size(); i++) {
+                                        if (libraryFunctions.get(i) == libraryFunction) {
+                                            libraryFunctions.remove(i);
+                                            adapter.notifyItemRemoved(i);
+                                            break;
+                                        }
+                                    }
+                                }
+                                LocalLibraryManager.INSTANCE.save();
+                            }
+                        }, null, libraryFunction, isLocal))
         );
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
         update();
+    }
+
+    @Override
+    protected String gePageName() {
+        return isLocal ? "LocalLibraryList" : "PublicLibraryList";
+    }
+
+    public void update(CharSequence keyword) {
+        if (libraryFunctions == null) {
+            return;
+        }
+        if (TextUtils.isEmpty(keyword)) {
+            adapter.setLibraryFunctions(libraryFunctions);
+        } else {
+            adapter.setLibraryFunctions(libraryFunctions.stream()
+                    .filter(libraryFunction -> libraryFunction.name != null &&
+                                               libraryFunction.name.contains(ed_search.getText()))
+                    .collect(Collectors.toList()));
+        }
     }
 
     @Override
@@ -179,9 +264,11 @@ public class LibraryListView extends CustomView<Boolean> {
         if (getFunctionByKey != null) {
             getFunctionByKey.dispose();
         }
-        Disposable disposable = doLike.get();
-        if (disposable != null) {
-            disposable.dispose();
+        if (doLike != null) {
+            Disposable disposable = doLike.get();
+            if (disposable != null) {
+                disposable.dispose();
+            }
         }
     }
 
@@ -190,18 +277,28 @@ public class LibraryListView extends CustomView<Boolean> {
         if (loadData != null) {
             loadData.dispose();
         }
-        String androidId = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        loadData = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                .getFunctions(1, Integer.MAX_VALUE, null, null, null, "time", androidId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    if (!Objects.equals(result.status, "success")) {
-                        Toaster.show(result.message);
-                        return;
-                    }
-                    libraryFunctions = Objects.requireNonNull(result.data).functions;
-                    update(ed_search.getText());
-                }, throwable -> Toaster.show(throwable.getMessage()));
+        if (isLocal) {
+            loadData = LocalLibraryManager.INSTANCE.getFunctions()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(libraryFunctions -> {
+                        this.libraryFunctions = libraryFunctions;
+                        update(ed_search.getText());
+                    }, throwable -> Toaster.show(throwable.getMessage()));
+        } else {
+            String androidId = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            loadData = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
+                    .getFunctions(1, Integer.MAX_VALUE, null, null, null, "time", androidId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
+                        if (!Objects.equals(result.status, "success")) {
+                            Toaster.show(result.message);
+                            return;
+                        }
+                        libraryFunctions = Objects.requireNonNull(result.data).functions;
+                        update(ed_search.getText());
+                    }, throwable -> Toaster.show(throwable.getMessage()));
+        }
     }
 }

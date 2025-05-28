@@ -19,8 +19,6 @@
 package yancey.chelper.android.common.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,23 +39,17 @@ import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.ChoosingDialog;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.style.CustomTheme;
+import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.android.common.util.Settings;
 
 /**
  * 设置界面
  */
 @SuppressLint("ViewConstructor")
-public class SettingsView extends CustomView<Object> {
-
-    private final @Nullable Runnable backgroundPicker;
+public class SettingsView extends CustomView {
 
     public SettingsView(@NonNull CustomContext customContext, @Nullable Runnable backgroundPicker) {
         super(customContext, R.layout.layout_settings);
-        this.backgroundPicker = backgroundPicker;
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         // 页面顶部逻辑
         findViewById(R.id.back).setOnClickListener(v -> backView());
         // 自定义UI设置
@@ -98,6 +90,7 @@ public class SettingsView extends CustomView<Object> {
                                 CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), getEnvironment());
                             } catch (IOException e) {
                                 Toaster.show(e.getMessage());
+                                MonitorUtil.generateCustomLog(e, "ResetBackgroundException");
                             }
                         }).show();
             }
@@ -165,6 +158,11 @@ public class SettingsView extends CustomView<Object> {
         isCrowed.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isCrowed = isChecked);
         isSyntaxHighlight.setChecked(Settings.INSTANCE.isSyntaxHighlight);
         isSyntaxHighlight.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isSyntaxHighlight = isChecked);
+    }
+
+    @Override
+    protected String gePageName() {
+        return "Settings";
     }
 
     @Override

@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,13 +30,12 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.Objects;
 
 import yancey.chelper.R;
-import yancey.chelper.android.common.style.CustomTheme;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.activity.BaseActivity;
 
 /**
  * 文本展示界面
  */
-public class ShowTextActivity extends AppCompatActivity {
+public class ShowTextActivity extends BaseActivity {
 
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
@@ -63,8 +61,8 @@ public class ShowTextActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION);
+    protected String gePageName() {
+        return "ShowText";
     }
+
 }

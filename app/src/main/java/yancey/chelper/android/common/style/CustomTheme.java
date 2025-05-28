@@ -30,13 +30,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.common.view.CustomView;
 
@@ -48,15 +52,16 @@ public class CustomTheme {
 
     @NonNull
     private final File file;
-    @Nullable
-    private Bitmap backgroundBitmap;
+    @NotNull
+    private final AtomicReference<Bitmap> backgroundBitmap = new AtomicReference<>();
 
     public CustomTheme(@NonNull File file) {
         this.file = file;
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            backgroundBitmap = BitmapFactory.decodeStream(fileInputStream);
+            backgroundBitmap.set(BitmapFactory.decodeStream(fileInputStream));
         } catch (IOException e) {
             Log.w(TAG, "fail to load background drawable", e);
+            MonitorUtil.generateCustomLog(e, "IOException");
         }
     }
 
@@ -65,7 +70,7 @@ public class CustomTheme {
             Log.w(TAG, "fail to draw background beacause view is null");
             return;
         }
-        if (backgroundBitmap == null) {
+        if (backgroundBitmap.get() == null) {
             view.setBackgroundResource(R.color.background);
             return;
         }
@@ -84,11 +89,12 @@ public class CustomTheme {
     }
 
     private void invokeBackground0(@NonNull View view, @NonNull CustomView.Environment environment) {
-        if (backgroundBitmap == null) {
+        Bitmap bitmap = backgroundBitmap.get();
+        if (bitmap == null) {
             return;
         }
-        int sourceWidth = backgroundBitmap.getWidth();
-        int sourceHeight = backgroundBitmap.getHeight();
+        int sourceWidth = bitmap.getWidth();
+        int sourceHeight = bitmap.getHeight();
         int targetWidth = view.getWidth();
         int targetHeight = view.getHeight();
         if (sourceWidth == 0 || sourceHeight == 0) {
@@ -109,7 +115,7 @@ public class CustomTheme {
             float skipX = sourceWidth - targetWidth / scale;
             float skipY = sourceHeight - targetHeight / scale;
             tagetBitmap = Bitmap.createBitmap(
-                    backgroundBitmap,
+                    bitmap,
                     (int) (skipX / 2),
                     (int) (skipY / 2),
                     (int) (sourceWidth - skipX),
@@ -119,14 +125,19 @@ public class CustomTheme {
             );
         } catch (Exception e) {
             Log.e(TAG, "fail to scale background", e);
+            MonitorUtil.generateCustomLog(e, "ScaleBitmapException");
             return;
         }
         view.setBackground(new BitmapDrawable(view.getResources(), tagetBitmap));
     }
 
-    public void setBackGroundDrawable(@Nullable Bitmap backGroundBitmap) throws IOException {
-        this.backgroundBitmap = backGroundBitmap;
-        if (backGroundBitmap == null) {
+    public void setBackGroundDrawableWithoutSave(@Nullable Bitmap bitmap) throws IOException {
+        this.backgroundBitmap.set(bitmap);
+    }
+
+    public void setBackGroundDrawable(@Nullable Bitmap bitmap) throws IOException {
+        this.backgroundBitmap.set(bitmap);
+        if (bitmap == null) {
             if (file.exists() && !file.delete()) {
                 throw new IOException("fail to delete file");
             }
@@ -136,7 +147,7 @@ public class CustomTheme {
             throw new IOException("fail to create parent directory");
         }
         try (FileOutputStream fos = new FileOutputStream(file)) {
-            backGroundBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
         }
     }
 

@@ -26,6 +26,7 @@ import java.util.Objects;
 
 import retrofit2.Response;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.data.BaseResult;
 import yancey.chelper.network.library.data.User;
@@ -41,7 +42,12 @@ public class LoginUtil {
     public static void init(File file) {
         LoginUtil.file = file;
         if (file.exists()) {
-            user = ServiceManager.GSON.fromJson(FileUtil.readString(file), User.class);
+            try {
+                user = ServiceManager.GSON.fromJson(FileUtil.readString(file), User.class);
+            } catch (Exception e) {
+                Log.e(TAG, "fail to read user from json", e);
+                MonitorUtil.generateCustomLog(e, "ReadUserException");
+            }
         }
     }
 

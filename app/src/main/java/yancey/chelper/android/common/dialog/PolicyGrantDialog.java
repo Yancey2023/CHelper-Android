@@ -31,9 +31,9 @@ import java.util.Objects;
 import yancey.chelper.R;
 
 /**
- * 隐私政策对话框
+ * 隐私政策授权对话框
  */
-public class PrivacyPolicyDialog extends FixedDialog {
+public class PolicyGrantDialog extends FixedDialog {
 
     // 标题，内容，取消按钮文本，确认按钮文本
     @Nullable
@@ -45,14 +45,14 @@ public class PrivacyPolicyDialog extends FixedDialog {
     /**
      * @param context 上下文
      */
-    public PrivacyPolicyDialog(@NonNull Context context) {
+    public PolicyGrantDialog(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_privacy_pilocy);
+        setContentView(R.layout.dialog_pilocy_grant);
         setCancelable(false);
         TextView tv_title = findViewById(R.id.title);
         TextView tv_message = findViewById(R.id.message);
@@ -102,45 +102,45 @@ public class PrivacyPolicyDialog extends FixedDialog {
         });
     }
 
-    public PrivacyPolicyDialog title(String title) {
+    public PolicyGrantDialog title(String title) {
         this.title = title;
         return this;
     }
 
-    public PrivacyPolicyDialog message(String message) {
+    public PolicyGrantDialog message(String message) {
         this.message = message;
         return this;
     }
 
-    public PrivacyPolicyDialog onConfirm(String confirm) {
+    public PolicyGrantDialog onConfirm(String confirm) {
         this.confirm = confirm;
         return this;
     }
 
-    public PrivacyPolicyDialog onConfirm(Runnable onConfirm) {
+    public PolicyGrantDialog onConfirm(Runnable onConfirm) {
         this.onConfirm = onConfirm;
         return this;
     }
 
-    public PrivacyPolicyDialog onConfirm(String confirm, Runnable onConfirm) {
+    public PolicyGrantDialog onConfirm(String confirm, Runnable onConfirm) {
         return onConfirm(confirm).onConfirm(onConfirm);
     }
 
-    public PrivacyPolicyDialog onRead(String cancel) {
+    public PolicyGrantDialog onRead(String cancel) {
         this.cancel = cancel;
         return this;
     }
 
-    public PrivacyPolicyDialog onRead(Runnable onRead) {
+    public PolicyGrantDialog onRead(Runnable onRead) {
         this.onRead = onRead;
         return this;
     }
 
-    public PrivacyPolicyDialog onRead(String cancel, Runnable onRead) {
+    public PolicyGrantDialog onRead(String cancel, Runnable onRead) {
         return onRead(cancel).onRead(onRead);
     }
 
-    public PrivacyPolicyDialog onDismiss(Runnable onDismiss) {
+    public PolicyGrantDialog onDismiss(Runnable onDismiss) {
         this.onDismiss = onDismiss;
         return this;
     }

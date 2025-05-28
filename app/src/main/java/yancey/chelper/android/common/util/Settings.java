@@ -18,7 +18,6 @@
 
 package yancey.chelper.android.common.util;
 
-import android.app.Application;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -30,6 +29,10 @@ import java.io.File;
  */
 public class Settings {
 
+    /**
+     * 日志标签
+     */
+    private static final String TAG = "Settings";
     /**
      * 内置资源包的文件夹名称
      */
@@ -125,10 +128,13 @@ public class Settings {
      */
     public static void init(File file) {
         Settings.file = file;
-        try {
-            INSTANCE = new Gson().fromJson(FileUtil.readString(file), Settings.class);
-        } catch (Exception e) {
-            Log.e("Settings", "fail to read settings", e);
+        if (file.exists()) {
+            try {
+                INSTANCE = new Gson().fromJson(FileUtil.readString(file), Settings.class);
+            } catch (Exception e) {
+                Log.e(TAG, "fail to read settings from json", e);
+                MonitorUtil.generateCustomLog(e, "ReadSettingException");
+            }
         }
         boolean isDirty = false;
         if (INSTANCE == null) {

@@ -77,6 +77,7 @@ public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.
             holder.mBtn_like.setBackgroundResource(R.drawable.pencil);
             holder.mBtn_like.setContentDescription(context.getString(R.string.edit));
             holder.mBtn_like.setOnClickListener(v -> onLibraryEdit.accept(libraryFunction));
+            holder.mTv_likeCount.setVisibility(View.GONE);
         } else {
             if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
                 holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
@@ -87,8 +88,9 @@ public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.
             if (libraryFunction.id != null) {
                 holder.mBtn_like.setOnClickListener(v -> doLike(position));
             }
+            holder.mTv_likeCount.setVisibility(View.VISIBLE);
+            holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.like_count, 0)));
         }
-        holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.like_count, 0)));
         holder.itemView.setOnClickListener(v -> onLibraryShow.accept(libraryFunction));
     }
 

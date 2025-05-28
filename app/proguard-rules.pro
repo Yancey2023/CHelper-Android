@@ -22,10 +22,10 @@
 
 # ----- Print Informations -----
 
--printseeds release/seeds.txt
--printusage release/usage.txt
--printmapping release/mapping.txt
--printconfiguration release/configuration.txt
+-printseeds seeds.txt
+-printusage usage.txt
+-printmapping mapping.txt
+-printconfiguration configuration.txt
 
 # ----- CHelper Native Core -----
 
@@ -34,13 +34,33 @@
 -keep class yancey.chelper.core.ErrorReason{ *; }
 -keep class yancey.chelper.core.ClickSuggestionResult{ *; }
 
-# -----Settings -----
+# ----- Settings -----
 
 -keep class yancey.chelper.android.common.util.Settings{ *; }
 
-# -----Command Lab -----
+# ----- Command Lab -----
 
 -keep class yancey.chelper.network.library.data.**{ *; }
 -keep class yancey.chelper.network.library.service.**{ *; }
+
+# ----- umeng -----
+
+-keep class com.umeng.** { *; }
+
+-keep class com.uc.** { *; }
+
+-keep class com.efs.** { *; }
+
+-keepclassmembers class *{
+    public <init>(org.json.JSONObject);
+}
+-keepclassmembers enum *{
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keep public class yancey.chelper.R$*{
+    public static final int *;
+}
 
 # ----- end -----

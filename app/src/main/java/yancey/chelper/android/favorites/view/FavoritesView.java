@@ -19,12 +19,9 @@
 package yancey.chelper.android.favorites.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +38,7 @@ import java.util.List;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.android.common.view.CustomView;
 import yancey.chelper.android.favorites.adapter.FavoriteListAdapter;
 import yancey.chelper.android.favorites.data.DataFavorite;
@@ -49,28 +47,25 @@ import yancey.chelper.android.favorites.data.DataFavorite;
  * 收藏界面
  */
 @SuppressLint("ViewConstructor")
-public class FavoritesView extends CustomView<Object> {
+public class FavoritesView extends CustomView {
 
     private static final String TAG = "FavoriteActivity";
-    private FavoriteListAdapter adapter;
+    private final FavoriteListAdapter adapter;
 
     public FavoritesView(@NonNull CustomContext customContext) {
         super(customContext, R.layout.layout_favorites);
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "favorites", "favorites.dat");
         List<DataFavorite> dataFavoriteList;
-        if (file.canRead()) {
+        if (file.exists()) {
             try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(file)))) {
                 dataFavoriteList = new ArrayList<>();
                 int length = dataInputStream.readInt();
                 for (int i = 0; i < length; i++) {
                     dataFavoriteList.add(new DataFavorite(dataInputStream));
                 }
-            } catch (IOException exception) {
+            } catch (IOException e) {
                 dataFavoriteList = new ArrayList<>();
+                MonitorUtil.generateCustomLog(e, "IOException");
             }
         } else {
             dataFavoriteList = new ArrayList<>();
@@ -86,8 +81,13 @@ public class FavoritesView extends CustomView<Object> {
         view.findViewById(R.id.btn_new).setOnClickListener(v -> adapter.newOne(false));
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> adapter.delete());
         view.findViewById(R.id.btn_new_folder).setOnClickListener(v -> adapter.newOne(true));
-//        view.findViewById(R.id.btn_bulk_copy).setOnClickListener(v -> adapter.bulkCopy());
-        //findViewById(R.id.btn_move).setOnClickListener(this);
+        // view.findViewById(R.id.btn_bulk_copy).setOnClickListener(v -> adapter.bulkCopy());
+        // view.findViewById(R.id.btn_move).setOnClickListener(this);
+    }
+
+    @Override
+    protected String gePageName() {
+        return "Favorites";
     }
 
     @Override
@@ -99,12 +99,13 @@ public class FavoritesView extends CustomView<Object> {
             return;
         }
         try (DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file)))) {
-            dataOutputStream.writeInt(adapter.dataFavoriteList.size());
-            for (DataFavorite dataFavorite : adapter.dataFavoriteList) {
+            dataOutputStream.writeInt(adapter.root.size());
+            for (DataFavorite dataFavorite : adapter.root) {
                 dataFavorite.writeToFile(dataOutputStream);
             }
-        } catch (IOException exception) {
+        } catch (IOException e) {
             Log.e(TAG, "could not save file : " + file.getAbsolutePath());
+            MonitorUtil.generateCustomLog(e, "IOException");
         }
     }
 

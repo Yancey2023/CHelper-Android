@@ -1,7 +1,6 @@
 package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -30,19 +29,15 @@ import yancey.chelper.network.library.util.LoginUtil;
  * 命令库登录视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryLoginView extends CustomView<Object> {
+public class LibraryLoginView extends CustomView {
 
-    private TextView tv_message;
+    private final TextView tv_message;
     private boolean isShowPassword = false;
     private boolean isLogging = false;
     private Disposable login;
 
     public LibraryLoginView(@NonNull CustomContext customContext) {
         super(customContext, R.layout.layout_library_login);
-    }
-
-    @Override
-    public void onCreateView(@NonNull Context context, @NonNull View view, @Nullable Object privateData) {
         EditText email = view.findViewById(R.id.loginname);
         EditText password = view.findViewById(R.id.password);
         ImageView btn_clearName = view.findViewById(R.id.clear_btn_name);
@@ -103,6 +98,11 @@ public class LibraryLoginView extends CustomView<Object> {
                         showMessageError(throwable.getMessage());
                     });
         });
+    }
+
+    @Override
+    protected String gePageName() {
+        return "LibraryLogin";
     }
 
     @Override

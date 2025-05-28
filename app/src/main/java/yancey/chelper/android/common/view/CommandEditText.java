@@ -40,8 +40,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import yancey.chelper.R;
-import yancey.chelper.core.SelectedString;
 import yancey.chelper.core.ErrorReason;
+import yancey.chelper.core.SelectedString;
 
 /**
  * 命令输入框
