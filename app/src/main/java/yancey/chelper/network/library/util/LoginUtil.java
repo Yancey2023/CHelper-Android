@@ -18,15 +18,13 @@
 
 package yancey.chelper.network.library.util;
 
-import android.util.Log;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import retrofit2.Response;
 import yancey.chelper.android.common.util.FileUtil;
-import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.data.BaseResult;
 import yancey.chelper.network.library.data.User;
@@ -34,19 +32,16 @@ import yancey.chelper.network.library.service.CommandLabUserService;
 
 public class LoginUtil {
 
-    private static final String TAG = "LoginUtil";
-
     private static File file;
     public static User user;
 
-    public static void init(File file) {
+    public static void init(File file, Consumer<Throwable> onError) {
         LoginUtil.file = file;
         if (file.exists()) {
             try {
                 user = ServiceManager.GSON.fromJson(FileUtil.readString(file), User.class);
-            } catch (Exception e) {
-                Log.e(TAG, "fail to read user from json", e);
-                MonitorUtil.generateCustomLog(e, "ReadUserException");
+            } catch (Throwable throwable) {
+                onError.accept(throwable);
             }
         }
     }
@@ -66,12 +61,10 @@ public class LoginUtil {
         request.password = user.password;
         Response<BaseResult<CommandLabUserService.LoginResponse>> response = ServiceManager.COMMAND_LAB_USER_SERVICE.login(request).execute();
         if (response.body() != null && Objects.equals(response.body().status, "success")) {
-            Log.i(TAG, "登录成功");
             user.lastLoginTimestamp = System.currentTimeMillis();
             FileUtil.writeString(file, ServiceManager.GSON.toJson(user));
             return user.token;
         } else {
-            Log.i(TAG, "登录失败");
             return null;
         }
     }

@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 55
-        versionName = "0.2.42-beta"
+        versionCode = 56
+        versionName = "0.2.43-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -113,6 +113,7 @@ dependencies {
     implementation("com.github.Redempt:Crunch:2.0.3")
     // https://github.com/androidx/androidx
     implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.activity:activity-ktx:1.10.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     // https://github.com/ReactiveX/RxJava
     implementation("io.reactivex.rxjava3:rxjava:3.1.10")

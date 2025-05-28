@@ -26,9 +26,6 @@ import android.provider.Settings;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.activity.BaseActivity;
@@ -40,14 +37,18 @@ import yancey.chelper.android.common.dialog.IsConfirmDialog;
 public class Old2NewIMEGuideActivity extends BaseActivity {
 
     @Override
+    protected String gePageName() {
+        return "Old2NewIMEGuide";
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.layout_old2new_ime_guide;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_old2new_ime_guide);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-            return insets;
-        });
         findViewById(R.id.back).setOnClickListener(v -> finish());
         findViewById(R.id.btn_start_ime1).setOnClickListener(v -> {
             if ((checkFeatureInputMethods())) {
@@ -70,11 +71,6 @@ public class Old2NewIMEGuideActivity extends BaseActivity {
                     .show();
             return false;
         }
-    }
-
-    @Override
-    protected String gePageName() {
-        return "Old2NewIMEGuide";
     }
 
 }

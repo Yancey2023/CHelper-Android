@@ -82,53 +82,29 @@
 
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="vertical">-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-<!--            <View-->
-<!--                android:id="@+id/btn_public_library"-->
-<!--                android:layout_width="26dp"-->
-<!--                android:layout_height="26dp"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:background="@drawable/icon_box"-->
-<!--                android:contentDescription="@string/averychims_library" />-->
+            <View
+                android:id="@+id/btn_local_library"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/box"
+                android:contentDescription="@string/library" />
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:text="@string/tv_averychims_library"-->
-<!--                android:textColor="@color/text_main"-->
-<!--                android:textSize="14sp" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/library"
+                android:textColor="@color/text_main"
+                android:textSize="14sp" />
 
-<!--        </LinearLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <View-->
-<!--                android:id="@+id/btn_public_library"-->
-<!--                android:layout_width="26dp"-->
-<!--                android:layout_height="26dp"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:background="@drawable/box"-->
-<!--                android:contentDescription="@string/openlans_library" />-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:text="@string/tv_openlans_library"-->
-<!--                android:textColor="@color/text_main"-->
-<!--                android:textSize="14sp" />-->
-
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

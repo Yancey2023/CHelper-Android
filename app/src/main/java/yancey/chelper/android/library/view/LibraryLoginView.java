@@ -21,7 +21,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.TextWatcherUtil;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.network.library.data.User;
 import yancey.chelper.network.library.util.LoginUtil;
 
@@ -29,7 +29,7 @@ import yancey.chelper.network.library.util.LoginUtil;
  * 命令库登录视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryLoginView extends CustomView {
+public class LibraryLoginView extends BaseView {
 
     private final TextView tv_message;
     private boolean isShowPassword = false;

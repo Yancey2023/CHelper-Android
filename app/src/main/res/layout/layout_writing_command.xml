@@ -4,13 +4,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_component">
+    android:background="@color/background">
 
     <LinearLayout
         android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:background="@color/background_component"
         android:orientation="vertical">
 
         <TextView
@@ -59,7 +60,8 @@
         android:id="@+id/fl_action_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/ed_input">
+        android:layout_above="@id/tail"
+        android:background="@color/background">
 
         <include
             android:id="@+id/fl_actions"
@@ -74,48 +76,50 @@
         android:layout_above="@id/fl_action_container"
         android:background="@color/line" />
 
-    <View
+    <RelativeLayout
+        android:id="@+id/tail"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/background" />
+        android:background="@color/background">
 
-    <View
-        android:id="@+id/btn_action"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
-        android:background="@drawable/chevron_down"
-        android:contentDescription="@string/iv_show" />
+        <View
+            android:id="@+id/btn_action"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/chevron_down"
+            android:contentDescription="@string/iv_show" />
 
-    <View
-        android:id="@+id/btn_copy"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
-        android:background="@drawable/copy"
-        android:contentDescription="@string/copy" />
+        <View
+            android:id="@+id/btn_copy"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/copy"
+            android:contentDescription="@string/copy" />
 
-    <yancey.chelper.android.common.view.CommandEditText
-        android:id="@+id/ed_input"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@id/btn_copy"
-        android:layout_toEndOf="@id/btn_action"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="@string/et_writeCommandHint"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:textColor="@color/text_main"
-        android:textColorHint="@color/text_hint"
-        android:textSize="16sp"
-        tools:ignore="VisualLintTextFieldSize" />
+        <yancey.chelper.android.common.view.CommandEditText
+            android:id="@+id/ed_input"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@id/btn_copy"
+            android:layout_toEndOf="@id/btn_action"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/et_writeCommandHint"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/text_main"
+            android:textColorHint="@color/text_hint"
+            android:textSize="16sp"
+            tools:ignore="VisualLintTextFieldSize" />
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_command_list"
@@ -123,6 +127,7 @@
         android:layout_height="43dp"
         android:layout_above="@id/line2"
         android:layout_below="@id/line"
+        android:background="@color/background_component"
         android:scrollbars="vertical"
         tools:itemCount="15"
         tools:listitem="@layout/layout_suggestion" />

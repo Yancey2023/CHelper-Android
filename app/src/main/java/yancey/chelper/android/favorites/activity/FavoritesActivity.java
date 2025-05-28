@@ -20,17 +20,17 @@ package yancey.chelper.android.favorites.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.common.activity.CustomActivity;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.favorites.view.FavoritesView;
 
 /**
  * 收藏界面
  */
-public class FavoritesActivity extends CustomActivity<FavoritesView> {
+public class FavoritesActivity extends FWSActivity<FavoritesView> {
 
     @Override
-    protected FavoritesView createView(@NonNull CustomView.CustomContext customContext) {
+    protected FavoritesView createView(@NonNull FWSView.CustomContext customContext) {
         return new FavoritesView(customContext);
     }
 

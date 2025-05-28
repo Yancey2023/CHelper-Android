@@ -18,7 +18,7 @@
 
 package yancey.chelper.network.library.data;
 
-import androidx.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class User {
     @Nullable

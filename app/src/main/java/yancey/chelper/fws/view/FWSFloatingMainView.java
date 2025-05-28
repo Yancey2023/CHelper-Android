@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.common.view;
+package yancey.chelper.fws.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,32 +25,35 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.completion.view.CompletionView;
+import java.util.function.Function;
 
 /**
  * 悬浮窗主视图
  */
 @SuppressLint("ViewConstructor")
-public class FloatingMainView extends FrameLayout {
+public class FWSFloatingMainView<T extends FWSView> extends FrameLayout {
 
     private final int iconEdgeLength;
     private final DraggableView iconView;
-    private final MainView<CompletionView> mainView;
+    private final FWSMainView<T> fwsMainView;
+    private final OnBackPressedDispatcher onBackPressedDispatcher;
 
-    public FloatingMainView(@NonNull Context context, Runnable shutDown, DraggableView iconView, int iconEdgeLength) {
+    public FWSFloatingMainView(@NonNull Context context, @NonNull Function<FWSView.CustomContext, T> createRootView, DraggableView iconView, int iconEdgeLength) {
         super(context);
         this.iconEdgeLength = iconEdgeLength;
         this.iconView = iconView;
         iconView.setLayoutParams(new LayoutParams(iconEdgeLength, iconEdgeLength, Gravity.START | Gravity.TOP));
-        mainView = new MainView<>(
+        onBackPressedDispatcher = new OnBackPressedDispatcher(iconView::callOnClick);
+        fwsMainView = new FWSMainView<>(
                 context,
-                CustomView.Environment.FLOATING_WINDOW,
-                customContext -> new CompletionView(customContext, shutDown, iconView::callOnClick),
-                iconView::callOnClick
+                FWSView.Environment.FLOATING_WINDOW,
+                createRootView,
+                onBackPressedDispatcher
         );
-        addView(mainView);
+        addView(fwsMainView);
         addView(iconView);
     }
 
@@ -63,7 +66,7 @@ public class FloatingMainView extends FrameLayout {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            mainView.backView();
+            onBackPressedDispatcher.onBackPressed();
             return true;
         }
         return super.dispatchKeyEvent(event);
@@ -86,15 +89,15 @@ public class FloatingMainView extends FrameLayout {
     }
 
     public void onPause() {
-        mainView.onPause();
+        fwsMainView.onPause();
     }
 
     public void onResume() {
-        mainView.onResume();
+        fwsMainView.onResume();
     }
 
     public void onDestroy() {
-        mainView.onDestroy();
+        fwsMainView.onDestroy();
     }
 
 }

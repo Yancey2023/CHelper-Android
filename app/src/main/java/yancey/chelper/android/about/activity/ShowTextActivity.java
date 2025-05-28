@@ -23,9 +23,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Objects;
 
@@ -41,14 +38,18 @@ public class ShowTextActivity extends BaseActivity {
     public static final String CONTENT = "content";
 
     @Override
+    protected String gePageName() {
+        return "ShowText";
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.layout_show_text;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_show_text);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-            return insets;
-        });
         Bundle extras = Objects.requireNonNull(getIntent().getExtras());
         String title = extras.getString(TITLE);
         String content = extras.getString(CONTENT);
@@ -58,11 +59,6 @@ public class ShowTextActivity extends BaseActivity {
         btn_back.setOnClickListener(v -> finish());
         tv_title.setText(title);
         tv_content.setText(content);
-    }
-
-    @Override
-    protected String gePageName() {
-        return "ShowText";
     }
 
 }

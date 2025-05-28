@@ -16,43 +16,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.common.activity;
+package yancey.chelper.android.common.view;
 
-import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.Objects;
-
 import yancey.chelper.R;
 import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.util.MonitorUtil;
+import yancey.chelper.fws.view.FWSView;
 
 /**
- * 作为Activity基类，提供通用的代码
+ * 作为FWSView的基类，提供通用的代码
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseView extends FWSView {
 
-    private int backgroundUpdateTimes = 0;
-
-    protected abstract String gePageName();
-
-    public abstract @LayoutRes int getLayoutId();
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        EdgeToEdge.enable(this);
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-        View mainView = findViewById(R.id.main);
-        Objects.requireNonNull(mainView);
+    /**
+     * @param customContext 自定义上下文
+     * @param layoutId      视图界面ID
+     */
+    public BaseView(
+            @NonNull CustomContext customContext,
+            @LayoutRes int layoutId
+    ) {
+        super(customContext, layoutId);
+        View mainView = view.findViewById(R.id.main);
         ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
             Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
@@ -65,15 +58,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
-    protected void onResume() {
-        super.onResume();
-        MonitorUtil.onPageStart(gePageName());
-        backgroundUpdateTimes = CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), backgroundUpdateTimes);
+    protected abstract String gePageName();
+
+    /**
+     * 界面切换后台事件
+     */
+    public void onPause() {
+        // 友盟统计页面关闭
+        MonitorUtil.onPageEnd(gePageName());
     }
 
-    protected void onPause() {
-        super.onPause();
-        MonitorUtil.onPageEnd(gePageName());
+    /**
+     * 界面恢复前台事件
+     */
+    public void onResume() {
+        // 友盟统计页面启动
+        MonitorUtil.onPageStart(gePageName());
+        // 支持自定义背景
+        backgroundUpdateTimes = CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), backgroundUpdateTimes);
     }
 
 }

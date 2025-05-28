@@ -20,7 +20,6 @@ package yancey.chelper.android.common.style;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
@@ -32,17 +31,20 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import yancey.chelper.R;
+import yancey.chelper.android.common.util.BitmapResizeCache;
 import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.android.common.util.Settings;
-import yancey.chelper.android.common.view.CustomView;
 
 public class CustomTheme {
 
@@ -53,90 +55,69 @@ public class CustomTheme {
     @NonNull
     private final File file;
     @NotNull
-    private final AtomicReference<Bitmap> backgroundBitmap = new AtomicReference<>();
+    private final BitmapResizeCache backgroundBitmap = new BitmapResizeCache();
 
     public CustomTheme(@NonNull File file) {
         this.file = file;
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            backgroundBitmap.set(BitmapFactory.decodeStream(fileInputStream));
+        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+            this.backgroundBitmap.setBitmap(BitmapFactory.decodeStream(inputStream));
         } catch (IOException e) {
             Log.w(TAG, "fail to load background drawable", e);
             MonitorUtil.generateCustomLog(e, "IOException");
         }
     }
 
-    public void invokeBackground(@Nullable View view, @NonNull CustomView.Environment environment) {
+    public int invokeBackground(@Nullable View view, int lastUpdateTimes) {
+        int updateTimes = backgroundBitmap.getUpdateTimes();
+        if (lastUpdateTimes == updateTimes) {
+            return updateTimes;
+        }
         if (view == null) {
             Log.w(TAG, "fail to draw background beacause view is null");
-            return;
+            return updateTimes;
         }
-        if (backgroundBitmap.get() == null) {
+        if (backgroundBitmap.isSourceFileMiss()) {
             view.setBackgroundResource(R.color.background);
-            return;
+            return updateTimes;
         }
         if (view.getWidth() == 0 || view.getHeight() == 0) {
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    invokeBackground0(view, environment);
+                    invokeBackground0(view);
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             });
-            return;
+            return updateTimes;
         }
-        invokeBackground0(view, environment);
-
+        invokeBackground0(view);
+        return updateTimes;
     }
 
-    private void invokeBackground0(@NonNull View view, @NonNull CustomView.Environment environment) {
-        Bitmap bitmap = backgroundBitmap.get();
-        if (bitmap == null) {
+    public int invokeBackgroundForce(@Nullable View view) {
+        return invokeBackground(view, 0);
+    }
+
+    private void invokeBackground0(@NonNull View view) {
+        if (backgroundBitmap.isSourceFileMiss()) {
+            view.setBackgroundResource(R.color.background);
             return;
         }
-        int sourceWidth = bitmap.getWidth();
-        int sourceHeight = bitmap.getHeight();
         int targetWidth = view.getWidth();
         int targetHeight = view.getHeight();
-        if (sourceWidth == 0 || sourceHeight == 0) {
-            Log.w(TAG, "fail to draw background beacause bitmap is bad");
-            return;
-        }
         if (targetWidth == 0 || targetHeight == 0) {
             Log.w(TAG, "fail to draw background beacause view is not ready");
             return;
         }
-        Bitmap tagetBitmap;
-        try {
-            float scaleX = (float) targetWidth / sourceWidth;
-            float scaleY = (float) targetHeight / sourceHeight;
-            float scale = Math.max(scaleX, scaleY);
-            Matrix matrix = new Matrix();
-            matrix.setScale(scale, scale);
-            float skipX = sourceWidth - targetWidth / scale;
-            float skipY = sourceHeight - targetHeight / scale;
-            tagetBitmap = Bitmap.createBitmap(
-                    bitmap,
-                    (int) (skipX / 2),
-                    (int) (skipY / 2),
-                    (int) (sourceWidth - skipX),
-                    (int) (sourceHeight - skipY),
-                    matrix,
-                    false
-            );
-        } catch (Exception e) {
-            Log.e(TAG, "fail to scale background", e);
-            MonitorUtil.generateCustomLog(e, "ScaleBitmapException");
-            return;
-        }
-        view.setBackground(new BitmapDrawable(view.getResources(), tagetBitmap));
+        view.setBackground(new BitmapDrawable(view.getResources(), backgroundBitmap.getBitmap(targetWidth, targetHeight)));
     }
 
-    public void setBackGroundDrawableWithoutSave(@Nullable Bitmap bitmap) throws IOException {
-        this.backgroundBitmap.set(bitmap);
+    public void setBackGroundDrawableWithoutSave(@Nullable Bitmap bitmap) {
+        this.backgroundBitmap.setBitmap(bitmap);
     }
 
     public void setBackGroundDrawable(@Nullable Bitmap bitmap) throws IOException {
-        this.backgroundBitmap.set(bitmap);
+        this.backgroundBitmap.setBitmap(bitmap);
         if (bitmap == null) {
             if (file.exists() && !file.delete()) {
                 throw new IOException("fail to delete file");
@@ -146,7 +127,7 @@ public class CustomTheme {
         if (!FileUtil.createParentFile(file)) {
             throw new IOException("fail to create parent directory");
         }
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(file))) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
         }
     }

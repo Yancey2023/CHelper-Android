@@ -23,16 +23,13 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.function.Consumer;
 
 /**
  * 软件设置
  */
 public class Settings {
 
-    /**
-     * 日志标签
-     */
-    private static final String TAG = "Settings";
     /**
      * 内置资源包的文件夹名称
      */
@@ -126,19 +123,22 @@ public class Settings {
      *
      * @param file 配置文件路径
      */
-    public static void init(File file) {
+    public static void init(File file, Consumer<Throwable> onError) {
         Settings.file = file;
         if (file.exists()) {
             try {
                 INSTANCE = new Gson().fromJson(FileUtil.readString(file), Settings.class);
-            } catch (Exception e) {
-                Log.e(TAG, "fail to read settings from json", e);
-                MonitorUtil.generateCustomLog(e, "ReadSettingException");
+            } catch (Throwable throwable) {
+                onError.accept(throwable);
             }
         }
         boolean isDirty = false;
         if (INSTANCE == null) {
             INSTANCE = new Settings();
+            isDirty = true;
+        }
+        if (INSTANCE.themeId == null) {
+            INSTANCE.themeId = "MODE_NIGHT_FOLLOW_SYSTEM";
             isDirty = true;
         }
         if (INSTANCE.isCheckingBySelection == null) {
@@ -183,10 +183,6 @@ public class Settings {
                 default -> isOldVersion = false;
             }
             if (isOldVersion) {
-                isDirty = true;
-            }
-            if (INSTANCE.themeId == null) {
-                INSTANCE.themeId = "MODE_NIGHT_FOLLOW_SYSTEM";
                 isDirty = true;
             }
         }

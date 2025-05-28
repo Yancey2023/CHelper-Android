@@ -72,13 +72,19 @@ public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         LibraryFunction libraryFunction = libraryNames.get(position);
         holder.mTv_name.setText(libraryFunction.name);
-        holder.mTv_author.setText(context.getString(R.string.library_author_formatter, libraryFunction.author));
+
         if (doLike == null) {
-            holder.mBtn_like.setBackgroundResource(R.drawable.pencil);
-            holder.mBtn_like.setContentDescription(context.getString(R.string.edit));
-            holder.mBtn_like.setOnClickListener(v -> onLibraryEdit.accept(libraryFunction));
+            holder.mTv_author.setText(libraryFunction.note);
+            if (onLibraryEdit == null) {
+                holder.mBtn_like.setVisibility(View.GONE);
+            } else {
+                holder.mBtn_like.setBackgroundResource(R.drawable.pencil);
+                holder.mBtn_like.setContentDescription(context.getString(R.string.edit));
+                holder.mBtn_like.setOnClickListener(v -> onLibraryEdit.accept(libraryFunction));
+            }
             holder.mTv_likeCount.setVisibility(View.GONE);
         } else {
+            holder.mTv_author.setText(context.getString(R.string.library_author_formatter, libraryFunction.author));
             if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
                 holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
             } else {

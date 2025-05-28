@@ -36,7 +36,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.android.library.adapter.LibraryShowAdapter;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.data.LibraryFunction;
@@ -46,7 +46,7 @@ import yancey.chelper.network.library.service.CommandLabPublicService;
  * 命令库显示视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryShowView extends CustomView {
+public class LibraryShowView extends BaseView {
 
     private final LibraryFunction before;
     private LibraryFunction after;
@@ -65,7 +65,7 @@ public class LibraryShowView extends CustomView {
         this.before = before;
         this.after = before;
         this.isLocal = isLocal;
-        view.findViewById(R.id.back).setOnClickListener(v -> backView());
+        view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         btn_like = view.findViewById(R.id.btn_like);
         tv_like_count = view.findViewById(R.id.tv_like_count);
         TextView tv_name = view.findViewById(R.id.name);

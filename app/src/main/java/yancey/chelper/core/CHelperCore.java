@@ -70,7 +70,7 @@ public class CHelperCore implements Closeable {
         this.path = path;
         try {
             pointer = create0(assetManager, path);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             pointer = 0;
         }
         if (pointer == 0) {

@@ -18,9 +18,7 @@
 
 package yancey.chelper.network.library.interceptor;
 
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -36,12 +34,12 @@ public class AuthInterceptor implements Interceptor {
 
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public Response intercept(@NonNull Chain chain) throws IOException {
+    public Response intercept(@NotNull Chain chain) throws IOException {
         if (chain.request().url().host().equals("abyssous.site")) {
             String token = LoginUtil.getToken();
-            if (!TextUtils.isEmpty(token)) {
+            if (token != null && !token.isEmpty()) {
                 return chain.proceed(chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer " + token)
                         .build());

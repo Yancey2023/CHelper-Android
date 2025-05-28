@@ -27,20 +27,20 @@ import androidx.annotation.NonNull;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.TextWatcherUtil;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.core.CHelperCore;
 
 /**
  * 旧命令转新命令界面
  */
 @SuppressLint("ViewConstructor")
-public class Old2NewView extends CustomView {
+public class Old2NewView extends BaseView {
 
     public Old2NewView(@NonNull CustomContext customContext) {
         super(customContext, R.layout.layout_old2new);
         EditText mEd_oldCommand = view.findViewById(R.id.ed_old_command);
         TextView mTv_newCommand = view.findViewById(R.id.tv_new_command);
-        findViewById(R.id.back).setOnClickListener(v -> backView());
+        findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         view.findViewById(R.id.btn_paste).setOnClickListener(v -> {
             CharSequence charSequence = ClipboardUtil.getText(context);
             if (charSequence != null) {

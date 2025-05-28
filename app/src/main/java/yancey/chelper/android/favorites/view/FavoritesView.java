@@ -39,7 +39,7 @@ import java.util.List;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.util.MonitorUtil;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.android.favorites.adapter.FavoriteListAdapter;
 import yancey.chelper.android.favorites.data.DataFavorite;
 
@@ -47,7 +47,7 @@ import yancey.chelper.android.favorites.data.DataFavorite;
  * 收藏界面
  */
 @SuppressLint("ViewConstructor")
-public class FavoritesView extends CustomView {
+public class FavoritesView extends BaseView {
 
     private static final String TAG = "FavoriteActivity";
     private final FavoriteListAdapter adapter;
@@ -71,10 +71,10 @@ public class FavoritesView extends CustomView {
             dataFavoriteList = new ArrayList<>();
         }
         RecyclerView rv_favoriteList = view.findViewById(R.id.rv_favorite);
-        adapter = new FavoriteListAdapter(context, dataFavoriteList);
+        adapter = new FavoriteListAdapter(context, dataFavoriteList, getOnBackPressedDispatcher());
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
-        view.findViewById(R.id.back).setOnClickListener(v -> backView());
+        view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         view.findViewById(R.id.btn_favorite_select_all).setOnClickListener(v -> adapter.selectAll());
         view.findViewById(R.id.btn_favorite_invert).setOnClickListener(v -> adapter.invert());
         view.findViewById(R.id.btn_favorite_deselect).setOnClickListener(v -> adapter.deselect());
@@ -109,8 +109,4 @@ public class FavoritesView extends CustomView {
         }
     }
 
-    @Override
-    public boolean onBackPressed() {
-        return adapter.back();
-    }
 }

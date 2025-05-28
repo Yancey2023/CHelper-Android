@@ -38,7 +38,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.util.ClipboardUtil;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.network.ServiceManager;
 import yancey.chelper.network.library.data.LibraryFunction;
 import yancey.chelper.network.library.service.CommandLabPublicService;
@@ -48,7 +48,7 @@ import yancey.chelper.network.library.util.CommandLabUtil;
  * 命令库编辑视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryEditView extends CustomView {
+public class LibraryEditView extends BaseView {
 
     private final EditText ed_name;
     private final EditText ed_version;
@@ -77,7 +77,7 @@ public class LibraryEditView extends CustomView {
     ) {
         super(customContext, R.layout.layout_library_edit);
         this.isLocal = isLocal;
-        view.findViewById(R.id.back).setOnClickListener(v -> backView());
+        view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
         ed_name = view.findViewById(R.id.name);
         ed_version = view.findViewById(R.id.version);
@@ -130,7 +130,7 @@ public class LibraryEditView extends CustomView {
                     } else {
                         onEditListener.onUpdate(position, before, after);
                     }
-                    backView();
+                    getOnBackPressedDispatcher().onBackPressed();
                 }
             });
         } else {
@@ -170,7 +170,7 @@ public class LibraryEditView extends CustomView {
                                         new IsConfirmDialog(context, false)
                                                 .message("上传成功，您的密钥为：" + Objects.requireNonNull(Objects.requireNonNull(result.data).functions).get(0).user_key + "。本密钥只显示一次，用于后续更新或删除本次上传的内容，请妥善保存。")
                                                 .onConfirm("复制密钥", () -> ClipboardUtil.setText(context, Objects.requireNonNull(Objects.requireNonNull(result.data).functions).get(0).user_key))
-                                                .onDismiss(this::backView)
+                                                .onDismiss(() -> getOnBackPressedDispatcher().onBackPressed())
                                                 .show();
                                         onEditListener.onCreate(after);
                                     }, throwable -> Toaster.show(throwable.getMessage()));
@@ -212,7 +212,7 @@ public class LibraryEditView extends CustomView {
                                         }
                                         Toaster.show("更改成功");
                                         onEditListener.onUpdate(position, before, after);
-                                        backView();
+                                        getOnBackPressedDispatcher().onBackPressed();
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         }).show();
             });
@@ -226,7 +226,7 @@ public class LibraryEditView extends CustomView {
                     .onConfirm(() -> {
                         if (isLocal) {
                             onEditListener.onDelete(position, before);
-                            backView();
+                            getOnBackPressedDispatcher().onBackPressed();
                         } else {
                             if (delete != null) {
                                 delete.dispose();
@@ -244,7 +244,7 @@ public class LibraryEditView extends CustomView {
                                         }
                                         Toaster.show("删除成功");
                                         onEditListener.onDelete(position, before);
-                                        backView();
+                                        getOnBackPressedDispatcher().onBackPressed();
                                     }, throwable -> Toaster.show(throwable.getMessage()));
                         }
                     }).show());

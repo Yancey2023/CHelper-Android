@@ -30,9 +30,6 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -115,14 +112,18 @@ public class RawtextActivity extends BaseActivity {
     private boolean isShowColorBoard = true;
 
     @Override
+    protected String gePageName() {
+        return "Rawtext";
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.layout_rawtext;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_rawtext);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-            return insets;
-        });
         findViewById(R.id.back).setOnClickListener(v -> finish());
         mEd_text = findViewById(R.id.ed_text);
         mTv_preview = findViewById(R.id.tv_preview);
@@ -179,11 +180,6 @@ public class RawtextActivity extends BaseActivity {
 //        findViewById(R.id.btn_insert).setOnClickListener(v -> {
 //            insertTargetSelector();
 //        });
-    }
-
-    @Override
-    protected String gePageName() {
-        return "Rawtext";
     }
 
     private void setColor(int color) {

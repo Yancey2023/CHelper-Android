@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,8 +50,9 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
     public List<DataFavorite> root;
     public List<DataFavorite> current;
     public final List<List<DataFavorite>> history;
+    public final OnBackPressedCallback onBackPressedCallback;
 
-    public FavoriteListAdapter(Context context, List<DataFavorite> root) {
+    public FavoriteListAdapter(Context context, List<DataFavorite> root, OnBackPressedDispatcher onBackPressedDispatcher) {
         this.context = context;
         this.root = root;
         this.current = root;
@@ -57,6 +60,13 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             dataFavorite.isChoose = false;
         }
         history = new ArrayList<>();
+        onBackPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                back();
+            }
+        };
+        onBackPressedDispatcher.addCallback(onBackPressedCallback);
     }
 
     @NonNull
@@ -85,8 +95,8 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
             holder.mIv_icon.setBackgroundResource(R.drawable.folder);
             holder.itemView.setOnClickListener(view -> {
                 history.add(current);
-                System.out.println("history.size(): " + history.size());
                 setDataList(data.dataFavoriteList);
+                onBackPressedCallback.setEnabled(true);
             });
         }
         holder.mIv_edit.setOnClickListener(view -> new EditFavoriteDialog(context, this, data, holder.getLayoutPosition(), false).show());
@@ -109,16 +119,15 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapte
         notifyDataSetChanged();
     }
 
-    public boolean back() {
-        System.out.println("history.size(): " + history.size());
+    private void back() {
         int position = history.size();
         if (position == 0) {
-            return false;
+            return;
         }
         position--;
         setDataList(history.get(position));
         history.remove(position);
-        return true;
+        onBackPressedCallback.setEnabled(position > 0);
     }
 
     @SuppressLint("NotifyDataSetChanged")

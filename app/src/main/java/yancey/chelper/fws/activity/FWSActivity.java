@@ -16,18 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.common.activity;
+package yancey.chelper.fws.activity;
 
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import yancey.chelper.android.common.view.CustomView;
-import yancey.chelper.android.common.view.MainView;
+import yancey.chelper.fws.view.FWSView;
+import yancey.chelper.fws.view.FWSMainView;
 
 /**
  * 使用单个View组成的界面
@@ -35,59 +33,41 @@ import yancey.chelper.android.common.view.MainView;
  *
  * @param <T> View的内容
  */
-public abstract class CustomActivity<T extends CustomView> extends AppCompatActivity {
+public abstract class FWSActivity<T extends FWSView> extends AppCompatActivity {
 
-    private MainView<T> view;
+    private FWSMainView<T> fwsMainView;
 
-    protected abstract T createView(@NonNull CustomView.CustomContext customContext);
+    protected abstract T createView(@NonNull FWSView.CustomContext customContext);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
-        view = new MainView<>(
+        fwsMainView = new FWSMainView<>(
                 this,
-                CustomView.Environment.APPLICATION,
+                FWSView.Environment.APPLICATION,
                 this::createView,
-                super::onBackPressed
+                getOnBackPressedDispatcher()
         );
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-            return insets;
-        });
-        setContentView(view);
+        setContentView(fwsMainView);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (view != null) {
-            view.onPause();
-        }
+        fwsMainView.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (view != null) {
-            view.onResume();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (view == null) {
-            super.onBackPressed();
-        } else {
-            view.onBackPressed();
-        }
+        fwsMainView.onResume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (view != null) {
-            view.onDestroy();
-        }
+        fwsMainView.onDestroy();
     }
+
 }

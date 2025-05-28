@@ -19,6 +19,7 @@
 package yancey.chelper.android;
 
 import android.app.Application;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 
@@ -54,9 +55,15 @@ public class CHelperApplication extends Application {
         Toaster.setGravity(Gravity.BOTTOM, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
         // 网络服务初始化
         ServiceManager.init();
-        LoginUtil.init(FileUtil.getFile(getDataDir(), "library", "user.json"));
+        LoginUtil.init(FileUtil.getFile(getDataDir(), "library", "user.json"), throwable -> {
+            Log.e("LoginUtil", "fail to read user from json", throwable);
+            MonitorUtil.generateCustomLog(throwable, "ReadUserException");
+        });
         // 设置初始化
-        Settings.init(FileUtil.getFile(getDataDir(), "settings", "settings.json"));
+        Settings.init(FileUtil.getFile(getDataDir(), "settings", "settings.json"), throwable -> {
+            Log.e("Settings", "fail to read settings from json", throwable);
+            MonitorUtil.generateCustomLog(throwable, "ReadSettingException");
+        });
         // 悬浮窗管理初始化
         CompletionWindowManager.init(this, FileUtil.getFile(getDataDir(), "xiaomi_clipboard_permission_no_tips.txt"));
         // 自定义主题初始化

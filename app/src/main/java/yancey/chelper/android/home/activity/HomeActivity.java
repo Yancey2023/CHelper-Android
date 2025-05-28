@@ -50,14 +50,18 @@ import yancey.chelper.android.rawtext.activity.RawtextActivity;
 public class HomeActivity extends BaseActivity {
 
     @Override
+    protected String gePageName() {
+        return "Home";
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.layout_home;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_home);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-            return insets;
-        });
         findViewById(R.id.btn_start_suggestion_app).setOnClickListener(v -> {
             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
                 Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式");
@@ -81,11 +85,6 @@ public class HomeActivity extends BaseActivity {
         findViewById(R.id.btn_enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
         findViewById(R.id.btn_favorite).setOnClickListener(v -> startActivity(new Intent(this, FavoritesActivity.class)));
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
-    }
-
-    @Override
-    protected String gePageName() {
-        return "Main";
     }
 
     @Override

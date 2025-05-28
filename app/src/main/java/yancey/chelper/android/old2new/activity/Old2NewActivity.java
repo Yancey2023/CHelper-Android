@@ -20,17 +20,17 @@ package yancey.chelper.android.old2new.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.common.activity.CustomActivity;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.old2new.view.Old2NewView;
 
 /**
  * 旧命令转新命令的界面
  */
-public class Old2NewActivity extends CustomActivity<Old2NewView> {
+public class Old2NewActivity extends FWSActivity<Old2NewView> {
 
     @Override
-    protected Old2NewView createView(@NonNull CustomView.CustomContext customContext) {
+    protected Old2NewView createView(@NonNull FWSView.CustomContext customContext) {
         return new Old2NewView(customContext);
     }
 

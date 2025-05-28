@@ -20,17 +20,17 @@ package yancey.chelper.android.library.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.common.activity.CustomActivity;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.library.view.LibraryListView;
 
 /**
  * 公有命令库列表
  */
-public class PublicLibraryListActivity extends CustomActivity<LibraryListView> {
+public class PublicLibraryListActivity extends FWSActivity<LibraryListView> {
 
     @Override
-    protected LibraryListView createView(@NonNull CustomView.CustomContext customContext) {
+    protected LibraryListView createView(@NonNull FWSView.CustomContext customContext) {
         return new LibraryListView(customContext, false);
     }
 

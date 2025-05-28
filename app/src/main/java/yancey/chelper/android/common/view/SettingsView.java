@@ -46,12 +46,12 @@ import yancey.chelper.android.common.util.Settings;
  * 设置界面
  */
 @SuppressLint("ViewConstructor")
-public class SettingsView extends CustomView {
+public class SettingsView extends BaseView {
 
     public SettingsView(@NonNull CustomContext customContext, @Nullable Runnable backgroundPicker) {
         super(customContext, R.layout.layout_settings);
         // 页面顶部逻辑
-        findViewById(R.id.back).setOnClickListener(v -> backView());
+        findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         // 自定义UI设置
         RelativeLayout btn_chooseBackground = view.findViewById(R.id.btn_choose_background);
         btn_chooseBackground.setOnClickListener(v -> {
@@ -87,7 +87,7 @@ public class SettingsView extends CustomView {
                         .onConfirm(() -> {
                             try {
                                 CustomTheme.INSTANCE.setBackGroundDrawable(null);
-                                CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), getEnvironment());
+                                backgroundUpdateTimes = CustomTheme.INSTANCE.invokeBackgroundForce(findViewById(R.id.main));
                             } catch (IOException e) {
                                 Toaster.show(e.getMessage());
                                 MonitorUtil.generateCustomLog(e, "ResetBackgroundException");

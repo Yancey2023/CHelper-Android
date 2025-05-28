@@ -20,17 +20,17 @@ package yancey.chelper.android.enumeration.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.common.activity.CustomActivity;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.enumeration.view.EnumerationView;
 
 /**
  * 穷举界面
  */
-public class EnumerationActivity extends CustomActivity<EnumerationView> {
+public class EnumerationActivity extends FWSActivity<EnumerationView> {
 
     @Override
-    protected EnumerationView createView(@NonNull CustomView.CustomContext customContext) {
+    protected EnumerationView createView(@NonNull FWSView.CustomContext customContext) {
         return new EnumerationView(customContext);
     }
 

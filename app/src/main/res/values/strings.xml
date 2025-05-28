@@ -2,7 +2,7 @@
     <string name="app_name">CHelper</string>
     <string name="tv_write_command_title">CHelper</string>
     <string name="tv_write_command_description">欢迎使用命令助手(作者：Yancey)</string>
-    <string name="tv_favorite">收藏（已过时，新版正在研发中）</string>
+    <string name="tv_favorite">收藏（已过时）</string>
     <string name="local_library">本地命令库</string>
     <string name="public_library">公有命令库（待开放）</string>
     <string name="library">命令库</string>
@@ -132,9 +132,6 @@
     <string name="add">添加</string>
     <string name="library_upload_note">类似mcfunction，每一行一个命令或一个注释：\n# 给我2个苹果\n/give @s apple 2\n# 在坐标(0, 0, 0)处放置一个钻石块\nsetblock 0 0 0 minecraft:diamond_block</string>
     <string name="btn_preview">预览</string>
-    <string name="library_not_allow_edit_in_floating_window">暂不支持在悬浮窗模式编辑命令</string>
-    <string name="library_not_allow_upload_in_floating_window">暂不支持在悬浮窗模式上传命令</string>
-    <string name="library_not_allow_add_in_floating_window">暂不支持在悬浮窗模式添加命令</string>
     <string name="like">点赞</string>
     <string name="like_count_sample">520</string>
     <string name="input_hint">点我输入内容</string>

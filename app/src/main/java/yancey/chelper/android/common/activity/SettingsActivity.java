@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,6 +31,7 @@ import androidx.annotation.NonNull;
 
 import com.hjq.toast.Toaster;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -39,18 +41,30 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.style.CustomTheme;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.common.view.SettingsView;
+import yancey.chelper.fws.activity.FWSActivity;
 
 /**
  * 设置界面
  */
-public class SettingsActivity extends CustomActivity<SettingsView> {
+public class SettingsActivity extends FWSActivity<SettingsView> {
 
     private Disposable setBackGroundDrawable;
 
     @Override
-    protected SettingsView createView(@NonNull CustomView.CustomContext customContext) {
+    protected SettingsView createView(@NonNull FWSView.CustomContext customContext) {
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!setBackGroundDrawable.isDisposed()) {
+                    new IsConfirmDialog(SettingsActivity.this)
+                            .message("背景图片正在保存中，请稍候")
+                            .show();
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
         ActivityResultLauncher<PickVisualMediaRequest> photoPicker = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (setBackGroundDrawable != null) {
                 setBackGroundDrawable.dispose();
@@ -61,7 +75,7 @@ public class SettingsActivity extends CustomActivity<SettingsView> {
             setBackGroundDrawable = Observable
                     .<Bitmap>create(emitter -> {
                         Bitmap bitmap;
-                        try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
+                        try (InputStream inputStream = new BufferedInputStream(getContentResolver().openInputStream(uri))) {
                             bitmap = BitmapFactory.decodeStream(inputStream);
                         }
                         CustomTheme.INSTANCE.setBackGroundDrawableWithoutSave(bitmap);
@@ -70,10 +84,12 @@ public class SettingsActivity extends CustomActivity<SettingsView> {
                         emitter.onComplete();
                     }).subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doFinally(() -> onBackPressedCallback.setEnabled(false))
                     .subscribe(
-                            bitmap -> CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), CustomView.Environment.APPLICATION),
+                            bitmap -> CustomTheme.INSTANCE.invokeBackgroundForce(findViewById(R.id.main)),
                             throwable -> Toaster.show(throwable.getMessage())
                     );
+            onBackPressedCallback.setEnabled(true);
         });
         Runnable backgroundPicker = () -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -83,17 +99,6 @@ public class SettingsActivity extends CustomActivity<SettingsView> {
                     .build());
         };
         return new SettingsView(customContext, backgroundPicker);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (setBackGroundDrawable != null && !setBackGroundDrawable.isDisposed()) {
-            new IsConfirmDialog(this)
-                    .message("背景图片正在保存中，请稍候")
-                    .show();
-            return;
-        }
-        super.onBackPressed();
     }
 
     @Override

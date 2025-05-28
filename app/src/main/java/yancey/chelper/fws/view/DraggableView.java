@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.common.view;
+package yancey.chelper.fws.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -20,17 +20,17 @@ package yancey.chelper.android.library.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.common.activity.CustomActivity;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.library.view.LibraryLoginView;
 
 /**
  * 命令库登录
  */
-public class LoginActivity extends CustomActivity<LibraryLoginView> {
+public class LoginActivity extends FWSActivity<LibraryLoginView> {
 
     @Override
-    protected LibraryLoginView createView(@NonNull CustomView.CustomContext customContext) {
+    protected LibraryLoginView createView(@NonNull FWSView.CustomContext customContext) {
         return new LibraryLoginView(customContext);
     }
 

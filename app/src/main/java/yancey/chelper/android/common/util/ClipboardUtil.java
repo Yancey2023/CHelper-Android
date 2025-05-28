@@ -54,9 +54,9 @@ public class ClipboardUtil {
             }
             clipboardManager.setPrimaryClip(ClipData.newPlainText(null, charSequence));
             return true;
-        } catch (Exception e) {
-            Log.e(TAG, "fail to set text in clipboard service", e);
-            MonitorUtil.generateCustomLog(e, "ClipboardException");
+        } catch (Throwable throwable) {
+            Log.e(TAG, "fail to set text in clipboard service", throwable);
+            MonitorUtil.generateCustomLog(throwable, "ClipboardException");
             return false;
         }
     }
@@ -78,7 +78,7 @@ public class ClipboardUtil {
                 return null;
             }
             return clip.getItemAt(0).coerceToText(context);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Log.e(TAG, "fail to get text in clipboard service", e);
             MonitorUtil.generateCustomLog(e, "ClipboardException");
             return null;

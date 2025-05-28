@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -40,12 +41,14 @@ import com.hjq.window.draggable.MovingWindowDraggableRule;
 import java.io.File;
 import java.util.List;
 
+import kotlin.Suppress;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.util.RomUtils;
-import yancey.chelper.android.common.view.DraggableView;
-import yancey.chelper.android.common.view.FloatingMainView;
+import yancey.chelper.android.completion.view.CompletionView;
+import yancey.chelper.fws.view.DraggableView;
+import yancey.chelper.fws.view.FWSFloatingMainView;
 
 /**
  * 悬浮窗管理
@@ -86,7 +89,7 @@ public class CompletionWindowManager {
      * @param iconSize                            图标大小
      * @param isShowXiaomiClipboardPermissionTips 是否为小米用户或红米用户显示剪切板权限提示
      */
-    @SuppressWarnings("SameParameterValue")
+    @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
     public void startFloatingWindow(Context context, int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
         if (!XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW)) {
             new IsConfirmDialog(context, false)
@@ -126,9 +129,9 @@ public class CompletionWindowManager {
         );
         DraggableView innerIconView = new DraggableView(context);
         innerIconView.setImageResource(R.drawable.pack_icon);
-        FloatingMainView floatingMainView = new FloatingMainView(
+        FWSFloatingMainView<CompletionView> fwsFloatingMainView = new FWSFloatingMainView<>(
                 context,
-                this::stopFloatingWindow,
+                customContext -> new CompletionView(customContext, this::stopFloatingWindow, innerIconView::callOnClick),
                 innerIconView,
                 length
         );
@@ -136,10 +139,14 @@ public class CompletionWindowManager {
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new FrameLayout.LayoutParams(length, length, Gravity.START | Gravity.TOP));
         mainViewWindow = EasyWindow.with(application)
-                .setContentView(floatingMainView)
+                .setContentView(fwsFloatingMainView)
                 .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
                 .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
-                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                .removeWindowFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+                .setSystemUiVisibility(fwsFloatingMainView.getSystemUiVisibility()
+                                       | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                       | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                       | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
                 .setAnimStyle(0);
         iconViewWindow = EasyWindow.with(application)
                 .setContentView(iconView)
@@ -147,11 +154,11 @@ public class CompletionWindowManager {
                 .setOutsideTouchable(true)
                 .setGravity(Gravity.START | Gravity.TOP)
                 .setAnimStyle(0);
-        floatingMainView.setOnIconClickListener(() -> {
-            iconViewWindow.setXOffset((int) floatingMainView.getIconViewX());
-            iconViewWindow.setYOffset((int) floatingMainView.getIconViewY());
+        fwsFloatingMainView.setOnIconClickListener(() -> {
+            iconViewWindow.setXOffset((int) fwsFloatingMainView.getIconViewX());
+            iconViewWindow.setYOffset((int) fwsFloatingMainView.getIconViewY());
             iconViewWindow.show();
-            floatingMainView.onPause();
+            fwsFloatingMainView.onPause();
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (iconViewWindow.isShowing()) {
                     mainViewWindow.cancel();
@@ -160,12 +167,12 @@ public class CompletionWindowManager {
         });
         iconView.setOnClickListener(v -> {
             WindowManager.LayoutParams layoutParam = iconViewWindow.getWindowParams();
-            floatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
+            fwsFloatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
             mainViewWindow.show();
-            floatingMainView.onResume();
+            fwsFloatingMainView.onResume();
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (mainViewWindow.isShowing()) {
-                    floatingMainView.requestFocus();
+                    fwsFloatingMainView.requestFocus();
                     iconViewWindow.cancel();
                 }
             }, 100);
@@ -178,10 +185,10 @@ public class CompletionWindowManager {
      */
     public void stopFloatingWindow() {
         if (mainViewWindow != null) {
-            FloatingMainView floatingMainView = (FloatingMainView) mainViewWindow.getContentView();
-            if (floatingMainView != null) {
-                floatingMainView.onPause();
-                floatingMainView.onDestroy();
+            FWSFloatingMainView<?> FWSFloatingMainView = (FWSFloatingMainView<?>) mainViewWindow.getContentView();
+            if (FWSFloatingMainView != null) {
+                FWSFloatingMainView.onPause();
+                FWSFloatingMainView.onDestroy();
             }
             mainViewWindow.recycle();
             mainViewWindow = null;

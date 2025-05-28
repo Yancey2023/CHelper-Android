@@ -39,7 +39,7 @@ import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.MonitorUtil;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.android.enumeration.adapter.VariableListAdapter;
 import yancey.chelper.android.enumeration.core.CustomDoubleSupplier;
 import yancey.chelper.android.enumeration.core.EnumerationUtil;
@@ -49,7 +49,7 @@ import yancey.chelper.android.enumeration.data.DataVariable;
  * 穷举界面
  */
 @SuppressLint("ViewConstructor")
-public class EnumerationView extends CustomView {
+public class EnumerationView extends BaseView {
 
     private static final String TAG = "ExpressionView";
 
@@ -61,7 +61,7 @@ public class EnumerationView extends CustomView {
         recyclerView.setAdapter(adapter);
         EditText mEd_input = view.findViewById(R.id.ed_input);
         EditText mEd_times = view.findViewById(R.id.ed_times);
-        view.findViewById(R.id.back).setOnClickListener(v -> backView());
+        view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         view.findViewById(R.id.btn_add).setOnClickListener(v -> adapter.add(new DataVariable()));
         view.findViewById(R.id.btn_run).setOnClickListener(v -> {
             Editable editable = Objects.requireNonNull(mEd_input.getText());
@@ -90,10 +90,10 @@ public class EnumerationView extends CustomView {
             } catch (ExpressionCompilationException e) {
                 Toaster.show("运行时出错 : 表达式结构有问题");
                 return;
-            } catch (Exception e) {
-                Log.w(TAG, "运行时出错", e);
+            } catch (Throwable throwable) {
+                Log.w(TAG, "运行时出错", throwable);
                 Toaster.show("运行时出错");
-                MonitorUtil.generateCustomLog(e, "ExpressionException");
+                MonitorUtil.generateCustomLog(throwable, "ExpressionException");
                 return;
             }
             new IsConfirmDialog(context, true)

@@ -26,9 +26,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.activity.BaseActivity;
@@ -40,15 +37,19 @@ import yancey.chelper.android.common.util.AssetsUtil;
 public class AboutActivity extends BaseActivity {
 
     @Override
+    protected String gePageName() {
+        return "About";
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.layout_about;
+    }
+
+    @Override
     @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_about);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-            return insets;
-        });
         try {
             ((TextView) findViewById(R.id.current_version)).setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
@@ -84,8 +85,4 @@ public class AboutActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected String gePageName() {
-        return "About";
-    }
 }

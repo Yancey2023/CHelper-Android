@@ -65,7 +65,7 @@ public class ChoosingDialog extends FixedDialog {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackgroundResource(R.color.background_component);
+        linearLayout.setBackgroundResource(R.color.background_component_no_translate);
         scrollView.addView(linearLayout);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dp50 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);

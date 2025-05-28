@@ -20,16 +20,16 @@ package yancey.chelper.android.completion.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.common.activity.CustomActivity;
-import yancey.chelper.android.common.view.CustomView;
+import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.completion.view.CompletionView;
 
 /**
  * 补全提示界面
  */
-public class CompletionActivity extends CustomActivity<CompletionView> {
+public class CompletionActivity extends FWSActivity<CompletionView> {
 
-    protected CompletionView createView(@NonNull CustomView.CustomContext customContext) {
+    protected CompletionView createView(@NonNull FWSView.CustomContext customContext) {
         return new CompletionView(customContext, this::finishAffinity, null);
     }
 
