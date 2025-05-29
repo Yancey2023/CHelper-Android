@@ -120,12 +120,12 @@ public class SettingsView extends BaseView {
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
         SwitchCompat isSyntaxHighlight = view.findViewById(R.id.cb_is_syntax_highlight);
         List<String> showStrings = List.of(
-                "正式版-原版-" + Settings.VERSION_RELEASE,
-                "正式版-实验性玩法-" + Settings.VERSION_RELEASE,
-                "测试版-原版-" + Settings.VERSION_BETA,
-                "测试版-实验性玩法-" + Settings.VERSION_BETA,
-                "中国版-原版-" + Settings.VERSION_NETEASE,
-                "中国版-实验性玩法-" + Settings.VERSION_NETEASE
+                "正式版-原版-" + Settings.versionReleaseVanilla,
+                "正式版-实验性玩法-" + Settings.versionReleaseExperiment,
+                "测试版-原版-" + Settings.versionBetaVanilla,
+                "测试版-实验性玩法-" + Settings.versionBetaExperiment,
+                "中国版-原版-" + Settings.versionNeteaseVanilla,
+                "中国版-实验性玩法-" + Settings.versionBetaExperiment
         );
         //noinspection SpellCheckingInspection
         String[] cpackPaths = {

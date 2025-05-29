@@ -60,7 +60,7 @@ public class CHelperApplication extends Application {
             MonitorUtil.generateCustomLog(throwable, "ReadUserException");
         });
         // 设置初始化
-        Settings.init(FileUtil.getFile(getDataDir(), "settings", "settings.json"), throwable -> {
+        Settings.init(this, FileUtil.getFile(getDataDir(), "settings", "settings.json"), throwable -> {
             Log.e("Settings", "fail to read settings from json", throwable);
             MonitorUtil.generateCustomLog(throwable, "ReadSettingException");
         });

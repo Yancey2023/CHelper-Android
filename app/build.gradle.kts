@@ -16,16 +16,16 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 58
-        versionName = "0.3.0-beta"
+        versionName = "0.2.45-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
             // 为了减少软件体积，只兼容arm64-v8a架构
-//            abiFilters.add("armeabi-v7a")
+            // abiFilters.add("armeabi-v7a")
             abiFilters.add("arm64-v8a")
-//            abiFilters.add("x86")
-//            abiFilters.add("x86_64")
+            // abiFilters.add("x86")
+            // abiFilters.add("x86_64")
         }
     }
 
@@ -41,10 +41,6 @@ android {
         debug {
             isMinifyEnabled = false
             isShrinkResources = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
     }
 
@@ -137,10 +133,10 @@ dependencies {
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:12.0")
     // https://www.umeng.com
-     implementation("com.umeng.umsdk:common:9.8.4")
-     implementation("com.umeng.umsdk:asms:1.8.7.2")
+    implementation("com.umeng.umsdk:common:9.8.4")
+    implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
-     implementation("com.umeng.umsdk:apm:2.0.3")
+    implementation("com.umeng.umsdk:apm:2.0.3")
     // https://github.com/junit-team/junit4
     testImplementation("junit:junit:4.13.2")
     // https://github.com/androidx/androidx

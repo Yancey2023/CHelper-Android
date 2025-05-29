@@ -28,8 +28,4 @@ public class LoginResult {
     @Nullable
     public User user;
 
-    public static class User {
-
-    }
-
 }

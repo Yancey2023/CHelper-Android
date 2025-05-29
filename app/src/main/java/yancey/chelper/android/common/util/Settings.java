@@ -18,9 +18,13 @@
 
 package yancey.chelper.android.common.util;
 
+import android.app.Application;
+
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -29,25 +33,9 @@ import java.util.function.Consumer;
 public class Settings {
 
     /**
-     * 内置资源包的文件夹名称
-     */
-    public static final String DIR_NAME = "cpack";
-    /**
      * 默认命令分支
      */
     public static final String DEFAULT_CPACK = "release-experiment";
-    /**
-     * 正式版的版本号
-     */
-    public static final String VERSION_RELEASE = "1.21.81.2";
-    /**
-     * 测试版的版本号
-     */
-    public static final String VERSION_BETA = "1.21.90.26";
-    /**
-     * 中国版的版本号
-     */
-    public static final String VERSION_NETEASE = "1.20.10.25";
     /**
      * 配置文件路径
      */
@@ -84,25 +72,36 @@ public class Settings {
      * 选择的资源包分支
      */
     private String cpackPath;
+    /**
+     * 资源包的信息
+     */
+    public static String pathReleaseVanilla;
+    public static String pathReleaseExperiment;
+    public static String pathBetaVanilla;
+    public static String pathBetaExperiment;
+    public static String pathNeteaseVanilla;
+    public static String pathNeteaseExperiment;
+    public static String versionReleaseVanilla;
+    public static String versionReleaseExperiment;
+    public static String versionBetaVanilla;
+    public static String versionBetaExperiment;
+    public static String versionNeteaseVanilla;
+    public static String versionNeteaseExperiment;
 
     public void setCpackPath(String cpackPath) {
         this.cpackPath = cpackPath;
     }
 
-    private static String getRealFileName(String cpackPath) {
-        return switch (cpackPath) {
-            case "release-vanilla" -> "release-vanilla-" + VERSION_RELEASE + ".cpack";
-            case "release-experiment" -> "release-experiment-" + VERSION_RELEASE + ".cpack";
-            case "beta-vanilla" -> "beta-vanilla-" + VERSION_BETA + ".cpack";
-            case "beta-experiment" -> "beta-experiment-" + VERSION_BETA + ".cpack";
-            case "netease-vanilla" -> "netease-vanilla-" + VERSION_NETEASE + ".cpack";
-            case "netease-experiment" -> "netease-experiment-" + VERSION_NETEASE + ".cpack";
-            default -> getRealFileName(DEFAULT_CPACK);
-        };
-    }
-
     public String getCpackPath() {
-        return DIR_NAME + "/" + getRealFileName(cpackPath);
+        return switch (cpackPath) {
+            case "release-vanilla" -> pathReleaseVanilla;
+            case "release-experiment" -> pathReleaseExperiment;
+            case "beta-vanilla" -> pathBetaVanilla;
+            case "beta-experiment" -> pathBetaExperiment;
+            case "netease-vanilla" -> pathNeteaseVanilla;
+            case "netease-experiment" -> pathNeteaseExperiment;
+            default -> throw new RuntimeException("Invalid cpack branch");
+        };
     }
 
     public String getCpackBranch() {
@@ -119,9 +118,11 @@ public class Settings {
     /**
      * 初始化
      *
-     * @param file 配置文件路径
+     * @param application 应用
+     * @param file        配置文件路径
+     * @param onError     错误处理
      */
-    public static void init(File file, Consumer<Throwable> onError) {
+    public static void init(Application application, File file, Consumer<Throwable> onError) {
         Settings.file = file;
         if (file.exists()) {
             try {
@@ -178,7 +179,17 @@ public class Settings {
                 case "netease-vanilla-1.20.10.25.cpack" -> INSTANCE.cpackPath = "netease-vanilla";
                 case "netease-experiment-1.20.10.25.cpack" ->
                         INSTANCE.cpackPath = "netease-experiment";
-                default -> isOldVersion = false;
+                default -> {
+                    isOldVersion = INSTANCE.cpackPath.equals("release-vanilla") ||
+                                   INSTANCE.cpackPath.equals("release-experiment") ||
+                                   INSTANCE.cpackPath.equals("beta-vanilla") ||
+                                   INSTANCE.cpackPath.equals("beta-experiment") ||
+                                   INSTANCE.cpackPath.equals("netease-vanilla") ||
+                                   INSTANCE.cpackPath.equals("netease-experiment");
+                    if (isOldVersion) {
+                        INSTANCE.cpackPath = DEFAULT_CPACK;
+                    }
+                }
             }
             if (isOldVersion) {
                 isDirty = true;
@@ -186,6 +197,48 @@ public class Settings {
         }
         if (isDirty) {
             INSTANCE.save();
+        }
+        try {
+            for (String filename : Objects.requireNonNull(application.getAssets().list("cpack"))) {
+                if (filename.startsWith("release-vanilla")) {
+                    pathReleaseVanilla = "cpack/" + filename;
+                    versionReleaseVanilla = filename.substring("release-vanilla-".length(), filename.length() - ".cpack".length());
+                }
+                if (filename.startsWith("release-experiment")) {
+                    pathReleaseExperiment = "cpack/" + filename;
+                    versionReleaseExperiment = filename.substring("release-experiment-".length(), filename.length() - ".cpack".length());
+                }
+                if (filename.startsWith("beta-vanilla")) {
+                    pathBetaVanilla = "cpack/" + filename;
+                    versionBetaVanilla = filename.substring("beta-vanilla-".length(), filename.length() - ".cpack".length());
+                }
+                if (filename.startsWith("beta-experiment")) {
+                    pathBetaExperiment = "cpack/" + filename;
+                    versionBetaExperiment = filename.substring("beta-experiment-".length(), filename.length() - ".cpack".length());
+                }
+                if (filename.startsWith("netease-vanilla")) {
+                    pathNeteaseVanilla = "cpack/" + filename;
+                    versionNeteaseVanilla = filename.substring("netease-vanilla-".length(), filename.length() - ".cpack".length());
+                }
+                if (filename.startsWith("netease-experiment")) {
+                    pathNeteaseExperiment = "cpack/" + filename;
+                    versionNeteaseExperiment = filename.substring("netease-experiment-".length(), filename.length() - ".cpack".length());
+                }
+            }
+            Objects.requireNonNull(pathReleaseVanilla);
+            Objects.requireNonNull(pathReleaseExperiment);
+            Objects.requireNonNull(pathBetaVanilla);
+            Objects.requireNonNull(pathBetaExperiment);
+            Objects.requireNonNull(pathNeteaseVanilla);
+            Objects.requireNonNull(pathNeteaseExperiment);
+            Objects.requireNonNull(versionReleaseExperiment);
+            Objects.requireNonNull(versionBetaVanilla);
+            Objects.requireNonNull(versionBetaExperiment);
+            Objects.requireNonNull(versionNeteaseVanilla);
+            Objects.requireNonNull(versionReleaseVanilla);
+            Objects.requireNonNull(versionNeteaseExperiment);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

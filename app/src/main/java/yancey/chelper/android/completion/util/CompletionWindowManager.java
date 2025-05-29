@@ -18,7 +18,6 @@
 
 package yancey.chelper.android.completion.util;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -31,21 +30,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.toast.Toaster;
 import com.hjq.window.EasyWindow;
-import com.hjq.window.draggable.AbstractWindowDraggableRule;
 import com.hjq.window.draggable.MovingWindowDraggableRule;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
@@ -155,52 +149,10 @@ public class CompletionWindowManager {
                 .setAnimStyle(0);
         iconViewWindow = EasyWindow.with(application)
                 .setContentView(iconView)
-                .setWindowDraggableRule(getMovingWindowDraggableRule(iconView))
+                .setWindowDraggableRule(new MovingWindowDraggableRule())
                 .setOutsideTouchable(true)
                 .setGravity(Gravity.START | Gravity.TOP)
-                .setSystemUiVisibility(fwsFloatingMainView.getSystemUiVisibility()
-                                       | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                       | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                       | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
                 .setAnimStyle(0);
-        AtomicReference<Runnable> runnable = new AtomicReference<>();
-        ViewCompat.setOnApplyWindowInsetsListener(iconView, (v, insets) -> {
-            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            iconViewWindow.removeRunnable(runnable.getAndSet(() -> {
-                if (stateBars.left != 0) {
-                    iconViewWindow.setXOffset(iconViewWindow.getWindowParams().x + stateBars.left);
-                }
-                if (stateBars.right != 0) {
-                    iconViewWindow.setXOffset(iconViewWindow.getWindowParams().x - stateBars.right);
-                }
-                if (stateBars.top != 0) {
-                    iconViewWindow.setYOffset(iconViewWindow.getWindowParams().y + stateBars.top);
-                }
-                if (stateBars.bottom != 0) {
-                    iconViewWindow.setYOffset(iconViewWindow.getWindowParams().y - stateBars.bottom);
-                }
-            }));
-            return insets;
-        });
-        iconViewWindow.postDelayed(() -> {
-            WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(iconView);
-            if (rootWindowInsets == null) {
-                return;
-            }
-            Insets stateBars = rootWindowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            if (stateBars.left != 0) {
-                iconViewWindow.setXOffset(iconViewWindow.getWindowParams().x + stateBars.left);
-            }
-            if (stateBars.right != 0) {
-                iconViewWindow.setXOffset(iconViewWindow.getWindowParams().x - stateBars.right);
-            }
-            if (stateBars.top != 0) {
-                iconViewWindow.setYOffset(iconViewWindow.getWindowParams().y + stateBars.top);
-            }
-            if (stateBars.bottom != 0) {
-                iconViewWindow.setYOffset(iconViewWindow.getWindowParams().y - stateBars.bottom);
-            }
-        }, 100);
         fwsFloatingMainView.setOnIconClickListener(() -> {
             iconViewWindow.setXOffset((int) fwsFloatingMainView.getIconViewX());
             iconViewWindow.setYOffset((int) fwsFloatingMainView.getIconViewY());
@@ -224,35 +176,6 @@ public class CompletionWindowManager {
             }, 100);
         });
         iconViewWindow.show();
-    }
-
-    @NonNull
-    private static MovingWindowDraggableRule getMovingWindowDraggableRule(ImageView iconView) {
-        MovingWindowDraggableRule movingWindowDraggableRule = new MovingWindowDraggableRule();
-        movingWindowDraggableRule.setAllowMoveToScreenNotch(false);
-        movingWindowDraggableRule.setWindowDraggingListener(new AbstractWindowDraggableRule.OnWindowDraggingListener() {
-            @Override
-            public void onWindowDraggingNow(@NonNull EasyWindow<?> easyWindow) {
-                WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(iconView);
-                if (rootWindowInsets == null) {
-                    return;
-                }
-                Insets stateBars = rootWindowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-                if (stateBars.left != 0) {
-                    easyWindow.setXOffset(easyWindow.getWindowParams().x + stateBars.left);
-                }
-                if (stateBars.right != 0) {
-                    easyWindow.setXOffset(easyWindow.getWindowParams().x - stateBars.right);
-                }
-                if (stateBars.top != 0) {
-                    easyWindow.setYOffset(easyWindow.getWindowParams().y + stateBars.top);
-                }
-                if (stateBars.bottom != 0) {
-                    easyWindow.setYOffset(easyWindow.getWindowParams().y - stateBars.bottom);
-                }
-            }
-        });
-        return movingWindowDraggableRule;
     }
 
     /**

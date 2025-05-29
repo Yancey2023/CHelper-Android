@@ -286,6 +286,7 @@ public class CompletionView extends BaseView {
                 core1 = CHelperCore.fromAssets(getContext().getAssets(), cpackPath);
             } catch (Throwable throwable) {
                 Toaster.show("资源包加载失败");
+                Log.w(TAG, "fail to load resource pack", throwable);
                 MonitorUtil.generateCustomLog(throwable, "LoadResourcePackException");
             }
             core.setCore(core1);

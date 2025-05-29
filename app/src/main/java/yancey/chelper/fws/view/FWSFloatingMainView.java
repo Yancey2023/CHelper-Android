@@ -82,6 +82,12 @@ public class FWSFloatingMainView<T extends FWSView> extends FrameLayout {
     }
 
     public void setIconPosition(int x, int y) {
+        WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(this);
+        if (insets != null) {
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            x += stateBars.left;
+            y += stateBars.top;
+        }
         iconView.customLayout(x, y, x + iconEdgeLength, y + iconEdgeLength);
     }
 

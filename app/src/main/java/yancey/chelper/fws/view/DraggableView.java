@@ -46,6 +46,10 @@ public class DraggableView extends AppCompatImageView {
         this.insets = insets;
     }
 
+    public Rect getInsets() {
+        return insets;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
