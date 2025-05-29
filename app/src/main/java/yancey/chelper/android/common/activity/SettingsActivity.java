@@ -41,9 +41,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.style.CustomTheme;
-import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.android.common.view.SettingsView;
 import yancey.chelper.fws.activity.FWSActivity;
+import yancey.chelper.fws.view.FWSView;
 
 /**
  * 设置界面

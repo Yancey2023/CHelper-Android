@@ -27,6 +27,7 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.umcrash.UMCrash;
 
 import okhttp3.OkHttpClient;
+import yancey.chelper.BuildConfig;
 
 public class MonitorUtil {
 
@@ -34,6 +35,9 @@ public class MonitorUtil {
     private static boolean isInit = false;
 
     public static void init(Application application) {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
         MonitorUtil.application = application;
         if (PolicyGrantManager.INSTANCE.getState() == PolicyGrantManager.State.AGREE) {
             UMConfigure.init(application, "6836aa2bbc47b67d8374e464", "official", UMConfigure.DEVICE_TYPE_PHONE, "");
@@ -46,6 +50,9 @@ public class MonitorUtil {
     }
 
     public static void onAgreePolicyGrant() {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
         if (isInit) {
             return;
         }
@@ -54,19 +61,31 @@ public class MonitorUtil {
     }
 
     public static void generateCustomLog(Throwable e, String type) {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
         UMCrash.generateCustomLog(e, type);
     }
 
     public static void onPageStart(String pageName) {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
         MobclickAgent.onPageStart(pageName);
     }
 
     public static void onPageEnd(String pageName) {
+        if (BuildConfig.DEBUG) {
+            return;
+        }
         MobclickAgent.onPageEnd(pageName);
     }
 
     public static void monitHttp(OkHttpClient.Builder builder) {
-         builder.eventListenerFactory(OkHttpListener.get())
+        if (BuildConfig.DEBUG) {
+            return;
+        }
+        builder.eventListenerFactory(OkHttpListener.get())
                 .addNetworkInterceptor(new OkHttpInterceptor());
     }
 

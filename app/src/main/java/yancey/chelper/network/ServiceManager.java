@@ -26,6 +26,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import yancey.chelper.BuildConfig;
 import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.network.library.interceptor.AuthInterceptor;
 import yancey.chelper.network.library.service.CommandLabPrivateService;
@@ -49,8 +50,11 @@ public class ServiceManager {
         GSON = new Gson();
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(BrotliInterceptor.INSTANCE)
-                .addInterceptor(AuthInterceptor.INSTANCE)
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+                .addInterceptor(AuthInterceptor.INSTANCE);
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+            return;
+        }
         MonitorUtil.monitHttp(builder);
         CLIENT = builder.build();
         COMMAND_LAB_RETROFIT = new Retrofit.Builder()

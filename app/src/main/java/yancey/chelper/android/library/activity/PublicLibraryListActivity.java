@@ -20,9 +20,9 @@ package yancey.chelper.android.library.activity;
 
 import androidx.annotation.NonNull;
 
+import yancey.chelper.android.library.view.LibraryListView;
 import yancey.chelper.fws.activity.FWSActivity;
 import yancey.chelper.fws.view.FWSView;
-import yancey.chelper.android.library.view.LibraryListView;
 
 /**
  * 公有命令库列表

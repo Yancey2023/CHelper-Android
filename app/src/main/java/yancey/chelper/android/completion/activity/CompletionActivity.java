@@ -20,9 +20,9 @@ package yancey.chelper.android.completion.activity;
 
 import androidx.annotation.NonNull;
 
+import yancey.chelper.android.completion.view.CompletionView;
 import yancey.chelper.fws.activity.FWSActivity;
 import yancey.chelper.fws.view.FWSView;
-import yancey.chelper.android.completion.view.CompletionView;
 
 /**
  * 补全提示界面

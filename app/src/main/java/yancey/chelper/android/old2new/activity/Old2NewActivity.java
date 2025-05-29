@@ -20,9 +20,9 @@ package yancey.chelper.android.old2new.activity;
 
 import androidx.annotation.NonNull;
 
+import yancey.chelper.android.old2new.view.Old2NewView;
 import yancey.chelper.fws.activity.FWSActivity;
 import yancey.chelper.fws.view.FWSView;
-import yancey.chelper.android.old2new.view.Old2NewView;
 
 /**
  * 旧命令转新命令的界面

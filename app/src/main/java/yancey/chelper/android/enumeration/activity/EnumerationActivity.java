@@ -20,9 +20,9 @@ package yancey.chelper.android.enumeration.activity;
 
 import androidx.annotation.NonNull;
 
+import yancey.chelper.android.enumeration.view.EnumerationView;
 import yancey.chelper.fws.activity.FWSActivity;
 import yancey.chelper.fws.view.FWSView;
-import yancey.chelper.android.enumeration.view.EnumerationView;
 
 /**
  * 穷举界面

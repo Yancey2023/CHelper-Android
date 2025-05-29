@@ -20,6 +20,7 @@ package yancey.chelper.fws.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 
@@ -35,9 +36,14 @@ public class DraggableView extends AppCompatImageView {
     private float downY;
     private long downTimeStart;
     private int left, top, right, bottom;
+    private Rect insets;
 
     public DraggableView(@NonNull Context context) {
         super(context);
+    }
+
+    public void setInsets(Rect insets) {
+        this.insets = insets;
     }
 
     @Override
@@ -76,22 +82,30 @@ public class DraggableView extends AppCompatImageView {
     }
 
     public void customLayout(int left, int top, int right, int bottom) {
-        int width = ((ViewGroup) getParent()).getWidth();
-        int height = ((ViewGroup) getParent()).getHeight();
+        ViewGroup parent = (ViewGroup) getParent();
+        int width = parent.getWidth();
+        int height = parent.getHeight();
+        if (insets == null) {
+            insets = new Rect(0, 0, 0, 0);
+        }
         if (width != 0 && height != 0) {
-            if (left < 0) {
-                right = right - left;
-                left = 0;
-            } else if (right > width) {
-                left = width - right + left;
-                right = width;
+            int borderLeft = insets.left;
+            int borderRight = width - insets.right;
+            int borderTop = insets.top;
+            int borderBottom = height - insets.bottom;
+            if (left < borderLeft) {
+                right = right - left + borderLeft;
+                left = borderLeft;
+            } else if (right > borderRight) {
+                left = borderRight - right + left;
+                right = borderRight;
             }
-            if (top < 0) {
-                bottom = bottom - top;
-                top = 0;
-            } else if (bottom > height) {
-                top = height - bottom + top;
-                bottom = height;
+            if (top < borderTop) {
+                bottom = bottom - top + borderTop;
+                top = borderTop;
+            } else if (bottom > borderBottom) {
+                top = borderBottom - bottom + top;
+                bottom = borderBottom;
             }
         }
         this.left = left;

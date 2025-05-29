@@ -24,8 +24,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.fws.view.FWSMainView;
+import yancey.chelper.fws.view.FWSView;
 
 /**
  * 使用单个View组成的界面

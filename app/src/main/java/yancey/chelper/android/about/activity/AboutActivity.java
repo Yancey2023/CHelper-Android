@@ -20,13 +20,13 @@ package yancey.chelper.android.about.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import yancey.chelper.BuildConfig;
 import yancey.chelper.R;
 import yancey.chelper.android.common.activity.BaseActivity;
 import yancey.chelper.android.common.util.AssetsUtil;
@@ -50,11 +50,7 @@ public class AboutActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            ((TextView) findViewById(R.id.current_version)).setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        ((TextView) findViewById(R.id.current_version)).setText(BuildConfig.VERSION_NAME);
         findViewById(R.id.back).setOnClickListener(v -> finish());
         ((TextView) findViewById(R.id.author)).setText("Yancey");
         ((TextView) findViewById(R.id.qq_personal)).setText("1709185482");

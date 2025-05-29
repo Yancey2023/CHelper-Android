@@ -20,6 +20,7 @@ package yancey.chelper.fws.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -27,6 +28,9 @@ import android.widget.FrameLayout;
 
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.function.Function;
 
@@ -53,13 +57,18 @@ public class FWSFloatingMainView<T extends FWSView> extends FrameLayout {
                 createRootView,
                 onBackPressedDispatcher
         );
+        ViewCompat.setOnApplyWindowInsetsListener(this, (v, insets) -> {
+            Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            iconView.setInsets(new Rect(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom));
+            return insets;
+        });
         addView(fwsMainView);
         addView(iconView);
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        super.dispatchTouchEvent(ev);
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        super.dispatchTouchEvent(event);
         return true;
     }
 

@@ -223,7 +223,7 @@ public class LibraryListView extends BaseView {
                         }
                         LocalLibraryManager.INSTANCE.save();
                     }
-                }, null, libraryFunction, false)));
+                }, null, libraryFunction, isLocal)));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
         update();

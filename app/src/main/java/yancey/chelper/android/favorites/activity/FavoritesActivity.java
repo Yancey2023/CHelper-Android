@@ -20,9 +20,9 @@ package yancey.chelper.android.favorites.activity;
 
 import androidx.annotation.NonNull;
 
+import yancey.chelper.android.favorites.view.FavoritesView;
 import yancey.chelper.fws.activity.FWSActivity;
 import yancey.chelper.fws.view.FWSView;
-import yancey.chelper.android.favorites.view.FavoritesView;
 
 /**
  * 收藏界面

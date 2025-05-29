@@ -18,8 +18,6 @@
 
 package yancey.chelper.android.common.util;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import java.io.File;
