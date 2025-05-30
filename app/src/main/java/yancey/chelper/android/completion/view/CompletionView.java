@@ -52,7 +52,7 @@ import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.android.common.view.CommandEditText;
 import yancey.chelper.android.completion.adater.SuggestionListAdapter;
-import yancey.chelper.android.library.view.LibraryListView;
+import yancey.chelper.android.library.view.LocalLibraryListView;
 import yancey.chelper.core.CHelperCore;
 import yancey.chelper.core.CHelperGuiCore;
 import yancey.chelper.core.CommandGuiCoreInterface;
@@ -204,7 +204,7 @@ public class CompletionView extends BaseView {
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
-        view.findViewById(R.id.btn_local_library).setOnClickListener(v -> openView(customContext1 -> new LibraryListView(customContext1, true)));
+        view.findViewById(R.id.btn_local_library).setOnClickListener(v -> openView(LocalLibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
         // 加载上次的输入内容
         SelectedString selectedString = null;

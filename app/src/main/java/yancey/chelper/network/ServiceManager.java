@@ -53,7 +53,6 @@ public class ServiceManager {
                 .addInterceptor(AuthInterceptor.INSTANCE);
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
-            return;
         }
         MonitorUtil.monitHttp(builder);
         CLIENT = builder.build();

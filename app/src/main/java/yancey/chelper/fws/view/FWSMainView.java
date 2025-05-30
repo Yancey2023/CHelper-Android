@@ -19,7 +19,9 @@
 package yancey.chelper.fws.view;
 
 import android.annotation.SuppressLint;
+import android.app.Service;
 import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import androidx.activity.OnBackPressedCallback;
@@ -60,6 +62,8 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
     }
 
     public void openView(@NonNull FWSView view) {
+        ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getWindowToken(), 0);
         addView(view);
         int index = getChildCount() - 2;
         if (index >= 0) {
@@ -79,6 +83,8 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
     }
 
     private void backView() {
+        ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getWindowToken(), 0);
         int childCount = getChildCount();
         FWSView currentView = getChildAt(childCount - 1);
         OnBackPressedDispatcher onBackPressedDispatcher = currentView.getOnBackPressedDispatcher();

@@ -16,23 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.library.activity;
+package yancey.chelper.android.library.util;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import yancey.chelper.android.library.view.LocalLibraryListView;
-import yancey.chelper.android.library.view.PublicLibraryListView;
-import yancey.chelper.fws.activity.FWSActivity;
-import yancey.chelper.fws.view.FWSView;
+import yancey.chelper.network.library.data.LibraryFunction;
 
-/**
- * 公有命令库列表
- */
-public class PublicLibraryListActivity extends FWSActivity<PublicLibraryListView> {
+public interface OnEditListener {
+    void onCreate(@NonNull LibraryFunction libraryFunction);
 
-    @Override
-    protected PublicLibraryListView createView(@NonNull FWSView.CustomContext customContext) {
-        return new PublicLibraryListView(customContext);
-    }
+    void onUpdate(@Nullable Integer position, @NonNull LibraryFunction before, @NonNull LibraryFunction after);
 
+    void onDelete(@Nullable Integer position, @NonNull LibraryFunction libraryFunction);
 }

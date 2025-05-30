@@ -47,56 +47,41 @@ import yancey.chelper.network.library.service.CommandLabPublicService;
 /**
  * 命令库列表适配器
  */
-public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.CommandListViewHolder> {
+public class PublicLibraryListAdapter extends RecyclerView.Adapter<PublicLibraryListAdapter.CommandListViewHolder> {
 
-    private final Context context;
-    private List<LibraryFunction> libraryNames;
-    private final Consumer<LibraryFunction> onLibraryShow;
-    private final Consumer<LibraryFunction> onLibraryEdit;
-    private final AtomicReference<Disposable> doLike;
+    private final @NonNull Context context;
+    private List<LibraryFunction> libraries;
+    private final @NonNull Consumer<LibraryFunction> onLibraryShow;
+    private final @NonNull AtomicReference<Disposable> doLike;
 
-    public LibraryListAdapter(Context context, AtomicReference<Disposable> doLike, Consumer<LibraryFunction> onLibraryShow, Consumer<LibraryFunction> onLibraryEdit) {
+    public PublicLibraryListAdapter(@NonNull Context context, @NonNull AtomicReference<Disposable> doLike, @NonNull Consumer<LibraryFunction> onLibraryShow) {
         this.context = context;
         this.doLike = doLike;
         this.onLibraryShow = onLibraryShow;
-        this.onLibraryEdit = onLibraryEdit;
     }
 
     @NonNull
     @Override
     public CommandListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_list_item, parent, false));
+        return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_list_item_pulic, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
-        LibraryFunction libraryFunction = libraryNames.get(position);
+        LibraryFunction libraryFunction = libraries.get(position);
         holder.mTv_name.setText(libraryFunction.name);
-
-        if (doLike == null) {
-            holder.mTv_author.setText(libraryFunction.note);
-            if (onLibraryEdit == null) {
-                holder.mBtn_like.setVisibility(View.GONE);
-            } else {
-                holder.mBtn_like.setBackgroundResource(R.drawable.pencil);
-                holder.mBtn_like.setContentDescription(context.getString(R.string.edit));
-                holder.mBtn_like.setOnClickListener(v -> onLibraryEdit.accept(libraryFunction));
-            }
-            holder.mTv_likeCount.setVisibility(View.GONE);
+        holder.mTv_author.setText(context.getString(R.string.library_author_formatter, libraryFunction.author));
+        if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
+            holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
         } else {
-            holder.mTv_author.setText(context.getString(R.string.library_author_formatter, libraryFunction.author));
-            if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
-                holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
-            } else {
-                holder.mBtn_like.setBackgroundResource(R.drawable.heart);
-            }
-            holder.mBtn_like.setContentDescription(context.getString(R.string.like));
-            if (libraryFunction.id != null) {
-                holder.mBtn_like.setOnClickListener(v -> doLike(position));
-            }
-            holder.mTv_likeCount.setVisibility(View.VISIBLE);
-            holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.like_count, 0)));
+            holder.mBtn_like.setBackgroundResource(R.drawable.heart);
         }
+        holder.mBtn_like.setContentDescription(context.getString(R.string.like));
+        if (libraryFunction.id != null) {
+            holder.mBtn_like.setOnClickListener(v -> doLike(position));
+        }
+        holder.mTv_likeCount.setVisibility(View.VISIBLE);
+        holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.like_count, 0)));
         holder.itemView.setOnClickListener(v -> onLibraryShow.accept(libraryFunction));
     }
 
@@ -106,7 +91,7 @@ public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.
         if (disposable != null) {
             disposable.dispose();
         }
-        LibraryFunction libraryFunction = libraryNames.get(position);
+        LibraryFunction libraryFunction = libraries.get(position);
         CommandLabPublicService.LikeFunctionRequest request = new CommandLabPublicService.LikeFunctionRequest();
         request.android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         disposable = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
@@ -128,15 +113,15 @@ public class LibraryListAdapter extends RecyclerView.Adapter<LibraryListAdapter.
 
     @Override
     public int getItemCount() {
-        if (libraryNames == null) {
+        if (libraries == null) {
             return 0;
         }
-        return libraryNames.size();
+        return libraries.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
     public void setLibraryFunctions(List<LibraryFunction> libraryNames) {
-        this.libraryNames = libraryNames;
+        this.libraries = libraryNames;
         notifyDataSetChanged();
     }
 

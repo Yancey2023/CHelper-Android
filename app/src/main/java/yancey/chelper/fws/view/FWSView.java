@@ -18,12 +18,10 @@
 
 package yancey.chelper.fws.view;
 
-import android.app.Service;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import androidx.activity.OnBackPressedDispatcher;
@@ -128,9 +126,6 @@ public abstract class FWSView extends FrameLayout {
      * @param createView 新界面的创建方法，可以使用lambda表达式提供
      */
     protected void openView(@NonNull Function<CustomContext, FWSView> createView) {
-        // 隐藏输入法软键盘
-        ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
-                .hideSoftInputFromWindow(getWindowToken(), 0);
         // 打开界面
         customContext.openView.accept(createView.apply(customContext));
     }

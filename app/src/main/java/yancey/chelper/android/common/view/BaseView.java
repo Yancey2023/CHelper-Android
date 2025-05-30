@@ -19,6 +19,7 @@
 package yancey.chelper.android.common.view;
 
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -50,6 +51,17 @@ public abstract class BaseView extends FWSView {
             Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
+        });
+        mainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(mainView);
+                if (rootWindowInsets != null) {
+                    Insets stateBars = rootWindowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+                    mainView.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+                }
+                mainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
         });
         mainView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if (right - left != oldRight - oldLeft || bottom - top != oldBottom - oldTop) {

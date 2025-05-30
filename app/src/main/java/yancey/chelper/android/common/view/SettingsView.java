@@ -125,7 +125,7 @@ public class SettingsView extends BaseView {
                 "测试版-原版-" + Settings.versionBetaVanilla,
                 "测试版-实验性玩法-" + Settings.versionBetaExperiment,
                 "中国版-原版-" + Settings.versionNeteaseVanilla,
-                "中国版-实验性玩法-" + Settings.versionBetaExperiment
+                "中国版-实验性玩法-" + Settings.versionNeteaseExperiment
         );
         //noinspection SpellCheckingInspection
         String[] cpackPaths = {
