@@ -38,6 +38,11 @@
 
 -keep class yancey.chelper.android.common.util.Settings{ *; }
 
+# ===== CHelper Server -----
+
+-keep class yancey.chelper.network.chelper.data.**{ *; }
+-keep class yancey.chelper.network.chelper.service.**{ *; }
+
 # ----- Command Lab -----
 
 -keep class yancey.chelper.network.library.data.**{ *; }

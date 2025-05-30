@@ -45,6 +45,10 @@ public class Settings {
      */
     public static Settings INSTANCE;
     /**
+     * 是否启用更新提示
+     */
+    public Boolean isEnableUpdateNotifications;
+    /**
      * 当前主题
      */
     public String themeId;
@@ -134,6 +138,10 @@ public class Settings {
         boolean isDirty = false;
         if (INSTANCE == null) {
             INSTANCE = new Settings();
+            isDirty = true;
+        }
+        if (INSTANCE.isEnableUpdateNotifications == null) {
+            INSTANCE.isEnableUpdateNotifications = true;
             isDirty = true;
         }
         if (INSTANCE.themeId == null) {

@@ -63,6 +63,7 @@
     <string name="about">关于</string>
     <string name="current_version">当前版本</string>
     <string name="release_note">更新日志</string>
+    <string name="newest_release_note">最新版更新日志</string>
     <string name="setting_is_saving_when_pausing">进入应用后自动恢复上次输入的命令</string>
     <string name="setting_is_saving_when_pausing_description">如果开启，仅恢复文字，不恢复撤回和恢复按钮所需要的历史记录</string>
     <string name="open_source_terms">开源条款</string>
@@ -76,7 +77,7 @@
     <string name="setting_is_crowed">紧凑模式</string>
     <string name="setting_is_crowed_description">在横屏下可以获得更好的体验，悬浮窗模式需要重新打开悬浮窗才可以生效</string>
     <string name="setting_is_syntax_highlight">语法高亮</string>
-    <string name="setting_is_syntax_highlight_description">使用彩色文本显示命令，目前的代码实现性能较差，建议对长文本不使用语法高亮</string>
+    <string name="setting_is_syntax_highlight_description">使用彩色文本显示命令，目前的代码实现性能较差，对长文本将临时自动关闭语法高亮</string>
     <string name="permissions">权限</string>
     <string name="ed_hint_old_command">请输入1.18版本的命令，下方会显示转换成的1.20命令（方块数据值转方块状态，execute、setblock、fill、summon、structure命令转新语法）</string>
     <string name="tv_old2new">转换</string>
@@ -95,6 +96,8 @@
     <string name="choose_cpack">切换命令分支</string>
     <string name="current_cpack">当前命令分支：%s</string>
     <string name="old2new">旧版本命令转新版本命令</string>
+    <string name="enable_update_notification">启用新版本提醒</string>
+    <string name="enable_update_notification_description">把软件保持在最新版本，有助于获得更好的体验</string>
     <string name="choose_background">选择背景图片</string>
     <string name="choose_background_description">从相册导入图片作为背景</string>
     <string name="restore_background">背景复原</string>

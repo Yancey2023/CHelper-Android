@@ -67,6 +67,8 @@ public class AboutActivity extends BaseActivity {
             intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/release_note.txt"));
             startActivity(intent);
         });
+        findViewById(R.id.btn_newest_release_note).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.yanceymc.cn/blog/article/chelper-release-notes"))));
         findViewById(R.id.btn_privacy_policy).setOnClickListener(v -> {
             Intent intent = new Intent(this, ShowTextActivity.class);
             intent.putExtra(ShowTextActivity.TITLE, getString(R.string.privacy_policy));

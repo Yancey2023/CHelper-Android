@@ -28,6 +28,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import yancey.chelper.BuildConfig;
 import yancey.chelper.android.common.util.MonitorUtil;
+import yancey.chelper.network.chelper.service.CHelperService;
 import yancey.chelper.network.library.interceptor.AuthInterceptor;
 import yancey.chelper.network.library.service.CommandLabPrivateService;
 import yancey.chelper.network.library.service.CommandLabPublicService;
@@ -37,7 +38,8 @@ public class ServiceManager {
 
     public static Gson GSON;
     public static OkHttpClient CLIENT;
-    public static Retrofit COMMAND_LAB_RETROFIT;
+    public static Retrofit CHELPER_RETROFIT, COMMAND_LAB_RETROFIT;
+    public static CHelperService CHELPER_SERVICE;
     public static CommandLabPublicService COMMAND_LAB_PUBLIC_SERVICE;
     public static CommandLabPrivateService COMMAND_LAB_PRIVATE_SERVICE;
     public static CommandLabUserService COMMAND_LAB_USER_SERVICE;
@@ -56,12 +58,19 @@ public class ServiceManager {
         }
         MonitorUtil.monitHttp(builder);
         CLIENT = builder.build();
+        CHELPER_RETROFIT = new Retrofit.Builder()
+                .baseUrl("https://www.yanceymc.cn/api/chelper/")
+                .client(CLIENT)
+                .addConverterFactory(GsonConverterFactory.create(GSON))
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
         COMMAND_LAB_RETROFIT = new Retrofit.Builder()
                 .baseUrl("https://abyssous.site:443/")
                 .client(CLIENT)
                 .addConverterFactory(GsonConverterFactory.create(GSON))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
+        CHELPER_SERVICE = CHELPER_RETROFIT.create(CHelperService.class);
         COMMAND_LAB_PUBLIC_SERVICE = COMMAND_LAB_RETROFIT.create(CommandLabPublicService.class);
         COMMAND_LAB_PRIVATE_SERVICE = COMMAND_LAB_RETROFIT.create(CommandLabPrivateService.class);
         COMMAND_LAB_USER_SERVICE = COMMAND_LAB_RETROFIT.create(CommandLabUserService.class);

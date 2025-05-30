@@ -25,13 +25,24 @@ import androidx.annotation.Nullable;
 
 import com.hjq.toast.Toaster;
 
+import java.io.File;
+import java.util.Objects;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.internal.functions.Functions;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import yancey.chelper.BuildConfig;
 import yancey.chelper.R;
 import yancey.chelper.android.about.activity.AboutActivity;
 import yancey.chelper.android.about.activity.ShowTextActivity;
 import yancey.chelper.android.common.activity.BaseActivity;
 import yancey.chelper.android.common.activity.SettingsActivity;
+import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.dialog.PolicyGrantDialog;
+import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.util.PolicyGrantManager;
+import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.util.CompletionWindowManager;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
@@ -40,11 +51,14 @@ import yancey.chelper.android.library.activity.LocalLibraryListActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
 import yancey.chelper.android.rawtext.activity.RawtextActivity;
+import yancey.chelper.network.ServiceManager;
 
 /**
  * 首页
  */
 public class HomeActivity extends BaseActivity {
+
+    private Disposable getAnnouncement, getLatestVersionInfo;
 
     @Override
     protected String gePageName() {
@@ -82,6 +96,69 @@ public class HomeActivity extends BaseActivity {
         findViewById(R.id.btn_enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
         findViewById(R.id.btn_favorite).setOnClickListener(v -> startActivity(new Intent(this, FavoritesActivity.class)));
         findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
+        if (PolicyGrantManager.INSTANCE.getState() == PolicyGrantManager.State.AGREE) {
+            showAnnouncement();
+        }
+    }
+
+    private void showAnnouncement() {
+        getAnnouncement = ServiceManager.CHELPER_SERVICE
+                .getAnnouncement()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(announcement -> {
+                    boolean isShow = true;
+                    boolean isForce = Boolean.TRUE.equals(announcement.isForce);
+                    if (!isForce) {
+                        isShow = Boolean.TRUE.equals(announcement.isEnable);
+                        if (isShow) {
+                            File ignoreAnnouncementFile = new File(getDataDir(), "ignore_announcement.txt");
+                            String ignoreAnnouncement = FileUtil.readString(ignoreAnnouncementFile);
+                            String announcementHashCode = String.valueOf(announcement.hashCode());
+                            if (Objects.equals(announcementHashCode, ignoreAnnouncement)) {
+                                isShow = false;
+                            }
+                        }
+                    }
+                    if (isShow) {
+                        new IsConfirmDialog(this, Boolean.TRUE.equals(announcement.isBigDialog))
+                                .title(announcement.title)
+                                .message(announcement.message)
+                                .onCancel(isForce ? "取消" : "不再提醒", () -> FileUtil.writeString(
+                                        new File(getDataDir(), "ignore_announcement.txt"),
+                                        String.valueOf(announcement.hashCode())
+                                ))
+                                .onDismiss(this::checkUpdate)
+                                .show();
+                    } else {
+                        checkUpdate();
+                    }
+                }, Functions.emptyConsumer());
+
+    }
+
+    public void checkUpdate() {
+        if (Settings.INSTANCE.isEnableUpdateNotifications) {
+            getLatestVersionInfo = ServiceManager.CHELPER_SERVICE
+                    .getLatestVersionInfo()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(versionInfo -> {
+                        if (Objects.equals(versionInfo.version, BuildConfig.VERSION_NAME)) {
+                            return;
+                        }
+                        File ignoreVersionFile = new File(getDataDir(), "ignore_version.txt");
+                        String ignoreVersion = FileUtil.readString(ignoreVersionFile);
+                        if (Objects.equals(versionInfo.version, ignoreVersion)) {
+                            return;
+                        }
+                        new IsConfirmDialog(this, false)
+                                .title("更新提醒")
+                                .message(versionInfo.version + "版本已发布，欢迎下载体验。本次更新内容如下：\n" + versionInfo.changelog)
+                                .onCancel("忽略此版本", () -> FileUtil.writeString(ignoreVersionFile, versionInfo.version))
+                                .show();
+                    }, Functions.emptyConsumer());
+        }
     }
 
     @Override
@@ -104,7 +181,10 @@ public class HomeActivity extends BaseActivity {
                     intent.putExtra(ShowTextActivity.TITLE, this.getString(R.string.privacy_policy));
                     intent.putExtra(ShowTextActivity.CONTENT, PolicyGrantManager.INSTANCE.getPrivatePolicy());
                     startActivity(intent);
-                }).onConfirm(() -> PolicyGrantManager.INSTANCE.agree())
+                }).onConfirm(() -> {
+                    PolicyGrantManager.INSTANCE.agree();
+                    showAnnouncement();
+                })
                 .show();
     }
 
@@ -112,6 +192,12 @@ public class HomeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         CompletionWindowManager.INSTANCE.stopFloatingWindow();
+        if (getAnnouncement != null) {
+            getAnnouncement.dispose();
+        }
+        if (getLatestVersionInfo != null) {
+            getLatestVersionInfo.dispose();
+        }
     }
 
 }

@@ -52,6 +52,10 @@ public class SettingsView extends BaseView {
         super(customContext, R.layout.layout_settings);
         // 页面顶部逻辑
         findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        // 新版本提醒
+        SwitchCompat isEnableUpdateNotification = view.findViewById(R.id.cb_enable_update_notification);
+        isEnableUpdateNotification.setChecked(Settings.INSTANCE.isEnableUpdateNotifications);
+        isEnableUpdateNotification.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isEnableUpdateNotifications = isChecked);
         // 自定义UI设置
         RelativeLayout btn_chooseBackground = view.findViewById(R.id.btn_choose_background);
         btn_chooseBackground.setOnClickListener(v -> {
