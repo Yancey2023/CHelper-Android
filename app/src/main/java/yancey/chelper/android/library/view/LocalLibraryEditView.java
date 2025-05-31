@@ -71,7 +71,7 @@ public class LocalLibraryEditView extends BaseView {
         btn_preview.setOnClickListener(view1 -> {
             LibraryFunction after = getLibrary();
             if (after != null) {
-                openView(customContext1 -> new PreviewLibraryShowView(customContext1, after));
+                openView(customContext1 -> new LocalLibraryShowView(customContext1, after));
             }
         });
         if (before == null) {

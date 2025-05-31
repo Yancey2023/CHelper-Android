@@ -71,32 +71,46 @@ public class PublicLibraryShowView extends BaseView {
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
-        if (loadData != null) {
-            loadData.dispose();
+        if (before.id == null) {
+            after.is_liked = false;
+            after.like_count = 520;
+            btn_like.setOnClickListener(view1 -> {
+                if (after.is_liked) {
+                    after.like_count--;
+                } else {
+                    after.like_count++;
+                }
+                after.is_liked = !after.is_liked;
+                updateLike(after);
+            });
+        } else {
+            if (loadData != null) {
+                loadData.dispose();
+            }
+            String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            loadData = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
+                    .getFunction(before.id, androidId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
+                        if (!Objects.equals(result.status, "success") || result.data == null) {
+                            LibraryFunction function = new LibraryFunction();
+                            function.version = "数据获取失败";
+                            adapter.setLibraryFunction(function);
+                            Toaster.show(result.message);
+                            return;
+                        }
+                        after = result.data;
+                        updateLike(after);
+                        btn_like.setOnClickListener(view1 -> doLike());
+                        adapter.setLibraryFunction(after);
+                    }, throwable -> {
+                        LibraryFunction loadError = new LibraryFunction();
+                        loadError.version = "数据获取失败";
+                        adapter.setLibraryFunction(loadError);
+                        Toaster.show(throwable.getMessage());
+                    });
         }
-        String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        loadData = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                .getFunction(Objects.requireNonNull(before.id), androidId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    if (!Objects.equals(result.status, "success") || result.data == null) {
-                        LibraryFunction function = new LibraryFunction();
-                        function.version = "数据获取失败";
-                        adapter.setLibraryFunction(function);
-                        Toaster.show(result.message);
-                        return;
-                    }
-                    after = result.data;
-                    updateLike(after);
-                    btn_like.setOnClickListener(view1 -> doLike());
-                    adapter.setLibraryFunction(after);
-                }, throwable -> {
-                    LibraryFunction loadError = new LibraryFunction();
-                    loadError.version = "数据获取失败";
-                    adapter.setLibraryFunction(loadError);
-                    Toaster.show(throwable.getMessage());
-                });
         tv_name.setText(before.name);
         updateLike(before);
     }
