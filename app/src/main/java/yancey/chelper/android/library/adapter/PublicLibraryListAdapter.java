@@ -63,7 +63,7 @@ public class PublicLibraryListAdapter extends RecyclerView.Adapter<PublicLibrary
     @NonNull
     @Override
     public CommandListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_list_item_pulic, parent, false));
+        return new CommandListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_library_list_item_public, parent, false));
     }
 
     @Override

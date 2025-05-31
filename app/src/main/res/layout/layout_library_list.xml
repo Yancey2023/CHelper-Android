@@ -11,9 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="@color/background_component"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="10dp">
+        android:background="@color/background_component">
 
         <View
             android:id="@+id/back"
@@ -93,6 +91,6 @@
         android:background="@drawable/bg_corner_10dp"
         android:scrollbars="vertical"
         tools:itemCount="10"
-        tools:listitem="@layout/layout_library_list_item" />
+        tools:listitem="@layout/layout_library_list_item_public" />
 
 </RelativeLayout>
