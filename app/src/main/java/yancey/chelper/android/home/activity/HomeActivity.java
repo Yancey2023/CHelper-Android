@@ -84,7 +84,7 @@ public class HomeActivity extends BaseActivity {
             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
                 CompletionWindowManager.INSTANCE.stopFloatingWindow();
             } else {
-                CompletionWindowManager.INSTANCE.startFloatingWindow(this, 40, true);
+                CompletionWindowManager.INSTANCE.startFloatingWindow(this, 40);
             }
         });
         findViewById(R.id.btn_enumeration_settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));

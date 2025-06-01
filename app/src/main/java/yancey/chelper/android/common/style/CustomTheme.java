@@ -134,7 +134,6 @@ public class CustomTheme {
 
     public static void init(File file) {
         INSTANCE = new CustomTheme(new File(file, "background.png"));
-        refreshTheme();
     }
 
     public static void refreshTheme() {

@@ -59,10 +59,12 @@ public class CompletionWindowManager {
     private final Application application;
     private final File xiaomiClipboardPermissionTipsFile;
     private EasyWindow<?> mainViewWindow, iconViewWindow;
+    private boolean isShowXiaomiClipboardPermissionTips;
 
     private CompletionWindowManager(Application application, File xiaomiClipboardPermissionTipsFile) {
         this.application = application;
         this.xiaomiClipboardPermissionTipsFile = xiaomiClipboardPermissionTipsFile;
+        this.isShowXiaomiClipboardPermissionTips = RomUtils.isXiaomi() && !xiaomiClipboardPermissionTipsFile.exists();
     }
 
     /**
@@ -84,12 +86,23 @@ public class CompletionWindowManager {
     /**
      * 开启悬浮窗
      *
+     * @param context  上下文
+     * @param iconSize 图标大小
+     */
+    @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
+    public void startFloatingWindow(Context context, int iconSize) {
+        startFloatingWindow(context, iconSize, isShowXiaomiClipboardPermissionTips);
+    }
+
+    /**
+     * 开启悬浮窗
+     *
      * @param context                             上下文
      * @param iconSize                            图标大小
      * @param isShowXiaomiClipboardPermissionTips 是否为小米用户或红米用户显示剪切板权限提示
      */
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
-    public void startFloatingWindow(Context context, int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
+    private void startFloatingWindow(Context context, int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
         if (!XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW)) {
             new IsConfirmDialog(context, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
@@ -108,18 +121,17 @@ public class CompletionWindowManager {
                             })).show();
             return;
         }
-        if (isShowXiaomiClipboardPermissionTips && RomUtils.isXiaomi()) {
-            if (!xiaomiClipboardPermissionTipsFile.exists()) {
-                new IsConfirmDialog(context, false)
-                        .message("对于小米手机和红米手机，需要将写入剪切板权限设置为始终允许才能在悬浮窗复制文本。具体设置方式如下：设置-应用设置-权限管理-应用权限管理-CHelper-写入剪切板-始终允许。")
-                        .onConfirm(() -> startFloatingWindow(context, iconSize, false))
-                        .onCancel("不再提示", () -> {
-                            FileUtil.writeString(xiaomiClipboardPermissionTipsFile, "");
-                            startFloatingWindow(context, iconSize, false);
-                        })
-                        .show();
-                return;
-            }
+        if (isShowXiaomiClipboardPermissionTips) {
+            new IsConfirmDialog(context, false)
+                    .message("对于小米手机和红米手机，需要将写入剪切板权限设置为始终允许才能在悬浮窗复制文本。具体设置方式如下：设置-应用设置-权限管理-应用权限管理-CHelper-写入剪切板-始终允许。")
+                    .onConfirm(() -> startFloatingWindow(context, iconSize, false))
+                    .onCancel("不再提示", () -> {
+                        this.isShowXiaomiClipboardPermissionTips = false;
+                        FileUtil.writeString(xiaomiClipboardPermissionTipsFile, "");
+                        startFloatingWindow(context, iconSize, false);
+                    })
+                    .show();
+            return;
         }
         int length = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,

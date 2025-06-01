@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import yancey.chelper.android.common.style.CustomTheme;
+
 /**
  * 软件设置
  */
@@ -223,6 +225,7 @@ public class Settings {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        CustomTheme.refreshTheme();
     }
 
 }
