@@ -168,40 +168,15 @@ public class Settings {
             INSTANCE.isSyntaxHighlight = true;
             isDirty = true;
         }
-        if (INSTANCE.cpackPath == null) {
+        if (INSTANCE.cpackPath == null ||
+            !(INSTANCE.cpackPath.equals("release-vanilla") ||
+              INSTANCE.cpackPath.equals("release-experiment") ||
+              INSTANCE.cpackPath.equals("beta-vanilla") ||
+              INSTANCE.cpackPath.equals("beta-experiment") ||
+              INSTANCE.cpackPath.equals("netease-vanilla") ||
+              INSTANCE.cpackPath.equals("netease-experiment"))) {
             INSTANCE.cpackPath = DEFAULT_CPACK;
             isDirty = true;
-        } else {
-            boolean isOldVersion = true;
-            // 为了对软件旧版本兼容，需要把一些旧版本的内容转为新版本内容
-            switch (INSTANCE.cpackPath) {
-                case "release-vanilla-1.20.80.05.cpack", "release-vanilla-1.21.1.03.cpack" ->
-                        INSTANCE.cpackPath = "release-vanilla";
-                case "release-experiment-1.20.80.05.cpack",
-                     "release-experiment-1.21.1.03.cpack" ->
-                        INSTANCE.cpackPath = "release-experiment";
-                case "beta-vanilla-1.21.0.23.cpack", "beta-vanilla-1.21.20.21.cpack" ->
-                        INSTANCE.cpackPath = "beta-vanilla";
-                case "beta-experiment-1.21.0.23.cpack", "beta-experiment-1.21.20.21.cpack" ->
-                        INSTANCE.cpackPath = "beta-experiment";
-                case "netease-vanilla-1.20.10.25.cpack" -> INSTANCE.cpackPath = "netease-vanilla";
-                case "netease-experiment-1.20.10.25.cpack" ->
-                        INSTANCE.cpackPath = "netease-experiment";
-                default -> {
-                    isOldVersion = INSTANCE.cpackPath.equals("release-vanilla") ||
-                                   INSTANCE.cpackPath.equals("release-experiment") ||
-                                   INSTANCE.cpackPath.equals("beta-vanilla") ||
-                                   INSTANCE.cpackPath.equals("beta-experiment") ||
-                                   INSTANCE.cpackPath.equals("netease-vanilla") ||
-                                   INSTANCE.cpackPath.equals("netease-experiment");
-                    if (isOldVersion) {
-                        INSTANCE.cpackPath = DEFAULT_CPACK;
-                    }
-                }
-            }
-            if (isOldVersion) {
-                isDirty = true;
-            }
         }
         if (isDirty) {
             INSTANCE.save();
