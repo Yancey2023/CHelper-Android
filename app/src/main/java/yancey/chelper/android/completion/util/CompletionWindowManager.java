@@ -20,8 +20,6 @@ package yancey.chelper.android.completion.util;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -29,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 
 import com.hjq.permissions.OnPermissionCallback;
@@ -46,8 +45,8 @@ import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.util.FileUtil;
 import yancey.chelper.android.common.util.RomUtils;
 import yancey.chelper.android.completion.view.CompletionView;
-import yancey.chelper.fws.view.DraggableView;
-import yancey.chelper.fws.view.FWSFloatingMainView;
+import yancey.chelper.fws.view.FWSMainView;
+import yancey.chelper.fws.view.FWSView;
 
 /**
  * 悬浮窗管理
@@ -60,6 +59,7 @@ public class CompletionWindowManager {
     private final File xiaomiClipboardPermissionTipsFile;
     private EasyWindow<?> mainViewWindow, iconViewWindow;
     private boolean isShowXiaomiClipboardPermissionTips;
+
 
     private CompletionWindowManager(Application application, File xiaomiClipboardPermissionTipsFile) {
         this.application = application;
@@ -138,55 +138,42 @@ public class CompletionWindowManager {
                 iconSize,
                 application.getResources().getDisplayMetrics()
         );
-        DraggableView innerIconView = new DraggableView(context);
-        innerIconView.setImageResource(R.drawable.pack_icon);
-        FWSFloatingMainView<CompletionView> fwsFloatingMainView = new FWSFloatingMainView<>(
-                context,
-                customContext -> new CompletionView(customContext, this::stopFloatingWindow, innerIconView::callOnClick),
-                innerIconView,
-                length
-        );
         ImageView iconView = new ImageView(context);
         iconView.setImageResource(R.drawable.pack_icon);
         iconView.setLayoutParams(new FrameLayout.LayoutParams(length, length, Gravity.START | Gravity.TOP));
-        mainViewWindow = EasyWindow.with(application)
-                .setContentView(fwsFloatingMainView)
-                .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
-                .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
-                .removeWindowFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-                .setSystemUiVisibility(fwsFloatingMainView.getSystemUiVisibility()
-                                       | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                       | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                       | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-                .setAnimStyle(0);
+        FWSMainView<CompletionView> fwsMainView = new FWSMainView<>(
+                context,
+                FWSView.Environment.FLOATING_WINDOW,
+                customContext -> new CompletionView(customContext, this::stopFloatingWindow, iconView::callOnClick),
+                new OnBackPressedDispatcher(iconView::callOnClick)
+        );
         iconViewWindow = EasyWindow.with(application)
                 .setContentView(iconView)
                 .setWindowDraggableRule(new MovingWindowDraggableRule())
                 .setOutsideTouchable(true)
                 .setGravity(Gravity.START | Gravity.TOP)
                 .setAnimStyle(0);
-        fwsFloatingMainView.setOnIconClickListener(() -> {
-            iconViewWindow.setXOffset((int) fwsFloatingMainView.getIconViewX());
-            iconViewWindow.setYOffset((int) fwsFloatingMainView.getIconViewY());
-            iconViewWindow.show();
-            fwsFloatingMainView.onPause();
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (iconViewWindow.isShowing()) {
-                    mainViewWindow.cancel();
-                }
-            }, 100);
-        });
+        mainViewWindow = EasyWindow.with(application)
+                .setContentView(fwsMainView)
+                .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
+                .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
+                .removeWindowFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+                .setSystemUiVisibility(fwsMainView.getSystemUiVisibility()
+                                       | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                       | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                       | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                .setAnimStyle(0);
         iconView.setOnClickListener(v -> {
-            WindowManager.LayoutParams layoutParam = iconViewWindow.getWindowParams();
-            fwsFloatingMainView.setIconPosition(layoutParam.x, layoutParam.y);
-            mainViewWindow.show();
-            fwsFloatingMainView.onResume();
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (mainViewWindow.isShowing()) {
-                    iconViewWindow.cancel();
-                }
-            }, 100);
+            if (mainViewWindow.getWindowVisibility() == View.VISIBLE) {
+                fwsMainView.onPause();
+                mainViewWindow.setWindowVisibility(View.INVISIBLE);
+            } else {
+                mainViewWindow.setWindowVisibility(View.VISIBLE);
+                fwsMainView.onResume();
+            }
         });
+        mainViewWindow.setWindowVisibility(View.INVISIBLE);
+        mainViewWindow.show();
         iconViewWindow.show();
     }
 
@@ -195,7 +182,7 @@ public class CompletionWindowManager {
      */
     public void stopFloatingWindow() {
         if (mainViewWindow != null) {
-            FWSFloatingMainView<?> FWSFloatingMainView = (FWSFloatingMainView<?>) mainViewWindow.getContentView();
+            FWSMainView<?> FWSFloatingMainView = (FWSMainView<?>) mainViewWindow.getContentView();
             if (FWSFloatingMainView != null) {
                 FWSFloatingMainView.onPause();
                 FWSFloatingMainView.onDestroy();

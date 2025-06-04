@@ -19,7 +19,6 @@
 package yancey.chelper.android.common.view;
 
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -52,17 +51,6 @@ public abstract class BaseView extends FWSView {
             v.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
             return insets;
         });
-        mainView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(mainView);
-                if (rootWindowInsets != null) {
-                    Insets stateBars = rootWindowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-                    mainView.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
-                }
-                mainView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
         mainView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if (right - left != oldRight - oldLeft || bottom - top != oldBottom - oldTop) {
                 backgroundUpdateTimes = CustomTheme.INSTANCE.invokeBackgroundForce(mainView);
@@ -76,6 +64,7 @@ public abstract class BaseView extends FWSView {
      * 界面切换后台事件
      */
     public void onPause() {
+        super.onPause();
         // 友盟统计页面关闭
         MonitorUtil.onPageEnd(gePageName());
     }
@@ -84,10 +73,24 @@ public abstract class BaseView extends FWSView {
      * 界面恢复前台事件
      */
     public void onResume() {
+        super.onResume();
         // 友盟统计页面启动
         MonitorUtil.onPageStart(gePageName());
         // 支持自定义背景
-        backgroundUpdateTimes = CustomTheme.INSTANCE.invokeBackground(findViewById(R.id.main), backgroundUpdateTimes);
+        View mainView = view.findViewById(R.id.main);
+        backgroundUpdateTimes = CustomTheme.INSTANCE.invokeBackground(mainView, backgroundUpdateTimes);
+        WindowInsetsCompat rootWindowInsets = ViewCompat.getRootWindowInsets(mainView);
+        if (rootWindowInsets != null) {
+            Insets stateBars = rootWindowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            mainView.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+        }
+        mainView.post(() -> {
+            WindowInsetsCompat rootWindowInsets1 = ViewCompat.getRootWindowInsets(mainView);
+            if (rootWindowInsets1 != null) {
+                Insets stateBars = rootWindowInsets1.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+                mainView.setPadding(stateBars.left, stateBars.top, stateBars.right, stateBars.bottom);
+            }
+        });
     }
 
 }
