@@ -187,6 +187,11 @@ public class RawtextActivity extends BaseActivity {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editable);
         int selectionStart = mEd_text.getSelectionStart();
         int selectionEnd = mEd_text.getSelectionEnd();
+        if (selectionStart > selectionEnd) {
+            int temp = selectionStart;
+            selectionStart = selectionEnd;
+            selectionEnd = temp;
+        }
         spannableStringBuilder.setSpan(new ForegroundColorSpan(color), selectionStart, selectionEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         mEd_text.setText(spannableStringBuilder);
         mEd_text.setSelection(selectionStart, selectionEnd);

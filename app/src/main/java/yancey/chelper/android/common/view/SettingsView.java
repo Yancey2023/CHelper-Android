@@ -63,7 +63,7 @@ public class SettingsView extends BaseView {
                 Toaster.show("不支持在悬浮窗模式设置背景");
             } else if (backgroundPicker == null) {
                 Toaster.show("当前场景不支持设置背景");
-            } else if (XXPermissions.isGranted(context, Permission.READ_MEDIA_IMAGES)) {
+            } else if (XXPermissions.isGrantedPermissions(context, Permission.READ_MEDIA_IMAGES)) {
                 backgroundPicker.run();
             } else {
                 XXPermissions.with(context)

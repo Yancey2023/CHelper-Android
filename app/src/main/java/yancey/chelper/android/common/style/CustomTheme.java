@@ -59,11 +59,13 @@ public class CustomTheme {
 
     public CustomTheme(@NonNull File file) {
         this.file = file;
-        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
-            this.backgroundBitmap.setBitmap(BitmapFactory.decodeStream(inputStream));
-        } catch (IOException e) {
-            Log.w(TAG, "fail to load background drawable", e);
-            MonitorUtil.generateCustomLog(e, "IOException");
+        if (file.exists()) {
+            try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
+                this.backgroundBitmap.setBitmap(BitmapFactory.decodeStream(inputStream));
+            } catch (IOException e) {
+                Log.w(TAG, "fail to load background drawable", e);
+                MonitorUtil.generateCustomLog(e, "IOException");
+            }
         }
     }
 

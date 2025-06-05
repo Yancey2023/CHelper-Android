@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 62
-        versionName = "0.3.2-beta"
+        versionCode = 63
+        versionName = "0.3.3-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -109,8 +109,7 @@ dependencies {
     // https://github.com/boxbeam/Crunch
     implementation("com.github.Redempt:Crunch:2.0.3")
     // https://github.com/androidx/androidx
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.activity:activity-ktx:1.10.1")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     // https://github.com/ReactiveX/RxJava
     implementation("io.reactivex.rxjava3:rxjava:3.1.10")
@@ -127,13 +126,13 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
     // https://github.com/getActivity/XXPermissions
-    implementation("com.github.getActivity:XXPermissions:21.3")
+    implementation("com.github.getActivity:XXPermissions:23.0")
     // https://github.com/getActivity/Toaster
     implementation("com.github.getActivity:Toaster:12.8")
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:12.0")
     // https://www.umeng.com
-    implementation("com.umeng.umsdk:common:9.8.4")
+    implementation("com.umeng.umsdk:common:9.8.5")
     implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
     implementation("com.umeng.umsdk:apm:2.0.3")

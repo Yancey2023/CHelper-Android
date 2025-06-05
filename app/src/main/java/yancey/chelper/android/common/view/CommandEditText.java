@@ -24,6 +24,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -126,11 +127,18 @@ public class CommandEditText extends AppCompatEditText {
      * 获取当前选中的内容
      */
     public SelectedString getSelectedString() {
-        Editable editable = getText();
-        if (editable == null) {
+        Editable text = getText();
+        if (text == null) {
             return new SelectedString("", 0, 0);
         } else {
-            return new SelectedString(editable.toString(), getSelectionStart(), getSelectionEnd());
+            int selectionStart = Selection.getSelectionStart(text);
+            int selectionEnd = Selection.getSelectionEnd(text);
+            if (selectionStart > selectionEnd) {
+                int temp = selectionStart;
+                selectionStart = selectionEnd;
+                selectionEnd = temp;
+            }
+            return new SelectedString(text.toString(), selectionStart, selectionEnd);
         }
     }
 
@@ -184,6 +192,9 @@ public class CommandEditText extends AppCompatEditText {
      * @param colors 每个字符的颜色
      */
     public void setColors(int[] colors) {
+        if (colors.length == 0) {
+            return;
+        }
         Editable text = this.getText();
         if (text == null) {
             return;
@@ -200,13 +211,20 @@ public class CommandEditText extends AppCompatEditText {
         Arrays.stream(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ForegroundColorSpan.class))
                 .forEach(spannableStringBuilder::removeSpan);
         int normalColor = getContext().getColor(R.color.text_main);
-        for (int i = 0; i < colors.length; i++) {
+        int lastIndex = 0;
+        int lastColor = colors[0];
+        for (int i = 1; i < colors.length; i++) {
             int color = colors[i];
             if (color == 0) {
                 color = normalColor;
             }
-            spannableStringBuilder.setSpan(new ForegroundColorSpan(color), i, i + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            if (color != lastColor) {
+                spannableStringBuilder.setSpan(new ForegroundColorSpan(lastColor), lastIndex, i, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                lastIndex = i;
+                lastColor = color;
+            }
         }
+        spannableStringBuilder.setSpan(new ForegroundColorSpan(lastColor), lastIndex, colors.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         if (!isSpannableStringBuilder) {
             int selectionStart = getSelectionStart();
             int selectionEnd = getSelectionEnd();
@@ -266,8 +284,6 @@ public class CommandEditText extends AppCompatEditText {
                     float startX = layout.getPrimaryHorizontal(start);
                     float endX = layout.getSecondaryHorizontal(end);
                     canvas.drawLine(startX, y, endX, y, paint);
-                } else {
-                    // TODO 待实现多行逻辑
                 }
             }
         }

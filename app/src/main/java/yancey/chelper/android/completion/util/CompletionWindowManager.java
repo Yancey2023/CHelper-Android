@@ -29,6 +29,7 @@ import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
@@ -55,13 +56,13 @@ public class CompletionWindowManager {
 
     public static CompletionWindowManager INSTANCE;
 
-    private final Application application;
-    private final File xiaomiClipboardPermissionTipsFile;
-    private EasyWindow<?> mainViewWindow, iconViewWindow;
+    private final @NonNull Application application;
+    private final @NonNull File xiaomiClipboardPermissionTipsFile;
+    private @Nullable EasyWindow<?> mainViewWindow, iconViewWindow;
     private boolean isShowXiaomiClipboardPermissionTips;
 
 
-    private CompletionWindowManager(Application application, File xiaomiClipboardPermissionTipsFile) {
+    private CompletionWindowManager(@NonNull Application application, @NonNull File xiaomiClipboardPermissionTipsFile) {
         this.application = application;
         this.xiaomiClipboardPermissionTipsFile = xiaomiClipboardPermissionTipsFile;
         this.isShowXiaomiClipboardPermissionTips = RomUtils.isXiaomi() && !xiaomiClipboardPermissionTipsFile.exists();
@@ -103,7 +104,7 @@ public class CompletionWindowManager {
      */
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
     private void startFloatingWindow(Context context, int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
-        if (!XXPermissions.isGranted(context, Permission.SYSTEM_ALERT_WINDOW)) {
+        if (!XXPermissions.isGrantedPermissions(context, Permission.SYSTEM_ALERT_WINDOW)) {
             new IsConfirmDialog(context, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
                     .onConfirm("打开设置", () -> XXPermissions.with(context)
@@ -164,6 +165,9 @@ public class CompletionWindowManager {
                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
                 .setAnimStyle(0);
         iconView.setOnClickListener(v -> {
+            if (mainViewWindow == null) {
+                return;
+            }
             if (mainViewWindow.getWindowVisibility() == View.VISIBLE) {
                 fwsMainView.onPause();
                 mainViewWindow.setWindowVisibility(View.INVISIBLE);
@@ -172,9 +176,13 @@ public class CompletionWindowManager {
                 fwsMainView.onResume();
             }
         });
-        mainViewWindow.setWindowVisibility(View.INVISIBLE);
-        mainViewWindow.show();
-        iconViewWindow.show();
+        if (mainViewWindow != null && iconViewWindow != null) {
+            mainViewWindow.setWindowVisibility(View.INVISIBLE);
+            mainViewWindow.show();
+            iconViewWindow.show();
+        } else {
+            stopFloatingWindow();
+        }
     }
 
     /**
