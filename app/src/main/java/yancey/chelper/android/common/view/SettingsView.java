@@ -48,8 +48,8 @@ import yancey.chelper.android.common.util.Settings;
 @SuppressLint("ViewConstructor")
 public class SettingsView extends BaseView {
 
-    public SettingsView(@NonNull CustomContext customContext, @Nullable Runnable backgroundPicker) {
-        super(customContext, R.layout.layout_settings);
+    public SettingsView(@NonNull FWSContext fwsContext, @Nullable Runnable backgroundPicker) {
+        super(fwsContext, R.layout.layout_settings);
         // 页面顶部逻辑
         findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         // 新版本提醒

@@ -63,8 +63,8 @@ public class PublicLibraryListView extends BaseView {
     private Disposable loadData, getFunctionByKey;
     private final AtomicReference<Disposable> doLike;
 
-    public PublicLibraryListView(@NonNull CustomContext customContext) {
-        super(customContext, R.layout.layout_library_list);
+    public PublicLibraryListView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_library_list);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
         View btn_update = view.findViewById(R.id.btn_update);

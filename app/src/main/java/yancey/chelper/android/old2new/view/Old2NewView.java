@@ -36,8 +36,8 @@ import yancey.chelper.core.CHelperCore;
 @SuppressLint("ViewConstructor")
 public class Old2NewView extends BaseView {
 
-    public Old2NewView(@NonNull CustomContext customContext) {
-        super(customContext, R.layout.layout_old2new);
+    public Old2NewView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_old2new);
         EditText mEd_oldCommand = view.findViewById(R.id.ed_old_command);
         TextView mTv_newCommand = view.findViewById(R.id.tv_new_command);
         findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());

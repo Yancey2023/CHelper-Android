@@ -60,13 +60,13 @@ public class PublicLibraryEditView extends BaseView {
     private Disposable upload, update, delete;
 
     public PublicLibraryEditView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @Nullable String authKey,
             @NonNull OnEditListener onEditListener,
             @Nullable Integer position,
             @Nullable LibraryFunction before
     ) {
-        super(customContext, R.layout.layout_library_edit);
+        super(fwsContext, R.layout.layout_library_edit);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
         ed_name = view.findViewById(R.id.name);

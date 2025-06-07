@@ -20,7 +20,6 @@ package yancey.chelper.android.library.activity;
 
 import androidx.annotation.NonNull;
 
-import yancey.chelper.android.library.view.LocalLibraryListView;
 import yancey.chelper.android.library.view.PublicLibraryListView;
 import yancey.chelper.fws.activity.FWSActivity;
 import yancey.chelper.fws.view.FWSView;
@@ -31,8 +30,8 @@ import yancey.chelper.fws.view.FWSView;
 public class PublicLibraryListActivity extends FWSActivity<PublicLibraryListView> {
 
     @Override
-    protected PublicLibraryListView createView(@NonNull FWSView.CustomContext customContext) {
-        return new PublicLibraryListView(customContext);
+    protected PublicLibraryListView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new PublicLibraryListView(fwsContext);
     }
 
 }

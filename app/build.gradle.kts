@@ -15,8 +15,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 35
-        versionCode = 63
-        versionName = "0.3.3-beta"
+        versionCode = 64
+        versionName = "0.3.4-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -97,7 +97,7 @@ if (keystorePropertiesFile.exists()) {
     android.applicationVariants.all {
         outputs.all {
             if (this is ApkVariantOutputImpl) {
-                outputFileName = "CHelper-${android.defaultConfig.versionName}.Apk"
+                outputFileName = "CHelper-${android.defaultConfig.versionName}.apk"
             }
         }
     }

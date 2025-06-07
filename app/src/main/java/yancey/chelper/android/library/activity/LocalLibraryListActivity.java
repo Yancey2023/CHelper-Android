@@ -30,8 +30,8 @@ import yancey.chelper.fws.view.FWSView;
 public class LocalLibraryListActivity extends FWSActivity<LocalLibraryListView> {
 
     @Override
-    protected LocalLibraryListView createView(@NonNull FWSView.CustomContext customContext) {
-        return new LocalLibraryListView(customContext);
+    protected LocalLibraryListView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new LocalLibraryListView(fwsContext);
     }
 
 }

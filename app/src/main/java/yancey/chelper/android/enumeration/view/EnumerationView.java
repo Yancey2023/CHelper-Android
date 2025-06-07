@@ -53,8 +53,8 @@ public class EnumerationView extends BaseView {
 
     private static final String TAG = "ExpressionView";
 
-    public EnumerationView(@NonNull CustomContext customContext) {
-        super(customContext, R.layout.layout_enumeration);
+    public EnumerationView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_enumeration);
         VariableListAdapter adapter = new VariableListAdapter(context, new ArrayList<>());
         RecyclerView recyclerView = view.findViewById(R.id.rv_variable_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

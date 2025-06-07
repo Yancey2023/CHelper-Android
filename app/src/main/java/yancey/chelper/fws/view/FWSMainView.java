@@ -39,12 +39,12 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
     public FWSMainView(
             @NonNull Context context,
             @NonNull FWSView.Environment environment,
-            @NonNull Function<FWSView.CustomContext, T> createRootView,
+            @NonNull Function<FWSView.FWSContext, T> createRootView,
             @NonNull OnBackPressedDispatcher onBackPressedDispatcher
     ) {
         super(context);
         this.environment = environment;
-        onBackPressedCallback = new OnBackPressedCallback(true) {
+        onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
                 backView();
@@ -54,7 +54,7 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
             }
         };
         onBackPressedDispatcher.addCallback(onBackPressedCallback);
-        openView(createRootView.apply(new FWSView.CustomContext(context, this::openView, onBackPressedDispatcher, environment)));
+        openView(createRootView.apply(new FWSView.FWSContext(context, this::openView, onBackPressedDispatcher, environment)));
     }
 
     public FWSView getChildAt(int index) {
@@ -62,23 +62,23 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
     }
 
     public void openView(@NonNull FWSView view) {
+        int childCount = getChildCount();
+        if (!onBackPressedCallback.isEnabled() && childCount > 0) {
+            throw new RuntimeException("you can't open a view when floating window is pause");
+        }
         ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), 0);
         addView(view);
-        int index = getChildCount() - 2;
-        if (index >= 0) {
-            getChildAt(index).onPause();
-        }
-        if (environment == FWSView.Environment.FLOATING_WINDOW || index >= 0) {
+        if (childCount >= 2) {
+            getChildAt(childCount - 2).onPause();
             view.onResume();
         }
-        if (environment == FWSView.Environment.FLOATING_WINDOW) {
-            view.requestFocus();
-        } else {
-            clearFocus();
-        }
-        if (environment == FWSView.Environment.FLOATING_WINDOW) {
-            view.requestFocus();
+        if (childCount > 0) {
+            if (environment == FWSView.Environment.FLOATING_WINDOW) {
+                view.requestFocus();
+            } else {
+                clearFocus();
+            }
         }
     }
 
@@ -104,14 +104,18 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
     }
 
     public void onPause() {
-        clearFocus();
+        onBackPressedCallback.setEnabled(false);
         getChildAt(getChildCount() - 1).onPause();
+        clearFocus();
     }
 
     public void onResume() {
+        onBackPressedCallback.setEnabled(true);
         getChildAt(getChildCount() - 1).onResume();
         if (environment == FWSView.Environment.FLOATING_WINDOW) {
             getChildAt(getChildCount() - 1).requestFocus();
+        } else {
+            clearFocus();
         }
     }
 
@@ -124,7 +128,7 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
         FWSView lastView = getChildAt(childCount - 1);
         lastView.onDestroy();
         for (int i = childCount - 2; i >= 0; i--) {
-            if (environment == FWSView.Environment.FLOATING_WINDOW || i != childCount - 1) {
+            if (i != childCount - 1) {
                 getChildAt(i).onPause();
             }
             getChildAt(i).onDestroy();

@@ -36,8 +36,8 @@ public class LibraryLoginView extends BaseView {
     private boolean isLogging = false;
     private Disposable login;
 
-    public LibraryLoginView(@NonNull CustomContext customContext) {
-        super(customContext, R.layout.layout_library_login);
+    public LibraryLoginView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_library_login);
         EditText email = view.findViewById(R.id.loginname);
         EditText password = view.findViewById(R.id.password);
         ImageView btn_clearName = view.findViewById(R.id.clear_btn_name);

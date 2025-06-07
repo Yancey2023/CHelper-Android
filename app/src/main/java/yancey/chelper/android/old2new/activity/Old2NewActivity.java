@@ -30,8 +30,8 @@ import yancey.chelper.fws.view.FWSView;
 public class Old2NewActivity extends FWSActivity<Old2NewView> {
 
     @Override
-    protected Old2NewView createView(@NonNull FWSView.CustomContext customContext) {
-        return new Old2NewView(customContext);
+    protected Old2NewView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new Old2NewView(fwsContext);
     }
 
 }

@@ -56,10 +56,10 @@ public class PublicLibraryShowView extends BaseView {
 
     @SuppressLint("HardwareIds")
     public PublicLibraryShowView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @NonNull LibraryFunction before
     ) {
-        super(customContext, R.layout.layout_library_show);
+        super(fwsContext, R.layout.layout_library_show);
         this.before = before;
         this.after = before;
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());

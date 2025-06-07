@@ -30,8 +30,8 @@ import yancey.chelper.fws.view.FWSView;
 public class LoginActivity extends FWSActivity<LibraryLoginView> {
 
     @Override
-    protected LibraryLoginView createView(@NonNull FWSView.CustomContext customContext) {
-        return new LibraryLoginView(customContext);
+    protected LibraryLoginView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new LibraryLoginView(fwsContext);
     }
 
 }

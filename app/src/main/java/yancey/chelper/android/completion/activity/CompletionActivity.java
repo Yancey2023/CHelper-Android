@@ -29,8 +29,8 @@ import yancey.chelper.fws.view.FWSView;
  */
 public class CompletionActivity extends FWSActivity<CompletionView> {
 
-    protected CompletionView createView(@NonNull FWSView.CustomContext customContext) {
-        return new CompletionView(customContext, this::finishAffinity, null);
+    protected CompletionView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new CompletionView(fwsContext, this::finishAffinity, null);
     }
 
 }

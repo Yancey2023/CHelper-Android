@@ -53,7 +53,7 @@ public class SettingsActivity extends FWSActivity<SettingsView> {
     private Disposable setBackGroundDrawable;
 
     @Override
-    protected SettingsView createView(@NonNull FWSView.CustomContext customContext) {
+    protected SettingsView createView(@NonNull FWSView.FWSContext fwsContext) {
         OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
@@ -98,7 +98,7 @@ public class SettingsActivity extends FWSActivity<SettingsView> {
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
         };
-        return new SettingsView(customContext, backgroundPicker);
+        return new SettingsView(fwsContext, backgroundPicker);
     }
 
     @Override

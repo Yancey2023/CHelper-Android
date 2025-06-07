@@ -72,11 +72,11 @@ public class CompletionView extends BaseView {
     private final CHelperGuiCore core;
 
     public CompletionView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @NonNull Runnable shutDown,
             @Nullable Runnable hideView
     ) {
-        super(customContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
+        super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         core = new CHelperGuiCore(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);

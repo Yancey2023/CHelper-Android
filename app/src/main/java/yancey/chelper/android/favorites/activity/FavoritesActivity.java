@@ -30,8 +30,8 @@ import yancey.chelper.fws.view.FWSView;
 public class FavoritesActivity extends FWSActivity<FavoritesView> {
 
     @Override
-    protected FavoritesView createView(@NonNull FWSView.CustomContext customContext) {
-        return new FavoritesView(customContext);
+    protected FavoritesView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new FavoritesView(fwsContext);
     }
 
 }

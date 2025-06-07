@@ -40,10 +40,10 @@ public class LocalLibraryShowView extends BaseView {
 
     @SuppressLint("HardwareIds")
     public LocalLibraryShowView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @NonNull LibraryFunction before
     ) {
-        super(customContext, R.layout.layout_library_show);
+        super(fwsContext, R.layout.layout_library_show);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         View btn_like = view.findViewById(R.id.btn_like);
         TextView tv_like_count = view.findViewById(R.id.tv_like_count);

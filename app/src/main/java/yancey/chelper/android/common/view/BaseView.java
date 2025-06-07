@@ -37,14 +37,14 @@ import yancey.chelper.fws.view.FWSView;
 public abstract class BaseView extends FWSView {
 
     /**
-     * @param customContext 自定义上下文
-     * @param layoutId      视图界面ID
+     * @param fwsContext 自定义上下文
+     * @param layoutId   视图界面ID
      */
     public BaseView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @LayoutRes int layoutId
     ) {
-        super(customContext, layoutId);
+        super(fwsContext, layoutId);
         View mainView = view.findViewById(R.id.main);
         ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
             Insets stateBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());

@@ -30,8 +30,8 @@ import yancey.chelper.fws.view.FWSView;
 public class EnumerationActivity extends FWSActivity<EnumerationView> {
 
     @Override
-    protected EnumerationView createView(@NonNull FWSView.CustomContext customContext) {
-        return new EnumerationView(customContext);
+    protected EnumerationView createView(@NonNull FWSView.FWSContext fwsContext) {
+        return new EnumerationView(fwsContext);
     }
 
 }

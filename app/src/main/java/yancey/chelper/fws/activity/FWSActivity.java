@@ -37,7 +37,7 @@ public abstract class FWSActivity<T extends FWSView> extends AppCompatActivity {
 
     private FWSMainView<T> fwsMainView;
 
-    protected abstract T createView(@NonNull FWSView.CustomContext customContext);
+    protected abstract T createView(@NonNull FWSView.FWSContext fwsContext);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

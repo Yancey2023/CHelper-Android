@@ -44,7 +44,6 @@ import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.android.library.adapter.LocalLibraryListAdapter;
 import yancey.chelper.android.library.util.LocalLibraryManager;
 import yancey.chelper.android.library.util.OnEditListener;
-import yancey.chelper.fws.view.FWSView;
 import yancey.chelper.network.library.data.LibraryFunction;
 
 /**
@@ -59,8 +58,8 @@ public class LocalLibraryListView extends BaseView {
     private boolean isDirty = false;
     private Disposable loadData;
 
-    public LocalLibraryListView(@NonNull FWSView.CustomContext customContext) {
-        super(customContext, R.layout.layout_library_list);
+    public LocalLibraryListView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_library_list);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
         View btn_update = view.findViewById(R.id.btn_update);

@@ -19,6 +19,7 @@
 package yancey.chelper.fws.view;
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,7 +47,7 @@ public abstract class FWSView extends FrameLayout {
     }
 
 
-    public static class CustomContext {
+    public static class FWSContext {
 
         private final @NonNull Context context;
         private final @NonNull Consumer<FWSView> openView;
@@ -61,7 +62,7 @@ public abstract class FWSView extends FrameLayout {
          * @param onBackPressedDispatcher 返回事件分发器
          * @param environment             运行环境：应用 / 悬浮窗
          */
-        public CustomContext(
+        public FWSContext(
                 @NonNull Context context,
                 @NonNull Consumer<FWSView> openView,
                 @NonNull OnBackPressedDispatcher onBackPressedDispatcher,
@@ -74,27 +75,27 @@ public abstract class FWSView extends FrameLayout {
         }
     }
 
-    private final @NonNull CustomContext customContext;
+    private final @NonNull FWSContext fwsContext;
     protected final @NonNull Context context;
     protected final @NonNull View view;
     private final @NonNull OnBackPressedDispatcher onBackPressedDispatcher;
     protected int backgroundUpdateTimes = 0;
 
     /**
-     * @param customContext 自定义上下文
-     * @param layoutId      视图界面ID
+     * @param fwsContext 自定义上下文
+     * @param layoutId   视图界面ID
      */
     public FWSView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @LayoutRes int layoutId
     ) {
-        super(customContext.context);
-        this.customContext = customContext;
-        this.context = customContext.context;
+        super(fwsContext.context);
+        this.fwsContext = fwsContext;
+        this.context = fwsContext.context;
         // 添加界面
-        view = LayoutInflater.from(customContext.context).inflate(layoutId, this, false);
+        view = LayoutInflater.from(fwsContext.context).inflate(layoutId, this, false);
         addView(view);
-        onBackPressedDispatcher = new OnBackPressedDispatcher(customContext.onBackPressedDispatcher::onBackPressed);
+        onBackPressedDispatcher = new OnBackPressedDispatcher(fwsContext.onBackPressedDispatcher::onBackPressed);
     }
 
     protected abstract String gePageName();
@@ -125,9 +126,9 @@ public abstract class FWSView extends FrameLayout {
      *
      * @param createView 新界面的创建方法，可以使用lambda表达式提供
      */
-    protected void openView(@NonNull Function<CustomContext, FWSView> createView) {
+    protected void openView(@NonNull Function<FWSContext, FWSView> createView) {
         // 打开界面
-        customContext.openView.accept(createView.apply(customContext));
+        fwsContext.openView.accept(createView.apply(fwsContext));
     }
 
     /**
@@ -146,13 +147,22 @@ public abstract class FWSView extends FrameLayout {
      * @return 运行环境：应用 / 悬浮窗
      */
     public Environment getEnvironment() {
-        return customContext.environment;
+        return fwsContext.environment;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         super.dispatchTouchEvent(motionEvent);
         return true;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (getEnvironment() == Environment.FLOATING_WINDOW && event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            onBackPressedDispatcher.onBackPressed();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 
 }

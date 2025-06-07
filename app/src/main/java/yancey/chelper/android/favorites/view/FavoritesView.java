@@ -52,8 +52,8 @@ public class FavoritesView extends BaseView {
     private static final String TAG = "FavoriteActivity";
     private final FavoriteListAdapter adapter;
 
-    public FavoritesView(@NonNull CustomContext customContext) {
-        super(customContext, R.layout.layout_favorites);
+    public FavoritesView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_favorites);
         File file = FileUtil.getFile(context.getFilesDir().getAbsolutePath(), "favorites", "favorites.dat");
         List<DataFavorite> dataFavoriteList;
         if (file.exists()) {

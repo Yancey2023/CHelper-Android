@@ -49,12 +49,12 @@ public class LocalLibraryEditView extends BaseView {
     private final EditText ed_commands;
 
     public LocalLibraryEditView(
-            @NonNull CustomContext customContext,
+            @NonNull FWSContext fwsContext,
             @NonNull OnEditListener onEditListener,
             @Nullable Integer position,
             @Nullable LibraryFunction before
     ) {
-        super(customContext, R.layout.layout_library_edit);
+        super(fwsContext, R.layout.layout_library_edit);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
         ed_name = view.findViewById(R.id.name);

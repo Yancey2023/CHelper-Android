@@ -278,12 +278,17 @@ public class CommandEditText extends AppCompatEditText {
                 int lineEnd = layout.getLineForOffset(end);
 
                 if (lineStart == lineEnd) {
-                    // 只有同一行生效
-                    int lineBottom = layout.getLineBottom(lineStart);
-                    float y = lineBottom + offsetY;
-                    float startX = layout.getPrimaryHorizontal(start);
-                    float endX = layout.getSecondaryHorizontal(end);
-                    canvas.drawLine(startX, y, endX, y, paint);
+                    float y = layout.getLineBottom(lineStart) + offsetY;
+                    canvas.drawLine(layout.getPrimaryHorizontal(start), y, layout.getSecondaryHorizontal(end), y, paint);
+                } else {
+                    float firstLineY = layout.getLineBottom(lineStart) + offsetY;
+                    canvas.drawLine(layout.getPrimaryHorizontal(start), firstLineY, layout.getLineEnd(lineStart), firstLineY, paint);
+                    for (int i = lineStart + 1; i < lineEnd - 1; i++) {
+                        float y = layout.getLineBottom(i) + offsetY;
+                        canvas.drawLine(layout.getLineStart(i), y, layout.getLineEnd(i), y, paint);
+                    }
+                    float lastLineY = layout.getLineBottom(lineEnd) + offsetY;
+                    canvas.drawLine(layout.getLineStart(lineEnd), lastLineY, layout.getSecondaryHorizontal(end), lastLineY, paint);
                 }
             }
         }
