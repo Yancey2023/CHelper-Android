@@ -77,15 +77,17 @@ public class CompletionView extends BaseView {
             @Nullable Runnable hideView
     ) {
         super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
+        boolean isCrowed = Settings.INSTANCE.isCrowed;
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        core = new CHelperGuiCore(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
+        core = new CHelperGuiCore();
         TextView mtv_structure = view.findViewById(R.id.tv_structure);
         TextView mtv_description = view.findViewById(R.id.tv_description);
         TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
         commandEditText = view.findViewById(R.id.ed_input);
         commandEditText.setListener(null, core::onSelectionChanged, () -> isGuiLoaded);
-        SuggestionListAdapter adapter = new SuggestionListAdapter(context, core, Settings.INSTANCE.isCrowed);
+        commandEditText.setTheme(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
+        SuggestionListAdapter adapter = new SuggestionListAdapter(context, core, isCrowed);
         RecyclerView recyclerView = view.findViewById(R.id.rv_command_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
@@ -121,7 +123,7 @@ public class CompletionView extends BaseView {
 
             @Override
             public void updateStructure(@Nullable String structure) {
-                if (Settings.INSTANCE.isCrowed) {
+                if (isCrowed) {
                     adapter.setStructure(structure);
                 } else {
                     mtv_structure.setText(structure);
@@ -130,7 +132,7 @@ public class CompletionView extends BaseView {
 
             @Override
             public void updateDescription(@Nullable String description) {
-                if (Settings.INSTANCE.isCrowed) {
+                if (isCrowed) {
                     adapter.setDescription(description);
                 } else {
                     mtv_description.setText(description);
@@ -182,8 +184,8 @@ public class CompletionView extends BaseView {
             }
 
             @Override
-            public void updateSyntaxHighlight(int[] colors) {
-                commandEditText.setColors(colors);
+            public void updateSyntaxHighlight(int[] tokens) {
+                commandEditText.setColors(tokens);
             }
         });
         btn_action = view.findViewById(R.id.btn_action);

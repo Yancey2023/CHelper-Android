@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -9,14 +10,14 @@ plugins {
 
 android {
     namespace = "yancey.chelper"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "yancey.chelper"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 64
-        versionName = "0.3.4-beta"
+        versionName = "0.3.5-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -44,15 +45,13 @@ android {
         }
     }
 
+    sourceSets.all {
+        jniLibs.srcDirs("libs")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CHelper-Core/CHelper-Android/CMakeLists.txt")
-        }
     }
 
     buildFeatures {
@@ -60,10 +59,10 @@ android {
         viewBinding = true
     }
 
-    ndkVersion = "27.2.12479018"
+    ndkVersion = "28.1.13356709"
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
     }
 
     gradle.projectsEvaluated {
@@ -92,8 +91,9 @@ if (keystorePropertiesFile.exists()) {
             enableV4Signing = true
         }
     }
-    android.buildTypes["release"].signingConfig = android.signingConfigs["sign"]
-    android.buildTypes["debug"].signingConfig = android.signingConfigs["sign"]
+    android.buildTypes.all {
+        signingConfig = android.signingConfigs["sign"]
+    }
     android.applicationVariants.all {
         outputs.all {
             if (this is ApkVariantOutputImpl) {
@@ -116,7 +116,7 @@ dependencies {
     // https://github.com/ReactiveX/RxAndroid
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     // https://github.com/square/okhttp
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.0.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:okhttp-brotli")
     implementation("com.squareup.okhttp3:logging-interceptor")
@@ -128,14 +128,14 @@ dependencies {
     // https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:23.0")
     // https://github.com/getActivity/Toaster
-    implementation("com.github.getActivity:Toaster:12.8")
+    implementation("com.github.getActivity:Toaster:13.0")
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:12.0")
     // https://www.umeng.com
     implementation("com.umeng.umsdk:common:9.8.5")
     implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
-    implementation("com.umeng.umsdk:apm:2.0.3")
+    implementation("com.umeng.umsdk:apm:2.0.4")
     // https://github.com/junit-team/junit4
     testImplementation("junit:junit:4.13.2")
     // https://github.com/androidx/androidx

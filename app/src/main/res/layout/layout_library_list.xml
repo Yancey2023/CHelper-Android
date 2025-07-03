@@ -37,6 +37,28 @@
             android:textSize="18sp" />
 
         <View
+            android:id="@+id/btn_import"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/btn_export"
+            android:background="@drawable/file_arrow_left"
+            android:contentDescription="@string/library_import"
+            android:scaleType="fitXY" />
+
+        <View
+            android:id="@+id/btn_export"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/btn_update"
+            android:background="@drawable/share"
+            android:contentDescription="@string/library_export"
+            android:scaleType="fitXY" />
+
+        <View
             android:id="@+id/btn_update"
             android:layout_width="25dp"
             android:layout_height="25dp"

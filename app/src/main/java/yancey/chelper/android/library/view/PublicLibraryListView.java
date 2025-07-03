@@ -69,7 +69,23 @@ public class PublicLibraryListView extends BaseView {
         TextView tv_title = view.findViewById(R.id.title);
         View btn_update = view.findViewById(R.id.btn_update);
         View btn_upload = view.findViewById(R.id.btn_upload);
+        View btn_export = view.findViewById(R.id.btn_export);
+        View btn_import = view.findViewById(R.id.btn_import);
         tv_title.setText(R.string.public_library);
+        btn_export.setVisibility(View.GONE);
+        btn_import.setVisibility(View.GONE);
+        ed_search = view.findViewById(R.id.search);
+        ed_search.addTextChangedListener(TextWatcherUtil.onTextChanged(this::update));
+        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        doLike = new AtomicReference<>();
+        adapter = new PublicLibraryListAdapter(
+                context,
+                doLike,
+                libraryFunction -> openView(customContext1 ->
+                        new PublicLibraryShowView(customContext1, libraryFunction)));
+        rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
+        rv_favoriteList.setAdapter(adapter);
         if (getEnvironment() == Environment.APPLICATION) {
             btn_update.setOnClickListener(v -> new InputStringDialog(context)
                     .title("请输入密钥")
@@ -133,18 +149,6 @@ public class PublicLibraryListView extends BaseView {
         } else {
             btn_upload.setVisibility(View.GONE);
         }
-        ed_search = view.findViewById(R.id.search);
-        ed_search.addTextChangedListener(TextWatcherUtil.onTextChanged(this::update));
-        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
-        rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        doLike = new AtomicReference<>();
-        adapter = new PublicLibraryListAdapter(
-                context,
-                doLike,
-                libraryFunction -> openView(customContext1 ->
-                        new PublicLibraryShowView(customContext1, libraryFunction)));
-        rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
-        rv_favoriteList.setAdapter(adapter);
         update();
     }
 

@@ -34,11 +34,6 @@ public class CHelperGuiCore implements Closeable {
     private @Nullable CHelperCore core;
 
     /**
-     * 命令高亮显示主题
-     */
-    private @NotNull Theme theme;
-
-    /**
      * GUI相关的接口
      */
     private @Nullable CommandGuiCoreInterface commandGuiCoreInterface;
@@ -48,8 +43,7 @@ public class CHelperGuiCore implements Closeable {
      */
     private SelectedString lastInput = new SelectedString("", 0, 0);
 
-    public CHelperGuiCore(@NotNull Theme theme) {
-        this.theme = theme;
+    public CHelperGuiCore() {
     }
 
     public void setCommandGuiCoreInterface(@NotNull CommandGuiCoreInterface commandGuiCoreInterface) {
@@ -116,7 +110,7 @@ public class CHelperGuiCore implements Closeable {
             core.onTextChanged(selectedString.text, selectionStart);
             // 更新颜色
             if (commandGuiCoreInterface.isSyntaxHighlight()) {
-                commandGuiCoreInterface.updateSyntaxHighlight(core.getColors());
+                commandGuiCoreInterface.updateSyntaxHighlight(core.getSyntaxToken());
             }
             // 更新命令语法结构
             if (commandGuiCoreInterface.isUpdateStructure()) {
@@ -207,24 +201,9 @@ public class CHelperGuiCore implements Closeable {
         }
         // 设置新内核
         this.core = core;
-        if (this.core != null) {
-            this.core.setTheme(theme);
-        }
         // 更新界面
         lastInput = new SelectedString("", 0, 0);
         onSelectionChanged();
-    }
-
-    /**
-     * 设置命令高亮显示主题
-     *
-     * @param theme 命令高亮显示主题
-     */
-    public void setTheme(@NotNull Theme theme) {
-        this.theme = theme;
-        if (this.core != null) {
-            this.core.setTheme(theme);
-        }
     }
 
     /**

@@ -80,6 +80,6 @@ public interface CommandGuiCoreInterface {
     /**
      * 更新语法高亮
      */
-    void updateSyntaxHighlight(int[] colors);
+    void updateSyntaxHighlight(int[] tokens);
 
 }

@@ -48,8 +48,12 @@ public class LocalLibraryManager {
             if (libraryFunctions == null) {
                 libraryFunctions = new ArrayList<>();
                 if (file.exists()) {
-                    libraryFunctions = ServiceManager.GSON.fromJson(FileUtil.readString(file), new TypeToken<List<LibraryFunction>>() {
-                    }.getType());
+                    try {
+                        libraryFunctions = ServiceManager.GSON.fromJson(FileUtil.readString(file), new TypeToken<List<LibraryFunction>>() {
+                        }.getType());
+                    } catch (Throwable ignored) {
+
+                    }
                 }
             }
             emitter.onNext(libraryFunctions);

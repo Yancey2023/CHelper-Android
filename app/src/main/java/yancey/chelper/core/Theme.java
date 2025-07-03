@@ -108,4 +108,24 @@ public class Theme {
         THEME_NIGHT.colorRange = COLOR_LIGHT_BLUE;
         THEME_NIGHT.colorLiteral = COLOR_LIGHT_BLUE;
     }
+
+    public int getColorByToken(int token, int normalColor) {
+        return switch (token) {
+            case 1 -> colorBoolean;
+            case 2 -> colorFloat;
+            case 3 -> colorInteger;
+            case 4 -> colorSymbol;
+            case 5 -> colorId;
+            case 6 -> colorTargetSelector;
+            case 7 -> colorCommand;
+            case 8 -> colorBrackets1;
+            case 9 -> colorBrackets2;
+            case 10 -> colorBrackets3;
+            case 11 -> colorString;
+            case 12 -> colorNull;
+            case 13 -> colorRange;
+            case 14 -> colorLiteral;
+            default -> normalColor;
+        };
+    }
 }

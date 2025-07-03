@@ -35,6 +35,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -43,6 +45,7 @@ import java.util.function.Consumer;
 import yancey.chelper.R;
 import yancey.chelper.core.ErrorReason;
 import yancey.chelper.core.SelectedString;
+import yancey.chelper.core.Theme;
 
 /**
  * 命令输入框
@@ -57,6 +60,8 @@ public class CommandEditText extends AppCompatEditText {
     private Runnable onSelectionChanged;
     private BooleanSupplier isGuiLoaded;
     private ErrorReason[] errorReasons;
+    @Nullable
+    private Theme theme;
 
     public CommandEditText(Context context) {
         super(context);
@@ -81,6 +86,10 @@ public class CommandEditText extends AppCompatEditText {
         this.onTextChanged = onTextChanged;
         this.onSelectionChanged = onSelectionChanged;
         this.isGuiLoaded = isGuiLoaded;
+    }
+
+    public void setTheme(@NotNull Theme theme) {
+        this.theme = theme;
     }
 
     @Override
@@ -189,10 +198,10 @@ public class CommandEditText extends AppCompatEditText {
     /**
      * 设置文本颜色
      *
-     * @param colors 每个字符的颜色
+     * @param tokens 每个字符的类型
      */
-    public void setColors(int[] colors) {
-        if (colors.length == 0) {
+    public void setColors(int[] tokens) {
+        if (theme == null || tokens.length == 0) {
             return;
         }
         Editable text = this.getText();
@@ -212,9 +221,9 @@ public class CommandEditText extends AppCompatEditText {
                 .forEach(spannableStringBuilder::removeSpan);
         int normalColor = getContext().getColor(R.color.text_main);
         int lastIndex = 0;
-        int lastColor = colors[0];
-        for (int i = 1; i < colors.length; i++) {
-            int color = colors[i];
+        int lastColor = theme.getColorByToken(tokens[0], normalColor);
+        for (int i = 1; i < tokens.length; i++) {
+            int color = theme.getColorByToken(tokens[i], normalColor);
             if (color == 0) {
                 color = normalColor;
             }
@@ -224,7 +233,7 @@ public class CommandEditText extends AppCompatEditText {
                 lastColor = color;
             }
         }
-        spannableStringBuilder.setSpan(new ForegroundColorSpan(lastColor), lastIndex, colors.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        spannableStringBuilder.setSpan(new ForegroundColorSpan(lastColor), lastIndex, tokens.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         if (!isSpannableStringBuilder) {
             int selectionStart = getSelectionStart();
             int selectionEnd = getSelectionEnd();

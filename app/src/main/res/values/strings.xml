@@ -124,6 +124,8 @@
     <string name="library_tags">标签：</string>
     <string name="library_sample_tags">标签示例</string>
     <string name="library_tags_hint">不同标签使用英文逗号分割</string>
+    <string name="library_import">导入</string>
+    <string name="library_export">导出</string>
     <string name="library_update">更新</string>
     <string name="library_upload">上传</string>
     <string name="library_add">添加</string>
