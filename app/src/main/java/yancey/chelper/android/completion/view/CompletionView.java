@@ -85,7 +85,7 @@ public class CompletionView extends BaseView {
         TextView mtv_description = view.findViewById(R.id.tv_description);
         TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
         commandEditText = view.findViewById(R.id.ed_input);
-        commandEditText.setListener(null, core::onSelectionChanged, () -> isGuiLoaded);
+        commandEditText.setListener(s -> core.onSelectionChanged(), core::onSelectionChanged, () -> isGuiLoaded);
         commandEditText.setTheme(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
         SuggestionListAdapter adapter = new SuggestionListAdapter(context, core, isCrowed);
         RecyclerView recyclerView = view.findViewById(R.id.rv_command_list);
