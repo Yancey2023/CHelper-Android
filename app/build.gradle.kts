@@ -16,8 +16,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 36
-        versionCode = 68
-        versionName = "0.3.9-beta"
+        versionCode = 69
+        versionName = "0.3.10-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -112,11 +112,11 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     // https://github.com/ReactiveX/RxJava
-    implementation("io.reactivex.rxjava3:rxjava:3.1.10")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.11")
     // https://github.com/ReactiveX/RxAndroid
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     // https://github.com/square/okhttp
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.0.0"))
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.1.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:okhttp-brotli")
     implementation("com.squareup.okhttp3:logging-interceptor")
@@ -126,13 +126,13 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
     // https://github.com/getActivity/XXPermissions
-    implementation("com.github.getActivity:XXPermissions:23.0")
+    implementation("com.github.getActivity:XXPermissions:25.0")
     // https://github.com/getActivity/Toaster
     implementation("com.github.getActivity:Toaster:13.0")
     // https://github.com/getActivity/EasyWindow
-    implementation("com.github.getActivity:EasyWindow:12.0")
+    implementation("com.github.getActivity:EasyWindow:13.0")
     // https://www.umeng.com
-    implementation("com.umeng.umsdk:common:9.8.5")
+    implementation("com.umeng.umsdk:common:9.8.6")
     implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
     implementation("com.umeng.umsdk:apm:2.0.4")

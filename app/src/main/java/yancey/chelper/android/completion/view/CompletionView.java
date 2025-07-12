@@ -104,7 +104,7 @@ public class CompletionView extends BaseView {
 
             @Override
             public boolean isUpdateErrorReason() {
-                return true;
+                return (Settings.INSTANCE.isShowErrorReason && mtv_errorReasons != null) || isSyntaxHighlight();
             }
 
             @Override
@@ -141,30 +141,23 @@ public class CompletionView extends BaseView {
 
             @Override
             public void updateErrorReason(@Nullable ErrorReason[] errorReasons) {
-                if (errorReasons == null || errorReasons.length == 0) {
-                    if (mtv_errorReasons != null) {
+                if (Settings.INSTANCE.isShowErrorReason && mtv_errorReasons != null) {
+                    if (errorReasons == null || errorReasons.length == 0) {
                         mtv_errorReasons.setVisibility(View.GONE);
-                    }
-                    commandEditText.setErrorReasons(null);
-                } else {
-                    if (errorReasons.length == 1) {
-                        if (mtv_errorReasons != null) {
-                            mtv_errorReasons.setText(errorReasons[0].errorReason);
-                        }
                     } else {
-                        StringBuilder errorReasonStr = new StringBuilder("可能的错误原因：");
-                        for (int i = 0; i < errorReasons.length; i++) {
-                            errorReasonStr.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
-                        }
-                        if (mtv_errorReasons != null) {
+                        if (errorReasons.length == 1) {
+                            mtv_errorReasons.setText(errorReasons[0].errorReason);
+                        } else {
+                            StringBuilder errorReasonStr = new StringBuilder("可能的错误原因：");
+                            for (int i = 0; i < errorReasons.length; i++) {
+                                errorReasonStr.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
+                            }
                             mtv_errorReasons.setText(errorReasonStr);
                         }
-                    }
-                    if (mtv_errorReasons != null) {
                         mtv_errorReasons.setVisibility(View.VISIBLE);
                     }
-                    commandEditText.setErrorReasons(isSyntaxHighlight() ? errorReasons : null);
                 }
+                commandEditText.setErrorReasons(isSyntaxHighlight() ? errorReasons : null);
             }
 
             @Override

@@ -71,6 +71,10 @@ public class Settings {
      */
     public Boolean isCrowed;
     /**
+     * 是否显示命令错误原因
+     */
+    public Boolean isShowErrorReason;
+    /**
      * 语法高亮
      */
     public Boolean isSyntaxHighlight;
@@ -164,6 +168,10 @@ public class Settings {
         }
         if (INSTANCE.isCrowed == null) {
             INSTANCE.isCrowed = false;
+            isDirty = true;
+        }
+        if (INSTANCE.isShowErrorReason == null) {
+            INSTANCE.isShowErrorReason = true;
             isDirty = true;
         }
         if (INSTANCE.isSyntaxHighlight == null) {

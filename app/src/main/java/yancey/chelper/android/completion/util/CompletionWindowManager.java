@@ -32,8 +32,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.permissions.permission.PermissionLists;
+import com.hjq.permissions.permission.base.IPermission;
 import com.hjq.toast.Toaster;
 import com.hjq.window.EasyWindow;
 import com.hjq.window.draggable.MovingWindowDraggableRule;
@@ -104,19 +105,19 @@ public class CompletionWindowManager {
      */
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
     private void startFloatingWindow(Context context, int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
-        if (!XXPermissions.isGrantedPermissions(context, Permission.SYSTEM_ALERT_WINDOW)) {
+        if (!XXPermissions.isGrantedPermission(context, PermissionLists.getSystemAlertWindowPermission())) {
             new IsConfirmDialog(context, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
                     .onConfirm("打开设置", () -> XXPermissions.with(context)
-                            .permission(Permission.SYSTEM_ALERT_WINDOW)
+                            .permission(PermissionLists.getSystemAlertWindowPermission())
                             .request(new OnPermissionCallback() {
                                 @Override
-                                public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                                public void onGranted(@NonNull List<IPermission> permissions, boolean allGranted) {
                                     Toaster.show("悬浮窗权限获取成功");
                                 }
 
                                 @Override
-                                public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                                public void onDenied(@NonNull List<IPermission> permissions, boolean doNotAskAgain) {
                                     Toaster.show("悬浮窗权限获取失败");
                                 }
                             })).show();
@@ -152,32 +153,31 @@ public class CompletionWindowManager {
                 .setContentView(iconView)
                 .setWindowDraggableRule(new MovingWindowDraggableRule())
                 .setOutsideTouchable(true)
-                .setGravity(Gravity.START | Gravity.TOP)
-                .setAnimStyle(0);
+                .setWindowLocation(Gravity.START | Gravity.TOP, 0, 0)
+                .setWindowAnim(0);
         mainViewWindow = EasyWindow.with(application)
                 .setContentView(fwsMainView)
-                .setWidth(WindowManager.LayoutParams.MATCH_PARENT)
-                .setHeight(WindowManager.LayoutParams.MATCH_PARENT)
+                .setWindowSize(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
                 .removeWindowFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
                 .setSystemUiVisibility(fwsMainView.getSystemUiVisibility()
                                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-                .setAnimStyle(0);
+                .setWindowAnim(0);
         iconView.setOnClickListener(v -> {
             if (mainViewWindow == null) {
                 return;
             }
-            if (mainViewWindow.getWindowVisibility() == View.VISIBLE) {
+            if (mainViewWindow.getWindowViewVisibility() == View.VISIBLE) {
                 fwsMainView.onPause();
-                mainViewWindow.setWindowVisibility(View.INVISIBLE);
+                mainViewWindow.setWindowViewVisibility(View.INVISIBLE);
             } else {
-                mainViewWindow.setWindowVisibility(View.VISIBLE);
+                mainViewWindow.setWindowViewVisibility(View.VISIBLE);
                 fwsMainView.onResume();
             }
         });
         if (mainViewWindow != null && iconViewWindow != null) {
-            mainViewWindow.setWindowVisibility(View.INVISIBLE);
+            mainViewWindow.setWindowViewVisibility(View.INVISIBLE);
             mainViewWindow.show();
             iconViewWindow.show();
         } else {

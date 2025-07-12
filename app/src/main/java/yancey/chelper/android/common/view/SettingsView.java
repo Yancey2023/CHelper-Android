@@ -27,8 +27,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.hjq.permissions.OnPermissionCallback;
-import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.permissions.permission.PermissionLists;
+import com.hjq.permissions.permission.base.IPermission;
 import com.hjq.toast.Toaster;
 
 import java.io.IOException;
@@ -63,19 +64,19 @@ public class SettingsView extends BaseView {
                 Toaster.show("不支持在悬浮窗模式设置背景");
             } else if (backgroundPicker == null) {
                 Toaster.show("当前场景不支持设置背景");
-            } else if (XXPermissions.isGrantedPermissions(context, Permission.READ_MEDIA_IMAGES)) {
+            } else if (XXPermissions.isGrantedPermission(context, PermissionLists.getReadMediaImagesPermission())) {
                 backgroundPicker.run();
             } else {
                 XXPermissions.with(context)
-                        .permission(Permission.READ_MEDIA_IMAGES)
+                        .permission(PermissionLists.getReadMediaImagesPermission())
                         .request(new OnPermissionCallback() {
                             @Override
-                            public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+                            public void onGranted(@NonNull List<IPermission> permissions, boolean allGranted) {
                                 Toaster.show("图片访问权限申请成功");
                             }
 
                             @Override
-                            public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+                            public void onDenied(@NonNull List<IPermission> permissions, boolean doNotAskAgain) {
                                 Toaster.show("图片访问权限申请失败");
                             }
                         });
@@ -122,6 +123,7 @@ public class SettingsView extends BaseView {
         SwitchCompat isHideWindowWhenCopying = view.findViewById(R.id.cb_is_hide_window_when_copying);
         SwitchCompat isSavingWhenPausing = view.findViewById(R.id.cb_is_saving_when_pausing);
         SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
+        SwitchCompat isShowErrorReason = view.findViewById(R.id.cb_is_show_error_reason);
         SwitchCompat isSyntaxHighlight = view.findViewById(R.id.cb_is_syntax_highlight);
         List<String> showStrings = List.of(
                 "正式版-原版-" + Settings.versionReleaseVanilla,
@@ -160,6 +162,8 @@ public class SettingsView extends BaseView {
         isSavingWhenPausing.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isSavingWhenPausing = isChecked);
         isCrowed.setChecked(Settings.INSTANCE.isCrowed);
         isCrowed.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isCrowed = isChecked);
+        isShowErrorReason.setChecked(Settings.INSTANCE.isShowErrorReason);
+        isShowErrorReason.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isShowErrorReason = isChecked);
         isSyntaxHighlight.setChecked(Settings.INSTANCE.isSyntaxHighlight);
         isSyntaxHighlight.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isSyntaxHighlight = isChecked);
     }

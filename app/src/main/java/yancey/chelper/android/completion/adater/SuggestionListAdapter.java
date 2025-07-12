@@ -97,7 +97,7 @@ public class SuggestionListAdapter extends RecyclerView.Adapter<SuggestionListAd
             holder.itemView.setOnClickListener(null);
         } else {
             if (holder.mTv_commandDescription == null) {
-                holder.mTv_commandName.setText(data.name + " - " + data.description);
+                holder.mTv_commandName.setText(data.description != null ? data.name + " - " + data.description : data.name);
             } else {
                 holder.mTv_commandName.setText(data.name);
                 holder.mTv_commandDescription.setText(data.description);
