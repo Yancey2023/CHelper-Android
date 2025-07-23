@@ -62,6 +62,8 @@ public class CommandEditText extends AppCompatEditText {
     private ErrorReason[] errorReasons;
     @Nullable
     private Theme theme;
+    private Paint errorReasonPaint;
+    private int errorReasonOffsetY;
 
     public CommandEditText(Context context) {
         super(context);
@@ -80,6 +82,14 @@ public class CommandEditText extends AppCompatEditText {
 
     public void init() {
         history[0] = new SelectedString("", 0);
+        errorReasonPaint = new Paint();
+        errorReasonPaint.setColor(Color.RED);
+        errorReasonPaint.setStrokeWidth(2);
+        errorReasonOffsetY = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                10,
+                getResources().getDisplayMetrics()
+        );
     }
 
     public void setListener(@Nullable Consumer<String> onTextChanged, @Nullable Runnable onSelectionChanged, @NonNull BooleanSupplier isGuiLoaded) {
@@ -224,9 +234,6 @@ public class CommandEditText extends AppCompatEditText {
         int lastColor = theme.getColorByToken(tokens[0], normalColor);
         for (int i = 1; i < tokens.length; i++) {
             int color = theme.getColorByToken(tokens[i], normalColor);
-            if (color == 0) {
-                color = normalColor;
-            }
             if (color != lastColor) {
                 spannableStringBuilder.setSpan(new ForegroundColorSpan(lastColor), lastIndex, i, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 lastIndex = i;
@@ -257,16 +264,6 @@ public class CommandEditText extends AppCompatEditText {
 
         // 绘制命令错误位置的下划线
         if (errorReasons != null) {
-            Paint paint = new Paint();
-            paint.setColor(Color.RED);
-            paint.setStrokeWidth(2);
-
-            int offsetY = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_SP,
-                    10,
-                    getResources().getDisplayMetrics()
-            );
-
             Layout layout = getLayout();
             int length = Objects.requireNonNull(getText()).length();
             for (ErrorReason errorReason : errorReasons) {
@@ -287,17 +284,17 @@ public class CommandEditText extends AppCompatEditText {
                 int lineEnd = layout.getLineForOffset(end);
 
                 if (lineStart == lineEnd) {
-                    float y = layout.getLineBottom(lineStart) + offsetY;
-                    canvas.drawLine(layout.getPrimaryHorizontal(start), y, layout.getSecondaryHorizontal(end), y, paint);
+                    float y = layout.getLineBottom(lineStart) + errorReasonOffsetY;
+                    canvas.drawLine(layout.getPrimaryHorizontal(start), y, layout.getSecondaryHorizontal(end), y, errorReasonPaint);
                 } else {
-                    float firstLineY = layout.getLineBottom(lineStart) + offsetY;
-                    canvas.drawLine(layout.getPrimaryHorizontal(start), firstLineY, layout.getLineEnd(lineStart), firstLineY, paint);
+                    float firstLineY = layout.getLineBottom(lineStart) + errorReasonOffsetY;
+                    canvas.drawLine(layout.getPrimaryHorizontal(start), firstLineY, layout.getLineEnd(lineStart), firstLineY, errorReasonPaint);
                     for (int i = lineStart + 1; i < lineEnd - 1; i++) {
-                        float y = layout.getLineBottom(i) + offsetY;
-                        canvas.drawLine(layout.getLineStart(i), y, layout.getLineEnd(i), y, paint);
+                        float y = layout.getLineBottom(i) + errorReasonOffsetY;
+                        canvas.drawLine(layout.getLineStart(i), y, layout.getLineEnd(i), y, errorReasonPaint);
                     }
-                    float lastLineY = layout.getLineBottom(lineEnd) + offsetY;
-                    canvas.drawLine(layout.getLineStart(lineEnd), lastLineY, layout.getSecondaryHorizontal(end), lastLineY, paint);
+                    float lastLineY = layout.getLineBottom(lineEnd) + errorReasonOffsetY;
+                    canvas.drawLine(layout.getLineStart(lineEnd), lastLineY, layout.getSecondaryHorizontal(end), lastLineY, errorReasonPaint);
                 }
             }
         }

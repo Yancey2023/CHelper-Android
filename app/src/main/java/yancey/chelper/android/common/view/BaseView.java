@@ -65,7 +65,6 @@ public abstract class BaseView extends FWSView {
      */
     public void onPause() {
         super.onPause();
-        // 友盟统计页面关闭
         MonitorUtil.onPageEnd(gePageName());
     }
 
@@ -74,7 +73,6 @@ public abstract class BaseView extends FWSView {
      */
     public void onResume() {
         super.onResume();
-        // 友盟统计页面启动
         MonitorUtil.onPageStart(gePageName());
         // 支持自定义背景
         View mainView = view.findViewById(R.id.main);
