@@ -19,9 +19,17 @@
 package yancey.chelper.android.common.view;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -32,10 +40,17 @@ import com.hjq.permissions.permission.PermissionLists;
 import com.hjq.permissions.permission.base.IPermission;
 import com.hjq.toast.Toaster;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.ChoosingDialog;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
@@ -49,7 +64,12 @@ import yancey.chelper.android.common.util.Settings;
 @SuppressLint("ViewConstructor")
 public class SettingsView extends BaseView {
 
-    public SettingsView(@NonNull FWSContext fwsContext, @Nullable Runnable backgroundPicker) {
+    private Disposable setBackGroundDrawable;
+
+    public SettingsView(
+            @NonNull FWSContext fwsContext,
+            @Nullable BiFunction<ActivityResultContracts.PickVisualMedia, ActivityResultCallback<Uri>, ActivityResultLauncher<PickVisualMediaRequest>> registerForActivityResult
+    ) {
         super(fwsContext, R.layout.layout_settings);
         // 页面顶部逻辑
         findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
@@ -58,6 +78,48 @@ public class SettingsView extends BaseView {
         isEnableUpdateNotification.setChecked(Settings.INSTANCE.isEnableUpdateNotifications);
         isEnableUpdateNotification.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isEnableUpdateNotifications = isChecked);
         // 自定义UI设置
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(false) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!setBackGroundDrawable.isDisposed()) {
+                    new IsConfirmDialog(context)
+                            .message("背景图片正在保存中，请稍候")
+                            .show();
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
+        ActivityResultLauncher<PickVisualMediaRequest> photoPicker = registerForActivityResult == null ? null :
+                registerForActivityResult.apply(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (setBackGroundDrawable != null) {
+                        setBackGroundDrawable.dispose();
+                    }
+                    if (uri == null) {
+                        return;
+                    }
+                    setBackGroundDrawable = Observable
+                            .<Bitmap>create(emitter -> {
+                                Bitmap bitmap;
+                                try (InputStream inputStream = new BufferedInputStream(context.getContentResolver().openInputStream(uri))) {
+                                    bitmap = BitmapFactory.decodeStream(inputStream);
+                                }
+                                CustomTheme.INSTANCE.setBackGroundDrawableWithoutSave(bitmap);
+                                emitter.onNext(bitmap);
+                                CustomTheme.INSTANCE.setBackGroundDrawable(bitmap);
+                                emitter.onComplete();
+                            }).subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doFinally(() -> onBackPressedCallback.setEnabled(false))
+                            .subscribe(
+                                    bitmap -> CustomTheme.INSTANCE.invokeBackgroundForce(findViewById(R.id.main)),
+                                    throwable -> Toaster.show(throwable.getMessage())
+                            );
+                    onBackPressedCallback.setEnabled(true);
+                });
+        Runnable backgroundPicker = photoPicker == null ? null :
+                () -> photoPicker.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
         RelativeLayout btn_chooseBackground = view.findViewById(R.id.btn_choose_background);
         btn_chooseBackground.setOnClickListener(v -> {
             if (getEnvironment() != Environment.APPLICATION) {
@@ -180,4 +242,11 @@ public class SettingsView extends BaseView {
         Settings.INSTANCE.save();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (setBackGroundDrawable != null) {
+            setBackGroundDrawable.dispose();
+        }
+    }
 }

@@ -16,8 +16,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 36
-        versionCode = 70
-        versionName = "0.3.11-beta"
+        versionCode = 71
+        versionName = "0.3.12-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -59,7 +59,7 @@ android {
         viewBinding = true
     }
 
-    ndkVersion = "28.1.13356709"
+    ndkVersion = "28.2.13676358"
 
     kotlin {
         compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
@@ -126,9 +126,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
     // https://github.com/getActivity/XXPermissions
-    implementation("com.github.getActivity:XXPermissions:25.0")
+    implementation("com.github.getActivity:XXPermissions:25.2")
     // https://github.com/getActivity/Toaster
-    implementation("com.github.getActivity:Toaster:13.0")
+    implementation("com.github.getActivity:Toaster:13.2")
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:13.0")
     // https://www.umeng.com
