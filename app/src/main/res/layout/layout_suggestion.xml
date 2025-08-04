@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sample_context"
         android:textColor="@color/text_main"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical" />
 
     <TextView
         android:id="@+id/command_list_tv_command_description"
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:text="@string/sample_description"
         android:textColor="@color/text_secondary"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical" />
 
 </LinearLayout>
