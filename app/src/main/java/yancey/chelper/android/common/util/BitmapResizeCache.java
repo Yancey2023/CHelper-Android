@@ -22,6 +22,8 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
 import androidx.annotation.Nullable;
+import androidx.compose.ui.graphics.AndroidImageBitmap;
+import androidx.compose.ui.graphics.ImageBitmap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +113,10 @@ public class BitmapResizeCache {
         } finally {
             lock.unlock();
         }
+    }
+
+    public @Nullable ImageBitmap getImageBitmap() {
+        return sourceBitmap == null ? null : new AndroidImageBitmap(sourceBitmap);
     }
 
 }

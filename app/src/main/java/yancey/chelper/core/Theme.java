@@ -18,8 +18,6 @@
 
 package yancey.chelper.core;
 
-import java.lang.annotation.Native;
-
 /**
  * 与c++交互时使用的语法高亮主题
  */
@@ -28,33 +26,19 @@ public class Theme {
     public static Theme THEME_DAY = new Theme();
     public static Theme THEME_NIGHT = new Theme();
 
-    @Native
     public int colorBoolean;
-    @Native
     public int colorFloat;
-    @Native
     public int colorInteger;
-    @Native
     public int colorSymbol;
-    @Native
     public int colorId;
-    @Native
     public int colorTargetSelector;
-    @Native
     public int colorCommand;
-    @Native
     public int colorBrackets1;
-    @Native
     public int colorBrackets2;
-    @Native
     public int colorBrackets3;
-    @Native
     public int colorString;
-    @Native
     public int colorNull;
-    @Native
     public int colorRange;
-    @Native
     public int colorLiteral;
 
     static {

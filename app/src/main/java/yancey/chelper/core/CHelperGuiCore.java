@@ -116,7 +116,7 @@ public class CHelperGuiCore implements Closeable {
             if (commandGuiCoreInterface.isUpdateStructure()) {
                 commandGuiCoreInterface.updateStructure(core.getStructure());
             }
-            // 更新错误原因图
+            // 更新错误原因
             if (commandGuiCoreInterface.isUpdateErrorReason()) {
                 commandGuiCoreInterface.updateErrorReason(core.getErrorReasons());
             }

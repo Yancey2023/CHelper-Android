@@ -15,6 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
- #parse("File Header.java")
-#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+package yancey.chelper.ui.settings
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+
+class SettingsViewModel : ViewModel() {
+    var isEnableUpdateNotifications by mutableStateOf(false)
+    var isCheckingBySelection by mutableStateOf(false)
+    var isHideWindowWhenCopying by mutableStateOf(false)
+    var isSavingWhenPausing by mutableStateOf(false)
+    var isCrowed by mutableStateOf(false)
+    var isShowErrorReason by mutableStateOf(false)
+    var isSyntaxHighlight by mutableStateOf(false)
+    var currentCpackBranchTranslation by mutableStateOf("")
+}

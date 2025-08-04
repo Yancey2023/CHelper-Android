@@ -55,7 +55,7 @@ public class CustomTheme {
     @NonNull
     private final File file;
     @NotNull
-    private final BitmapResizeCache backgroundBitmap = new BitmapResizeCache();
+    public final BitmapResizeCache backgroundBitmap = new BitmapResizeCache();
 
     public CustomTheme(@NonNull File file) {
         this.file = file;

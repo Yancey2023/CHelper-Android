@@ -31,8 +31,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
 import yancey.chelper.R;
 
 /**
@@ -43,13 +41,13 @@ public class ChoosingDialog extends FixedDialog {
     /**
      * 可选择的内容
      */
-    private final List<String> strings;
+    private final String[] strings;
     /**
      * 选择了内容之后要执行的事件
      */
     private final OnChooseListener onChooseListener;
 
-    public ChoosingDialog(@NonNull Context context, List<String> strings, OnChooseListener onChooseListener) {
+    public ChoosingDialog(@NonNull Context context, String[] strings, OnChooseListener onChooseListener) {
         super(context);
         this.strings = strings;
         this.onChooseListener = onChooseListener;
@@ -70,7 +68,7 @@ public class ChoosingDialog extends FixedDialog {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dp50 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, displayMetrics);
         float sp20 = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, displayMetrics);
-        for (int i = 0; i < strings.size(); i++) {
+        for (int i = 0; i < strings.length; i++) {
             TextView textView = getTextView(context, i, dp50, sp20);
             linearLayout.addView(textView);
         }
@@ -84,7 +82,7 @@ public class ChoosingDialog extends FixedDialog {
         textView.setLayoutParams(marginLayoutParams);
         textView.setGravity(Gravity.CENTER);
         textView.setBackgroundResource(R.drawable.bg_ripple);
-        textView.setText(strings.get(i));
+        textView.setText(strings[i]);
         textView.setTextColor(getContext().getColor(R.color.text_main));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         textView.setOnClickListener(view -> {

@@ -15,10 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
- #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};
 
-#end
-#parse("File Header.java")
-public @interface ${NAME} {
+package yancey.chelper.ui.completion
+
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import yancey.chelper.core.ErrorReason
+
+class CompletionViewModel : ViewModel() {
+    var isShowMenu by mutableStateOf(false)
+    var command by mutableStateOf(TextFieldState())
+    var structure by mutableStateOf<String?>(null)
+    var paramHint by mutableStateOf<String?>(null)
+    var errorReasons by mutableStateOf<Array<ErrorReason?>?>(null)
+    var suggestionsSize by mutableIntStateOf(0)
+    var syntaxHighlightTokens by mutableStateOf<IntArray?>(null)
 }

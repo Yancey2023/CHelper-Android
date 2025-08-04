@@ -98,8 +98,8 @@ public class Settings {
     public static String versionNeteaseVanilla;
     public static String versionNeteaseExperiment;
 
-    public void setCpackPath(String cpackPath) {
-        this.cpackPath = cpackPath;
+    public void setCpackBranch(String cpackBranch) {
+        this.cpackPath = cpackBranch;
     }
 
     public String getCpackPath() {

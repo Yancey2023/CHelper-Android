@@ -15,6 +15,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
- #parse("File Header.java")
-#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+package yancey.chelper.ui.enumeration
+
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+
+class DataVariable {
+    var name by mutableStateOf(TextFieldState())
+    var start by mutableStateOf(TextFieldState())
+    var interval by mutableStateOf(TextFieldState())
+}
+
+class EnumerationViewModel : ViewModel() {
+    var expression by mutableStateOf(TextFieldState())
+    var times by mutableStateOf(TextFieldState())
+    var variableList = mutableStateListOf<DataVariable>()
+}

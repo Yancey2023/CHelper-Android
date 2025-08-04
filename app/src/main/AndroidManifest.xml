@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
@@ -22,7 +24,8 @@
 
         <activity
             android:name=".android.home.activity.HomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,8 +34,10 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="um.6836aa2bbc47b67d8374e464" />
             </intent-filter>
 
@@ -40,47 +45,53 @@
 
         <activity
             android:name=".android.about.activity.ShowTextActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.about.activity.AboutActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.enumeration.activity.EnumerationActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.common.activity.SettingsActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".android.favorites.activity.FavoritesActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.old2new.activity.Old2NewActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.old2new.activity.Old2NewIMEGuideActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.rawtext.activity.RawtextActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.completion.activity.CompletionActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.library.activity.LocalLibraryListActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".android.library.activity.PublicLibraryListActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".android.old2new.service.Old2NewIMEService"
