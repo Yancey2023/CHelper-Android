@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:minHeight="50dp"
-        android:background="@color/background_component">
+        android:background="@color/background_component"
+        android:minHeight="50dp">
 
         <View
             android:id="@+id/back"
@@ -28,40 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/tv_like_count"
             android:layout_toEndOf="@id/back"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="2"
-            android:text="@string/tv_command_name"
+            android:text="@string/history"
             android:textColor="@color/text_main"
             android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_like_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btn_like"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="2"
-            android:text="@string/like_count_sample"
-            android:textColor="@color/red"
-            android:textSize="16sp"
-            tools:ignore="RelativeOverlap" />
-
-        <View
-            android:id="@+id/btn_like"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/heart"
-            android:contentDescription="@string/like"
-            android:scaleType="fitXY" />
 
     </RelativeLayout>
 
@@ -77,6 +50,6 @@
         android:background="@drawable/bg_corner_10dp"
         android:scrollbars="vertical"
         tools:itemCount="10"
-        tools:listitem="@layout/layout_library_show_item" />
+        tools:listitem="@layout/layout_history_item" />
 
 </RelativeLayout>

@@ -80,9 +80,9 @@ public class LocalLibraryListView extends BaseView {
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         adapter = new LocalLibraryListAdapter(
                 context,
-                libraryFunction -> openView(customContext1 ->
-                        new LocalLibraryShowView(customContext1, libraryFunction)),
-                getEnvironment() == Environment.FLOATING_WINDOW ? null : libraryFunction -> openView(customContext1 -> new LocalLibraryEditView(customContext1, new OnEditListener() {
+                libraryFunction -> openView(context ->
+                        new LocalLibraryShowView(context, libraryFunction)),
+                getEnvironment() == Environment.FLOATING_WINDOW ? null : libraryFunction -> openView(context -> new LocalLibraryEditView(context, new OnEditListener() {
                     @Override
                     public void onCreate(@NonNull LibraryFunction libraryFunction) {
                         throw new RuntimeException("it is impossible to call onCreate() when edit");
@@ -133,8 +133,8 @@ public class LocalLibraryListView extends BaseView {
         if (getEnvironment() == Environment.APPLICATION) {
             btn_upload.setBackgroundResource(R.drawable.plus);
             btn_upload.setContentDescription(getContext().getString(R.string.library_add));
-            btn_upload.setOnClickListener(v -> openView(customContext1 ->
-                    new LocalLibraryEditView(customContext1, new OnEditListener() {
+            btn_upload.setOnClickListener(v -> openView(context ->
+                    new LocalLibraryEditView(context, new OnEditListener() {
                         @Override
                         public void onCreate(@NonNull LibraryFunction libraryFunction) {
                             libraryFunctions.add(libraryFunction);

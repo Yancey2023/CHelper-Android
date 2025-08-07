@@ -18,6 +18,7 @@
 
 package yancey.chelper.core;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface CommandGuiCoreInterface {
@@ -70,16 +71,16 @@ public interface CommandGuiCoreInterface {
     /**
      * 获取输入框文字
      */
-    SelectedString getSelectedString();
+    @NotNull SelectedString getSelectedString();
 
     /**
      * 设置输入框文字
      */
-    void setSelectedString(SelectedString selectedString);
+    void setSelectedString(@NotNull SelectedString selectedString);
 
     /**
      * 更新语法高亮
      */
-    void updateSyntaxHighlight(int[] tokens);
+    void updateSyntaxHighlight(@Nullable int[] tokens);
 
 }
