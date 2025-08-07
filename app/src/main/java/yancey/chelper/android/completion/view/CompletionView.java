@@ -47,6 +47,7 @@ import java.util.Objects;
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.ClipboardUtil;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.util.HistoryManager;
 import yancey.chelper.android.common.util.MonitorUtil;
 import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.common.view.BaseView;
@@ -70,6 +71,7 @@ public class CompletionView extends BaseView {
     private boolean isShowActions = false;
     public boolean isGuiLoaded;
     private final CHelperGuiCore core;
+    private final HistoryManager historyManager;
 
     public CompletionView(
             @NonNull FWSContext fwsContext,
@@ -77,6 +79,7 @@ public class CompletionView extends BaseView {
             @Nullable Runnable hideView
     ) {
         super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
+        historyManager = new HistoryManager(FileUtil.getFile(getContext().getDataDir(), "history.txt"));
         boolean isCrowed = Settings.INSTANCE.isCrowed;
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
@@ -166,13 +169,14 @@ public class CompletionView extends BaseView {
                 adapter.notifyDataSetChanged();
             }
 
+            @NonNull
             @Override
             public SelectedString getSelectedString() {
                 return commandEditText.getSelectedString();
             }
 
             @Override
-            public void setSelectedString(SelectedString selectedString) {
+            public void setSelectedString(@NonNull SelectedString selectedString) {
                 commandEditText.setSelectedString(selectedString);
             }
 
@@ -187,7 +191,12 @@ public class CompletionView extends BaseView {
             updateActions();
         });
         view.findViewById(R.id.btn_copy).setOnClickListener(v -> {
-            if (ClipboardUtil.setText(getContext(), commandEditText.getText())) {
+            Editable text = commandEditText.getText();
+            if (text == null) {
+                return;
+            }
+            historyManager.add(text.toString());
+            if (ClipboardUtil.setText(getContext(), text)) {
                 Toaster.show("已复制");
                 if (hideView != null && Settings.INSTANCE.isHideWindowWhenCopying) {
                     hideView.run();
@@ -199,6 +208,7 @@ public class CompletionView extends BaseView {
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
         view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
+        view.findViewById(R.id.btn_history).setOnClickListener(v -> openView(context -> new HistoryView(context, historyManager)));
         view.findViewById(R.id.btn_local_library).setOnClickListener(v -> openView(LocalLibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
         // 加载上次的输入内容
@@ -243,6 +253,7 @@ public class CompletionView extends BaseView {
     public void onPause() {
         super.onPause();
         isGuiLoaded = false;
+        historyManager.save();
         // 保存上次的输入内容
         File file = FileUtil.getFile(getContext().getFilesDir().getAbsolutePath(), "cache", "lastInput.dat");
         if (!FileUtil.createParentFile(file)) {

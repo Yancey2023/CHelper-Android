@@ -111,6 +111,8 @@ public class CHelperGuiCore implements Closeable {
             // 更新颜色
             if (commandGuiCoreInterface.isSyntaxHighlight()) {
                 commandGuiCoreInterface.updateSyntaxHighlight(core.getSyntaxToken());
+            } else {
+                commandGuiCoreInterface.updateSyntaxHighlight(null);
             }
             // 更新命令语法结构
             if (commandGuiCoreInterface.isUpdateStructure()) {

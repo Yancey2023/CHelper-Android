@@ -154,4 +154,5 @@
     <string name="login_successfully">登录成功</string>
     <string name="hide_password">显示/隐藏密码</string>
     <string name="clear_text_name">清除名字</string>
+    <string name="history">历史</string>
 </resources>

@@ -83,7 +83,7 @@ public class PublicLibraryEditView extends BaseView {
         btn_preview.setOnClickListener(view1 -> {
             LibraryFunction after = getLibrary();
             if (after != null) {
-                openView(customContext1 -> new PublicLibraryShowView(customContext1, after));
+                openView(context -> new PublicLibraryShowView(context, after));
             }
         });
         if (before == null) {

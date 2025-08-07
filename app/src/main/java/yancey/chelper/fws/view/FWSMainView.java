@@ -69,8 +69,8 @@ public class FWSMainView<T extends FWSView> extends FrameLayout {
         ((InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getWindowToken(), 0);
         addView(view);
-        if (childCount >= 2) {
-            getChildAt(childCount - 2).onPause();
+        if (childCount >= 1) {
+            getChildAt(childCount - 1).onPause();
             view.onResume();
         }
         if (childCount > 0) {

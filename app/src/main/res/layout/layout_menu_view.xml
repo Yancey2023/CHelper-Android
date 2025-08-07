@@ -18,8 +18,8 @@
 
             <View
                 android:id="@+id/btn_undo"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/arrow_back_up"
                 android:contentDescription="@string/tv_undo" />
@@ -42,8 +42,8 @@
 
             <View
                 android:id="@+id/btn_redo"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/arrow_forward_up"
                 android:contentDescription="@string/tv_redo" />
@@ -66,8 +66,8 @@
 
             <View
                 android:id="@+id/btn_delete"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/x"
                 android:contentDescription="@string/tv_delete" />
@@ -89,9 +89,33 @@
             android:orientation="vertical">
 
             <View
+                android:id="@+id/btn_history"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/history"
+                android:contentDescription="@string/history" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/history"
+                android:textColor="@color/text_main"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <View
                 android:id="@+id/btn_local_library"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/box"
                 android:contentDescription="@string/library" />
@@ -114,8 +138,8 @@
 
             <View
                 android:id="@+id/btn_shut_down"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/power"
                 android:contentDescription="@string/tv_delete" />

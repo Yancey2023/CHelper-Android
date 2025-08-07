@@ -133,9 +133,7 @@ public class CommandEditText extends AppCompatEditText {
             // 如果还可以记录，就把后面的记录全部设置为空
             which++;
             if (which != history.length - 1) {
-                for (int i = which + 1; i < history.length; i++) {
-                    history[i] = null;
-                }
+                history[which + 1] = null;
             }
         }
         // 记录当前内容
@@ -210,10 +208,7 @@ public class CommandEditText extends AppCompatEditText {
      *
      * @param tokens 每个字符的类型
      */
-    public void setColors(int[] tokens) {
-        if (theme == null || tokens.length == 0) {
-            return;
-        }
+    public void setColors(@Nullable int[] tokens) {
         Editable text = this.getText();
         if (text == null) {
             return;
@@ -221,14 +216,20 @@ public class CommandEditText extends AppCompatEditText {
         boolean isSpannableStringBuilder;
         SpannableStringBuilder spannableStringBuilder;
         if (text instanceof SpannableStringBuilder spannableStringBuilder0) {
+            Arrays.stream(spannableStringBuilder0.getSpans(0, spannableStringBuilder0.length(), ForegroundColorSpan.class))
+                    .forEach(spannableStringBuilder0::removeSpan);
+            if (theme == null || tokens == null || tokens.length == 0) {
+                return;
+            }
             isSpannableStringBuilder = true;
             spannableStringBuilder = spannableStringBuilder0;
         } else {
+            if (theme == null || tokens == null || tokens.length == 0) {
+                return;
+            }
             isSpannableStringBuilder = false;
             spannableStringBuilder = new SpannableStringBuilder(text);
         }
-        Arrays.stream(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), ForegroundColorSpan.class))
-                .forEach(spannableStringBuilder::removeSpan);
         int normalColor = getContext().getColor(R.color.text_main);
         int lastIndex = 0;
         int lastColor = theme.getColorByToken(tokens[0], normalColor);

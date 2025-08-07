@@ -82,8 +82,8 @@ public class PublicLibraryListView extends BaseView {
         adapter = new PublicLibraryListAdapter(
                 context,
                 doLike,
-                libraryFunction -> openView(customContext1 ->
-                        new PublicLibraryShowView(customContext1, libraryFunction)));
+                libraryFunction -> openView(context ->
+                        new PublicLibraryShowView(context, libraryFunction)));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);
         if (getEnvironment() == Environment.APPLICATION) {
@@ -107,8 +107,8 @@ public class PublicLibraryListView extends BaseView {
                                         Toaster.show("命令库寻找失败");
                                         return;
                                     }
-                                    openView(customContext1 ->
-                                            new PublicLibraryEditView(customContext1, authKey, new OnEditListener() {
+                                    openView(context ->
+                                            new PublicLibraryEditView(context, authKey, new OnEditListener() {
                                                 @Override
                                                 public void onCreate(@NonNull LibraryFunction libraryFunction) {
                                                     throw new RuntimeException("it is impossible to call onCreate() when edit");
@@ -129,8 +129,8 @@ public class PublicLibraryListView extends BaseView {
                     .show());
             btn_upload.setBackgroundResource(R.drawable.upload);
             btn_upload.setContentDescription(getContext().getString(R.string.library_upload));
-            btn_upload.setOnClickListener(v -> openView(customContext1 ->
-                    new PublicLibraryEditView(customContext1, null, new OnEditListener() {
+            btn_upload.setOnClickListener(v -> openView(context ->
+                    new PublicLibraryEditView(context, null, new OnEditListener() {
                         @Override
                         public void onCreate(@NonNull LibraryFunction libraryFunction) {
                             isDirty = true;
