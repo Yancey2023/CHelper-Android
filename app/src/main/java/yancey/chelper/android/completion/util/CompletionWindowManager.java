@@ -31,21 +31,18 @@ import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.permissions.permission.PermissionLists;
-import com.hjq.permissions.permission.base.IPermission;
+import com.hjq.permissions.tools.PhoneRomUtils;
 import com.hjq.toast.Toaster;
 import com.hjq.window.EasyWindow;
 import com.hjq.window.draggable.MovingWindowDraggableRule;
 
 import java.io.File;
-import java.util.List;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.util.FileUtil;
-import yancey.chelper.android.common.util.RomUtils;
 import yancey.chelper.android.completion.view.CompletionView;
 import yancey.chelper.fws.view.FWSMainView;
 import yancey.chelper.fws.view.FWSView;
@@ -60,13 +57,11 @@ public class CompletionWindowManager {
     private final @NonNull Application application;
     private final @NonNull File xiaomiClipboardPermissionTipsFile;
     private @Nullable EasyWindow<?> mainViewWindow, iconViewWindow;
-    private boolean isShowXiaomiClipboardPermissionTips;
-
+    private @Nullable Boolean isShowXiaomiClipboardPermissionTips;
 
     private CompletionWindowManager(@NonNull Application application, @NonNull File xiaomiClipboardPermissionTipsFile) {
         this.application = application;
         this.xiaomiClipboardPermissionTipsFile = xiaomiClipboardPermissionTipsFile;
-        this.isShowXiaomiClipboardPermissionTips = RomUtils.isXiaomi() && !xiaomiClipboardPermissionTipsFile.exists();
     }
 
     /**
@@ -93,6 +88,9 @@ public class CompletionWindowManager {
      */
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
     public void startFloatingWindow(Context context, int iconSize) {
+        if (isShowXiaomiClipboardPermissionTips == null) {
+            isShowXiaomiClipboardPermissionTips = !xiaomiClipboardPermissionTipsFile.exists() && (PhoneRomUtils.isHyperOs() || PhoneRomUtils.isMiui());
+        }
         startFloatingWindow(context, iconSize, isShowXiaomiClipboardPermissionTips);
     }
 
@@ -110,17 +108,14 @@ public class CompletionWindowManager {
                     .message("需要悬浮窗权限，请进入设置进行授权")
                     .onConfirm("打开设置", () -> XXPermissions.with(context)
                             .permission(PermissionLists.getSystemAlertWindowPermission())
-                            .request(new OnPermissionCallback() {
-                                @Override
-                                public void onGranted(@NonNull List<IPermission> permissions, boolean allGranted) {
+                            .request((grantedList, deniedList) -> {
+                                if (deniedList.isEmpty()) {
                                     Toaster.show("悬浮窗权限获取成功");
-                                }
-
-                                @Override
-                                public void onDenied(@NonNull List<IPermission> permissions, boolean doNotAskAgain) {
+                                } else {
                                     Toaster.show("悬浮窗权限获取失败");
                                 }
-                            })).show();
+                            }))
+                    .show();
             return;
         }
         if (isShowXiaomiClipboardPermissionTips) {

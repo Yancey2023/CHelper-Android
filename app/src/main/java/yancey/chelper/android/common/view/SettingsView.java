@@ -34,10 +34,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.permissions.permission.PermissionLists;
-import com.hjq.permissions.permission.base.IPermission;
 import com.hjq.toast.Toaster;
 
 import java.io.BufferedInputStream;
@@ -131,14 +129,10 @@ public class SettingsView extends BaseView {
             } else {
                 XXPermissions.with(context)
                         .permission(PermissionLists.getReadMediaImagesPermission())
-                        .request(new OnPermissionCallback() {
-                            @Override
-                            public void onGranted(@NonNull List<IPermission> permissions, boolean allGranted) {
+                        .request((grantedList, deniedList) -> {
+                            if (deniedList.isEmpty()) {
                                 Toaster.show("图片访问权限申请成功");
-                            }
-
-                            @Override
-                            public void onDenied(@NonNull List<IPermission> permissions, boolean doNotAskAgain) {
+                            } else {
                                 Toaster.show("图片访问权限申请失败");
                             }
                         });
