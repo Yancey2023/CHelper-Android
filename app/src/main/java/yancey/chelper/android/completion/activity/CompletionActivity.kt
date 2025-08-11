@@ -109,7 +109,7 @@ class CompletionActivity : BaseComposeActivity() {
                 viewModel.suggestionsSize = core.getSuggestionsSize()
             }
 
-            override fun getSelectedString(): SelectedString? {
+            override fun getSelectedString(): SelectedString {
                 val selectionStart =
                     min(viewModel.command.selection.start, viewModel.command.selection.end)
                 val selectionEnd =
@@ -121,12 +121,12 @@ class CompletionActivity : BaseComposeActivity() {
                 )
             }
 
-            override fun setSelectedString(selectedString: SelectedString?) {
+            override fun setSelectedString(selectedString: SelectedString) {
                 viewModel.command.edit {
-                    replace(0, length, selectedString?.text ?: "")
+                    replace(0, length, selectedString.text)
                     selection = TextRange(
-                        selectedString?.selectionStart ?: 0,
-                        selectedString?.selectionEnd ?: 0
+                        selectedString.selectionStart,
+                        selectedString.selectionEnd
                     )
                 }
             }

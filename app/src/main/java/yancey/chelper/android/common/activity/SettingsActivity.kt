@@ -29,10 +29,8 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 import androidx.activity.viewModels
 import androidx.compose.ui.graphics.asImageBitmap
-import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionLists
-import com.hjq.permissions.permission.base.IPermission
 import com.hjq.toast.Toaster
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -150,21 +148,13 @@ class SettingsActivity : BaseComposeActivity() {
         } else {
             XXPermissions.with(this)
                 .permission(PermissionLists.getReadMediaImagesPermission())
-                .request(object : OnPermissionCallback {
-                    override fun onGranted(
-                        permissions: MutableList<IPermission?>,
-                        allGranted: Boolean
-                    ) {
+                .request { grantedList, deniedList ->
+                    if (deniedList.isEmpty()) {
                         Toaster.show("图片访问权限申请成功")
-                    }
-
-                    override fun onDenied(
-                        permissions: MutableList<IPermission?>,
-                        doNotAskAgain: Boolean
-                    ) {
+                    } else {
                         Toaster.show("图片访问权限申请失败")
                     }
-                })
+                }
         }
     }
 
