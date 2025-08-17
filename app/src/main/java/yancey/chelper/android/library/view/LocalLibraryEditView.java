@@ -41,12 +41,12 @@ import yancey.chelper.network.library.data.LibraryFunction;
 @SuppressLint("ViewConstructor")
 public class LocalLibraryEditView extends BaseView {
 
-    private final EditText ed_name;
-    private final EditText ed_version;
-    private final EditText ed_author;
-    private final EditText ed_description;
-    private final EditText ed_tags;
-    private final EditText ed_commands;
+    private final EditText name;
+    private final EditText version;
+    private final EditText author;
+    private final EditText description;
+    private final EditText tags;
+    private final EditText commands;
 
     public LocalLibraryEditView(
             @NonNull FWSContext fwsContext,
@@ -57,12 +57,12 @@ public class LocalLibraryEditView extends BaseView {
         super(fwsContext, R.layout.layout_library_edit);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
-        ed_name = view.findViewById(R.id.name);
-        ed_version = view.findViewById(R.id.version);
-        ed_author = view.findViewById(R.id.author);
-        ed_description = view.findViewById(R.id.description);
-        ed_tags = view.findViewById(R.id.tags);
-        ed_commands = view.findViewById(R.id.commands);
+        name = view.findViewById(R.id.name);
+        version = view.findViewById(R.id.version);
+        author = view.findViewById(R.id.author);
+        description = view.findViewById(R.id.description);
+        tags = view.findViewById(R.id.tags);
+        commands = view.findViewById(R.id.commands);
         TextView btn_preview = view.findViewById(R.id.btn_preview);
         TextView btn_save = view.findViewById(R.id.btn_save);
         TextView btn_upload = view.findViewById(R.id.btn_upload);
@@ -75,15 +75,15 @@ public class LocalLibraryEditView extends BaseView {
             }
         });
         if (before == null) {
-            tv_title.setText(R.string.library_add);
+            tv_title.setText(R.string.layout_library_edit_title_add);
         } else {
-            tv_title.setText(R.string.library_edit);
-            ed_name.setText(before.name);
-            ed_version.setText(before.version);
-            ed_author.setText(before.author);
-            ed_description.setText(before.note);
-            ed_tags.setText(before.tags == null ? "" : String.join(",", before.tags));
-            ed_commands.setText(before.content);
+            tv_title.setText(R.string.layout_library_edit_title_edit);
+            name.setText(before.name);
+            version.setText(before.version);
+            author.setText(before.author);
+            description.setText(before.note);
+            tags.setText(before.tags == null ? "" : String.join(",", before.tags));
+            commands.setText(before.content);
         }
         btn_save.setOnClickListener(v -> {
             LibraryFunction after = getLibrary();
@@ -102,7 +102,7 @@ public class LocalLibraryEditView extends BaseView {
             btn_delete.setVisibility(View.GONE);
         } else {
             btn_delete.setOnClickListener(view2 -> new IsConfirmDialog(context, false)
-                    .title(context.getString(R.string.library_delete))
+                    .title(context.getString(R.string.layout_library_edit_delete))
                     .message("删除后将无法找回，是否确认删除？")
                     .onConfirm(() -> {
                         onEditListener.onDelete(position, before);
@@ -119,33 +119,33 @@ public class LocalLibraryEditView extends BaseView {
     @Nullable
     LibraryFunction getLibrary() {
         LibraryFunction library = new LibraryFunction();
-        library.name = ed_name.getText().toString();
+        library.name = name.getText().toString();
         if (library.name.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("名字未填写").show();
             return null;
         }
-        library.version = ed_version.getText().toString();
+        library.version = version.getText().toString();
         if (library.version.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("版本未填写").show();
             return null;
         }
-        library.author = ed_author.getText().toString();
+        library.author = author.getText().toString();
         if (library.author.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("作者未填写").show();
             return null;
         }
-        library.note = ed_description.getText().toString();
+        library.note = description.getText().toString();
         if (library.note.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("介绍未填写").show();
             return null;
         }
-        String tags = ed_tags.getText().toString();
-        if (tags.isEmpty()) {
+        String rawTags = tags.getText().toString();
+        if (rawTags.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("标签未填写").show();
             return null;
         }
-        library.tags = Arrays.stream(tags.split(",")).collect(Collectors.toList());
-        library.content = ed_commands.getText().toString();
+        library.tags = Arrays.stream(rawTags.split(",")).collect(Collectors.toList());
+        library.content = commands.getText().toString();
         if (library.content.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("命令未填写").show();
             return null;

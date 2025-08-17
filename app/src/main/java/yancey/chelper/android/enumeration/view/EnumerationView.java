@@ -56,14 +56,14 @@ public class EnumerationView extends BaseView {
     public EnumerationView(@NonNull FWSContext fwsContext) {
         super(fwsContext, R.layout.layout_enumeration);
         VariableListAdapter adapter = new VariableListAdapter(context, new ArrayList<>());
-        RecyclerView recyclerView = view.findViewById(R.id.rv_variable_list);
+        RecyclerView recyclerView = view.findViewById(R.id.variable_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
-        EditText mEd_input = view.findViewById(R.id.ed_input);
-        EditText mEd_times = view.findViewById(R.id.ed_times);
+        EditText mEd_input = view.findViewById(R.id.expression);
+        EditText mEd_times = view.findViewById(R.id.times);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-        view.findViewById(R.id.btn_add).setOnClickListener(v -> adapter.add(new DataVariable()));
-        view.findViewById(R.id.btn_run).setOnClickListener(v -> {
+        view.findViewById(R.id.add_variable).setOnClickListener(v -> adapter.add(new DataVariable()));
+        view.findViewById(R.id.run).setOnClickListener(v -> {
             Editable editable = Objects.requireNonNull(mEd_input.getText());
             String input = editable.toString();
             editable = Objects.requireNonNull(mEd_times.getText());

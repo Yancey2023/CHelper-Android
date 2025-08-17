@@ -16,8 +16,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 36
-        versionCode = 71
-        versionName = "0.3.12-beta"
+        versionCode = 72
+        versionName = "0.3.13-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -125,14 +125,16 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit")
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
+    // https://github.com/getActivity/DeviceCompat
+    implementation("com.github.getActivity:DeviceCompat:1.0")
     // https://github.com/getActivity/XXPermissions
-    implementation("com.github.getActivity:XXPermissions:26.0")
+    implementation("com.github.getActivity:XXPermissions:26.2")
     // https://github.com/getActivity/Toaster
     implementation("com.github.getActivity:Toaster:13.2")
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:13.0")
     // https://www.umeng.com
-    implementation("com.umeng.umsdk:common:9.8.7")
+    implementation("com.umeng.umsdk:common:9.8.8")
     implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
     implementation("com.umeng.umsdk:apm:2.0.4")

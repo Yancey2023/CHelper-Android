@@ -29,7 +29,7 @@ import yancey.chelper.fws.view.FWSView;
 
 /**
  * 使用单个View组成的界面
- * 悬浮窗只能使用单个View显示界面，所以为了方便在悬浮窗模式和应用模式共享界面代码，所以设计了CustomActivity
+ * 悬浮窗只能使用单个View显示界面，为了方便在悬浮窗模式和应用模式共享界面代码，所以设计了FWSActivity
  *
  * @param <T> View的内容
  */

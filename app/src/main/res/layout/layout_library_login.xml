@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     android:background="@color/background_component"
     android:scrollbars="vertical">
 
@@ -12,12 +12,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/login"
+            android:text="@string/layout_library_login_title"
             android:textColor="@color/text_main"
             android:textSize="30sp" />
 
@@ -28,27 +27,27 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp">
 
-            <ImageView
-                android:id="@+id/clear_btn_name"
+            <View
+                android:id="@+id/clear_email"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/clear_text_name"
+                android:background="@drawable/x"
+                android:contentDescription="@string/layout_library_login_icon_clear_email_content_description"
                 android:scaleType="fitXY"
-                android:src="@drawable/x"
                 android:visibility="gone" />
 
             <EditText
-                android:id="@+id/loginname"
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:layout_toStartOf="@id/clear_btn_name"
+                android:layout_toStartOf="@id/clear_email"
                 android:autofillHints="username"
                 android:gravity="center_vertical"
-                android:hint="@string/input_login_name"
+                android:hint="@string/layout_library_login_email_hint"
                 android:inputType="textEmailAddress"
                 android:padding="15dp"
                 android:textColor="@color/text_main"
@@ -64,15 +63,15 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp">
 
-            <ImageView
-                android:id="@+id/hide_btn"
+            <View
+                android:id="@+id/hide_password"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/hide_password"
+                android:background="@drawable/eye_off"
+                android:contentDescription="@string/layout_library_login_icon_hide_password_content_description"
                 android:scaleType="fitXY"
-                android:src="@drawable/eye_off"
                 android:visibility="gone" />
 
             <EditText
@@ -82,10 +81,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:layout_toStartOf="@id/hide_btn"
+                android:layout_toStartOf="@id/hide_password"
                 android:autofillHints="password"
                 android:gravity="center_vertical"
-                android:hint="@string/input_login_password"
+                android:hint="@string/layout_library_login_password_hint"
                 android:inputType="textPassword"
                 android:padding="15dp"
                 android:textColor="@color/text_main"
@@ -94,7 +93,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_message"
+            android:id="@+id/message"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
@@ -102,7 +101,7 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -110,7 +109,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_btn"
             android:gravity="center"
-            android:text="@string/login"
+            android:text="@string/layout_library_login_login"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 

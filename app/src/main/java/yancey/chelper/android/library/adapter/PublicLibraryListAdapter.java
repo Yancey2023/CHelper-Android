@@ -70,13 +70,13 @@ public class PublicLibraryListAdapter extends RecyclerView.Adapter<PublicLibrary
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         LibraryFunction libraryFunction = libraries.get(position);
         holder.mTv_name.setText(libraryFunction.name);
-        holder.mTv_author.setText(context.getString(R.string.library_author_formatter, libraryFunction.author));
+        holder.mTv_author.setText(context.getString(R.string.layout_library_list_library_author_formatter, libraryFunction.author));
         if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
             holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
         } else {
             holder.mBtn_like.setBackgroundResource(R.drawable.heart);
         }
-        holder.mBtn_like.setContentDescription(context.getString(R.string.like));
+        holder.mBtn_like.setContentDescription(context.getString(R.string.common_icon_like_content_description));
         if (libraryFunction.id != null) {
             holder.mBtn_like.setOnClickListener(v -> doLike(position));
         }
@@ -138,7 +138,7 @@ public class PublicLibraryListAdapter extends RecyclerView.Adapter<PublicLibrary
             mTv_name = itemView.findViewById(R.id.name);
             mTv_author = itemView.findViewById(R.id.author);
             mBtn_like = itemView.findViewById(R.id.btn_like);
-            mTv_likeCount = itemView.findViewById(R.id.tv_like_count);
+            mTv_likeCount = itemView.findViewById(R.id.like_count);
         }
     }
 }

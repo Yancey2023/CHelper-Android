@@ -71,12 +71,12 @@ public class PublicLibraryListView extends BaseView {
         View btn_upload = view.findViewById(R.id.btn_upload);
         View btn_export = view.findViewById(R.id.btn_export);
         View btn_import = view.findViewById(R.id.btn_import);
-        tv_title.setText(R.string.public_library);
+        tv_title.setText(R.string.layout_library_list_title_public);
         btn_export.setVisibility(View.GONE);
         btn_import.setVisibility(View.GONE);
         ed_search = view.findViewById(R.id.search);
         ed_search.addTextChangedListener(TextWatcherUtil.onTextChanged(this::update));
-        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        RecyclerView rv_favoriteList = view.findViewById(R.id.list_view);
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         doLike = new AtomicReference<>();
         adapter = new PublicLibraryListAdapter(
@@ -128,7 +128,7 @@ public class PublicLibraryListView extends BaseView {
                     })
                     .show());
             btn_upload.setBackgroundResource(R.drawable.upload);
-            btn_upload.setContentDescription(getContext().getString(R.string.library_upload));
+            btn_upload.setContentDescription(getContext().getString(R.string.layout_library_list_icon_upload_content_description));
             btn_upload.setOnClickListener(v -> openView(context ->
                     new PublicLibraryEditView(context, null, new OnEditListener() {
                         @Override

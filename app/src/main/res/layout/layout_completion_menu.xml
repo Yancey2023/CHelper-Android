@@ -11,144 +11,144 @@
         tools:ignore="UselessParent">
 
         <LinearLayout
+            android:id="@+id/btn_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="vertical">
 
             <View
-                android:id="@+id/btn_undo"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/arrow_back_up"
-                android:contentDescription="@string/tv_undo" />
+                android:contentDescription="@string/layout_completion_icon_undo_content_description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/tv_undo"
+                android:text="@string/layout_completion_undo"
                 android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_redo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="vertical">
 
             <View
-                android:id="@+id/btn_redo"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/arrow_forward_up"
-                android:contentDescription="@string/tv_redo" />
+                android:contentDescription="@string/layout_completion_icon_redo_content_description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/tv_redo"
+                android:text="@string/layout_completion_redo"
                 android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="vertical">
 
             <View
-                android:id="@+id/btn_delete"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/x"
-                android:contentDescription="@string/tv_delete" />
+                android:contentDescription="@string/layout_completion_icon_clear_content_description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/tv_delete"
+                android:text="@string/layout_completion_clear"
                 android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="vertical">
 
             <View
-                android:id="@+id/btn_history"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/history"
-                android:contentDescription="@string/history" />
+                android:contentDescription="@string/layout_completion_icon_history_content_description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/history"
+                android:text="@string/layout_completion_history"
                 android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_local_library"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="vertical">
 
             <View
-                android:id="@+id/btn_local_library"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/box"
-                android:contentDescription="@string/library" />
+                android:contentDescription="@string/layout_completion_icon_local_library_content_description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/library"
+                android:text="@string/layout_completion_local_library"
                 android:textColor="@color/text_main"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_shut_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="vertical">
 
             <View
-                android:id="@+id/btn_shut_down"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/power"
-                android:contentDescription="@string/tv_delete" />
+                android:contentDescription="@string/layout_completion_icon_shut_down_content_description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/tv_turn_off"
+                android:text="@string/layout_completion_shut_down"
                 android:textColor="@color/text_main"
                 android:textSize="14sp" />
 

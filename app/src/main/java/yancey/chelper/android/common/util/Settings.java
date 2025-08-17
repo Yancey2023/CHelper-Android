@@ -55,6 +55,10 @@ public class Settings {
      */
     public String themeId;
     /**
+     * 当前主题
+     */
+    public Float floatingWindowAlpha;
+    /**
      * 根据光标位置提供补全提示
      */
     public Boolean isCheckingBySelection;
@@ -152,6 +156,10 @@ public class Settings {
         }
         if (INSTANCE.themeId == null) {
             INSTANCE.themeId = "MODE_NIGHT_FOLLOW_SYSTEM";
+            isDirty = true;
+        }
+        if (INSTANCE.floatingWindowAlpha == null) {
+            INSTANCE.floatingWindowAlpha = 1.0f;
             isDirty = true;
         }
         if (INSTANCE.isCheckingBySelection == null) {

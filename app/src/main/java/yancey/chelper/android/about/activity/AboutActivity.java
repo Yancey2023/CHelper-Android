@@ -57,27 +57,31 @@ public class AboutActivity extends BaseActivity {
         ((TextView) findViewById(R.id.qq_group)).setText("766625597");
         findViewById(R.id.btn_bilibili).setOnClickListener(v ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://space.bilibili.com/470179011"))));
-        findViewById(R.id.btn_core_source_code).setOnClickListener(v ->
+        findViewById(R.id.btn_core_source).setOnClickListener(v ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Yancey2023/CHelper-Core"))));
-        findViewById(R.id.btn_app_source_code).setOnClickListener(v ->
+        findViewById(R.id.btn_app_source).setOnClickListener(v ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Yancey2023/CHelper-Android"))));
         findViewById(R.id.btn_release_note).setOnClickListener(v -> {
             Intent intent = new Intent(this, ShowTextActivity.class);
-            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.release_note));
+            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.layout_about_release_note));
             intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/release_note.txt"));
             startActivity(intent);
         });
-        findViewById(R.id.btn_newest_release_note).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.yanceymc.cn/blog/article/chelper-release-notes"))));
+        findViewById(R.id.btn_latest_release_note).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.yanceymc.cn/chelper_doc/chelper-release-notes"))));
+        findViewById(R.id.btn_issue).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.yanceymc.cn/gitea/Yancey/CHelper/issues"))));
+        findViewById(R.id.btn_donate).setOnClickListener(v ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.yanceymc.cn/chelper_doc/donate"))));
         findViewById(R.id.btn_privacy_policy).setOnClickListener(v -> {
             Intent intent = new Intent(this, ShowTextActivity.class);
-            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.privacy_policy));
+            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.layout_about_privacy_policy));
             intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/privacy_policy.txt"));
             startActivity(intent);
         });
         findViewById(R.id.btn_open_source_terms).setOnClickListener(v -> {
             Intent intent = new Intent(this, ShowTextActivity.class);
-            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.open_source_terms));
+            intent.putExtra(ShowTextActivity.TITLE, getString(R.string.layout_about_open_source_terms));
             intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(this, "about/open_source_terms.txt"));
             startActivity(intent);
         });

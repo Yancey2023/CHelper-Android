@@ -125,7 +125,7 @@ public class RawtextActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findViewById(R.id.back).setOnClickListener(v -> finish());
-        mEd_text = findViewById(R.id.ed_text);
+        mEd_text = findViewById(R.id.text);
         mTv_preview = findViewById(R.id.tv_preview);
         mGl_colorBoard = findViewById(R.id.color_board);
         mEd_text.addTextChangedListener(TextWatcherUtil.onTextChanged(s -> {
@@ -165,21 +165,18 @@ public class RawtextActivity extends BaseActivity {
         btn_change.setOnClickListener(v -> {
             isShowColorBoard = !isShowColorBoard;
             if (isShowColorBoard) {
-                btn_change.setText(R.string.preview);
+                btn_change.setText(R.string.layout_rawtext_preview);
                 btn_copy.setVisibility(View.GONE);
                 mTv_preview.setVisibility(View.GONE);
                 mGl_colorBoard.setVisibility(View.VISIBLE);
             } else {
-                btn_change.setText(R.string.color);
+                btn_change.setText(R.string.layout_rawtext_color);
                 mTv_preview.setText(getRawJson());
                 btn_copy.setVisibility(View.VISIBLE);
                 mTv_preview.setVisibility(View.VISIBLE);
                 mGl_colorBoard.setVisibility(View.GONE);
             }
         });
-//        findViewById(R.id.btn_insert).setOnClickListener(v -> {
-//            insertTargetSelector();
-//        });
     }
 
     private void setColor(int color) {
@@ -196,32 +193,6 @@ public class RawtextActivity extends BaseActivity {
         mEd_text.setText(spannableStringBuilder);
         mEd_text.setSelection(selectionStart, selectionEnd);
     }
-
-//    private void insertTargetSelector() {
-//        Editable editable = mEd_text.getText();
-//        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editable);
-//        int selectionStart = mEd_text.getSelectionStart();
-//        int selectionEnd = mEd_text.getSelectionEnd();
-//        Drawable drawable = Objects.requireNonNull(AppCompatResources.getDrawable(this, R.drawable.pack_icon));
-//        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-//        TargetSelectorSpan targetSelectorSpan = new TargetSelectorSpan(drawable, TargetSelectorSpan.ALIGN_BASELINE);
-//        spannableStringBuilder.setSpan(targetSelectorSpan, selectionStart, selectionEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//        mEd_text.setText(spannableStringBuilder);
-//        mEd_text.setSelection(selectionStart, selectionEnd);
-//    }
-
-//    private void insertScore() {
-//        Editable editable = mEd_text.getText();
-//        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editable);
-//        int selectionStart = mEd_text.getSelectionStart();
-//        int selectionEnd = mEd_text.getSelectionEnd();
-//        Drawable drawable = Objects.requireNonNull(AppCompatResources.getDrawable(this, R.drawable.pack_icon));
-//        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-//        ScoreSpan scoreSpan = new ScoreSpan(drawable, ScoreSpan.ALIGN_BASELINE);
-//        spannableStringBuilder.setSpan(scoreSpan, selectionStart, selectionEnd, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//        mEd_text.setText(spannableStringBuilder);
-//        mEd_text.setSelection(selectionStart, selectionEnd);
-//    }
 
     private String getRawJson() {
         // 获取文本

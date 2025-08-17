@@ -35,7 +35,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.BuildConfig;
 import yancey.chelper.R;
 import yancey.chelper.android.about.activity.AboutActivity;
-import yancey.chelper.android.about.activity.ShowTextActivity;
 import yancey.chelper.android.common.activity.BaseActivity;
 import yancey.chelper.android.common.activity.SettingsActivity;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
@@ -46,7 +45,6 @@ import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.completion.activity.CompletionActivity;
 import yancey.chelper.android.completion.util.CompletionWindowManager;
 import yancey.chelper.android.enumeration.activity.EnumerationActivity;
-import yancey.chelper.android.favorites.activity.FavoritesActivity;
 import yancey.chelper.android.library.activity.LocalLibraryListActivity;
 import yancey.chelper.android.old2new.activity.Old2NewActivity;
 import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity;
@@ -73,29 +71,28 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        findViewById(R.id.btn_start_suggestion_app).setOnClickListener(v -> {
+        findViewById(R.id.command_completion_floating_app_mode).setOnClickListener(v -> {
             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
                 Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式");
                 return;
             }
             startActivity(new Intent(this, CompletionActivity.class));
         });
-        findViewById(R.id.btn_start_enumeration_window).setOnClickListener(v -> {
+        findViewById(R.id.command_completion_floating_window_mode).setOnClickListener(v -> {
             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
                 CompletionWindowManager.INSTANCE.stopFloatingWindow();
             } else {
                 CompletionWindowManager.INSTANCE.startFloatingWindow(this, 40);
             }
         });
-        findViewById(R.id.btn_enumeration_settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
-        findViewById(R.id.btn_start_old2new_app).setOnClickListener(v -> startActivity(new Intent(this, Old2NewActivity.class)));
-        findViewById(R.id.btn_start_old2new_ime).setOnClickListener(v -> startActivity(new Intent(this, Old2NewIMEGuideActivity.class)));
-        findViewById(R.id.btn_local_library).setOnClickListener(v -> startActivity(new Intent(this, LocalLibraryListActivity.class)));
-//        findViewById(R.id.btn_public_library).setOnClickListener(v -> startActivity(new Intent(this, PublicLibraryListActivity.class)));
-        findViewById(R.id.btn_raw_json_studio).setOnClickListener(v -> startActivity(new Intent(this, RawtextActivity.class)));
-        findViewById(R.id.btn_enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
-        findViewById(R.id.btn_favorite).setOnClickListener(v -> startActivity(new Intent(this, FavoritesActivity.class)));
-        findViewById(R.id.btn_about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
+        findViewById(R.id.settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+        findViewById(R.id.old2new_app_mode).setOnClickListener(v -> startActivity(new Intent(this, Old2NewActivity.class)));
+        findViewById(R.id.old2new_ime_mode).setOnClickListener(v -> startActivity(new Intent(this, Old2NewIMEGuideActivity.class)));
+        findViewById(R.id.enumeration).setOnClickListener(v -> startActivity(new Intent(this, EnumerationActivity.class)));
+        findViewById(R.id.local_library).setOnClickListener(v -> startActivity(new Intent(this, LocalLibraryListActivity.class)));
+//        findViewById(R.id.public_library).setOnClickListener(v -> startActivity(new Intent(this, PublicLibraryListActivity.class)));
+        findViewById(R.id.raw_json_studio).setOnClickListener(v -> startActivity(new Intent(this, RawtextActivity.class)));
+        findViewById(R.id.about).setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
         if (PolicyGrantManager.INSTANCE.getState() == PolicyGrantManager.State.AGREE) {
             showAnnouncement();
         }
@@ -144,18 +141,18 @@ public class HomeActivity extends BaseActivity {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(versionInfo -> {
-                        if (Objects.equals(versionInfo.version, BuildConfig.VERSION_NAME)) {
+                        if (Objects.equals(versionInfo.version_name, BuildConfig.VERSION_NAME)) {
                             return;
                         }
                         File ignoreVersionFile = new File(getDataDir(), "ignore_version.txt");
                         String ignoreVersion = FileUtil.readString(ignoreVersionFile);
-                        if (Objects.equals(versionInfo.version, ignoreVersion)) {
+                        if (Objects.equals(versionInfo.version_name, ignoreVersion)) {
                             return;
                         }
                         new IsConfirmDialog(this, false)
                                 .title("更新提醒")
-                                .message(versionInfo.version + "版本已发布，欢迎下载体验。本次更新内容如下：\n" + versionInfo.changelog)
-                                .onCancel("忽略此版本", () -> FileUtil.writeString(ignoreVersionFile, versionInfo.version))
+                                .message(versionInfo.version_name + "版本已发布，欢迎下载体验。本次更新内容如下：\n" + versionInfo.changelog)
+                                .onCancel("忽略此版本", () -> FileUtil.writeString(ignoreVersionFile, versionInfo.version_name))
                                 .show();
                     }, Functions.emptyConsumer());
         }
@@ -168,23 +165,9 @@ public class HomeActivity extends BaseActivity {
         if (state == PolicyGrantManager.State.AGREE) {
             return;
         }
-        String message = null;
-        if (state == PolicyGrantManager.State.NOT_READ) {
-            message = "为保障您的权益，请阅读并同意《CHelper 隐私政策》，了解我们如何收集、使用您的信息。";
-        } else if (state == PolicyGrantManager.State.UPDATED) {
-            message = "我们更新了《CHelper 隐私政策》，请务必仔细阅读以清晰了解您的权利与数据处理规则变化。";
-        }
         new PolicyGrantDialog(this)
-                .message(message)
-                .onRead(() -> {
-                    Intent intent = new Intent(this, ShowTextActivity.class);
-                    intent.putExtra(ShowTextActivity.TITLE, this.getString(R.string.privacy_policy));
-                    intent.putExtra(ShowTextActivity.CONTENT, PolicyGrantManager.INSTANCE.getPrivatePolicy());
-                    startActivity(intent);
-                }).onConfirm(() -> {
-                    PolicyGrantManager.INSTANCE.agree();
-                    showAnnouncement();
-                })
+                .state(state)
+                .onConfirm(this::showAnnouncement)
                 .show();
     }
 

@@ -6,18 +6,18 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/command_list_tv_command_name"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sample_context"
+        android:text="@string/example_content"
         android:textColor="@color/text_main"
         android:gravity="center_vertical" />
 
     <TextView
-        android:id="@+id/command_list_tv_command_description"
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sample_description"
+        android:text="@string/example_description"
         android:textColor="@color/text_secondary"
         android:gravity="center_vertical" />
 

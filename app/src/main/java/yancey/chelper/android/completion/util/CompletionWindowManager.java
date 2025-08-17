@@ -31,9 +31,9 @@ import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.hjq.device.compat.DeviceOs;
 import com.hjq.permissions.XXPermissions;
 import com.hjq.permissions.permission.PermissionLists;
-import com.hjq.permissions.tools.PhoneRomUtils;
 import com.hjq.toast.Toaster;
 import com.hjq.window.EasyWindow;
 import com.hjq.window.draggable.MovingWindowDraggableRule;
@@ -43,6 +43,7 @@ import java.io.File;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.util.FileUtil;
+import yancey.chelper.android.common.util.Settings;
 import yancey.chelper.android.completion.view.CompletionView;
 import yancey.chelper.fws.view.FWSMainView;
 import yancey.chelper.fws.view.FWSView;
@@ -89,7 +90,7 @@ public class CompletionWindowManager {
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
     public void startFloatingWindow(Context context, int iconSize) {
         if (isShowXiaomiClipboardPermissionTips == null) {
-            isShowXiaomiClipboardPermissionTips = !xiaomiClipboardPermissionTipsFile.exists() && (PhoneRomUtils.isHyperOs() || PhoneRomUtils.isMiui());
+            isShowXiaomiClipboardPermissionTips = !xiaomiClipboardPermissionTipsFile.exists() && (DeviceOs.isHyperOs() || DeviceOs.isMiui());
         }
         startFloatingWindow(context, iconSize, isShowXiaomiClipboardPermissionTips);
     }
@@ -149,7 +150,8 @@ public class CompletionWindowManager {
                 .setWindowDraggableRule(new MovingWindowDraggableRule())
                 .setOutsideTouchable(true)
                 .setWindowLocation(Gravity.START | Gravity.TOP, 0, 0)
-                .setWindowAnim(0);
+                .setWindowAnim(0)
+                .setWindowAlpha(Settings.INSTANCE.floatingWindowAlpha);
         mainViewWindow = EasyWindow.with(application)
                 .setContentView(fwsMainView)
                 .setWindowSize(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
@@ -158,7 +160,8 @@ public class CompletionWindowManager {
                                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-                .setWindowAnim(0);
+                .setWindowAnim(0)
+                .setWindowAlpha(Settings.INSTANCE.floatingWindowAlpha);
         iconView.setOnClickListener(v -> {
             if (mainViewWindow == null) {
                 return;

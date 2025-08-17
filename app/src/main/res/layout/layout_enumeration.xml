@@ -19,7 +19,8 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:background="@drawable/chevron_left" />
+            android:background="@drawable/chevron_left"
+            android:contentDescription="@string/common_icon_back_content_description" />
 
         <TextView
             android:id="@+id/title"
@@ -29,14 +30,14 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/enumeration"
+            android:text="@string/layout_enumeration_title"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
     </LinearLayout>
 
     <EditText
-        android:id="@+id/ed_input"
+        android:id="@+id/expression"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/header"
@@ -46,7 +47,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_corner_10dp"
         android:gravity="start"
-        android:hint="@string/ed_enumeration_hint"
+        android:hint="@string/layout_enumeration_expression_hint"
         android:importantForAutofill="no"
         android:inputType="none"
         android:padding="10dp"
@@ -56,28 +57,28 @@
         tools:ignore="VisualLintTextFieldSize" />
 
     <TextView
-        android:id="@+id/tv_times"
+        android:id="@+id/times_label"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_below="@id/ed_input"
+        android:layout_below="@id/expression"
         android:layout_alignParentStart="true"
         android:layout_marginStart="15dp"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:paddingHorizontal="10dp"
-        android:text="@string/tv_times"
+        android:text="@string/layout_enumeration_times_label"
         android:textColor="@color/text_main"
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/ed_times"
+        android:id="@+id/times"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_below="@id/ed_input"
+        android:layout_below="@id/expression"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="15dp"
-        android:layout_toEndOf="@id/tv_times"
+        android:layout_toEndOf="@id/times_label"
         android:background="@drawable/bg_corner_10dp"
         android:gravity="center_vertical"
         android:importantForAutofill="no"
@@ -90,14 +91,14 @@
         tools:ignore="VisualLintTextFieldSize" />
 
     <LinearLayout
-        android:id="@+id/description"
+        android:id="@+id/variable_list_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ed_times"
+        android:layout_below="@id/times"
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="34dp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -106,7 +107,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/variable_name"
+            android:text="@string/layout_enumeration_variable_name"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -115,7 +116,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/tv_start_value"
+            android:text="@string/layout_enumeration_initial_value"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -124,39 +125,39 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/tv_interval"
+            android:text="@string/layout_enumeration_interval"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_variable_list"
+        android:id="@+id/variable_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_add"
-        android:layout_below="@id/description"
+        android:layout_above="@id/add_variable"
+        android:layout_below="@id/variable_list_header"
         android:layout_alignParentEnd="true"
         android:layout_marginVertical="10dp"
         android:scrollbars="vertical"
         tools:itemCount="10"
-        tools:listitem="@layout/layout_variable_list_item" />
+        tools:listitem="@layout/layout_enumeration_variable_list_item" />
 
     <TextView
-        android:id="@+id/btn_add"
+        android:id="@+id/add_variable"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_above="@id/btn_run"
+        android:layout_above="@id/run"
         android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="5dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
-        android:text="@string/btn_enumeration_add"
+        android:text="@string/layout_enumeration_add_variable"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/btn_run"
+        android:id="@+id/run"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
@@ -165,7 +166,7 @@
         android:layout_marginBottom="15dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
-        android:text="@string/btn_enumeration_run"
+        android:text="@string/layout_enumeration_run"
         android:textColor="@color/white"
         android:textSize="18sp" />
 

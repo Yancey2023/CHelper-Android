@@ -20,7 +20,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:background="@drawable/chevron_left" />
+            android:background="@drawable/chevron_left"
+            android:contentDescription="@string/common_icon_back_content_description" />
 
         <TextView
             android:id="@+id/title"
@@ -32,7 +33,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/public_library"
+            android:text="@string/layout_library_list_title_public"
             android:textColor="@color/text_main"
             android:textSize="18sp" />
 
@@ -44,7 +45,7 @@
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/btn_export"
             android:background="@drawable/file_arrow_left"
-            android:contentDescription="@string/library_import"
+            android:contentDescription="@string/layout_library_list_icon_import_content_description"
             android:scaleType="fitXY" />
 
         <View
@@ -55,7 +56,7 @@
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/btn_update"
             android:background="@drawable/share"
-            android:contentDescription="@string/library_export"
+            android:contentDescription="@string/layout_library_list_icon_export_content_description"
             android:scaleType="fitXY" />
 
         <View
@@ -66,7 +67,7 @@
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/btn_upload"
             android:background="@drawable/pencil"
-            android:contentDescription="@string/library_update"
+            android:contentDescription="@string/layout_library_list_icon_update_content_description"
             android:scaleType="fitXY" />
 
         <View
@@ -77,7 +78,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:background="@drawable/upload"
-            android:contentDescription="@string/library_upload"
+            android:contentDescription="@string/layout_library_list_icon_upload_content_description"
             android:scaleType="fitXY" />
 
     </RelativeLayout>
@@ -92,7 +93,7 @@
         android:autofillHints="username"
         android:background="@drawable/bg_corner_20dp"
         android:gravity="center_vertical"
-        android:hint="@string/search_library"
+        android:hint="@string/layout_library_list_search_hint"
         android:inputType="text"
         android:maxLength="30"
         android:paddingHorizontal="20dp"
@@ -102,7 +103,7 @@
         android:textSize="16sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_view"
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search"

@@ -199,7 +199,7 @@ public class CommandEditText extends AppCompatEditText {
     /**
      * 删除所有内容
      */
-    public void delete() {
+    public void clear() {
         setText(null);
     }
 

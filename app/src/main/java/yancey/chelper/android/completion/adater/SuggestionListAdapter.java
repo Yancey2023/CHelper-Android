@@ -40,22 +40,26 @@ public class SuggestionListAdapter extends RecyclerView.Adapter<SuggestionListAd
     private final Context context;
     private final CHelperGuiCore core;
     private final boolean isCrowed;
-    private String structure, description;
+    private String structure, paramHint, errorReasons;
 
     public SuggestionListAdapter(Context context, CHelperGuiCore core, boolean isCrowed) {
         this.context = context;
         this.core = core;
         this.isCrowed = isCrowed;
-        this.structure = context.getString(R.string.tv_write_command_title);
-        this.description = context.getString(R.string.tv_write_command_description);
+        this.structure = context.getString(R.string.layout_completion_welcome);
+        this.paramHint = context.getString(R.string.layout_completion_author);
     }
 
     public void setStructure(String structure) {
         this.structure = structure;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setParamHint(String paramHint) {
+        this.paramHint = paramHint;
+    }
+
+    public void setErrorReasons(String errorReasons) {
+        this.errorReasons = errorReasons;
     }
 
     @Override
@@ -73,9 +77,9 @@ public class SuggestionListAdapter extends RecyclerView.Adapter<SuggestionListAd
     @Override
     public CommandListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CommandListViewHolder(LayoutInflater.from(context).inflate(switch (viewType) {
-            case 0 -> R.layout.layout_suggestion;
-            case 1 -> R.layout.layout_suggestion_crowded_item;
-            case 2 -> R.layout.layout_suggestion_crowded_header_item;
+            case 0 -> R.layout.layout_completion_suggestion;
+            case 1 -> R.layout.layout_completion_crowded_suggestion;
+            case 2 -> R.layout.layout_completion_crowded_header;
             default -> throw new IllegalStateException("Unexpected value: " + viewType);
         }, parent, false));
     }
@@ -84,23 +88,29 @@ public class SuggestionListAdapter extends RecyclerView.Adapter<SuggestionListAd
     @SuppressLint("SetTextI18n")
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         if (isCrowed && position == 0) {
-            holder.mTv_commandName.setText(structure);
-            holder.mTv_commandDescription.setText(description);
+            holder.structure.setText(structure);
+            holder.paramHint.setText(paramHint);
+            if (errorReasons == null) {
+                holder.errorReasons.setVisibility(View.GONE);
+            } else {
+                holder.errorReasons.setVisibility(View.VISIBLE);
+                holder.errorReasons.setText(errorReasons);
+            }
             return;
         }
         Suggestion data = core.getSuggestion(isCrowed ? position - 1 : position);
         if (data == null) {
-            holder.mTv_commandName.setText(null);
-            if (holder.mTv_commandDescription != null) {
-                holder.mTv_commandDescription.setText(null);
+            holder.content.setText(null);
+            if (holder.description != null) {
+                holder.description.setText(null);
             }
             holder.itemView.setOnClickListener(null);
         } else {
-            if (holder.mTv_commandDescription == null) {
-                holder.mTv_commandName.setText(data.description != null ? data.name + " - " + data.description : data.name);
+            if (holder.description == null) {
+                holder.content.setText(data.description != null ? data.name + " - " + data.description : data.name);
             } else {
-                holder.mTv_commandName.setText(data.name);
-                holder.mTv_commandDescription.setText(data.description);
+                holder.content.setText(data.name);
+                holder.description.setText(data.description);
             }
             holder.itemView.setOnClickListener(view -> core.onItemClick(isCrowed ? position - 1 : position));
         }
@@ -113,13 +123,16 @@ public class SuggestionListAdapter extends RecyclerView.Adapter<SuggestionListAd
 
     public static class CommandListViewHolder extends RecyclerView.ViewHolder {
         private final View itemView;
-        private final TextView mTv_commandName, mTv_commandDescription;
+        private final TextView content, description, structure, paramHint, errorReasons;
 
         public CommandListViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            this.mTv_commandName = itemView.findViewById(R.id.command_list_tv_command_name);
-            this.mTv_commandDescription = itemView.findViewById(R.id.command_list_tv_command_description);
+            this.content = itemView.findViewById(R.id.content);
+            this.description = itemView.findViewById(R.id.description);
+            this.structure = itemView.findViewById(R.id.structure);
+            this.paramHint = itemView.findViewById(R.id.param_hint);
+            this.errorReasons = itemView.findViewById(R.id.error_reasons);
         }
     }
 }

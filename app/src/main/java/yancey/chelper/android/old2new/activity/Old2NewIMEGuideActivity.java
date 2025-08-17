@@ -50,12 +50,12 @@ public class Old2NewIMEGuideActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findViewById(R.id.back).setOnClickListener(v -> finish());
-        findViewById(R.id.btn_start_ime1).setOnClickListener(v -> {
+        findViewById(R.id.btn_start_ime_step1).setOnClickListener(v -> {
             if ((checkFeatureInputMethods())) {
                 startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
             }
         });
-        findViewById(R.id.btn_start_ime2).setOnClickListener(v -> {
+        findViewById(R.id.btn_start_ime_step2).setOnClickListener(v -> {
             if (checkFeatureInputMethods()) {
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).showInputMethodPicker();
             }
@@ -67,7 +67,7 @@ public class Old2NewIMEGuideActivity extends BaseActivity {
             return true;
         } else {
             new IsConfirmDialog(getApplicationContext(), false)
-                    .message(getString(R.string.old2new_ime_warn))
+                    .message(getString(R.string.layout_old2new_ime_guide_not_support))
                     .show();
             return false;
         }

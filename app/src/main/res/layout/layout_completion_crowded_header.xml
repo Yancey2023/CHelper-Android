@@ -7,22 +7,37 @@
     android:paddingVertical="1dp">
 
     <TextView
-        android:id="@+id/command_list_tv_command_name"
+        android:id="@+id/structure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center_vertical"
-        android:text="@string/tv_write_command_title"
+        android:text="@string/layout_completion_welcome"
         android:textColor="@color/text_main"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/command_list_tv_command_description"
+        android:id="@+id/param_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center_vertical"
-        android:text="@string/tv_write_command_description"
+        android:text="@string/layout_completion_author"
         android:textColor="@color/text_secondary"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/error_reasons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/line"

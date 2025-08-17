@@ -75,10 +75,10 @@ public class IsConfirmDialog extends FixedDialog {
         Objects.requireNonNull(tv_message);
         Objects.requireNonNull(btn_confirm);
         Objects.requireNonNull(btn_cancel);
-        tv_title.setText(Objects.requireNonNullElse(title, getContext().getString(R.string.title)));
+        tv_title.setText(Objects.requireNonNullElse(title, getContext().getString(R.string.dialog_is_confirm_title)));
         tv_message.setText(message);
-        btn_confirm.setText(Objects.requireNonNullElse(confirm, getContext().getString(R.string.confirm)));
-        btn_cancel.setText(Objects.requireNonNullElse(cancel, getContext().getString(R.string.cancel)));
+        btn_confirm.setText(Objects.requireNonNullElse(confirm, getContext().getString(R.string.dialog_is_confirm_confirm)));
+        btn_cancel.setText(Objects.requireNonNullElse(cancel, getContext().getString(R.string.dialog_is_confirm_cancel)));
         btn_confirm.setOnClickListener(view -> {
             if (onConfirm != null) {
                 onConfirm.run();

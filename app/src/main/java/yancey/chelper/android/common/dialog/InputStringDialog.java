@@ -61,10 +61,10 @@ public class InputStringDialog extends FixedDialog {
         Objects.requireNonNull(et_title);
         Objects.requireNonNull(btn_confirm);
         Objects.requireNonNull(btn_cancel);
-        tv_title.setText(Objects.requireNonNullElse(title, getContext().getString(R.string.title)));
+        tv_title.setText(Objects.requireNonNullElse(title, getContext().getString(R.string.dialog_input_string_title)));
         et_title.setText(defaultInput);
-        btn_confirm.setText(Objects.requireNonNullElse(confirm, getContext().getString(R.string.confirm)));
-        btn_cancel.setText(Objects.requireNonNullElse(cancel, getContext().getString(R.string.cancel)));
+        btn_confirm.setText(Objects.requireNonNullElse(confirm, getContext().getString(R.string.dialog_input_string_confirm)));
+        btn_cancel.setText(Objects.requireNonNullElse(cancel, getContext().getString(R.string.dialog_input_string_cancel)));
         btn_confirm.setOnClickListener(view -> {
             if (onConfirm != null) {
                 onConfirm.accept(et_title.getText().toString());

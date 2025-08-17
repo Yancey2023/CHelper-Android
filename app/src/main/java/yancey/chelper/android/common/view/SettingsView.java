@@ -51,6 +51,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.common.dialog.ChoosingDialog;
+import yancey.chelper.android.common.dialog.InputStringDialog;
 import yancey.chelper.android.common.dialog.IsConfirmDialog;
 import yancey.chelper.android.common.style.CustomTheme;
 import yancey.chelper.android.common.util.MonitorUtil;
@@ -72,7 +73,7 @@ public class SettingsView extends BaseView {
         // 页面顶部逻辑
         findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         // 新版本提醒
-        SwitchCompat isEnableUpdateNotification = view.findViewById(R.id.cb_enable_update_notification);
+        SwitchCompat isEnableUpdateNotification = view.findViewById(R.id.is_enable_update_notification);
         isEnableUpdateNotification.setChecked(Settings.INSTANCE.isEnableUpdateNotifications);
         isEnableUpdateNotification.setOnCheckedChangeListener((buttonView, isChecked) -> Settings.INSTANCE.isEnableUpdateNotifications = isChecked);
         // 自定义UI设置
@@ -118,8 +119,8 @@ public class SettingsView extends BaseView {
                 () -> photoPicker.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build());
-        RelativeLayout btn_chooseBackground = view.findViewById(R.id.btn_choose_background);
-        btn_chooseBackground.setOnClickListener(v -> {
+        RelativeLayout chooseBackground = view.findViewById(R.id.choose_background);
+        chooseBackground.setOnClickListener(v -> {
             if (getEnvironment() != Environment.APPLICATION) {
                 Toaster.show("不支持在悬浮窗模式设置背景");
             } else if (backgroundPicker == null) {
@@ -138,8 +139,8 @@ public class SettingsView extends BaseView {
                         });
             }
         });
-        RelativeLayout btn_restoreBackground = view.findViewById(R.id.btn_restore_background);
-        btn_restoreBackground.setOnClickListener(v -> {
+        RelativeLayout restoreBackground = view.findViewById(R.id.restore_background);
+        restoreBackground.setOnClickListener(v -> {
             if (getEnvironment() != Environment.APPLICATION) {
                 Toaster.show("不支持在悬浮窗模式恢复背景");
             } else {
@@ -156,8 +157,8 @@ public class SettingsView extends BaseView {
                         }).show();
             }
         });
-        RelativeLayout btn_chooseTheme = view.findViewById(R.id.btn_choose_theme);
-        btn_chooseTheme.setOnClickListener(v -> {
+        RelativeLayout chooseTheme = view.findViewById(R.id.choose_theme);
+        chooseTheme.setOnClickListener(v -> {
             if (getEnvironment() != Environment.APPLICATION) {
                 Toaster.show("不支持在悬浮窗模式选择主题");
             } else {
@@ -172,15 +173,34 @@ public class SettingsView extends BaseView {
                 }).show();
             }
         });
+        RelativeLayout floatingWindowAlpha = view.findViewById(R.id.floating_window_alpha);
+        floatingWindowAlpha.setOnClickListener(v -> new InputStringDialog(context)
+                .title("请输入透明度")
+                .defaultInput(String.valueOf((int)(Settings.INSTANCE.floatingWindowAlpha * 100)))
+                .onConfirm(s -> {
+                    try {
+                        int integer = Integer.parseInt(s);
+                        if (integer < 10) {
+                            integer = 10;
+                        } else if (integer > 100) {
+                            integer = 100;
+                        }
+                        Settings.INSTANCE.floatingWindowAlpha = integer / 100f;
+                    } catch (NumberFormatException ignored) {
+
+                    }
+                })
+                .show()
+        );
         // 命令补全设置
-        TextView tv_currentCPack = view.findViewById(R.id.tv_current_cpack);
-        RelativeLayout btn_chooseCpack = view.findViewById(R.id.btn_choose_cpack);
-        SwitchCompat isCheckingBySelection = view.findViewById(R.id.cb_is_checking_by_selection);
-        SwitchCompat isHideWindowWhenCopying = view.findViewById(R.id.cb_is_hide_window_when_copying);
-        SwitchCompat isSavingWhenPausing = view.findViewById(R.id.cb_is_saving_when_pausing);
-        SwitchCompat isCrowed = view.findViewById(R.id.cb_is_crowed);
-        SwitchCompat isShowErrorReason = view.findViewById(R.id.cb_is_show_error_reason);
-        SwitchCompat isSyntaxHighlight = view.findViewById(R.id.cb_is_syntax_highlight);
+        TextView currentCPack = view.findViewById(R.id.tv_current_cpack);
+        RelativeLayout chooseCpack = view.findViewById(R.id.choose_cpack);
+        SwitchCompat isCheckingBySelection = view.findViewById(R.id.is_checking_by_selection);
+        SwitchCompat isHideWindowWhenCopying = view.findViewById(R.id.is_hide_window_when_copying);
+        SwitchCompat isSavingWhenPausing = view.findViewById(R.id.is_saving_when_pausing);
+        SwitchCompat isCrowed = view.findViewById(R.id.is_crowed);
+        SwitchCompat isShowErrorReason = view.findViewById(R.id.is_show_error_reason);
+        SwitchCompat isSyntaxHighlight = view.findViewById(R.id.is_syntax_highlight);
         List<String> showStrings = List.of(
                 "正式版-原版-" + Settings.versionReleaseVanilla,
                 "正式版-实验性玩法-" + Settings.versionReleaseExperiment,
@@ -201,13 +221,13 @@ public class SettingsView extends BaseView {
         String cpackBranch = Settings.INSTANCE.getCpackBranch();
         for (int i = 0; i < cpackPaths.length; i++) {
             if (Objects.equals(cpackBranch, cpackPaths[i])) {
-                tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings.get(i)));
+                currentCPack.setText(context.getString(R.string.layout_settings_current_cpack, showStrings.get(i)));
                 break;
             }
         }
-        btn_chooseCpack.setOnClickListener(v -> new ChoosingDialog(context, showStrings, which -> {
+        chooseCpack.setOnClickListener(v -> new ChoosingDialog(context, showStrings, which -> {
             String cpackPath1 = cpackPaths[which];
-            tv_currentCPack.setText(context.getString(R.string.current_cpack, showStrings.get(which)));
+            currentCPack.setText(context.getString(R.string.layout_settings_current_cpack, showStrings.get(which)));
             Settings.INSTANCE.setCpackPath(cpackPath1);
         }).show());
         isCheckingBySelection.setChecked(Settings.INSTANCE.isCheckingBySelection);

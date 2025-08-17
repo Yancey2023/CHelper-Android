@@ -21,13 +21,16 @@ Copyright 2019 Square, Inc.
 6. retrofit
 Copyright 2013 Square, Inc.
 
-7. XXPermissions
+8. DeviceCompat
+Copyright 2025 Huang JinQun
+
+9. XXPermissions
 Copyright 2018 Huang JinQun
 
-8. Toaster
+10. Toaster
 Copyright 2018 Huang JinQun
 
-9. EasyWindow
+11. EasyWindow
 Copyright 2019 Huang JinQun
 
 

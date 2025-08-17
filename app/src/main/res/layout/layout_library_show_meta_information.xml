@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_version"
+            android:text="@string/layout_library_show_version_label"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_sample_version"
+            android:text="@string/example_version"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_author"
+            android:text="@string/layout_library_show_author_label"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_sample_author"
+            android:text="@string/example_author"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -69,17 +69,17 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_description"
+            android:text="@string/layout_library_show_description_label"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/variable_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_sample_description"
+            android:text="@string/example_description"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_tags"
+            android:text="@string/layout_library_show_tags_label"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:text="@string/library_sample_tags"
+            android:text="@string/example_tags"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 

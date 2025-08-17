@@ -19,7 +19,8 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:background="@drawable/chevron_left" />
+            android:background="@drawable/chevron_left"
+            android:contentDescription="@string/common_icon_back_content_description" />
 
         <TextView
             android:id="@+id/title"
@@ -29,7 +30,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/settings"
+            android:text="@string/layout_settings_title"
             android:textColor="@color/text_main"
             android:textIsSelectable="true"
             android:textSize="18sp" />
@@ -43,7 +44,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:paddingVertical="5dp"
-        android:text="@string/copyright_yancey"
+        android:text="@string/common_copyright_yancey"
         android:textColor="@color/text_secondary"
         android:textSize="14sp" />
 
@@ -57,20 +58,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:orientation="vertical"
-            android:paddingTop="15dp">
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="5dp"
+                android:text="@string/layout_settings_application_update"
+                android:textColor="@color/text_main"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"
                 android:background="@drawable/bg_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
                 <RelativeLayout
-                    android:id="@+id/btn_enable_update_notification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -89,7 +99,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/enable_update_notification"
+                            android:text="@string/layout_settings_is_enable_update_notification"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -97,14 +107,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/enable_update_notification_description"
+                            android:text="@string/layout_settings_is_enable_update_notification_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_enable_update_notification"
+                        android:id="@+id/is_enable_update_notification"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -114,16 +124,27 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="5dp"
+                android:text="@string/layout_settings_theme_settings"
+                android:textColor="@color/text_main"
+                android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"
                 android:background="@drawable/bg_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
                 <RelativeLayout
-                    android:id="@+id/btn_choose_background"
+                    android:id="@+id/choose_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -141,7 +162,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/choose_background"
+                            android:text="@string/layout_settings_choose_background"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -149,19 +170,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/choose_background_description"
+                            android:text="@string/layout_settings_choose_background_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
-                    <ImageView
+                    <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -172,7 +194,7 @@
                     android:background="@color/line" />
 
                 <RelativeLayout
-                    android:id="@+id/btn_restore_background"
+                    android:id="@+id/restore_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -190,7 +212,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/restore_background"
+                            android:text="@string/layout_settings_restore_background"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -198,19 +220,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/restore_background_description"
+                            android:text="@string/layout_settings_restore_background_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
-                    <ImageView
+                    <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -221,7 +244,7 @@
                     android:background="@color/line" />
 
                 <RelativeLayout
-                    android:id="@+id/btn_choose_theme"
+                    android:id="@+id/choose_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -239,7 +262,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/choose_theme"
+                            android:text="@string/layout_settings_choose_theme"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -247,34 +270,96 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/choose_theme_description"
+                            android:text="@string/layout_settings_choose_theme_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
-                    <ImageView
+                    <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:src="@drawable/chevron_right"
-                        tools:ignore="DuplicateIds" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:id="@+id/floating_window_alpha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="39dp"
+                        android:orientation="vertical"
+                        tools:ignore="RelativeOverlap">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/layout_settings_floating_window_alpha"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/layout_settings_floating_window_alpha_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="5dp"
+                android:text="@string/layout_settings_completion_settings"
+                android:textColor="@color/text_main"
+                android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"
                 android:background="@drawable/bg_corner_20dp"
                 android:orientation="vertical"
                 android:padding="5dp">
 
                 <RelativeLayout
-                    android:id="@+id/btn_choose_cpack"
+                    android:id="@+id/choose_cpack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -291,7 +376,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/choose_cpack"
+                            android:text="@string/layout_settings_choose_cpack"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -300,19 +385,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/current_cpack"
+                            android:text="@string/layout_settings_current_cpack"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
-                    <ImageView
+                    <View
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -332,14 +418,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/cb_is_checking_by_selection"
+                        android:layout_toStartOf="@id/is_checking_by_selection"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/setting_checking_by_selection"
+                            android:text="@string/layout_setting_checking_by_selection"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -347,14 +433,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/setting_checking_by_selection_description"
+                            android:text="@string/layout_setting_checking_by_selection_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_is_checking_by_selection"
+                        android:id="@+id/is_checking_by_selection"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -378,14 +464,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/cb_is_hide_window_when_copying"
+                        android:layout_toStartOf="@id/is_hide_window_when_copying"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/setting_is_hide_window_when_copying"
+                            android:text="@string/layout_setting_is_hide_window_when_copying"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -393,14 +479,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/setting_is_hide_window_when_copying_description"
+                            android:text="@string/layout_setting_is_hide_window_when_copying_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_is_hide_window_when_copying"
+                        android:id="@+id/is_hide_window_when_copying"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -424,14 +510,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/cb_is_saving_when_pausing"
+                        android:layout_toStartOf="@id/is_saving_when_pausing"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/setting_is_saving_when_pausing"
+                            android:text="@string/layout_setting_is_saving_when_pausing"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -439,14 +525,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/setting_is_saving_when_pausing_description"
+                            android:text="@string/layout_setting_is_saving_when_pausing_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_is_saving_when_pausing"
+                        android:id="@+id/is_saving_when_pausing"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -470,14 +556,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/cb_is_crowed"
+                        android:layout_toStartOf="@id/is_crowed"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/setting_is_crowed"
+                            android:text="@string/layout_setting_is_crowed"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -485,14 +571,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/setting_is_crowed_description"
+                            android:text="@string/layout_setting_is_crowed_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_is_crowed"
+                        android:id="@+id/is_crowed"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -516,14 +602,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/cb_is_show_error_reason"
+                        android:layout_toStartOf="@id/is_show_error_reason"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/setting_is_show_error_reason"
+                            android:text="@string/layout_setting_is_show_error_reason"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -531,14 +617,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/setting_is_show_error_reason_description"
+                            android:text="@string/layout_setting_is_show_error_reason_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_is_show_error_reason"
+                        android:id="@+id/is_show_error_reason"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
@@ -556,14 +642,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/cb_is_syntax_highlight"
+                        android:layout_toStartOf="@id/is_syntax_highlight"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2.5dp"
-                            android:text="@string/setting_is_syntax_highlight"
+                            android:text="@string/layout_setting_is_syntax_highlight"
                             android:textColor="@color/text_main"
                             android:textSize="16sp" />
 
@@ -571,14 +657,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2.5dp"
-                            android:text="@string/setting_is_syntax_highlight_description"
+                            android:text="@string/layout_setting_is_syntax_highlight_description"
                             android:textColor="@color/text_secondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/cb_is_syntax_highlight"
+                        android:id="@+id/is_syntax_highlight"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"

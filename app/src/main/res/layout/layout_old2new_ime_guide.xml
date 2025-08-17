@@ -18,7 +18,8 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:background="@drawable/chevron_left" />
+            android:background="@drawable/chevron_left"
+            android:contentDescription="@string/common_icon_back_content_description" />
 
         <TextView
             android:id="@+id/title"
@@ -28,7 +29,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/old2new_ime_name"
+            android:text="@string/layout_old2new_ime_guide_title"
             android:textColor="@color/text_main"
             android:textIsSelectable="true"
             android:textSize="18sp" />
@@ -42,31 +43,31 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/bg_corner_10dp"
         android:padding="10dp"
-        android:text="@string/old2new_ime_welcome"
+        android:text="@string/layout_old2new_ime_guide_guide"
         android:textColor="@color/text_main"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/btn_start_ime1"
+        android:id="@+id/btn_start_ime_step1"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="5dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
-        android:text="@string/old2new_ime_step1"
+        android:text="@string/layout_old2new_ime_guide_step1"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/btn_start_ime2"
+        android:id="@+id/btn_start_ime_step2"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="5dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
-        android:text="@string/old2new_ime_step2"
+        android:text="@string/layout_old2new_ime_guide_step2"
         android:textColor="@color/white"
         android:textSize="18sp" />
 

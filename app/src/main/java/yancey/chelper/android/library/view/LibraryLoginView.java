@@ -49,54 +49,54 @@ import yancey.chelper.network.library.util.LoginUtil;
 @SuppressLint("ViewConstructor")
 public class LibraryLoginView extends BaseView {
 
-    private final TextView tv_message;
+    private final TextView message;
     private boolean isShowPassword = false;
     private boolean isLogging = false;
     private Disposable login;
 
     public LibraryLoginView(@NonNull FWSContext fwsContext) {
         super(fwsContext, R.layout.layout_library_login);
-        EditText email = view.findViewById(R.id.loginname);
+        EditText email = view.findViewById(R.id.email);
         EditText password = view.findViewById(R.id.password);
-        ImageView btn_clearName = view.findViewById(R.id.clear_btn_name);
-        ImageView btn_hide = view.findViewById(R.id.hide_btn);
-        tv_message = view.findViewById(R.id.tv_message);
-        Button btn_login = view.findViewById(R.id.login);
-        setButtonClear(email, btn_clearName);
-        setButtonClear(password, btn_hide);
-        btn_hide.setOnClickListener(v -> {
+        ImageView clearEmail = view.findViewById(R.id.clear_email);
+        ImageView hidePassword = view.findViewById(R.id.hide_password);
+        message = view.findViewById(R.id.message);
+        Button btn_login = view.findViewById(R.id.btn_login);
+        setButtonVisibility(email, clearEmail);
+        setButtonVisibility(password, hidePassword);
+        clearEmail.setOnClickListener(v -> email.setText(null));
+        hidePassword.setOnClickListener(v -> {
             isShowPassword = !isShowPassword;
             int start = password.getSelectionStart();
             int end = password.getSelectionEnd();
             if (isShowPassword) {
                 password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                btn_hide.setImageResource(R.drawable.eye);
+                hidePassword.setImageResource(R.drawable.eye);
             } else {
                 password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                btn_hide.setImageResource(R.drawable.eye_off);
+                hidePassword.setImageResource(R.drawable.eye_off);
             }
             password.setSelection(start, end);
         });
         btn_login.setOnClickListener(v -> {
             //避免反复按登录按钮
             if (isLogging) {
-                showMessage(R.string.login_error_logging);
+                showMessage(R.string.layout_login_logging);
                 return;
             }
             //获取输入的内容
             LoginUtil.user = new User();
             LoginUtil.user.email = getText(email);
             LoginUtil.user.password = getText(password);
-            //判断登录方式
             if (LoginUtil.user.email == null || LoginUtil.user.password == null) {
-                showMessageError(R.string.login_error_no_parameter);
+                showMessageError(R.string.layout_login_no_parameter);
                 return;
             }
             //开始登录
             if (login != null) {
                 login.dispose();
             }
-            showMessage(R.string.logging);
+            showMessage(R.string.layout_login_logging);
             isLogging = true;
             login = Observable.create((ObservableOnSubscribe<String>) emitter -> {
                         emitter.onNext(LoginUtil.getToken());
@@ -105,10 +105,10 @@ public class LibraryLoginView extends BaseView {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(token -> {
                         if (token != null) {
-                            showMessage(R.string.login_successfully);
-                            // TODO back
+                            showMessage(R.string.layout_login_successfully);
+                            getOnBackPressedDispatcher().onBackPressed();
                         } else {
-                            showMessageError(R.string.login_error_password);
+                            showMessageError(R.string.layout_login_failed);
                             isLogging = false;
                         }
                     }, throwable -> {
@@ -144,8 +144,7 @@ public class LibraryLoginView extends BaseView {
      * 设置用于清空输入框内容的按钮
      */
     @SuppressWarnings("SizeReplaceableByIsEmpty")
-    private void setButtonClear(EditText editText, ImageView imageView) {
-        imageView.setOnClickListener(v -> editText.setText(null));
+    private void setButtonVisibility(EditText editText, ImageView imageView) {
         if (editText.getText().length() == 0) {
             imageView.setVisibility(View.GONE);
         } else {
@@ -164,26 +163,26 @@ public class LibraryLoginView extends BaseView {
     private Integer textColorMain, textColorError;
 
     private void showMessage(@StringRes int resId) {
-        tv_message.setText(resId);
+        message.setText(resId);
         if (textColorMain == null) {
             textColorMain = getContext().getColor(R.color.text_main);
         }
-        tv_message.setTextColor(textColorMain);
+        message.setTextColor(textColorMain);
     }
 
     private void showMessageError(String message) {
-        tv_message.setText(message);
+        this.message.setText(message);
         if (textColorError == null) {
             textColorError = getContext().getColor(R.color.red);
         }
-        tv_message.setTextColor(textColorError);
+        this.message.setTextColor(textColorError);
     }
 
     private void showMessageError(@StringRes int resId) {
-        tv_message.setText(resId);
+        message.setText(resId);
         if (textColorError == null) {
             textColorError = getContext().getColor(R.color.red);
         }
-        tv_message.setTextColor(textColorError);
+        message.setTextColor(textColorError);
     }
 }

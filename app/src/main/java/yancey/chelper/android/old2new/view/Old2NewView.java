@@ -38,17 +38,17 @@ public class Old2NewView extends BaseView {
 
     public Old2NewView(@NonNull FWSContext fwsContext) {
         super(fwsContext, R.layout.layout_old2new);
-        EditText mEd_oldCommand = view.findViewById(R.id.ed_old_command);
-        TextView mTv_newCommand = view.findViewById(R.id.tv_new_command);
+        EditText mEd_oldCommand = view.findViewById(R.id.old_command);
+        TextView mTv_newCommand = view.findViewById(R.id.new_command);
         findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
-        view.findViewById(R.id.btn_paste).setOnClickListener(v -> {
+        view.findViewById(R.id.btn_clear_and_paste_old_command).setOnClickListener(v -> {
             CharSequence charSequence = ClipboardUtil.getText(context);
             if (charSequence != null) {
                 mEd_oldCommand.setText(charSequence);
                 mEd_oldCommand.setSelection(charSequence.length());
             }
         });
-        view.findViewById(R.id.btn_copy).setOnClickListener(v ->
+        view.findViewById(R.id.btn_copy_new_command).setOnClickListener(v ->
                 ClipboardUtil.setText(getContext(), mTv_newCommand.getText()));
         mEd_oldCommand.addTextChangedListener(TextWatcherUtil.onTextChanged(charSequence ->
                 mTv_newCommand.setText(CHelperCore.old2new(getContext(), mEd_oldCommand.getText().toString()))));

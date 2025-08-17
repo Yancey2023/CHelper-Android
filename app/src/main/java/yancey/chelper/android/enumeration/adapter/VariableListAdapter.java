@@ -52,7 +52,7 @@ public class VariableListAdapter extends RecyclerView.Adapter<VariableListAdapte
     @NonNull
     @Override
     public VariableListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VariableListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_variable_list_item, parent, false));
+        return new VariableListViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_enumeration_variable_list_item, parent, false));
     }
 
     @Override

@@ -22,7 +22,9 @@ import androidx.annotation.Nullable;
 
 public class VersionInfo {
     @Nullable
-    public String version;
+    public Integer version_code;
+    @Nullable
+    public String version_name;
     @Nullable
     public String link;
     @Nullable

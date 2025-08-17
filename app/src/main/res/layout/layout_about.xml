@@ -19,7 +19,8 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:background="@drawable/chevron_left" />
+            android:background="@drawable/chevron_left"
+            android:contentDescription="@string/common_icon_back_content_description" />
 
         <TextView
             android:id="@+id/title"
@@ -29,7 +30,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/about"
+            android:text="@string/layout_about_title"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -42,7 +43,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:paddingVertical="5dp"
-        android:text="@string/copyright_yancey"
+        android:text="@string/common_copyright_yancey"
         android:textColor="@color/text_secondary"
         android:textSize="14sp" />
 
@@ -82,7 +83,7 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/current_version"
+                        android:text="@string/layout_about_current_version"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
@@ -121,7 +122,7 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/author"
+                        android:text="@string/layout_about_author"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
@@ -135,6 +136,7 @@
                         android:layout_margin="5dp"
                         android:gravity="end"
                         android:textColor="@color/text_secondary"
+                        android:textIsSelectable="true"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
@@ -159,7 +161,7 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/qq_personal"
+                        android:text="@string/layout_about_qq_personal"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
@@ -169,7 +171,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
-
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
                         android:gravity="end"
@@ -199,7 +200,7 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/qq_group"
+                        android:text="@string/layout_about_qq_group"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
@@ -240,19 +241,19 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/bilibili"
+                        android:text="@string/layout_about_bilibili"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/external_link"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -263,7 +264,7 @@
                     android:background="@color/line" />
 
                 <RelativeLayout
-                    android:id="@+id/btn_core_source_code"
+                    android:id="@+id/btn_core_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -277,19 +278,19 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/core_source_code"
+                        android:text="@string/layout_about_core_source"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/external_link"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -300,7 +301,7 @@
                     android:background="@color/line" />
 
                 <RelativeLayout
-                    android:id="@+id/btn_app_source_code"
+                    android:id="@+id/btn_app_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -314,19 +315,19 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/app_source_code"
+                        android:text="@string/layout_about_app_source"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/external_link"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -355,19 +356,19 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/release_note"
+                        android:text="@string/layout_about_release_note"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -378,7 +379,7 @@
                     android:background="@color/line" />
 
                 <RelativeLayout
-                    android:id="@+id/btn_newest_release_note"
+                    android:id="@+id/btn_latest_release_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -392,19 +393,93 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/newest_release_note"
+                        android:text="@string/layout_about_latest_release_note"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/external_link"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_issue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="30dp"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/layout_about_issue"
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/external_link"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:id="@+id/btn_donate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="30dp"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/layout_about_donate"
+                        android:textColor="@color/text_main"
+                        android:textSize="16sp"
+                        tools:ignore="RelativeOverlap" />
+
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/external_link"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -429,19 +504,19 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/privacy_policy"
+                        android:text="@string/layout_about_privacy_policy"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 
@@ -466,19 +541,19 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="10dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/open_source_terms"
+                        android:text="@string/layout_about_open_source_terms"
                         android:textColor="@color/text_main"
                         android:textSize="16sp"
                         tools:ignore="RelativeOverlap" />
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/jump"
-                        android:gravity="end"
-                        android:src="@drawable/chevron_right" />
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
 
                 </RelativeLayout>
 

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="@string/title"
+        android:text="@string/dialog_policy_grant_title"
         android:textColor="@color/text_bond"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:padding="20dp"
-        android:text="@string/tv_message"
+        android:text="@string/dialog_policy_grant_message_if_unread"
         android:textColor="@color/text_main"
         android:textSize="20sp" />
 
@@ -35,7 +35,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="5dp"
         android:gravity="center_vertical"
-        android:text="@string/confirm_read"
+        android:text="@string/dialog_policy_grant_confirm_read"
         android:textSize="16sp" />
 
     <View
@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/read_privacy_policy"
+            android:text="@string/dialog_policy_grant_read_privacy_policy"
             android:textColor="@color/main_color"
             android:textSize="20sp" />
 
@@ -69,7 +69,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/confirm"
+            android:text="@string/dialog_policy_grant_confirm"
             android:textColor="@color/main_color"
             android:textSize="20.0sp" />
     </LinearLayout>
