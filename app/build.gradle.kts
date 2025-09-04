@@ -132,7 +132,7 @@ dependencies {
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:13.0")
     // https://www.umeng.com
-    implementation("com.umeng.umsdk:common:9.8.7")
+    implementation("com.umeng.umsdk:common:9.8.8")
     implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
     implementation("com.umeng.umsdk:apm:2.0.4")
