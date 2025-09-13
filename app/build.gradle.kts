@@ -16,8 +16,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 36
-        versionCode = 72
-        versionName = "0.3.13-beta"
+        versionCode = 73
+        versionName = "0.3.14-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -126,7 +126,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
     // https://github.com/getActivity/DeviceCompat
-    implementation("com.github.getActivity:DeviceCompat:1.2")
+    implementation("com.github.getActivity:DeviceCompat:1.6")
     // https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:26.5")
     // https://github.com/getActivity/Toaster

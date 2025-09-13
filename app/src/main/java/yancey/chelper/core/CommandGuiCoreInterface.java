@@ -56,7 +56,7 @@ public interface CommandGuiCoreInterface {
     /**
      * 更新命令参数介绍
      */
-    void updateParamHint(@Nullable String description);
+    void updateParamHint(@Nullable String paramHint);
 
     /**
      * 更新命令错误原因

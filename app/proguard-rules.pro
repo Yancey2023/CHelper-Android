@@ -20,13 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# ----- Print Informations -----
-
--printseeds seeds.txt
--printusage usage.txt
--printmapping mapping.txt
--printconfiguration configuration.txt
-
 # ----- CHelper Native Core -----
 
 -keep class yancey.chelper.core.Suggestion{ *; }

@@ -3,25 +3,20 @@ package yancey.chelper.android.common.dialog;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialog;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
 import java.util.UUID;
 
-public class CaptchaDialog extends AppCompatDialog {
+public class CaptchaDialog extends FixedDialog {
 
     private final String specialCode;
     private Callback callback;
@@ -41,15 +36,6 @@ public class CaptchaDialog extends AppCompatDialog {
         super.onCreate(savedInstanceState);
         WebView webView = new WebView(getContext());
         setContentView(webView);
-        Window window = Objects.requireNonNull(getWindow());
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-        WindowManager.LayoutParams attributes = window.getAttributes();
-        Point point = new Point();
-        window.getWindowManager().getDefaultDisplay().getSize(point);
-        int edgeLength = (int) (((double) point.x) * 0.95d);
-        attributes.width = edgeLength;
-        attributes.height = edgeLength;
-        window.setAttributes(attributes);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);

@@ -131,7 +131,7 @@ public class CHelperCore implements Closeable {
         if (pointer == 0) {
             return null;
         }
-        return getDescription0(pointer);
+        return getParamHint0(pointer);
     }
 
     /**
@@ -305,7 +305,7 @@ public class CHelperCore implements Closeable {
      *
      * @param pointer 内核的内存地址
      */
-    private static native String getDescription0(long pointer);
+    private static native String getParamHint0(long pointer);
 
     /**
      * 获取当前命令的错误原因
