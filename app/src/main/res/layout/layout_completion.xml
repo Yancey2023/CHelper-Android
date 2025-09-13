@@ -6,6 +6,56 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <LinearLayout
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/background_component"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/structure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/layout_completion_welcome"
+            android:textColor="@color/text_main"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/param_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/layout_completion_author"
+            android:textColor="@color/text_secondary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/error_reasons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/top_view"
+        android:background="@color/line" />
+
     <FrameLayout
         android:id="@+id/fl_action_container"
         android:layout_width="match_parent"
@@ -15,7 +65,7 @@
 
         <include
             android:id="@+id/fl_actions"
-            layout="@layout/layout_menu_view" />
+            layout="@layout/layout_completion_menu" />
 
     </FrameLayout>
 
@@ -26,12 +76,6 @@
         android:layout_above="@id/fl_action_container"
         android:background="@color/line" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/background" />
-
     <RelativeLayout
         android:id="@+id/tail"
         android:layout_width="match_parent"
@@ -40,13 +84,13 @@
         android:background="@color/background">
 
         <View
-            android:id="@+id/btn_action"
+            android:id="@+id/btn_show_menu"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_margin="5dp"
             android:background="@drawable/chevron_down"
-            android:contentDescription="@string/iv_show" />
+            android:contentDescription="@string/layout_completion_icon_show_menu_content_description" />
 
         <View
             android:id="@+id/btn_copy"
@@ -56,18 +100,18 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="8dp"
             android:background="@drawable/copy"
-            android:contentDescription="@string/copy" />
+            android:contentDescription="@string/common_icon_copy_content_description" />
 
         <yancey.chelper.android.common.view.CommandEditText
-            android:id="@+id/ed_input"
+            android:id="@+id/expression"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@id/btn_copy"
-            android:layout_toEndOf="@id/btn_action"
+            android:layout_toEndOf="@id/btn_show_menu"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="@string/et_writeCommandHint"
+            android:hint="@string/layout_completion_command_hint"
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/text_main"
@@ -80,12 +124,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_command_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="43dp"
         android:layout_above="@id/line2"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/line"
         android:background="@color/background_component"
         android:scrollbars="vertical"
         tools:itemCount="15"
-        tools:listitem="@layout/layout_suggestion_crowded_item" />
+        tools:listitem="@layout/layout_completion_suggestion" />
 
 </RelativeLayout>

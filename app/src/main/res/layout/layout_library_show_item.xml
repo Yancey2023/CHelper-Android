@@ -7,11 +7,12 @@
 
     <View
         android:id="@+id/btn_copy"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/copy" />
+        android:background="@drawable/copy"
+        android:contentDescription="@string/common_icon_copy_content_description" />
 
     <TextView
         android:id="@+id/content"
@@ -21,7 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/btn_copy"
         android:gravity="center_vertical"
-        android:text="@string/sample_context"
+        android:text="@string/example_content"
         android:textColor="@color/main_color"
         android:textSize="16sp" />
 

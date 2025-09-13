@@ -65,7 +65,7 @@ public class ServiceManager {
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         COMMAND_LAB_RETROFIT = new Retrofit.Builder()
-                .baseUrl("https://abyssous.site:443/")
+                .baseUrl("https://abyssous.site/")
                 .client(CLIENT)
                 .addConverterFactory(GsonConverterFactory.create(GSON))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

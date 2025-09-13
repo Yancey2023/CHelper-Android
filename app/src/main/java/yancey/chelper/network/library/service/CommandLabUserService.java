@@ -30,16 +30,15 @@ import yancey.chelper.network.library.data.BaseResult;
 public interface CommandLabUserService {
 
     class SendVerifyCodeRequest {
+        public String special_code;
+        public Integer type;
         public String email;
+        public String phone;
+        public String lang;
     }
 
-    class SendVerifyCodeResponse {
-        @Nullable
-        public String message;
-    }
-
-    @POST("user/send_verify_code")
-    Call<BaseResult<SendVerifyCodeResponse>> sendVerifyCode(
+    @POST("register/sendCode")
+    Call<BaseResult<Void>> sendVerifyCode(
             @Body SendVerifyCodeRequest request
     );
 
@@ -77,7 +76,7 @@ public interface CommandLabUserService {
     );
 
     class LoginRequest {
-        public String email;
+        public String account;
         public String password;
     }
 

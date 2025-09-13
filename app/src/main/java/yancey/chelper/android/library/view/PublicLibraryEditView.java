@@ -51,12 +51,12 @@ import yancey.chelper.network.library.util.CommandLabUtil;
 @SuppressLint("ViewConstructor")
 public class PublicLibraryEditView extends BaseView {
 
-    private final EditText ed_name;
-    private final EditText ed_version;
-    private final EditText ed_author;
-    private final EditText ed_description;
-    private final EditText ed_tags;
-    private final EditText ed_commands;
+    private final EditText name;
+    private final EditText version;
+    private final EditText author;
+    private final EditText description;
+    private final EditText tags;
+    private final EditText commands;
     private Disposable upload, update, delete;
 
     public PublicLibraryEditView(
@@ -69,12 +69,12 @@ public class PublicLibraryEditView extends BaseView {
         super(fwsContext, R.layout.layout_library_edit);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         TextView tv_title = view.findViewById(R.id.title);
-        ed_name = view.findViewById(R.id.name);
-        ed_version = view.findViewById(R.id.version);
-        ed_author = view.findViewById(R.id.author);
-        ed_description = view.findViewById(R.id.description);
-        ed_tags = view.findViewById(R.id.tags);
-        ed_commands = view.findViewById(R.id.commands);
+        name = view.findViewById(R.id.name);
+        version = view.findViewById(R.id.version);
+        author = view.findViewById(R.id.author);
+        description = view.findViewById(R.id.description);
+        tags = view.findViewById(R.id.tags);
+        commands = view.findViewById(R.id.commands);
         TextView btn_preview = view.findViewById(R.id.btn_preview);
         TextView btn_save = view.findViewById(R.id.btn_save);
         TextView btn_upload = view.findViewById(R.id.btn_upload);
@@ -87,15 +87,15 @@ public class PublicLibraryEditView extends BaseView {
             }
         });
         if (before == null) {
-            tv_title.setText(R.string.library_upload_with_need_review);
+            tv_title.setText(R.string.layout_library_edit_title_upload_with_need_review);
         } else {
-            tv_title.setText(R.string.library_update_with_need_review);
-            ed_name.setText(before.name);
-            ed_version.setText(before.version);
-            ed_author.setText(before.author);
-            ed_description.setText(before.note);
-            ed_tags.setText(before.tags == null ? "" : String.join(",", before.tags));
-            ed_commands.setText(before.content);
+            tv_title.setText(R.string.layout_library_edit_title_update_with_need_review);
+            name.setText(before.name);
+            version.setText(before.version);
+            author.setText(before.author);
+            description.setText(before.note);
+            tags.setText(before.tags == null ? "" : String.join(",", before.tags));
+            commands.setText(before.content);
         }
         btn_save.setVisibility(View.GONE);
         if (before != null) {
@@ -107,7 +107,7 @@ public class PublicLibraryEditView extends BaseView {
                     return;
                 }
                 new IsConfirmDialog(context, false)
-                        .title(context.getString(R.string.library_upload))
+                        .title(context.getString(R.string.layout_library_edit_upload))
                         .message("是否确认上传？上传后，您提交的命令将被送往审核，审核通过后才会出现在公有命令库中。如果没有特殊说明，您提交的命令将以CC BY-SA 4.0（署名-相同方式共享 4.0）协议授权给本命令库使用。")
                         .onConfirm(() -> {
                             String content = CommandLabUtil.libraryToStr(after);
@@ -149,7 +149,7 @@ public class PublicLibraryEditView extends BaseView {
                     return;
                 }
                 new IsConfirmDialog(context, false)
-                        .title(context.getString(R.string.library_update))
+                        .title(context.getString(R.string.layout_library_edit_update))
                         .message("是否确认更新？更新后，您提交的命令将被送往审核，审核通过后才会出现在公有命令库中。如果没有特殊说明，您提交的命令将以CC BY-SA 4.0（署名-相同方式共享 4.0）协议授权给本命令库使用。")
                         .onConfirm(() -> {
                             String content = CommandLabUtil.libraryToStr(after);
@@ -183,7 +183,7 @@ public class PublicLibraryEditView extends BaseView {
             btn_delete.setVisibility(View.GONE);
         } else {
             btn_delete.setOnClickListener(view2 -> new IsConfirmDialog(context, false)
-                    .title(context.getString(R.string.library_delete))
+                    .title(context.getString(R.string.layout_library_edit_delete))
                     .message("删除后将无法找回，是否确认删除？")
                     .onConfirm(() -> {
                         if (delete != null) {
@@ -230,33 +230,33 @@ public class PublicLibraryEditView extends BaseView {
     @Nullable
     LibraryFunction getLibrary() {
         LibraryFunction library = new LibraryFunction();
-        library.name = ed_name.getText().toString();
+        library.name = name.getText().toString();
         if (library.name.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("名字未填写").show();
             return null;
         }
-        library.version = ed_version.getText().toString();
+        library.version = version.getText().toString();
         if (library.version.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("版本未填写").show();
             return null;
         }
-        library.author = ed_author.getText().toString();
+        library.author = author.getText().toString();
         if (library.author.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("作者未填写").show();
             return null;
         }
-        library.note = ed_description.getText().toString();
+        library.note = description.getText().toString();
         if (library.note.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("介绍未填写").show();
             return null;
         }
-        String tags = ed_tags.getText().toString();
-        if (tags.isEmpty()) {
+        String rawTags = tags.getText().toString();
+        if (rawTags.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("标签未填写").show();
             return null;
         }
-        library.tags = Arrays.stream(tags.split(",")).collect(Collectors.toList());
-        library.content = ed_commands.getText().toString();
+        library.tags = Arrays.stream(rawTags.split(",")).collect(Collectors.toList());
+        library.content = commands.getText().toString();
         if (library.content.isEmpty()) {
             new IsConfirmDialog(getContext(), false).message("命令未填写").show();
             return null;

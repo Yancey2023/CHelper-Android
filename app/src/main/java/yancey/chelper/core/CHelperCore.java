@@ -127,7 +127,7 @@ public class CHelperCore implements Closeable {
     /**
      * 获取当前命令参数的介绍
      */
-    public String getDescription() {
+    public String getParamHint() {
         if (pointer == 0) {
             return null;
         }

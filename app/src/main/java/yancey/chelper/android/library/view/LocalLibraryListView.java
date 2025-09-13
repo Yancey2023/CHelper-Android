@@ -72,11 +72,11 @@ public class LocalLibraryListView extends BaseView {
         View btn_export = view.findViewById(R.id.btn_export);
         View btn_import = view.findViewById(R.id.btn_import);
         View btn_upload = view.findViewById(R.id.btn_upload);
-        tv_title.setText(R.string.local_library);
+        tv_title.setText(R.string.layout_library_list_title_local);
         btn_update.setVisibility(View.GONE);
         ed_search = view.findViewById(R.id.search);
         ed_search.addTextChangedListener(TextWatcherUtil.onTextChanged(this::update));
-        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        RecyclerView rv_favoriteList = view.findViewById(R.id.list_view);
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         adapter = new LocalLibraryListAdapter(
                 context,
@@ -132,7 +132,7 @@ public class LocalLibraryListView extends BaseView {
         rv_favoriteList.setAdapter(adapter);
         if (getEnvironment() == Environment.APPLICATION) {
             btn_upload.setBackgroundResource(R.drawable.plus);
-            btn_upload.setContentDescription(getContext().getString(R.string.library_add));
+            btn_upload.setContentDescription(getContext().getString(R.string.layout_library_list_icon_add_content_description));
             btn_upload.setOnClickListener(v -> openView(context ->
                     new LocalLibraryEditView(context, new OnEditListener() {
                         @Override

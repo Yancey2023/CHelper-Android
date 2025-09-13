@@ -76,10 +76,10 @@ public class LibraryShowAdapter extends RecyclerView.Adapter<LibraryShowAdapter.
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         if (holder.viewType == 0) {
             if (library == null) {
-                holder.mTv_version.setText(R.string.library_loading);
-                holder.mTv_author.setText(R.string.library_loading);
-                holder.mTv_description.setText(R.string.library_loading);
-                holder.mTv_tags.setText(R.string.library_loading);
+                holder.mTv_version.setText(R.string.layout_library_show_loading);
+                holder.mTv_author.setText(R.string.layout_library_show_loading);
+                holder.mTv_description.setText(R.string.layout_library_show_loading);
+                holder.mTv_tags.setText(R.string.layout_library_show_loading);
             } else {
                 holder.mTv_version.setText(library.version);
                 holder.mTv_author.setText(library.author);
@@ -145,7 +145,7 @@ public class LibraryShowAdapter extends RecyclerView.Adapter<LibraryShowAdapter.
             if (viewType == 0) {
                 mTv_version = itemView.findViewById(R.id.version);
                 mTv_author = itemView.findViewById(R.id.author);
-                mTv_description = itemView.findViewById(R.id.description);
+                mTv_description = itemView.findViewById(R.id.variable_list_header);
                 mTv_tags = itemView.findViewById(R.id.tags);
             } else {
                 mTv_content = itemView.findViewById(R.id.content);

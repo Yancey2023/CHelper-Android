@@ -19,15 +19,11 @@
 package yancey.chelper.android.completion.view;
 
 import android.annotation.SuppressLint;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.LinkedList;
 
 import yancey.chelper.R;
 import yancey.chelper.android.common.util.HistoryManager;
@@ -45,7 +41,7 @@ public class HistoryView extends BaseView {
         super(fwsContext, R.layout.layout_history);
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         HistoryAdapter adapter = new HistoryAdapter(context, historyManager.getAll());
-        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        RecyclerView rv_favoriteList = view.findViewById(R.id.list_view);
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);

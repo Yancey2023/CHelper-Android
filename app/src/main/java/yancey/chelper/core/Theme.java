@@ -19,7 +19,7 @@
 package yancey.chelper.core;
 
 /**
- * 与c++交互时使用的语法高亮主题
+ * 语法高亮主题
  */
 public class Theme {
 

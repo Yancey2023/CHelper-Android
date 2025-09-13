@@ -64,10 +64,10 @@ public class PublicLibraryShowView extends BaseView {
         this.after = before;
         view.findViewById(R.id.back).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
         btn_like = view.findViewById(R.id.btn_like);
-        tv_like_count = view.findViewById(R.id.tv_like_count);
+        tv_like_count = view.findViewById(R.id.like_count);
         TextView tv_name = view.findViewById(R.id.name);
         LibraryShowAdapter adapter = new LibraryShowAdapter(context, before);
-        RecyclerView rv_favoriteList = view.findViewById(R.id.rv_list_view);
+        RecyclerView rv_favoriteList = view.findViewById(R.id.list_view);
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
         rv_favoriteList.setAdapter(adapter);

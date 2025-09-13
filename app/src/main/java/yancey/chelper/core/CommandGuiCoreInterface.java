@@ -31,7 +31,7 @@ public interface CommandGuiCoreInterface {
     /**
      * 是否更新命令参数介绍
      */
-    boolean isUpdateDescription();
+    boolean isUpdateParamHint();
 
     /**
      * 是否更新命令错误原因
@@ -56,7 +56,7 @@ public interface CommandGuiCoreInterface {
     /**
      * 更新命令参数介绍
      */
-    void updateDescription(@Nullable String description);
+    void updateParamHint(@Nullable String description);
 
     /**
      * 更新命令错误原因

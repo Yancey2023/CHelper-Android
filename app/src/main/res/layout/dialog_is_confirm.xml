@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="@string/title"
+        android:text="@string/dialog_is_confirm_title"
         android:textColor="@color/text_bond"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="20dp"
-        android:text="@string/tv_message"
+        android:text="@string/example_content"
         android:textColor="@color/text_main"
         android:textSize="20sp" />
 
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/cancel"
+            android:text="@string/dialog_is_confirm_cancel"
             android:textColor="@color/main_color"
             android:textSize="20sp" />
 
@@ -58,7 +58,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/confirm"
+            android:text="@string/dialog_is_confirm_confirm"
             android:textColor="@color/main_color"
             android:textSize="20.0sp" />
     </LinearLayout>

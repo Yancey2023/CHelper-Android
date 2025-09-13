@@ -19,7 +19,8 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:background="@drawable/chevron_left" />
+            android:background="@drawable/chevron_left"
+            android:contentDescription="@string/common_icon_back_content_description" />
 
         <TextView
             android:id="@+id/title"
@@ -29,7 +30,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/library_update_with_need_review"
+            android:text="@string/layout_library_edit_title_update_with_need_review"
             android:textColor="@color/text_main"
             android:textSize="16sp" />
 
@@ -51,7 +52,7 @@
             android:layout_marginVertical="5dp"
             android:background="@drawable/bg_btn"
             android:gravity="center"
-            android:text="@string/btn_preview"
+            android:text="@string/layout_library_edit_preview"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -63,10 +64,9 @@
             android:layout_marginVertical="5dp"
             android:background="@drawable/bg_btn"
             android:gravity="center"
-            android:text="@string/library_save"
+            android:text="@string/layout_library_edit_save"
             android:textColor="@color/white"
             android:textSize="18sp" />
-
 
         <TextView
             android:id="@+id/btn_upload"
@@ -76,7 +76,7 @@
             android:layout_marginVertical="5dp"
             android:background="@drawable/bg_btn"
             android:gravity="center"
-            android:text="@string/library_upload"
+            android:text="@string/layout_library_edit_upload"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -88,7 +88,7 @@
             android:layout_marginVertical="5dp"
             android:background="@drawable/bg_btn"
             android:gravity="center"
-            android:text="@string/library_update"
+            android:text="@string/layout_library_edit_update"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -100,7 +100,7 @@
             android:layout_marginVertical="5dp"
             android:background="@drawable/bg_btn"
             android:gravity="center"
-            android:text="@string/library_delete"
+            android:text="@string/layout_library_edit_delete"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="start"
-                    android:text="@string/library_name"
+                    android:text="@string/layout_library_edit_name_label"
                     android:textColor="@color/text_main"
                     android:textSize="16sp" />
 
@@ -162,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="start"
-                    android:text="@string/library_version"
+                    android:text="@string/layout_library_edit_version_label"
                     android:textColor="@color/text_main"
                     android:textSize="16sp" />
 
@@ -171,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_corner_10dp"
-                    android:hint="@string/library_version_hint"
+                    android:hint="@string/layout_library_edit_version_hint"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLength="100"
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="start"
-                    android:text="@string/library_author"
+                    android:text="@string/layout_library_edit_author_label"
                     android:textColor="@color/text_main"
                     android:textSize="16sp" />
 
@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="start"
-                    android:text="@string/library_description"
+                    android:text="@string/layout_library_edit_description_label"
                     android:textColor="@color/text_main"
                     android:textSize="16sp" />
 
@@ -259,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="start"
-                    android:text="@string/library_tags"
+                    android:text="@string/layout_library_edit_tags_label"
                     android:textColor="@color/text_main"
                     android:textSize="16sp" />
 
@@ -268,7 +268,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_corner_10dp"
-                    android:hint="@string/library_tags_hint"
+                    android:hint="@string/layout_library_edit_tags_hint"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:maxLength="100"
@@ -288,7 +288,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_corner_10dp"
                 android:gravity="start"
-                android:hint="@string/library_upload_note"
+                android:hint="@string/layout_library_edit_commands_hint"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:maxLength="1000000"

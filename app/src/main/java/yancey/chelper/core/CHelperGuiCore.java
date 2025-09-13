@@ -66,8 +66,8 @@ public class CHelperGuiCore implements Closeable {
                 commandGuiCoreInterface.updateStructure("欢迎使用CHelper");
             }
             // 显示作者信息
-            if (commandGuiCoreInterface.isUpdateDescription()) {
-                commandGuiCoreInterface.updateDescription("作者：Yancey");
+            if (commandGuiCoreInterface.isUpdateParamHint()) {
+                commandGuiCoreInterface.updateParamHint("作者：Yancey");
             }
             // 更新错误原因
             if (commandGuiCoreInterface.isUpdateErrorReason()) {
@@ -124,8 +124,8 @@ public class CHelperGuiCore implements Closeable {
             }
         }
         // 更新命令参数介绍
-        if (commandGuiCoreInterface.isUpdateDescription()) {
-            commandGuiCoreInterface.updateDescription(core.getDescription());
+        if (commandGuiCoreInterface.isUpdateParamHint()) {
+            commandGuiCoreInterface.updateParamHint(core.getParamHint());
         }
         // 更新补全提示列表
         commandGuiCoreInterface.updateSuggestions();

@@ -57,7 +57,7 @@ public class LoginUtil {
             return user.token;
         }
         CommandLabUserService.LoginRequest request = new CommandLabUserService.LoginRequest();
-        request.email = user.email;
+        request.account = user.phoneNumber;
         request.password = user.password;
         Response<BaseResult<CommandLabUserService.LoginResponse>> response = ServiceManager.COMMAND_LAB_USER_SERVICE.login(request).execute();
         if (response.body() != null && Objects.equals(response.body().status, "success")) {

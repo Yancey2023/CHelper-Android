@@ -34,34 +34,31 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import com.hjq.toast.Toaster;
+
 import java.util.Objects;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
 import yancey.chelper.android.about.activity.ShowTextActivity;
+import yancey.chelper.android.common.dialog.CaptchaDialog;
 import yancey.chelper.android.common.util.AssetsUtil;
 import yancey.chelper.android.common.util.SpanUtil;
 import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.network.library.data.User;
-import yancey.chelper.network.library.util.LoginUtil;
 
 /**
- * 命令库登录视图
+ * 命令库注册视图
  */
 @SuppressLint("ViewConstructor")
-public class LibraryLoginView extends BaseView {
+public class LibraryRegisterView extends BaseView {
 
     private final TextView message;
     private boolean isShowPassword = false;
-    private boolean isLogging = false;
-    private Disposable login;
+    private Disposable register;
 
-    public LibraryLoginView(@NonNull FWSContext fwsContext) {
-        super(fwsContext, R.layout.layout_library_login);
+    public LibraryRegisterView(@NonNull FWSContext fwsContext) {
+        super(fwsContext, R.layout.layout_library_register);
         EditText account = view.findViewById(R.id.account);
         EditText password = view.findViewById(R.id.password);
         ImageView clearAccount = view.findViewById(R.id.clear_account);
@@ -82,7 +79,7 @@ public class LibraryLoginView extends BaseView {
             context.startActivity(intent);
         });
         confirmRead.setText(spannableString);
-        Button loginBtn = view.findViewById(R.id.btn_login);
+        Button nextStepBtn = view.findViewById(R.id.btn_register);
         clearAccount.setOnClickListener(v -> account.setText(null));
         togglePasswordVisibility.setOnClickListener(v -> {
             isShowPassword = !isShowPassword;
@@ -97,52 +94,43 @@ public class LibraryLoginView extends BaseView {
             }
             password.setSelection(start, end);
         });
-        loginBtn.setOnClickListener(v -> {
+        nextStepBtn.setOnClickListener(v -> {
             // 判断是否勾选了协议
             if (!confirmRead.isChecked()) {
-                showMessageError(R.string.layout_library_login_confirm_check_before_login);
-                return;
-            }
-            // 避免反复按登录按钮
-            if (isLogging) {
-                showMessage(R.string.layout_library_login_logging);
+                showMessageError(R.string.layout_library_register_confirm_check_before_register);
                 return;
             }
             // 获取输入的内容
-            LoginUtil.user = new User();
+            User user = new User();
             String accountText = Objects.requireNonNull(getText(account));
             if (accountText.contains("@")) {
-                LoginUtil.user.email = accountText;
+                user.email = accountText;
             } else {
-                LoginUtil.user.phoneNumber = accountText;
+                user.phoneNumber = accountText;
             }
-            LoginUtil.user.password = getText(password);
-            if ((LoginUtil.user.email == null && LoginUtil.user.phoneNumber == null) || LoginUtil.user.password == null) {
-                showMessageError(R.string.layout_library_login_varification_failed);
+            user.password = getText(password);
+            if ((user.email == null && user.phoneNumber == null) || user.password == null) {
+                showMessageError(R.string.layout_library_register_varification_failed);
                 return;
             }
-            // 开始登录
-            if (login != null) {
-                login.dispose();
-            }
-            showMessage(R.string.layout_library_login_logging);
-            isLogging = true;
-            login = Observable.create((ObservableOnSubscribe<String>) emitter -> {
-                        emitter.onNext(LoginUtil.getToken());
-                        emitter.onComplete();
-                    }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(token -> {
-                        if (token != null) {
-                            showMessage(R.string.layout_library_login_successfully);
-                            getOnBackPressedDispatcher().onBackPressed();
-                        } else {
-                            showMessageError(R.string.layout_library_login_failed);
-                            isLogging = false;
+            // 人机认证
+            clearMessage();
+            new CaptchaDialog(context)
+                    .setCallback(new CaptchaDialog.Callback() {
+                        @Override
+                        public void onSuccess(@NonNull String specialCode) {
+                            // TODO continue
                         }
-                    }, throwable -> {
-                        isLogging = false;
-                        showMessageError(throwable.getMessage());
+
+                        @Override
+                        public void onFail(@NonNull String specialCode) {
+                            Toaster.show("人机验证失败");
+                        }
+
+                        @Override
+                        public void onCancel(@NonNull String specialCode) {
+                            // do nothing
+                        }
                     });
         });
     }
@@ -155,8 +143,8 @@ public class LibraryLoginView extends BaseView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (login != null) {
-            login.dispose();
+        if (register != null) {
+            register.dispose();
         }
     }
 
@@ -171,6 +159,10 @@ public class LibraryLoginView extends BaseView {
 
     @ColorInt
     private Integer textColorMain, textColorError;
+
+    private void clearMessage() {
+        message.setText(null);
+    }
 
     private void showMessage(@StringRes int resId) {
         message.setText(resId);

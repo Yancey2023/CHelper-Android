@@ -70,11 +70,12 @@
 
     <View
         android:id="@+id/delete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:background="@drawable/x" />
+        android:background="@drawable/x"
+        android:contentDescription="@string/layout_enumeration_icon_clear_content_description" />
 
 </RelativeLayout>

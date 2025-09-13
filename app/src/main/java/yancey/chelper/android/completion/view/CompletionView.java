@@ -78,16 +78,16 @@ public class CompletionView extends BaseView {
             @NonNull Runnable shutDown,
             @Nullable Runnable hideView
     ) {
-        super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_writing_command_crowded : R.layout.layout_writing_command);
+        super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_completion_crowded : R.layout.layout_completion);
         historyManager = new HistoryManager(FileUtil.getFile(getContext().getDataDir(), "history.txt"));
         boolean isCrowed = Settings.INSTANCE.isCrowed;
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         core = new CHelperGuiCore();
-        TextView mtv_structure = view.findViewById(R.id.tv_structure);
-        TextView mtv_description = view.findViewById(R.id.tv_description);
-        TextView mtv_errorReasons = view.findViewById(R.id.tv_error_reasons);
-        commandEditText = view.findViewById(R.id.ed_input);
+        @Nullable TextView tv_structure = view.findViewById(R.id.structure);
+        @Nullable TextView tv_paramHint = view.findViewById(R.id.param_hint);
+        @Nullable TextView tv_errorReasons = view.findViewById(R.id.error_reasons);
+        commandEditText = view.findViewById(R.id.expression);
         commandEditText.setListener(s -> core.onSelectionChanged(), core::onSelectionChanged, () -> isGuiLoaded);
         commandEditText.setTheme(isDarkMode ? Theme.THEME_NIGHT : Theme.THEME_DAY);
         SuggestionListAdapter adapter = new SuggestionListAdapter(context, core, isCrowed);
@@ -101,13 +101,13 @@ public class CompletionView extends BaseView {
             }
 
             @Override
-            public boolean isUpdateDescription() {
+            public boolean isUpdateParamHint() {
                 return true;
             }
 
             @Override
             public boolean isUpdateErrorReason() {
-                return (Settings.INSTANCE.isShowErrorReason && mtv_errorReasons != null) || isSyntaxHighlight();
+                return Settings.INSTANCE.isShowErrorReason || isSyntaxHighlight();
             }
 
             @Override
@@ -126,39 +126,46 @@ public class CompletionView extends BaseView {
 
             @Override
             public void updateStructure(@Nullable String structure) {
-                if (isCrowed) {
-                    adapter.setStructure(structure);
-                } else {
-                    mtv_structure.setText(structure);
+                if (tv_structure != null) {
+                    tv_structure.setText(structure);
                 }
+                adapter.setStructure(structure);
             }
 
             @Override
-            public void updateDescription(@Nullable String description) {
-                if (isCrowed) {
-                    adapter.setDescription(description);
-                } else {
-                    mtv_description.setText(description);
+            public void updateParamHint(@Nullable String paramHint) {
+                if (tv_paramHint != null) {
+                    tv_paramHint.setText(paramHint);
                 }
+                adapter.setParamHint(paramHint);
             }
 
             @Override
             public void updateErrorReason(@Nullable ErrorReason[] errorReasons) {
-                if (Settings.INSTANCE.isShowErrorReason && mtv_errorReasons != null) {
+                if (Settings.INSTANCE.isShowErrorReason) {
+                    String errorReasonStr;
                     if (errorReasons == null || errorReasons.length == 0) {
-                        mtv_errorReasons.setVisibility(View.GONE);
+                        errorReasonStr = null;
                     } else {
                         if (errorReasons.length == 1) {
-                            mtv_errorReasons.setText(errorReasons[0].errorReason);
+                            errorReasonStr = errorReasons[0].errorReason;
                         } else {
-                            StringBuilder errorReasonStr = new StringBuilder("可能的错误原因：");
+                            StringBuilder errorReasonStrBuilder = new StringBuilder("可能的错误原因：");
                             for (int i = 0; i < errorReasons.length; i++) {
-                                errorReasonStr.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
+                                errorReasonStrBuilder.append("\n").append(i + 1).append(". ").append(errorReasons[i].errorReason);
                             }
-                            mtv_errorReasons.setText(errorReasonStr);
+                            errorReasonStr = errorReasonStrBuilder.toString();
                         }
-                        mtv_errorReasons.setVisibility(View.VISIBLE);
                     }
+                    if (tv_errorReasons != null) {
+                        if (errorReasonStr == null) {
+                            tv_errorReasons.setVisibility(View.GONE);
+                        } else {
+                            tv_errorReasons.setVisibility(View.VISIBLE);
+                            tv_errorReasons.setText(errorReasonStr);
+                        }
+                    }
+                    adapter.setErrorReasons(errorReasonStr);
                 }
                 commandEditText.setErrorReasons(isSyntaxHighlight() ? errorReasons : null);
             }
@@ -185,7 +192,7 @@ public class CompletionView extends BaseView {
                 commandEditText.setColors(tokens);
             }
         });
-        btn_action = view.findViewById(R.id.btn_action);
+        btn_action = view.findViewById(R.id.btn_show_menu);
         btn_action.setOnClickListener(v -> {
             isShowActions = !isShowActions;
             updateActions();
@@ -207,7 +214,7 @@ public class CompletionView extends BaseView {
         });
         view.findViewById(R.id.btn_undo).setOnClickListener(v -> commandEditText.undo());
         view.findViewById(R.id.btn_redo).setOnClickListener(v -> commandEditText.redo());
-        view.findViewById(R.id.btn_delete).setOnClickListener(v -> commandEditText.delete());
+        view.findViewById(R.id.btn_clear).setOnClickListener(v -> commandEditText.clear());
         view.findViewById(R.id.btn_history).setOnClickListener(v -> openView(context -> new HistoryView(context, historyManager)));
         view.findViewById(R.id.btn_local_library).setOnClickListener(v -> openView(LocalLibraryListView::new));
         view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());

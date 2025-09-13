@@ -55,6 +55,14 @@ public class Settings {
      */
     public String themeId;
     /**
+     * 悬浮窗透明度
+     */
+    public Float floatingWindowAlpha;
+    /**
+     * 悬浮窗大小
+     */
+    public Integer floatingWindowSize;
+    /**
      * 根据光标位置提供补全提示
      */
     public Boolean isCheckingBySelection;
@@ -152,6 +160,14 @@ public class Settings {
         }
         if (INSTANCE.themeId == null) {
             INSTANCE.themeId = "MODE_NIGHT_FOLLOW_SYSTEM";
+            isDirty = true;
+        }
+        if (INSTANCE.floatingWindowAlpha == null) {
+            INSTANCE.floatingWindowAlpha = 1.0f;
+            isDirty = true;
+        }
+        if (INSTANCE.floatingWindowSize == null) {
+            INSTANCE.floatingWindowSize = 40;
             isDirty = true;
         }
         if (INSTANCE.isCheckingBySelection == null) {
