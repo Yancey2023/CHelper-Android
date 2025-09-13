@@ -18,15 +18,12 @@
 
 package yancey.chelper.android.home.activity
 
-import android.content.Intent
 import android.os.Bundle
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.functions.Functions
 import io.reactivex.rxjava3.schedulers.Schedulers
 import yancey.chelper.BuildConfig
-import yancey.chelper.R
-import yancey.chelper.android.about.activity.ShowTextActivity
 import yancey.chelper.android.common.activity.BaseComposeActivity
 import yancey.chelper.android.common.dialog.IsConfirmDialog
 import yancey.chelper.android.common.dialog.PolicyGrantDialog
@@ -38,7 +35,6 @@ import yancey.chelper.network.ServiceManager
 import yancey.chelper.ui.HomeScreen
 import java.io.File
 import java.lang.Boolean
-import kotlin.String
 import kotlin.plus
 
 /**
@@ -106,15 +102,18 @@ class HomeActivity : BaseComposeActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ versionInfo ->
-                    if (versionInfo.version != BuildConfig.VERSION_NAME) {
+                    if (versionInfo.version_name != BuildConfig.VERSION_NAME) {
                         val ignoreVersionFile = File(dataDir, "ignore_version.txt")
                         val ignoreVersion = ignoreVersionFile.bufferedReader().use { it.readText() }
-                        if (versionInfo.version != ignoreVersion) {
+                        if (versionInfo.version_name != ignoreVersion) {
                             IsConfirmDialog(this, false)
                                 .title("更新提醒")
-                                .message(versionInfo.version + "版本已发布，欢迎下载体验。本次更新内容如下：\n" + versionInfo.changelog)
+                                .message(versionInfo.version_name + "版本已发布，欢迎下载体验。本次更新内容如下：\n" + versionInfo.changelog)
                                 .onCancel("忽略此版本") {
-                                    FileUtil.writeString(ignoreVersionFile, versionInfo.version)
+                                    FileUtil.writeString(
+                                        ignoreVersionFile,
+                                        versionInfo.version_name
+                                    )
                                 }
                                 .show()
                         }
@@ -129,26 +128,10 @@ class HomeActivity : BaseComposeActivity() {
         if (state == PolicyGrantManager.State.AGREE) {
             return
         }
-        var message: String? = null
-        if (state == PolicyGrantManager.State.NOT_READ) {
-            message = "为保障您的权益，请阅读并同意《CHelper 隐私政策》，了解我们如何收集、使用您的信息。"
-        } else if (state == PolicyGrantManager.State.UPDATED) {
-            message =
-                "我们更新了《CHelper 隐私政策》，请务必仔细阅读以清晰了解您的权利与数据处理规则变化。"
-        }
         PolicyGrantDialog(this)
-            .message(message)
-            .onRead {
-                val intent = Intent(this, ShowTextActivity::class.java)
-                intent.putExtra(ShowTextActivity.TITLE, this.getString(R.string.privacy_policy))
-                intent.putExtra(
-                    ShowTextActivity.CONTENT,
-                    PolicyGrantManager.INSTANCE.privatePolicy
-                )
-                startActivity(intent)
-            }.onConfirm {
-                PolicyGrantManager.INSTANCE.agree()
-                showAnnouncement()
+            .state(state)
+            .onConfirm {
+                this.showAnnouncement()
             }
             .show()
     }

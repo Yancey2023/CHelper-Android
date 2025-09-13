@@ -15,14 +15,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:contentDescription="@string/layout_completion_undo"
             android:orientation="vertical">
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/arrow_back_up"
-                android:contentDescription="@string/layout_completion_icon_undo_content_description" />
+                android:background="@drawable/arrow_back_up" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,14 +39,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:contentDescription="@string/layout_completion_redo"
             android:orientation="vertical">
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/arrow_forward_up"
-                android:contentDescription="@string/layout_completion_icon_redo_content_description" />
+                android:background="@drawable/arrow_forward_up" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,14 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:contentDescription="@string/layout_completion_clear"
             android:orientation="vertical">
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/x"
-                android:contentDescription="@string/layout_completion_icon_clear_content_description" />
+                android:background="@drawable/x" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,14 +87,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:contentDescription="@string/layout_completion_history"
             android:orientation="vertical">
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/history"
-                android:contentDescription="@string/layout_completion_icon_history_content_description" />
+                android:background="@drawable/history" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,14 +111,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:contentDescription="@string/layout_completion_local_library"
             android:orientation="vertical">
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/box"
-                android:contentDescription="@string/layout_completion_icon_local_library_content_description" />
+                android:background="@drawable/box" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,14 +135,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:contentDescription="@string/layout_completion_shut_down"
             android:orientation="vertical">
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/power"
-                android:contentDescription="@string/layout_completion_icon_shut_down_content_description" />
+                android:background="@drawable/power" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -118,6 +118,8 @@ class SettingsActivity : BaseComposeActivity() {
     override fun onPause() {
         super.onPause()
         Settings.INSTANCE.isEnableUpdateNotifications = viewModel.isEnableUpdateNotifications
+        Settings.INSTANCE.floatingWindowAlpha = viewModel.floatingWindowAlpha
+        Settings.INSTANCE.floatingWindowSize = viewModel.floatingWindowSize
         Settings.INSTANCE.isCheckingBySelection = viewModel.isCheckingBySelection
         Settings.INSTANCE.isHideWindowWhenCopying = viewModel.isHideWindowWhenCopying
         Settings.INSTANCE.isSavingWhenPausing = viewModel.isSavingWhenPausing

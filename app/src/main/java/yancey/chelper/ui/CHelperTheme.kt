@@ -452,7 +452,7 @@ fun Header(title: String) {
                 })
                 .padding(5.dp)
                 .size(25.dp),
-            contentDescription = stringResource(R.string.back)
+            contentDescription = stringResource(R.string.common_icon_back_content_description)
         )
         Text(
             text = title,
@@ -465,7 +465,10 @@ fun Header(title: String) {
 }
 
 @Composable
-fun Copyright(modifier: Modifier = Modifier, copyright: String = "Copyright \u00a9 2025 Yancey") {
+fun Copyright(
+    modifier: Modifier = Modifier,
+    copyright: String = stringResource(R.string.common_copyright_yancey)
+) {
     Text(
         text = copyright,
         modifier = modifier.padding(5.dp),
@@ -478,7 +481,7 @@ fun Copyright(modifier: Modifier = Modifier, copyright: String = "Copyright \u00
 @Composable
 fun RootViewWithHeaderAndCopyright(
     title: String,
-    copyright: String = "Copyright \u00a9 2025 Yancey",
+    copyright: String = stringResource(R.string.common_copyright_yancey),
     content: @Composable () -> Unit
 ) {
     RootView {
@@ -551,13 +554,18 @@ fun NameAndContent(
 }
 
 @Composable
-fun NameAndAction(name: String, description: String? = null, onClick: () -> Unit) {
+fun NameAndAction(
+    name: String,
+    description: String? = null,
+    @DrawableRes iconId: Int = R.drawable.chevron_right,
+    onClick: () -> Unit
+) {
     NameAndContent(
         name = name,
         description = description,
         modifier = Modifier.clickable(onClick = onClick)
     ) {
-        Icon(R.drawable.chevron_right, Modifier.size(25.dp), name)
+        Icon(iconId, Modifier.size(25.dp), name)
     }
 }
 
@@ -579,7 +587,7 @@ fun NameAndValue(name: String, value: String) {
 @Composable
 fun NameAndLink(name: String, link: Uri) {
     val context = LocalContext.current
-    NameAndAction(name) {
+    NameAndAction(name, null, R.drawable.external_link) {
         context.startActivity(Intent(Intent.ACTION_VIEW, link))
     }
 }
@@ -602,6 +610,7 @@ fun NameAndAsset(name: String, assetsPath: String) {
 fun NameAndStartActivity(name: String, activityClass: Class<*>) {
     val context = LocalContext.current
     NameAndAction(
+        iconId = R.drawable.chevron_right,
         name = name,
         onClick = {
             context.startActivity(Intent(context, activityClass))

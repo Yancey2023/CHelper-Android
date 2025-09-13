@@ -83,7 +83,7 @@ class CompletionActivity : BaseComposeActivity() {
 
             override fun isUpdateStructure() = true
 
-            override fun isUpdateDescription() = true
+            override fun isUpdateParamHint() = true
 
             override fun isUpdateErrorReason() =
                 Settings.INSTANCE.isShowErrorReason || isSyntaxHighlight()
@@ -97,8 +97,8 @@ class CompletionActivity : BaseComposeActivity() {
                 viewModel.structure = structure
             }
 
-            override fun updateDescription(description: String?) {
-                viewModel.paramHint = description
+            override fun updateParamHint(paramHint: String?) {
+                viewModel.paramHint = paramHint
             }
 
             override fun updateErrorReason(errorReasons: Array<ErrorReason?>?) {

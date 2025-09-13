@@ -145,7 +145,7 @@ fun RawJsonTextField(
 fun RawtextScreen(viewModel: RawtextViewModel, getRawJson: () -> String) {
     val context = LocalContext.current
     val output = remember(viewModel.text) { getRawJson() }
-    RootViewWithHeaderAndCopyright(stringResource(R.string.raw_json_studio)) {
+    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_rawtext_title)) {
         Column(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -160,7 +160,7 @@ fun RawtextScreen(viewModel: RawtextViewModel, getRawJson: () -> String) {
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp)
                         .height(200.dp),
-                    hint = stringResource(R.string.ed_hint_rawtext)
+                    hint = stringResource(R.string.layout_rawtext_text_hint)
                 )
                 Spacer(Modifier.height(15.dp))
                 if (viewModel.isPreview) {
@@ -221,11 +221,11 @@ fun RawtextScreen(viewModel: RawtextViewModel, getRawJson: () -> String) {
                 }
             }
             if (viewModel.isPreview) {
-                Button(text = stringResource(R.string.copy)) {
+                Button(text = stringResource(R.string.common_copyright_yancey)) {
                     ClipboardUtil.setText(context, viewModel.text.text)
                 }
             }
-            Button(text = stringResource(if (viewModel.isPreview) R.string.color else R.string.preview)) {
+            Button(text = stringResource(if (viewModel.isPreview) R.string.layout_rawtext_color else R.string.layout_rawtext_preview)) {
                 viewModel.isPreview = !viewModel.isPreview
             }
         }

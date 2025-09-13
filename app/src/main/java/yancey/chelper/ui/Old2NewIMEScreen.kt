@@ -30,7 +30,7 @@ import yancey.chelper.R
 @Composable
 fun Old2NewIMEScreen(undo: () -> Unit) {
     Button(
-        text = stringResource(R.string.tv_undo),
+        text = stringResource(R.string.layout_old2new_ime_undo),
         modifier = Modifier
             .background(CHelperTheme.colors.background)
             .padding(15.dp),

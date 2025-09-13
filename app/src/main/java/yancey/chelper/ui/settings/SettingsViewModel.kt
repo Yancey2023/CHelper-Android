@@ -25,6 +25,8 @@ import androidx.lifecycle.ViewModel
 
 class SettingsViewModel : ViewModel() {
     var isEnableUpdateNotifications by mutableStateOf(false)
+    var floatingWindowAlpha by mutableStateOf(1f)
+    var floatingWindowSize by mutableStateOf(40)
     var isCheckingBySelection by mutableStateOf(false)
     var isHideWindowWhenCopying by mutableStateOf(false)
     var isSavingWhenPausing by mutableStateOf(false)

@@ -62,17 +62,11 @@
     <string name="layout_completion_command_hint">点我输入文字</string>
     <string name="layout_completion_icon_show_menu_content_description">显示或隐藏菜单</string>
     <string name="layout_completion_undo">撤回</string>
-    <string name="layout_completion_icon_undo_content_description">撤回</string>
     <string name="layout_completion_redo">恢复</string>
-    <string name="layout_completion_icon_redo_content_description">恢复</string>
     <string name="layout_completion_clear">清空</string>
-    <string name="layout_completion_icon_clear_content_description">清空</string>
     <string name="layout_completion_history">历史</string>
-    <string name="layout_completion_icon_history_content_description">历史</string>
     <string name="layout_completion_local_library">命令库</string>
-    <string name="layout_completion_icon_local_library_content_description">命令库</string>
     <string name="layout_completion_shut_down">关闭</string>
-    <string name="layout_completion_icon_shut_down_content_description">关闭</string>
 
     <!--    use in EnumerationView    -->
     <string name="layout_enumeration_title">穷举</string>

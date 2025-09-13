@@ -77,7 +77,7 @@ fun HomeScreen() {
                     )
                     Column(modifier = Modifier.padding(start = 20.dp)) {
                         Text(
-                            text = stringResource(R.string.app_name),
+                            text = stringResource(R.string.layout_home_app_name),
                             style = TextStyle(
                                 color = CHelperTheme.colors.textBond,
                                 fontSize = 25.sp,
@@ -85,7 +85,7 @@ fun HomeScreen() {
                             ),
                         )
                         Text(
-                            text = stringResource(R.string.app_description),
+                            text = stringResource(R.string.layout_home_app_description),
                             style = TextStyle(
                                 color = CHelperTheme.colors.textBond,
                                 fontSize = 18.sp
@@ -93,10 +93,10 @@ fun HomeScreen() {
                         )
                     }
                 }
-                CollectionName(stringResource(R.string.command_completion))
+                CollectionName(stringResource(R.string.layout_home_command_completion))
                 Collection {
                     NameAndAction(
-                        name = stringResource(R.string.tv_start_app),
+                        name = stringResource(R.string.layout_home_command_completion_app_mode),
                         onClick = {
                             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow) {
                                 Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式")
@@ -112,52 +112,49 @@ fun HomeScreen() {
                     )
                     Divider()
                     NameAndAction(
-                        name = stringResource(R.string.tv_start_window),
+                        name = stringResource(R.string.layout_home_command_completion_floating_window_mode),
                         onClick = {
                             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow) {
                                 CompletionWindowManager.INSTANCE.stopFloatingWindow()
                             } else {
-                                CompletionWindowManager.INSTANCE.startFloatingWindow(
-                                    context,
-                                    40
-                                )
+                                CompletionWindowManager.INSTANCE.startFloatingWindow(context)
                             }
                         }
                     )
                     Divider()
                     NameAndStartActivity(
-                        name = stringResource(R.string.settings),
+                        name = stringResource(R.string.layout_home_command_completion_settings),
                         activityClass = SettingsActivity::class.java
                     )
                 }
-                CollectionName(stringResource(R.string.old2new))
+                CollectionName(stringResource(R.string.layout_home_old2new))
                 Collection {
                     NameAndStartActivity(
-                        stringResource(R.string.tv_start_app),
+                        stringResource(R.string.layout_home_old2new_app_mode),
                         Old2NewActivity::class.java
                     )
                     Divider()
                     NameAndStartActivity(
-                        stringResource(R.string.tv_start_ime),
+                        stringResource(R.string.layout_home_old2new_ime_mode),
                         Old2NewIMEGuideActivity::class.java
                     )
                 }
-                CollectionName(stringResource(R.string.enumeration))
+                CollectionName(stringResource(R.string.layout_home_enumeration))
                 Collection {
                     NameAndStartActivity(
-                        stringResource(R.string.enumeration),
+                        stringResource(R.string.layout_home_enumeration_app_mode),
                         EnumerationActivity::class.java
                     )
                 }
-                CollectionName(stringResource(R.string.experiment_feature))
+                CollectionName(stringResource(R.string.layout_home_experimental_feature))
                 Collection {
                     NameAndStartActivity(
-                        stringResource(R.string.local_library),
+                        stringResource(R.string.layout_home_experimental_feature_local_library),
                         LocalLibraryListActivity::class.java
                     )
                     Divider()
                     NameAndAction(
-                        name = stringResource(R.string.public_library),
+                        name = stringResource(R.string.layout_home_experimental_feature_public_library),
                         onClick = {
 //                    startActivity(
 //                        Intent(
@@ -169,14 +166,14 @@ fun HomeScreen() {
                     )
                     Divider()
                     NameAndStartActivity(
-                        stringResource(R.string.raw_json_studio),
+                        stringResource(R.string.layout_home_experimental_feature_raw_json_studio),
                         RawtextActivity::class.java
                     )
                 }
-                CollectionName(stringResource(R.string.about))
+                CollectionName(stringResource(R.string.layout_home_about))
                 Collection {
                     NameAndStartActivity(
-                        stringResource(R.string.about),
+                        stringResource(R.string.layout_home_about_app_mode),
                         AboutActivity::class.java
                     )
                 }

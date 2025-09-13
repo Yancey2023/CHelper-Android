@@ -111,16 +111,16 @@ dependencies {
     implementation("com.github.Redempt:Crunch:2.0.3")
     // https://github.com/androidx/androidx
     implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("androidx.activity:activity:1.10.1")
-    implementation("androidx.activity:activity-ktx:1.10.1")
-    implementation("androidx.activity:activity-compose:1.10.1")
+    implementation("androidx.activity:activity:1.11.0")
+    implementation("androidx.activity:activity-ktx:1.11.0")
+    implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2")
-    implementation("androidx.compose.ui:ui:1.9.0-rc01")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.9.0-rc01")
-    implementation("androidx.compose.foundation:foundation:1.9.0-rc01")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.9.0-rc01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3")
+    implementation("androidx.compose.ui:ui:1.9.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.9.1")
+    implementation("androidx.compose.foundation:foundation:1.9.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.9.1")
     // https://github.com/ReactiveX/RxJava
     implementation("io.reactivex.rxjava3:rxjava:3.1.11")
     // https://github.com/ReactiveX/RxAndroid
@@ -136,7 +136,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
     // https://github.com/getActivity/DeviceCompat
-    implementation("com.github.getActivity:DeviceCompat:1.2")
+    implementation("com.github.getActivity:DeviceCompat:1.6")
     // https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:26.5")
     // https://github.com/getActivity/Toaster

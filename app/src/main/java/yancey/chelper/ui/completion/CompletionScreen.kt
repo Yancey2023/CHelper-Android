@@ -369,35 +369,42 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                 ) {
                     ToolbarItem(
                         id = R.drawable.arrow_back_up,
-                        description = stringResource(R.string.tv_undo),
+                        description = stringResource(R.string.layout_completion_undo),
                         onClick = {
                             viewModel.command.undoState.undo()
                         }
                     )
                     ToolbarItem(
                         id = R.drawable.arrow_forward_up,
-                        description = stringResource(R.string.tv_redo),
+                        description = stringResource(R.string.layout_completion_redo),
                         onClick = {
                             viewModel.command.undoState.redo()
                         }
                     )
                     ToolbarItem(
                         id = R.drawable.x,
-                        description = stringResource(R.string.tv_delete),
+                        description = stringResource(R.string.layout_completion_clear),
                         onClick = {
                             viewModel.command.clearText()
                         }
                     )
                     ToolbarItem(
                         id = R.drawable.box,
-                        description = stringResource(R.string.library),
+                        description = stringResource(R.string.layout_completion_history),
+                        onClick = {
+
+                        }
+                    )
+                    ToolbarItem(
+                        id = R.drawable.box,
+                        description = stringResource(R.string.layout_completion_local_library),
                         onClick = {
 
                         }
                     )
                     ToolbarItem(
                         id = R.drawable.power,
-                        description = stringResource(R.string.tv_turn_off),
+                        description = stringResource(R.string.layout_completion_shut_down),
                         onClick = {
 
                         }
@@ -419,14 +426,14 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                             viewModel.isShowMenu = !viewModel.isShowMenu
                         }
                         .padding(8.dp),
-                    contentDescription = stringResource(R.string.iv_show)
+                    contentDescription = stringResource(R.string.layout_completion_icon_show_menu_content_description)
                 )
                 CommandTextField(
                     value = viewModel.command,
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(1f),
-                    hint = stringResource(R.string.et_writeCommandHint),
+                    hint = stringResource(R.string.layout_completion_command_hint),
                     errorReasons = viewModel.errorReasons,
                     syntaxHighlightTokens = viewModel.syntaxHighlightTokens
                 )
@@ -447,7 +454,7 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                             }
                         }
                         .padding(8.dp),
-                    contentDescription = stringResource(R.string.copy)
+                    contentDescription = stringResource(R.string.common_icon_copy_content_description)
                 )
             }
         }

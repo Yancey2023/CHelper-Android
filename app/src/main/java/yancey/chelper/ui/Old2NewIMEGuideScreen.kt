@@ -41,7 +41,7 @@ import yancey.chelper.R
 @Composable
 fun Old2NewIMEGuideScreen() {
     val context = LocalContext.current
-    RootViewWithHeaderAndCopyright(stringResource(R.string.old2new_ime_name)) {
+    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_old2new_title)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -53,13 +53,13 @@ fun Old2NewIMEGuideScreen() {
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp)
             ) {
-                Text(text = stringResource(R.string.old2new_ime_welcome))
+                Text(text = stringResource(R.string.layout_old2new_ime_guide_guide))
             }
             Spacer(modifier = Modifier.height(15.dp))
-            Button(stringResource(R.string.old2new_ime_step1)) {
+            Button(stringResource(R.string.layout_old2new_ime_guide_step1)) {
                 context.startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
             }
-            Button(stringResource(R.string.old2new_ime_step2)) {
+            Button(stringResource(R.string.layout_old2new_ime_guide_step2)) {
                 (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showInputMethodPicker()
             }
         }

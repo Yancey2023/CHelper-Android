@@ -47,7 +47,7 @@ import yancey.chelper.ui.TextField
 @Composable
 fun Old2NewScreen(viewModel: Old2NewViewModel, old2new: (String) -> String) {
     val context = LocalContext.current
-    RootViewWithHeaderAndCopyright(stringResource(R.string.old2new)) {
+    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_old2new_title)) {
         Column(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -62,7 +62,7 @@ fun Old2NewScreen(viewModel: Old2NewViewModel, old2new: (String) -> String) {
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp)
                         .height(200.dp),
-                    hint = stringResource(R.string.ed_hint_old_command)
+                    hint = stringResource(R.string.layout_old2new_old_command_hint)
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 Surface(
@@ -75,14 +75,14 @@ fun Old2NewScreen(viewModel: Old2NewViewModel, old2new: (String) -> String) {
                 }
                 Spacer(modifier = Modifier.height(15.dp))
             }
-            Button(stringResource(R.string.btn_old2new_paste)) {
+            Button(stringResource(R.string.layout_old2new_clear_and_paste_old_command)) {
                 val charSequence = ClipboardUtil.getText(context)
                 if (charSequence != null) {
                     val text = charSequence.toString()
                     viewModel.oldCommand.setTextAndPlaceCursorAtEnd(text)
                 }
             }
-            Button(stringResource(R.string.btn_old2new_copy)) {
+            Button(stringResource(R.string.layout_old2new_copy_new_command)) {
                 ClipboardUtil.setText(context, viewModel.newCommand)
             }
         }

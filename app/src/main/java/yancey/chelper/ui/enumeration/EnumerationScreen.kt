@@ -51,7 +51,7 @@ import yancey.chelper.ui.TextField
 
 @Composable
 fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
-    RootViewWithHeaderAndCopyright(stringResource(R.string.enumeration)) {
+    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_enumeration_title)) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(Modifier.height(15.dp))
             TextField(
@@ -60,7 +60,7 @@ fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp)
                     .height(100.dp),
-                hint = stringResource(R.string.ed_enumeration_hint)
+                hint = stringResource(R.string.layout_enumeration_expression_hint)
             )
             Spacer(Modifier.height(15.dp))
             Row(
@@ -70,7 +70,7 @@ fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
                     .height(30.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = stringResource(R.string.tv_times))
+                Text(text = stringResource(R.string.layout_enumeration_times_label))
                 TextField(
                     state = viewModel.times,
                     contentAlignment = Alignment.CenterStart,
@@ -88,7 +88,7 @@ fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
                     .padding(horizontal = 15.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.variable_name),
+                    text = stringResource(R.string.layout_enumeration_variable_name),
                     modifier = Modifier.weight(1f),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
@@ -96,7 +96,7 @@ fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 Text(
-                    text = stringResource(R.string.tv_start_value),
+                    text = stringResource(R.string.layout_enumeration_initial_value),
                     modifier = Modifier.weight(1f),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
@@ -104,7 +104,7 @@ fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 Text(
-                    text = stringResource(R.string.tv_interval),
+                    text = stringResource(R.string.layout_enumeration_interval),
                     modifier = Modifier.weight(1f),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
@@ -164,10 +164,10 @@ fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
                     }
                 }
             }
-            Button(text = stringResource(R.string.btn_enumeration_add)) {
+            Button(text = stringResource(R.string.layout_enumeration_add_variable)) {
                 viewModel.variableList.add(DataVariable())
             }
-            Button(text = stringResource(R.string.btn_enumeration_run)) {
+            Button(text = stringResource(R.string.layout_enumeration_run)) {
                 run()
             }
         }

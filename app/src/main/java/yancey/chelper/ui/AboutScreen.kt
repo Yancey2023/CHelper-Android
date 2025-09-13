@@ -35,7 +35,7 @@ import yancey.chelper.R
 
 @Composable
 fun AboutScreen() {
-    RootViewWithHeaderAndCopyright(stringResource(R.string.about)) {
+    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_about_title)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -43,41 +43,63 @@ fun AboutScreen() {
         ) {
             Spacer(Modifier.height(15.dp))
             Collection {
-                NameAndValue("当前版本", BuildConfig.VERSION_NAME)
+                NameAndValue(
+                    stringResource(R.string.layout_about_current_version),
+                    BuildConfig.VERSION_NAME
+                )
                 Divider()
-                NameAndValue("作者", "Yancey")
+                NameAndValue(stringResource(R.string.layout_about_author), "Yancey")
                 Divider()
-                NameAndValue("QQ号", "1709185482")
+                NameAndValue(stringResource(R.string.layout_about_qq_personal), "1709185482")
                 Divider()
-                NameAndValue("QQ群号", "766625597")
+                NameAndValue(stringResource(R.string.layout_about_qq_group), "766625597")
                 Divider()
                 NameAndLink(
-                    "bilibili",
+                    stringResource(R.string.layout_about_bilibili),
                     "https://space.bilibili.com/470179011".toUri()
                 )
                 Divider()
                 NameAndLink(
-                    "内核源码",
+                    stringResource(R.string.layout_about_core_source),
                     "https://github.com/Yancey2023/CHelper-Core".toUri()
                 )
                 Divider()
                 NameAndLink(
-                    "软件源码",
+                    stringResource(R.string.layout_about_app_source),
                     "https://github.com/Yancey2023/CHelper-Android".toUri()
                 )
             }
             Spacer(Modifier.height(15.dp))
             Collection {
-                NameAndAsset("更新日志", "about/release_note.txt")
-                Divider()
-                NameAndLink(
-                    "最新版更新日志",
-                    "https://www.yanceymc.cn/blog/article/chelper-release-notes".toUri()
+                NameAndAsset(
+                    stringResource(R.string.layout_about_release_note),
+                    "about/release_note.txt"
                 )
                 Divider()
-                NameAndAsset("隐私政策", "about/privacy_policy.txt")
+                NameAndLink(
+                    stringResource(R.string.layout_about_latest_release_note),
+                    "https://www.yanceymc.cn/chelper_doc/chelper-release-notes".toUri()
+                )
                 Divider()
-                NameAndAsset("开源条款", "about/open_source_terms.txt")
+                NameAndLink(
+                    stringResource(R.string.layout_about_issue),
+                    "https://www.yanceymc.cn/gitea/Yancey/CHelper/issues".toUri()
+                )
+                Divider()
+                NameAndLink(
+                    stringResource(R.string.layout_about_donate),
+                    "https://www.yanceymc.cn/chelper_doc/donate".toUri()
+                )
+                Divider()
+                NameAndAsset(
+                    stringResource(R.string.layout_about_privacy_policy),
+                    "about/privacy_policy.txt"
+                )
+                Divider()
+                NameAndAsset(
+                    stringResource(R.string.layout_about_open_source_terms),
+                    "about/open_source_terms.txt"
+                )
             }
         }
     }
