@@ -22,14 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
 public class BaseResult<T> {
-
-    @Nullable
-    public String status;
-    @Nullable
-    public T data;
-    @Nullable
-    public String error_type;
-    @Nullable
-    public String message;
-
+    public @Nullable String status;
+    public @Nullable T data;
+    public @Nullable String error_type;
+    public @Nullable String message;
 }

@@ -147,15 +147,34 @@
 
     <!--    use in LibraryLoginView    -->
     <string name="layout_library_login_title">登录</string>
-    <string name="layout_library_login_email_hint">请输入邮箱</string>
-    <string name="layout_library_login_icon_clear_email_content_description">清空邮箱</string>
-    <string name="layout_library_login_password_hint">请输入密码</string>
+    <string name="layout_library_login_account_label">账号：</string>
+    <string name="layout_library_login_account_hint">请输入手机号/邮箱</string>
+    <string name="layout_library_login_password_label">密码：</string>
+    <string name="layout_library_login_icon_clear_account_content_description">清空账号</string>
     <string name="layout_library_login_icon_hide_password_content_description">显示或隐藏密码</string>
+    <string name="layout_library_login_register">马上注册</string>
+    <string name="layout_library_login_forget_password">忘记密码？</string>
+    <string name="layout_library_login_confirm_check_before_login">请先勾选再登录</string>
     <string name="layout_library_login_login">登录</string>
-    <string name="layout_login_logging">正在登录中</string>
-    <string name="layout_login_no_parameter">请输入用户名和密码</string>
-    <string name="layout_login_successfully">登录成功</string>
-    <string name="layout_login_failed">用户名或密码错误</string>
+    <string name="layout_library_login_logging">正在登录中</string>
+    <string name="layout_library_login_varification_failed">请输入正确的账号和密码</string>
+    <string name="layout_library_login_successfully">登录成功</string>
+    <string name="layout_library_login_failed">邮箱或密码错误</string>
+    <string name="layout_library_login_agree_user_policy">登录即表示同意CHelper《用户协议》与《隐私政策》</string>
+
+    <!--    use in LibraryRegisterView    -->
+    <string name="layout_library_register_title">注册</string>
+    <string name="layout_library_register_account_label">账号：</string>
+    <string name="layout_library_register_account_hint">请输入手机号/邮箱</string>
+    <string name="layout_library_register_password_label">密码：</string>
+    <string name="layout_library_register_icon_clear_account_content_description">清空账号</string>
+    <string name="layout_library_register_icon_hide_password_content_description">显示或隐藏密码</string>
+    <string name="layout_library_register_confirm_check_before_register">请先勾选再注册</string>
+    <string name="layout_library_register_next_step">下一步</string>
+    <string name="layout_library_register_varification_failed">请输入正确的账号和密码</string>
+    <string name="layout_library_register_successfully">注册成功</string>
+    <string name="layout_library_register_failed">邮箱或密码错误</string>
+    <string name="layout_library_register_agree_user_policy">注册即表示同意CHelper《用户协议》与《隐私政策》</string>
 
     <!--    use in Old2NewView    -->
     <string name="layout_old2new_title">旧版本命令转新版本命令</string>
@@ -194,6 +213,8 @@
     <string name="layout_settings_choose_theme_description">选择软件内置的主题</string>
     <string name="layout_settings_floating_window_alpha">悬浮窗透明度</string>
     <string name="layout_settings_floating_window_alpha_description">范围为10–100，重新打开悬浮窗才可以生效</string>
+    <string name="layout_settings_floating_window_size">悬浮窗大小</string>
+    <string name="layout_settings_floating_window_size_description">范围为10–100，重新打开悬浮窗才可以生效</string>
     <string name="layout_settings_completion_settings">命令补全</string>
     <string name="layout_settings_choose_cpack">命令分支</string>
     <string name="layout_settings_current_cpack">当前命令分支：%s</string>

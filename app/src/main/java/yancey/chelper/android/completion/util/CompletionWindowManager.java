@@ -84,26 +84,24 @@ public class CompletionWindowManager {
     /**
      * 开启悬浮窗
      *
-     * @param context  上下文
-     * @param iconSize 图标大小
+     * @param context 上下文
      */
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
-    public void startFloatingWindow(Context context, int iconSize) {
+    public void startFloatingWindow(Context context) {
         if (isShowXiaomiClipboardPermissionTips == null) {
             isShowXiaomiClipboardPermissionTips = !xiaomiClipboardPermissionTipsFile.exists() && (DeviceOs.isHyperOs() || DeviceOs.isMiui());
         }
-        startFloatingWindow(context, iconSize, isShowXiaomiClipboardPermissionTips);
+        startFloatingWindow(context, isShowXiaomiClipboardPermissionTips);
     }
 
     /**
      * 开启悬浮窗
      *
      * @param context                             上下文
-     * @param iconSize                            图标大小
      * @param isShowXiaomiClipboardPermissionTips 是否为小米用户或红米用户显示剪切板权限提示
      */
     @SuppressWarnings({"deprecation", "RedundantSuppression", "SameParameterValue"})
-    private void startFloatingWindow(Context context, int iconSize, boolean isShowXiaomiClipboardPermissionTips) {
+    private void startFloatingWindow(Context context, boolean isShowXiaomiClipboardPermissionTips) {
         if (!XXPermissions.isGrantedPermission(context, PermissionLists.getSystemAlertWindowPermission())) {
             new IsConfirmDialog(context, false)
                     .message("需要悬浮窗权限，请进入设置进行授权")
@@ -122,23 +120,23 @@ public class CompletionWindowManager {
         if (isShowXiaomiClipboardPermissionTips) {
             new IsConfirmDialog(context, false)
                     .message("对于小米手机和红米手机，需要将写入剪切板权限设置为始终允许才能在悬浮窗复制文本。具体设置方式如下：设置-应用设置-权限管理-应用权限管理-CHelper-写入剪切板-始终允许。")
-                    .onConfirm(() -> startFloatingWindow(context, iconSize, false))
+                    .onConfirm(() -> startFloatingWindow(context, false))
                     .onCancel("不再提示", () -> {
                         this.isShowXiaomiClipboardPermissionTips = false;
                         FileUtil.writeString(xiaomiClipboardPermissionTipsFile, "");
-                        startFloatingWindow(context, iconSize, false);
+                        startFloatingWindow(context, false);
                     })
                     .show();
             return;
         }
-        int length = (int) TypedValue.applyDimension(
+        int iconSize = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                iconSize,
+                Settings.INSTANCE.floatingWindowSize,
                 application.getResources().getDisplayMetrics()
         );
         ImageView iconView = new ImageView(context);
         iconView.setImageResource(R.drawable.pack_icon);
-        iconView.setLayoutParams(new FrameLayout.LayoutParams(length, length, Gravity.START | Gravity.TOP));
+        iconView.setLayoutParams(new FrameLayout.LayoutParams(iconSize, iconSize, Gravity.START | Gravity.TOP));
         FWSMainView<CompletionView> fwsMainView = new FWSMainView<>(
                 context,
                 FWSView.Environment.FLOATING_WINDOW,

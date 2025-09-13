@@ -82,7 +82,7 @@ public class HomeActivity extends BaseActivity {
             if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow()) {
                 CompletionWindowManager.INSTANCE.stopFloatingWindow();
             } else {
-                CompletionWindowManager.INSTANCE.startFloatingWindow(this, 40);
+                CompletionWindowManager.INSTANCE.startFloatingWindow(this);
             }
         });
         findViewById(R.id.settings).setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));

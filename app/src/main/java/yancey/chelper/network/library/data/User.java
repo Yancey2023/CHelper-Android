@@ -24,6 +24,8 @@ public class User {
     @Nullable
     public Long lastLoginTimestamp;
     @Nullable
+    public String phoneNumber;
+    @Nullable
     public String email;
     @Nullable
     public String password;

@@ -337,6 +337,56 @@
 
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@color/line" />
+
+                <RelativeLayout
+                    android:id="@+id/floating_window_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="15dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="39dp"
+                        android:orientation="vertical"
+                        tools:ignore="RelativeOverlap">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2.5dp"
+                            android:text="@string/layout_settings_floating_window_size"
+                            android:textColor="@color/text_main"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2.5dp"
+                            android:text="@string/layout_settings_floating_window_size_description"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/chevron_right"
+                        android:contentDescription="@string/common_icon_jump_content_description"
+                        android:gravity="end" />
+
+                </RelativeLayout>
+
             </LinearLayout>
 
             <TextView

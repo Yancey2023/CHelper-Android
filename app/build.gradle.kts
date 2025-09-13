@@ -105,7 +105,7 @@ if (keystorePropertiesFile.exists()) {
 
 dependencies {
     // https://github.com/google/gson
-    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("com.google.code.gson:gson:2.13.2")
     // https://github.com/boxbeam/Crunch
     implementation("com.github.Redempt:Crunch:2.0.3")
     // https://github.com/androidx/androidx
@@ -126,18 +126,18 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson")
     implementation("com.squareup.retrofit2:adapter-rxjava3")
     // https://github.com/getActivity/DeviceCompat
-    implementation("com.github.getActivity:DeviceCompat:1.0")
+    implementation("com.github.getActivity:DeviceCompat:1.2")
     // https://github.com/getActivity/XXPermissions
-    implementation("com.github.getActivity:XXPermissions:26.2")
+    implementation("com.github.getActivity:XXPermissions:26.5")
     // https://github.com/getActivity/Toaster
-    implementation("com.github.getActivity:Toaster:13.2")
+    implementation("com.github.getActivity:Toaster:13.5")
     // https://github.com/getActivity/EasyWindow
-    implementation("com.github.getActivity:EasyWindow:13.0")
+    implementation("com.github.getActivity:EasyWindow:13.2")
     // https://www.umeng.com
     implementation("com.umeng.umsdk:common:9.8.8")
     implementation("com.umeng.umsdk:asms:1.8.7.2")
     // noinspection Aligned16KB
-    implementation("com.umeng.umsdk:apm:2.0.4")
+    implementation("com.umeng.umsdk:apm:2.0.6")
     // https://github.com/junit-team/junit4
     testImplementation("junit:junit:4.13.2")
     // https://github.com/androidx/androidx

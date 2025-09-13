@@ -176,7 +176,7 @@ public class SettingsView extends BaseView {
         RelativeLayout floatingWindowAlpha = view.findViewById(R.id.floating_window_alpha);
         floatingWindowAlpha.setOnClickListener(v -> new InputStringDialog(context)
                 .title("请输入透明度")
-                .defaultInput(String.valueOf((int)(Settings.INSTANCE.floatingWindowAlpha * 100)))
+                .defaultInput(String.valueOf((int) (Settings.INSTANCE.floatingWindowAlpha * 100)))
                 .onConfirm(s -> {
                     try {
                         int integer = Integer.parseInt(s);
@@ -186,6 +186,25 @@ public class SettingsView extends BaseView {
                             integer = 100;
                         }
                         Settings.INSTANCE.floatingWindowAlpha = integer / 100f;
+                    } catch (NumberFormatException ignored) {
+
+                    }
+                })
+                .show()
+        );
+        RelativeLayout floatingWindowSize = view.findViewById(R.id.floating_window_size);
+        floatingWindowSize.setOnClickListener(v -> new InputStringDialog(context)
+                .title("请输入大小")
+                .defaultInput(String.valueOf(Settings.INSTANCE.floatingWindowSize))
+                .onConfirm(s -> {
+                    try {
+                        int integer = Integer.parseInt(s);
+                        if (integer < 10) {
+                            integer = 10;
+                        } else if (integer > 100) {
+                            integer = 100;
+                        }
+                        Settings.INSTANCE.floatingWindowSize = integer;
                     } catch (NumberFormatException ignored) {
 
                     }
