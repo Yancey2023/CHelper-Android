@@ -16,23 +16,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.old2new.activity
+package yancey.chelper.android.showtext.activity
 
 import android.os.Bundle
 import yancey.chelper.android.common.activity.BaseComposeActivity
-import yancey.chelper.ui.Old2NewIMEGuideScreen
+import yancey.chelper.ui.showtext.ShowTextScreen
 
 /**
- * 旧命令转新命令输入法引导界面
+ * 文本展示界面
  */
-class Old2NewIMEGuideActivity : BaseComposeActivity() {
+class ShowTextActivity : BaseComposeActivity() {
 
-    override val pageName = "Old2NewIMEGuide"
+    companion object {
+        const val TITLE: String = "title"
+        const val CONTENT: String = "content"
+    }
+
+    override val pageName = "ShowText"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val extras = intent.extras!!
         setContent {
-            Old2NewIMEGuideScreen()
+            ShowTextScreen(
+                title = extras.getString(TITLE)!!,
+                content = extras.getString(CONTENT)!!
+            )
         }
     }
 

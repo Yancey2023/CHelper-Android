@@ -24,6 +24,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.hjq.toast.Toaster
+import redempt.crunch.data.Pair
+import redempt.crunch.exceptions.ExpressionCompilationException
+import yancey.chelper.android.common.util.MonitorUtil
 
 class DataVariable {
     var name by mutableStateOf(TextFieldState())
@@ -35,4 +39,47 @@ class EnumerationViewModel : ViewModel() {
     var expression by mutableStateOf(TextFieldState())
     var times by mutableStateOf(TextFieldState())
     var variableList = mutableStateListOf<DataVariable>()
+    var output by mutableStateOf("")
+    var isShowPreviewDialog by mutableStateOf(false)
+
+    fun run() {
+        val input = expression.text.toString()
+        val timesInt: Int
+        try {
+            timesInt = times.text.toString().toInt()
+        } catch (_: NumberFormatException) {
+            Toaster.show("运行次数不是整数")
+            return
+        }
+        val pairs: List<Pair<String, CustomDoubleSupplier>>
+        try {
+            pairs =
+                variableList.map { dataVariable ->
+                    Pair(
+                        dataVariable.name.text.toString(),
+                        CustomDoubleSupplier(
+                            dataVariable.start.text.toString().toDouble(),
+                            dataVariable.interval.text.toString().toDouble()
+                        )
+                    )
+                }.toList()
+        } catch (_: NumberFormatException) {
+            Toaster.show("变量数据的获取出错")
+            return
+        }
+        try {
+            output = EnumerationUtil.run(input, pairs, timesInt)
+            isShowPreviewDialog = true
+        } catch (_: NumberFormatException) {
+            Toaster.show("运行时出错：文字转数字时失败")
+            return
+        } catch (_: ExpressionCompilationException) {
+            Toaster.show("运行时出错：表达式结构有问题")
+            return
+        } catch (throwable: Throwable) {
+            Toaster.show("运行时出错")
+            MonitorUtil.generateCustomLog(throwable, "ExpressionException")
+            return
+        }
+    }
 }

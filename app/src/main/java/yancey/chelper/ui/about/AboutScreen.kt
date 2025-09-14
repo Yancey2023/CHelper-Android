@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.ui
+package yancey.chelper.ui.about
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,11 +30,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import yancey.chelper.BuildConfig
 import yancey.chelper.R
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.layout.Collection
+import yancey.chelper.ui.common.layout.NameAndAsset
+import yancey.chelper.ui.common.layout.NameAndLink
+import yancey.chelper.ui.common.layout.NameAndValue
+import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
+import yancey.chelper.ui.common.widget.Divider
 
 @Composable
-fun AboutScreen() {
+fun AboutScreen(navController: NavHostController) {
     RootViewWithHeaderAndCopyright(stringResource(R.string.layout_about_title)) {
         Column(
             modifier = Modifier
@@ -72,6 +81,7 @@ fun AboutScreen() {
             Spacer(Modifier.height(15.dp))
             Collection {
                 NameAndAsset(
+                    navController,
                     stringResource(R.string.layout_about_release_note),
                     "about/release_note.txt"
                 )
@@ -92,11 +102,13 @@ fun AboutScreen() {
                 )
                 Divider()
                 NameAndAsset(
+                    navController,
                     stringResource(R.string.layout_about_privacy_policy),
                     "about/privacy_policy.txt"
                 )
                 Divider()
                 NameAndAsset(
+                    navController,
                     stringResource(R.string.layout_about_open_source_terms),
                     "about/open_source_terms.txt"
                 )
@@ -112,7 +124,7 @@ fun AboutScreenLightThemePreview() {
         theme = CHelperTheme.Theme.Light,
         backgroundBitmap = null
     ) {
-        AboutScreen()
+        AboutScreen(rememberNavController())
     }
 }
 
@@ -120,6 +132,6 @@ fun AboutScreenLightThemePreview() {
 @Composable
 fun AboutScreenDarkThemePreview() {
     CHelperTheme(theme = CHelperTheme.Theme.Dark, backgroundBitmap = null) {
-        AboutScreen()
+        AboutScreen(rememberNavController())
     }
 }

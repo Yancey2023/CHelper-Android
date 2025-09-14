@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https:></https:>//www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.enumeration.util
+package yancey.chelper.ui.enumeration
 
 import redempt.crunch.CompiledExpression
 import redempt.crunch.Crunch

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.ui
+package yancey.chelper.ui.home
 
 import android.content.Intent
 import androidx.compose.foundation.Image
@@ -40,20 +40,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.hjq.toast.Toaster
 import yancey.chelper.R
-import yancey.chelper.android.about.activity.AboutActivity
-import yancey.chelper.android.common.activity.SettingsActivity
 import yancey.chelper.android.completion.activity.CompletionActivity
 import yancey.chelper.android.completion.util.CompletionWindowManager
-import yancey.chelper.android.enumeration.activity.EnumerationActivity
 import yancey.chelper.android.library.activity.LocalLibraryListActivity
-import yancey.chelper.android.old2new.activity.Old2NewActivity
-import yancey.chelper.android.old2new.activity.Old2NewIMEGuideActivity
-import yancey.chelper.android.rawtext.activity.RawtextActivity
+import yancey.chelper.ui.AboutScreenKey
+import yancey.chelper.ui.EnumerationScreenKey
+import yancey.chelper.ui.Old2NewIMEGuideScreenKey
+import yancey.chelper.ui.Old2NewScreenKey
+import yancey.chelper.ui.RawtextScreenKey
+import yancey.chelper.ui.SettingsScreenKey
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.layout.Collection
+import yancey.chelper.ui.common.layout.CollectionName
+import yancey.chelper.ui.common.layout.Copyright
+import yancey.chelper.ui.common.layout.NameAndAction
+import yancey.chelper.ui.common.layout.NameAndStartActivity
+import yancey.chelper.ui.common.layout.RootView
+import yancey.chelper.ui.common.widget.Divider
+import yancey.chelper.ui.common.widget.Text
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavHostController = rememberNavController(),
+) {
     val context = LocalContext.current
     RootView {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -122,29 +135,25 @@ fun HomeScreen() {
                         }
                     )
                     Divider()
-                    NameAndStartActivity(
-                        name = stringResource(R.string.layout_home_command_completion_settings),
-                        activityClass = SettingsActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_command_completion_settings)) {
+                        navController.navigate(SettingsScreenKey)
+                    }
                 }
                 CollectionName(stringResource(R.string.layout_home_old2new))
                 Collection {
-                    NameAndStartActivity(
-                        stringResource(R.string.layout_home_old2new_app_mode),
-                        Old2NewActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_old2new_app_mode)) {
+                        navController.navigate(Old2NewScreenKey)
+                    }
                     Divider()
-                    NameAndStartActivity(
-                        stringResource(R.string.layout_home_old2new_ime_mode),
-                        Old2NewIMEGuideActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_old2new_ime_mode)) {
+                        navController.navigate(Old2NewIMEGuideScreenKey)
+                    }
                 }
                 CollectionName(stringResource(R.string.layout_home_enumeration))
                 Collection {
-                    NameAndStartActivity(
-                        stringResource(R.string.layout_home_enumeration_app_mode),
-                        EnumerationActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_enumeration_app_mode)) {
+                        navController.navigate(EnumerationScreenKey)
+                    }
                 }
                 CollectionName(stringResource(R.string.layout_home_experimental_feature))
                 Collection {
@@ -165,17 +174,15 @@ fun HomeScreen() {
                         }
                     )
                     Divider()
-                    NameAndStartActivity(
-                        stringResource(R.string.layout_home_experimental_feature_raw_json_studio),
-                        RawtextActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_experimental_feature_raw_json_studio)) {
+                        navController.navigate(RawtextScreenKey)
+                    }
                 }
                 CollectionName(stringResource(R.string.layout_home_about))
                 Collection {
-                    NameAndStartActivity(
-                        stringResource(R.string.layout_home_about_app_mode),
-                        AboutActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_about_app_mode)) {
+                        navController.navigate(AboutScreenKey)
+                    }
                 }
             }
             Copyright(Modifier.align(Alignment.CenterHorizontally))

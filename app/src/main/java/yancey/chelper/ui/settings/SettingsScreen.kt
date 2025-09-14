@@ -21,33 +21,38 @@ package yancey.chelper.ui.settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import yancey.chelper.R
-import yancey.chelper.android.common.dialog.InputStringDialog
-import yancey.chelper.ui.CHelperTheme
-import yancey.chelper.ui.Collection
-import yancey.chelper.ui.CollectionName
-import yancey.chelper.ui.Divider
-import yancey.chelper.ui.NameAndAction
-import yancey.chelper.ui.RootViewWithHeaderAndCopyright
-import yancey.chelper.ui.SettingsItem
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.dialog.ChoosingDialog
+import yancey.chelper.ui.common.dialog.InputStringDialog
+import yancey.chelper.ui.common.dialog.IsConfirmDialog
+import yancey.chelper.ui.common.layout.Collection
+import yancey.chelper.ui.common.layout.CollectionName
+import yancey.chelper.ui.common.layout.NameAndAction
+import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
+import yancey.chelper.ui.common.layout.SettingsItem
+import yancey.chelper.ui.common.widget.Divider
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel,
-    chooseCpack: () -> Unit,
     chooseBackground: () -> Unit,
     restoreBackground: () -> Unit,
-    chooseTheme: () -> Unit,
+    onChooseTheme: () -> Unit,
+    viewModel: SettingsViewModel = viewModel(),
 ) {
+    LaunchedEffect(viewModel) {
+        viewModel.setOnThemeChangedCallback(onChooseTheme)
+    }
     RootViewWithHeaderAndCopyright(stringResource(R.string.layout_settings_title)) {
-        val context = LocalContext.current
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -75,72 +80,47 @@ fun SettingsScreen(
                     name = stringResource(R.string.layout_settings_restore_background),
                     description = stringResource(R.string.layout_settings_restore_background_description),
                 ) {
-                    restoreBackground()
+                    viewModel.isShowResumeBackgroundDialog = true
                 }
                 Divider()
                 NameAndAction(
                     name = stringResource(R.string.layout_settings_choose_theme),
                     description = stringResource(R.string.layout_settings_choose_theme_description),
                 ) {
-                    chooseTheme()
+                    viewModel.isShowChooseThemeDialog = true
                 }
                 Divider()
                 NameAndAction(
                     name = stringResource(R.string.layout_settings_floating_window_alpha),
                     description = stringResource(R.string.layout_settings_floating_window_alpha_description),
                 ) {
-                    InputStringDialog(context)
-                        .title("请输入透明度")
-                        .defaultInput(
-                            (viewModel.floatingWindowAlpha * 100).toInt().toString()
-                        )
-                        .onConfirm { s: String? ->
-                            try {
-                                var integer = s!!.toInt()
-                                if (integer < 10) {
-                                    integer = 10
-                                } else if (integer > 100) {
-                                    integer = 100
-                                }
-                                viewModel.floatingWindowAlpha = integer / 100f
-                            } catch (_: NumberFormatException) {
-                            }
-                        }
-                        .show()
+                    viewModel.isShowInputFloatingWindowAlphaDialog = true
                 }
                 Divider()
                 NameAndAction(
                     name = stringResource(R.string.layout_settings_floating_window_size),
                     description = stringResource(R.string.layout_settings_floating_window_size_description),
                 ) {
-                    InputStringDialog(context)
-                        .title("请输入大小")
-                        .defaultInput(viewModel.floatingWindowSize.toString())
-                        .onConfirm { s: String? ->
-                            try {
-                                var integer = s!!.toInt()
-                                if (integer < 10) {
-                                    integer = 10
-                                } else if (integer > 100) {
-                                    integer = 100
-                                }
-                                viewModel.floatingWindowSize = integer
-                            } catch (_: java.lang.NumberFormatException) {
-                            }
-                        }
-                        .show()
+                    viewModel.isShowInputFloatingWindowSizeDialog = true
                 }
             }
             CollectionName(stringResource(R.string.layout_settings_completion_settings))
             Collection {
+                val currentCpackBranchTranslation = remember(viewModel.cpackBranch) {
+                    for (i in viewModel.cpackBranches.indices) {
+                        if (viewModel.cpackBranch == viewModel.cpackBranches[i]) {
+                            return@remember viewModel.cpackBranchTranslations[i]
+                        }
+                    }
+                }
                 NameAndAction(
                     name = stringResource(R.string.layout_settings_choose_cpack),
                     description = stringResource(
                         R.string.layout_settings_current_cpack,
-                        viewModel.currentCpackBranchTranslation
+                        currentCpackBranchTranslation
                     )
                 ) {
-                    chooseCpack()
+                    viewModel.isShowChooseCpackBranchDialog = true
                 }
                 Divider()
                 SettingsItem(
@@ -187,6 +167,89 @@ fun SettingsScreen(
             }
         }
     }
+    if (viewModel.isShowChooseThemeDialog) {
+        val data = remember {
+            arrayOf(
+                "浅色模式" to "MODE_NIGHT_NO",
+                "深色模式" to "MODE_NIGHT_YES",
+                "跟随系统" to "MODE_NIGHT_FOLLOW_SYSTEM",
+            )
+        }
+        ChoosingDialog(
+            onDismissRequest = { viewModel.isShowChooseThemeDialog = false },
+            data = data,
+            onChoose = {
+                viewModel.setThemeId(it)
+            })
+    }
+    if (viewModel.isShowResumeBackgroundDialog) {
+        IsConfirmDialog(
+            onDismissRequest = { viewModel.isShowResumeBackgroundDialog = false },
+            content = "是否恢复背景？",
+            onConfirm = {
+                restoreBackground()
+            }
+        )
+    }
+    if (viewModel.isShowInputFloatingWindowAlphaDialog) {
+        val textFieldState = rememberTextFieldState(
+            initialText = viewModel.floatingWindowSize.toString()
+        )
+        InputStringDialog(
+            onDismissRequest = { viewModel.isShowInputFloatingWindowAlphaDialog = false },
+            title = "请输入透明度",
+            textFieldState = textFieldState,
+            onConfirm = {
+                try {
+                    var integer = textFieldState.text.toString().toInt()
+                    if (integer < 10) {
+                        integer = 10
+                    } else if (integer > 100) {
+                        integer = 100
+                    }
+                    viewModel.floatingWindowSize = integer
+                } catch (_: NumberFormatException) {
+                }
+            }
+        )
+    }
+    if (viewModel.isShowInputFloatingWindowSizeDialog) {
+        val textFieldState = rememberTextFieldState(
+            initialText = (viewModel.floatingWindowAlpha * 100).toInt().toString()
+        )
+        InputStringDialog(
+            onDismissRequest = { viewModel.isShowInputFloatingWindowSizeDialog = false },
+            title = "请输入透明度",
+            textFieldState = textFieldState,
+            onConfirm = {
+                try {
+                    var integer = textFieldState.text.toString().toInt()
+                    if (integer < 10) {
+                        integer = 10
+                    } else if (integer > 100) {
+                        integer = 100
+                    }
+                    viewModel.floatingWindowAlpha = integer / 100f
+                } catch (_: NumberFormatException) {
+                }
+            }
+        )
+    }
+    if (viewModel.isShowChooseCpackBranchDialog) {
+        val data = remember {
+            val result = mutableListOf<Pair<String, String>>()
+            for (i in 0 until viewModel.cpackBranches.size) {
+                result.add(viewModel.cpackBranchTranslations[i] to viewModel.cpackBranches[i])
+            }
+            result.toTypedArray()
+        }
+        ChoosingDialog(
+            onDismissRequest = { viewModel.isShowChooseCpackBranchDialog = false },
+            data = data,
+            onChoose = {
+                viewModel.cpackBranch = it
+            })
+    }
 }
 
 @Preview
@@ -196,7 +259,11 @@ fun SettingsScreenLightThemePreview() {
         theme = CHelperTheme.Theme.Light,
         backgroundBitmap = null
     ) {
-        SettingsScreen(viewModel(), {}, {}, {}, {})
+        SettingsScreen(
+            chooseBackground = {},
+            restoreBackground = {},
+            onChooseTheme = {},
+        )
     }
 }
 
@@ -207,6 +274,10 @@ fun SettingsScreenDarkThemePreview() {
         theme = CHelperTheme.Theme.Dark,
         backgroundBitmap = null
     ) {
-        SettingsScreen(viewModel(), {}, {}, {}, {})
+        SettingsScreen(
+            chooseBackground = {},
+            restoreBackground = {},
+            onChooseTheme = {},
+        )
     }
 }

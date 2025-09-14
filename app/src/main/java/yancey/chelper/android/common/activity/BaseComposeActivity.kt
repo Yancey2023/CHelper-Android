@@ -42,17 +42,20 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import yancey.chelper.android.common.style.CustomTheme
 import yancey.chelper.android.common.util.MonitorUtil
 import yancey.chelper.android.common.util.Settings
-import yancey.chelper.ui.CHelperTheme
+import yancey.chelper.ui.common.CHelperTheme
 
 abstract class BaseComposeActivity : ComponentActivity() {
 
     private var backgroundUpdateTimes = 0
     protected var backgroundBitmap by mutableStateOf<ImageBitmap?>(null)
     protected var theme by mutableStateOf(CHelperTheme.Theme.Light)
+    protected var isSystemDarkMode = false
 
     abstract val pageName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isSystemDarkMode =
+            (application.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
         refreshTheme()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
@@ -83,7 +86,7 @@ abstract class BaseComposeActivity : ComponentActivity() {
     }
 
     protected fun refreshTheme() {
-        val isSystemDarkMode =
+        val isDarkBefore =
             (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
         theme = when (Settings.INSTANCE.themeId) {
             "MODE_NIGHT_NO" -> CHelperTheme.Theme.Light
@@ -91,11 +94,13 @@ abstract class BaseComposeActivity : ComponentActivity() {
             else -> if (isSystemDarkMode) CHelperTheme.Theme.Dark else CHelperTheme.Theme.Light
         }
         val isDarkMode = theme == CHelperTheme.Theme.Dark
-        if (isSystemDarkMode != isDarkMode) {
+        if (isDarkBefore != isDarkMode) {
             WindowInsetsControllerCompat(window, window.decorView).apply {
                 isAppearanceLightStatusBars = !isDarkMode
                 isAppearanceLightNavigationBars = !isDarkMode
             }
+            resources.configuration.uiMode =
+                if (isDarkMode) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
         }
     }
 

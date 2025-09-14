@@ -5,8 +5,9 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    kotlin("android")
+    kotlin("plugin.compose")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -17,8 +18,8 @@ android {
         applicationId = "yancey.chelper"
         minSdk = 24
         targetSdk = 36
-        versionCode = 72
-        versionName = "0.3.13-beta"
+        versionCode = 73
+        versionName = "0.3.14-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -115,6 +116,9 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.11.0")
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.navigation:navigation-compose:2.9.4")
+//    implementation("androidx.datastore:datastore:1.1.7")
+//    implementation("androidx.datastore:datastore-preferences:1.1.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3")
     implementation("androidx.compose.ui:ui:1.9.1")

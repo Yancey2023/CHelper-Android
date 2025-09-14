@@ -16,24 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.about.activity
+package yancey.chelper.ui.common.layout
 
-import android.os.Bundle
-import yancey.chelper.android.common.activity.BaseComposeActivity
-import yancey.chelper.ui.AboutScreen
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import yancey.chelper.R
+import yancey.chelper.ui.common.widget.Text
 
-/**
- * 软件的关于界面
- */
-class AboutActivity : BaseComposeActivity() {
-
-    override val pageName = "About"
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            AboutScreen()
-        }
-    }
-
+@Composable
+fun Copyright(
+    modifier: Modifier = Modifier,
+    copyright: String = stringResource(R.string.common_copyright_yancey)
+) {
+    Text(
+        text = copyright,
+        modifier = modifier.padding(5.dp),
+        style = TextStyle(
+            fontSize = 14.sp,
+        ),
+    )
 }

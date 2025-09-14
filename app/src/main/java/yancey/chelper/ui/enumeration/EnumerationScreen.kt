@@ -18,6 +18,8 @@
 
 package yancey.chelper.ui.enumeration
 
+import android.content.ClipData
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,141 +38,240 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hjq.toast.Toaster
+import kotlinx.coroutines.launch
 import yancey.chelper.R
-import yancey.chelper.ui.Button
-import yancey.chelper.ui.CHelperTheme
-import yancey.chelper.ui.Icon
-import yancey.chelper.ui.RootViewWithHeaderAndCopyright
-import yancey.chelper.ui.Text
-import yancey.chelper.ui.TextField
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.dialog.IsConfirmDialog
+import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
+import yancey.chelper.ui.common.widget.Button
+import yancey.chelper.ui.common.widget.Icon
+import yancey.chelper.ui.common.widget.Text
+import yancey.chelper.ui.common.widget.TextField
 
 @Composable
-fun EnumerationScreen(viewModel: EnumerationViewModel, run: () -> Unit) {
-    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_enumeration_title)) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(Modifier.height(15.dp))
-            TextField(
-                state = viewModel.expression,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-                    .height(100.dp),
-                hint = stringResource(R.string.layout_enumeration_expression_hint)
+fun EnumerationScreenTimes(viewModel: EnumerationViewModel) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 15.dp)
+            .height(30.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = stringResource(R.string.layout_enumeration_times_label))
+        TextField(
+            state = viewModel.times,
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp),
+            isNarrow = true,
+            lineLimits = TextFieldLineLimits.SingleLine
+        )
+    }
+}
+
+@Composable
+fun EnumerationScreenVariable(modifier: Modifier = Modifier, viewModel: EnumerationViewModel) {
+    Column(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.layout_enumeration_variable_name),
+                modifier = Modifier.weight(1f),
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                ),
             )
-            Spacer(Modifier.height(15.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-                    .height(30.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = stringResource(R.string.layout_enumeration_times_label))
-                TextField(
-                    state = viewModel.times,
-                    contentAlignment = Alignment.CenterStart,
+            Spacer(modifier = Modifier.width(15.dp))
+            Text(
+                text = stringResource(R.string.layout_enumeration_initial_value),
+                modifier = Modifier.weight(1f),
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                ),
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+            Text(
+                text = stringResource(R.string.layout_enumeration_interval),
+                modifier = Modifier.weight(1f),
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                ),
+            )
+            Spacer(modifier = Modifier.width(45.dp))
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            itemsIndexed(viewModel.variableList) { index, variable ->
+                Spacer(modifier = Modifier.height(15.dp))
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 15.dp),
-                    isNarrow = true,
-                    lineLimits = TextFieldLineLimits.SingleLine
-                )
-            }
-            Spacer(Modifier.height(15.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.layout_enumeration_variable_name),
-                    modifier = Modifier.weight(1f),
-                    style = TextStyle(
-                        textAlign = TextAlign.Center,
-                    ),
-                )
-                Spacer(modifier = Modifier.width(15.dp))
-                Text(
-                    text = stringResource(R.string.layout_enumeration_initial_value),
-                    modifier = Modifier.weight(1f),
-                    style = TextStyle(
-                        textAlign = TextAlign.Center,
-                    ),
-                )
-                Spacer(modifier = Modifier.width(15.dp))
-                Text(
-                    text = stringResource(R.string.layout_enumeration_interval),
-                    modifier = Modifier.weight(1f),
-                    style = TextStyle(
-                        textAlign = TextAlign.Center,
-                    ),
-                )
-                Spacer(modifier = Modifier.width(45.dp))
-            }
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                itemsIndexed(viewModel.variableList) { index, variable ->
+                        .padding(horizontal = 15.dp)
+                        .height(30.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        state = variable.name,
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center,
+                        isNarrow = true,
+                        lineLimits = TextFieldLineLimits.SingleLine
+                    )
+                    Spacer(modifier = Modifier.width(15.dp))
+                    TextField(
+                        state = variable.start,
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center,
+                        isNarrow = true,
+                        lineLimits = TextFieldLineLimits.SingleLine
+                    )
+                    Spacer(modifier = Modifier.width(15.dp))
+                    TextField(
+                        state = variable.interval,
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center,
+                        isNarrow = true,
+                        lineLimits = TextFieldLineLimits.SingleLine
+                    )
+                    Spacer(modifier = Modifier.width(15.dp))
+                    Icon(
+                        id = R.drawable.x,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable(onClick = {
+                                viewModel.variableList.removeAt(index)
+                            }),
+                    )
+                }
+                if (index == viewModel.variableList.size) {
                     Spacer(modifier = Modifier.height(15.dp))
-                    Row(
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun EnumerationScreenButton(modifier: Modifier = Modifier, viewModel: EnumerationViewModel) {
+    Column(modifier = modifier) {
+        Button(text = stringResource(R.string.layout_enumeration_add_variable)) {
+            viewModel.variableList.add(DataVariable())
+        }
+        Button(text = stringResource(R.string.layout_enumeration_run)) {
+            viewModel.run()
+        }
+    }
+}
+
+@Composable
+fun EnumerationScreen(viewModel: EnumerationViewModel = viewModel()) {
+    val clipboard = LocalClipboard.current
+    val configuration = LocalConfiguration.current
+    RootViewWithHeaderAndCopyright(stringResource(R.string.layout_enumeration_title)) {
+        if (configuration.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Spacer(Modifier.height(15.dp))
+                TextField(
+                    state = viewModel.expression,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp)
+                        .height(100.dp),
+                    hint = stringResource(R.string.layout_enumeration_expression_hint)
+                )
+                Spacer(Modifier.height(15.dp))
+                EnumerationScreenTimes(viewModel = viewModel)
+                Spacer(Modifier.height(15.dp))
+                EnumerationScreenVariable(modifier = Modifier.weight(1f), viewModel = viewModel)
+                EnumerationScreenButton(viewModel = viewModel)
+            }
+        } else {
+            Row(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Spacer(Modifier.height(15.dp))
+                    TextField(
+                        state = viewModel.expression,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 15.dp)
-                            .height(30.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        TextField(
-                            state = variable.name,
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center,
-                            isNarrow = true,
-                            lineLimits = TextFieldLineLimits.SingleLine
-                        )
-                        Spacer(modifier = Modifier.width(15.dp))
-                        TextField(
-                            state = variable.start,
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center,
-                            isNarrow = true,
-                            lineLimits = TextFieldLineLimits.SingleLine
-                        )
-                        Spacer(modifier = Modifier.width(15.dp))
-                        TextField(
-                            state = variable.interval,
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center,
-                            isNarrow = true,
-                            lineLimits = TextFieldLineLimits.SingleLine
-                        )
-                        Spacer(modifier = Modifier.width(15.dp))
-                        Icon(
-                            id = R.drawable.x,
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clickable(onClick = {
-                                    viewModel.variableList.removeAt(index)
-                                }),
-                        )
-                    }
-                    if (index == viewModel.variableList.size) {
-                        Spacer(modifier = Modifier.height(15.dp))
-                    }
+                            .weight(1f),
+                        hint = stringResource(R.string.layout_enumeration_expression_hint)
+                    )
+                    Spacer(Modifier.height(15.dp))
+                    EnumerationScreenTimes(viewModel = viewModel)
+                    Spacer(Modifier.height(15.dp))
+                    EnumerationScreenButton(viewModel = viewModel)
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Spacer(Modifier.height(15.dp))
+                    EnumerationScreenVariable(modifier = Modifier.weight(1f), viewModel = viewModel)
                 }
             }
-            Button(text = stringResource(R.string.layout_enumeration_add_variable)) {
-                viewModel.variableList.add(DataVariable())
+        }
+    }
+    if (viewModel.isShowPreviewDialog) {
+        IsConfirmDialog(
+            onDismissRequest = { viewModel.isShowPreviewDialog = false },
+            isBig = true,
+            title = "输出预览",
+            content = viewModel.output,
+            onConfirm = {
+                viewModel.viewModelScope.launch {
+                    clipboard.setClipEntry(
+                        ClipEntry(
+                            ClipData.newPlainText(
+                                null,
+                                viewModel.output
+                            )
+                        )
+                    )
+                    Toaster.show("已复制")
+                }
             }
-            Button(text = stringResource(R.string.layout_enumeration_run)) {
-                run()
+        )
+    }
+}
+
+@Preview(device = Devices.DESKTOP)
+@Composable
+fun EnumerationScreenLightThemeDesktopPreview() {
+    val viewModel = remember {
+        EnumerationViewModel().apply {
+            times = TextFieldState("20")
+            for (i in 1..20) {
+                variableList.add(
+                    DataVariable().apply {
+                        name = TextFieldState("name$i")
+                        start = TextFieldState("1")
+                        interval = TextFieldState("$i")
+                    }
+                )
             }
         }
+    }
+    CHelperTheme(theme = CHelperTheme.Theme.Light, backgroundBitmap = null) {
+        EnumerationScreen(
+            viewModel = viewModel,
+        )
     }
 }
 
@@ -194,7 +295,6 @@ fun EnumerationScreenLightThemePreview() {
     CHelperTheme(theme = CHelperTheme.Theme.Light, backgroundBitmap = null) {
         EnumerationScreen(
             viewModel = viewModel,
-            run = { },
         )
     }
 }
@@ -219,7 +319,6 @@ fun EnumerationScreenDarkThemePreview() {
     CHelperTheme(theme = CHelperTheme.Theme.Dark, backgroundBitmap = null) {
         EnumerationScreen(
             viewModel = viewModel,
-            run = { },
         )
     }
 }

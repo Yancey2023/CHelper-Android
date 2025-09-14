@@ -40,7 +40,7 @@ import java.util.Objects;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 import yancey.chelper.R;
-import yancey.chelper.android.about.activity.ShowTextActivity;
+import yancey.chelper.android.showtext.activity.ShowTextActivity;
 import yancey.chelper.android.common.dialog.CaptchaDialog;
 import yancey.chelper.android.common.util.AssetsUtil;
 import yancey.chelper.android.common.util.SpanUtil;

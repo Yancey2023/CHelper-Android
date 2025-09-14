@@ -30,8 +30,8 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 import yancey.chelper.R;
-import yancey.chelper.android.about.activity.ShowTextActivity;
 import yancey.chelper.android.common.util.PolicyGrantManager;
+import yancey.chelper.android.showtext.activity.ShowTextActivity;
 
 /**
  * 隐私政策授权对话框

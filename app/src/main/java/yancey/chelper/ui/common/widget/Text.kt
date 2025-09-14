@@ -16,40 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.ui
+package yancey.chelper.ui.common.widget
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import yancey.chelper.R
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+import yancey.chelper.ui.common.CHelperTheme
 
 @Composable
-fun Old2NewIMEScreen(undo: () -> Unit) {
-    Button(
-        text = stringResource(R.string.layout_old2new_ime_undo),
-        modifier = Modifier
-            .background(CHelperTheme.colors.background)
-            .padding(15.dp),
-        onClick = undo
+fun Text(
+    text: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = TextStyle(),
+    maxLines: Int = Int.MAX_VALUE,
+) {
+    BasicText(
+        text = text,
+        modifier = modifier,
+        style = style.copy(
+            color = if (style.color == Color.Unspecified) CHelperTheme.colors.textMain else style.color,
+            fontSize = if (style.fontSize == TextUnit.Unspecified) 16.sp else style.fontSize
+        ),
+        maxLines = maxLines
     )
-}
-
-@Preview
-@Composable
-fun Old2NewIMELightThemePreview() {
-    CHelperTheme(theme = CHelperTheme.Theme.Light, backgroundBitmap = null) {
-        Old2NewIMEScreen {}
-    }
-}
-
-@Preview
-@Composable
-fun Old2NewIMEDarkThemePreview() {
-    CHelperTheme(theme = CHelperTheme.Theme.Dark, backgroundBitmap = null) {
-        Old2NewIMEScreen {}
-    }
 }

@@ -24,6 +24,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 
 class ColorFormat(var format: String, var color: Color, var isLight: Boolean)
 
@@ -61,5 +63,38 @@ class RawtextViewModel : ViewModel() {
             ColorFormat("§t", Color(0xFF21497B), false),
             ColorFormat("§u", Color(0xFF9A5CC6), true),
         )
+    }
+
+    fun getRawJson(): String {
+        // 获取文本
+        val annotatedString = text.annotatedString
+        // 获取颜色
+        val colors = Array(annotatedString.length) { Color.White }
+        for (range in annotatedString.spanStyles) {
+            colors.fill(range.item.color, range.start, range.end)
+        }
+        // 输出Json
+        val result = JsonObject()
+        val rawText = JsonArray()
+        val text = JsonObject()
+        text.addProperty("text", buildString {
+            var indexStart = 0
+            for (i in colors.indices) {
+                if (i == colors.size - 1) {
+                    append(colorFormats.find { it.color == colors[indexStart] }?.format)
+                    append(annotatedString.text.substring(indexStart, colors.size))
+                    break
+                }
+                if (colors[i] == colors[indexStart]) {
+                    continue
+                }
+                append(colorFormats.find { it.color == colors[indexStart] }?.format)
+                append(annotatedString.text.substring(indexStart, i))
+                indexStart = i
+            }
+        })
+        rawText.add(text)
+        result.add("rawtext", rawText)
+        return result.toString()
     }
 }

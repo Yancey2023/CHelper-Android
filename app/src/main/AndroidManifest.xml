@@ -9,7 +9,9 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
+        tools:ignore="PhotoAndVideoPolicy" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
     <application
@@ -44,37 +46,7 @@
         </activity>
 
         <activity
-            android:name=".android.about.activity.ShowTextActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.about.activity.AboutActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.enumeration.activity.EnumerationActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.common.activity.SettingsActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.old2new.activity.Old2NewActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.old2new.activity.Old2NewIMEGuideActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.rawtext.activity.RawtextActivity"
+            android:name=".android.showtext.activity.ShowTextActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 

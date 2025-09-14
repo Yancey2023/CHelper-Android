@@ -41,7 +41,6 @@ import androidx.compose.foundation.text.input.clearText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -59,15 +58,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import yancey.chelper.R
 import yancey.chelper.core.CHelperGuiCore
 import yancey.chelper.core.ErrorReason
 import yancey.chelper.core.Suggestion
-import yancey.chelper.ui.CHelperTheme
-import yancey.chelper.ui.Icon
-import yancey.chelper.ui.RootView
-import yancey.chelper.ui.Text
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.layout.RootView
+import yancey.chelper.ui.common.widget.Icon
+import yancey.chelper.ui.common.widget.Text
 
 @Composable
 fun CommandTextField(
@@ -264,7 +264,6 @@ fun ToolbarItem(@DrawableRes id: Int, description: String, onClick: () -> Unit) 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
-    val coroutineScope = rememberCoroutineScope()
     val clipboard = LocalClipboard.current
     RootView {
         Column(
@@ -389,7 +388,7 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                         }
                     )
                     ToolbarItem(
-                        id = R.drawable.box,
+                        id = R.drawable.history,
                         description = stringResource(R.string.layout_completion_history),
                         onClick = {
 
@@ -442,7 +441,7 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                     modifier = Modifier
                         .size(40.dp)
                         .clickable {
-                            coroutineScope.launch {
+                            viewModel.viewModelScope.launch {
                                 clipboard.setClipEntry(
                                     ClipEntry(
                                         ClipData.newPlainText(
@@ -466,7 +465,7 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
 
 @Preview
 @Composable
-fun EnumerationScreenLightThemePreview() {
+fun CompletionScreenLightThemePreview() {
     val viewModel = remember {
         CompletionViewModel().apply {
             isShowMenu = true
@@ -490,7 +489,7 @@ fun EnumerationScreenLightThemePreview() {
 
 @Preview
 @Composable
-fun EnumerationScreenDarkThemePreview() {
+fun CompletionScreenDarkThemePreview() {
     val viewModel = remember {
         CompletionViewModel().apply {
             isShowMenu = true

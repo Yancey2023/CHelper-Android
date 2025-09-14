@@ -18,6 +18,7 @@
 
 package yancey.chelper.ui.old2new
 
+import android.content.ClipData
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,23 +31,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import yancey.chelper.R
-import yancey.chelper.android.common.util.ClipboardUtil
-import yancey.chelper.ui.Button
-import yancey.chelper.ui.CHelperTheme
-import yancey.chelper.ui.RootViewWithHeaderAndCopyright
-import yancey.chelper.ui.Surface
-import yancey.chelper.ui.Text
-import yancey.chelper.ui.TextField
+import yancey.chelper.ui.common.widget.Button
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
+import yancey.chelper.ui.common.layout.Surface
+import yancey.chelper.ui.common.widget.Text
+import yancey.chelper.ui.common.widget.TextField
 
 @Composable
-fun Old2NewScreen(viewModel: Old2NewViewModel, old2new: (String) -> String) {
-    val context = LocalContext.current
+fun Old2NewScreen(viewModel: Old2NewViewModel = viewModel(), old2new: (String) -> String) {
     RootViewWithHeaderAndCopyright(stringResource(R.string.layout_old2new_title)) {
         Column(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -75,15 +77,27 @@ fun Old2NewScreen(viewModel: Old2NewViewModel, old2new: (String) -> String) {
                 }
                 Spacer(modifier = Modifier.height(15.dp))
             }
+            val clipboard = LocalClipboard.current
             Button(stringResource(R.string.layout_old2new_clear_and_paste_old_command)) {
-                val charSequence = ClipboardUtil.getText(context)
-                if (charSequence != null) {
-                    val text = charSequence.toString()
-                    viewModel.oldCommand.setTextAndPlaceCursorAtEnd(text)
+                viewModel.viewModelScope.launch {
+                    clipboard.getClipEntry()?.clipData?.apply {
+                        if (itemCount > 0) {
+                            viewModel.oldCommand.setTextAndPlaceCursorAtEnd(getItemAt(0).text.toString())
+                        }
+                    }
                 }
             }
             Button(stringResource(R.string.layout_old2new_copy_new_command)) {
-                ClipboardUtil.setText(context, viewModel.newCommand)
+                viewModel.viewModelScope.launch {
+                    clipboard.setClipEntry(
+                        ClipEntry(
+                            ClipData.newPlainText(
+                                null,
+                                viewModel.newCommand
+                            )
+                        )
+                    )
+                }
             }
         }
         LaunchedEffect(viewModel.oldCommand.text) {

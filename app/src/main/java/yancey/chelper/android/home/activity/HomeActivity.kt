@@ -18,8 +18,22 @@
 
 package yancey.chelper.android.home.activity
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.navigation.compose.rememberNavController
+import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
+import com.hjq.toast.Toaster
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.internal.functions.Functions
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -27,13 +41,17 @@ import yancey.chelper.BuildConfig
 import yancey.chelper.android.common.activity.BaseComposeActivity
 import yancey.chelper.android.common.dialog.IsConfirmDialog
 import yancey.chelper.android.common.dialog.PolicyGrantDialog
+import yancey.chelper.android.common.style.CustomTheme
 import yancey.chelper.android.common.util.FileUtil
+import yancey.chelper.android.common.util.MonitorUtil
 import yancey.chelper.android.common.util.PolicyGrantManager
 import yancey.chelper.android.common.util.Settings
 import yancey.chelper.android.completion.util.CompletionWindowManager
 import yancey.chelper.network.ServiceManager
-import yancey.chelper.ui.HomeScreen
+import yancey.chelper.ui.NavHost
+import java.io.BufferedInputStream
 import java.io.File
+import java.io.IOException
 import java.lang.Boolean
 import kotlin.plus
 
@@ -46,10 +64,30 @@ class HomeActivity : BaseComposeActivity() {
 
     override val pageName = "Home"
 
+    private var setBackGroundDrawable: Disposable? = null
+    lateinit var onBackPressedCallback: OnBackPressedCallback
+    lateinit var photoPicker: ActivityResultLauncher<PickVisualMediaRequest>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBackPressedCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                if (setBackGroundDrawable != null && !setBackGroundDrawable!!.isDisposed) {
+                    IsConfirmDialog(this@HomeActivity)
+                        .message("背景图片正在保存中，请稍候")
+                        .show()
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        photoPicker = registerForActivityResult(PickVisualMedia()) { setBackground(it) }
         setContent {
-            HomeScreen()
+            NavHost(
+                navController = rememberNavController(),
+                chooseBackground = this::chooseBackground,
+                restoreBackground = this::restoreBackground,
+                onChooseTheme = this::refreshTheme,
+            )
         }
         if (PolicyGrantManager.INSTANCE.state == PolicyGrantManager.State.AGREE) {
             showAnnouncement()
@@ -144,6 +182,64 @@ class HomeActivity : BaseComposeActivity() {
         }
         if (getLatestVersionInfo != null) {
             getLatestVersionInfo!!.dispose()
+        }
+    }
+
+    private fun chooseBackground() {
+        if (XXPermissions.isGrantedPermission(
+                this,
+                PermissionLists.getReadMediaImagesPermission()
+            )
+        ) {
+            photoPicker.launch(
+                PickVisualMediaRequest.Builder()
+                    .setMediaType(ImageOnly)
+                    .build()
+            )
+        } else {
+            XXPermissions.with(this)
+                .permission(PermissionLists.getReadMediaImagesPermission())
+                .request { grantedList, deniedList ->
+                    if (deniedList.isEmpty()) {
+                        Toaster.show("图片访问权限申请成功")
+                    } else {
+                        Toaster.show("图片访问权限申请失败")
+                    }
+                }
+        }
+    }
+
+    private fun setBackground(uri: Uri?) {
+        setBackGroundDrawable?.dispose()
+        if (uri == null) {
+            return
+        }
+        setBackGroundDrawable =
+            Observable.create { emitter ->
+                val bitmap: Bitmap
+                BufferedInputStream(contentResolver.openInputStream(uri))
+                    .use { bitmap = BitmapFactory.decodeStream(it) }
+                CustomTheme.INSTANCE.setBackGroundDrawableWithoutSave(bitmap)
+                emitter.onNext(bitmap)
+                CustomTheme.INSTANCE.setBackGroundDrawable(bitmap)
+                emitter.onComplete()
+            }.subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally { onBackPressedCallback.isEnabled = false }
+                .subscribe(
+                    { backgroundBitmap = it.asImageBitmap() },
+                    { Toaster.show(it.message) }
+                )
+        onBackPressedCallback.isEnabled = true
+    }
+
+    private fun restoreBackground() {
+        try {
+            CustomTheme.INSTANCE.setBackGroundDrawable(null)
+            backgroundBitmap = null
+        } catch (e: IOException) {
+            Toaster.show(e.message)
+            MonitorUtil.generateCustomLog(e, "ResetBackgroundException")
         }
     }
 

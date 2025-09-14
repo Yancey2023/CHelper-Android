@@ -27,8 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import yancey.chelper.android.common.util.Settings
 import yancey.chelper.core.CHelperCore
-import yancey.chelper.ui.CHelperTheme
-import yancey.chelper.ui.Old2NewIMEScreen
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.old2new.Old2NewIMEScreen
 
 /**
  * 旧命令转新命令输入法服务

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.ui
+package yancey.chelper.ui.showtext
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,6 +35,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
+import yancey.chelper.ui.common.widget.Text
 
 @Composable
 fun ShowTextScreen(
@@ -69,7 +72,10 @@ fun ShowTextScreen(
 @Preview
 @Composable
 fun ShowTextScreenLightThemePreview() {
-    CHelperTheme(theme = CHelperTheme.Theme.Light, backgroundBitmap = null) {
+    CHelperTheme(
+        theme = CHelperTheme.Theme.Light,
+        backgroundBitmap = null
+    ) {
         ShowTextScreen(title = "title", content = buildString {
             for (i in 1..100) {
                 append("Row $i\n")
@@ -81,7 +87,10 @@ fun ShowTextScreenLightThemePreview() {
 @Preview
 @Composable
 fun ShowTextScreenDarkThemePreview() {
-    CHelperTheme(theme = CHelperTheme.Theme.Dark, backgroundBitmap = null) {
+    CHelperTheme(
+        theme = CHelperTheme.Theme.Dark,
+        backgroundBitmap = null
+    ) {
         ShowTextScreen(title = "title", content = buildString {
             for (i in 1..100) {
                 append("Row $i\n")

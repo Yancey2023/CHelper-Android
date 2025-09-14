@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.ui
+package yancey.chelper.ui.old2new
 
 import android.content.Context
 import android.content.Intent
@@ -37,6 +37,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import yancey.chelper.R
+import yancey.chelper.ui.common.widget.Button
+import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
+import yancey.chelper.ui.common.layout.Surface
+import yancey.chelper.ui.common.widget.Text
 
 @Composable
 fun Old2NewIMEGuideScreen() {

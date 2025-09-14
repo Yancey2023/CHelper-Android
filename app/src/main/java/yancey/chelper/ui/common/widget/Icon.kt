@@ -16,33 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.about.activity
+package yancey.chelper.ui.common.widget
 
-import android.os.Bundle
-import yancey.chelper.android.common.activity.BaseComposeActivity
-import yancey.chelper.ui.ShowTextScreen
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import yancey.chelper.ui.common.CHelperTheme
 
-/**
- * 文本展示界面
- */
-class ShowTextActivity : BaseComposeActivity() {
-
-    companion object {
-        const val TITLE: String = "title"
-        const val CONTENT: String = "content"
-    }
-
-    override val pageName = "ShowText"
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val extras = intent.extras!!
-        setContent {
-            ShowTextScreen(
-                title = extras.getString(TITLE)!!,
-                content = extras.getString(CONTENT)!!
-            )
-        }
-    }
-
+@Composable
+fun Icon(@DrawableRes id: Int, modifier: Modifier = Modifier, contentDescription: String? = null) {
+    Image(
+        painter = painterResource(id),
+        contentDescription = contentDescription,
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(CHelperTheme.colors.iconMain)
+    )
 }
