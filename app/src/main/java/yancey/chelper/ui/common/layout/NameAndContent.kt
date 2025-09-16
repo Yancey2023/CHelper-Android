@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,6 +38,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import yancey.chelper.R
 import yancey.chelper.ui.ShowTextScreenKey
 import yancey.chelper.ui.common.CHelperTheme
@@ -116,9 +120,14 @@ fun NameAndLink(name: String, link: Uri) {
 @Composable
 fun NameAndAsset(navController: NavHostController, name: String, assetsPath: String) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     NameAndAction(name) {
-        val content = context.assets.open(assetsPath).bufferedReader().use { it.readText() }
-        navController.navigate(ShowTextScreenKey(name, content))
+        scope.launch {
+            val content = withContext(Dispatchers.IO) {
+                context.assets.open(assetsPath).bufferedReader().use { it.readText() }
+            }
+            navController.navigate(ShowTextScreenKey(name, content))
+        }
     }
 }
 

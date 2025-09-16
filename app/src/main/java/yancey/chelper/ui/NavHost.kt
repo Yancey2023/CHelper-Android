@@ -29,13 +29,13 @@ import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import yancey.chelper.core.CHelperCore
 import yancey.chelper.ui.about.AboutScreen
-import yancey.chelper.ui.showtext.ShowTextScreen
 import yancey.chelper.ui.enumeration.EnumerationScreen
 import yancey.chelper.ui.home.HomeScreen
 import yancey.chelper.ui.old2new.Old2NewIMEGuideScreen
 import yancey.chelper.ui.old2new.Old2NewScreen
 import yancey.chelper.ui.rawtext.RawtextScreen
 import yancey.chelper.ui.settings.SettingsScreen
+import yancey.chelper.ui.showtext.ShowTextScreen
 
 @Serializable
 object HomeScreenKey
@@ -80,7 +80,7 @@ fun NavHost(
         popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
     ) {
         composable<HomeScreenKey> {
-            HomeScreen(navController)
+            HomeScreen(navController = navController)
         }
         composable<SettingsScreenKey> {
             SettingsScreen(

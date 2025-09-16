@@ -1,34 +1,34 @@
 /**
  * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
- * <p>
+ *
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https:></https:>//www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.network.chelper.service;
+package yancey.chelper.network.chelper.service
 
-import io.reactivex.rxjava3.core.Observable;
-import retrofit2.http.GET;
-import yancey.chelper.network.chelper.data.Announcement;
-import yancey.chelper.network.chelper.data.VersionInfo;
+import retrofit2.http.GET
+import yancey.chelper.network.chelper.data.Announcement
+import yancey.chelper.network.chelper.data.VersionInfo
 
-public interface CHelperService {
-
+interface CHelperService {
     @GET("announcement.json")
-    Observable<Announcement> getAnnouncement();
+    suspend fun getAnnouncement(): Announcement
 
     @GET("apk-latest.json")
-    Observable<VersionInfo> getLatestVersionInfo();
-
+    suspend fun getLatestVersionInfo(): VersionInfo
 }

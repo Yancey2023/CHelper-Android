@@ -28,10 +28,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,37 +50,27 @@ import yancey.chelper.R
 import yancey.chelper.ui.common.CHelperTheme
 import yancey.chelper.ui.common.widget.Divider
 import yancey.chelper.ui.common.widget.DividerVertical
+import yancey.chelper.ui.common.widget.Switch
 import yancey.chelper.ui.common.widget.Text
 
 @Composable
-fun IsConfirmDialog(
-    onDismissRequest: () -> Unit,
-    isBig: Boolean = false,
-    title: String = stringResource(R.string.dialog_is_confirm_title),
-    content: String,
-    cancelText: String = stringResource(R.string.dialog_is_confirm_cancel),
-    confirmText: String = stringResource(R.string.dialog_is_confirm_confirm),
-    onCancel: () -> Unit = {},
+fun PolicyGrantDialog(
+    content: String = stringResource(R.string.dialog_policy_grant_message_if_unread),
+    readPolicy: () -> Unit = {},
     onConfirm: () -> Unit = {},
 ) {
-    Dialog(onDismissRequest = onDismissRequest) {
+    var isAgree by remember { mutableStateOf(false) }
+    Dialog(onDismissRequest = {}) {
         Column(
-            modifier = if (isBig) {
-                Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .fillMaxHeight(0.9f)
-                    .background(CHelperTheme.colors.backgroundComponentNoTranslate)
-            } else {
-                Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(CHelperTheme.colors.backgroundComponentNoTranslate)
-            }
+            Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(CHelperTheme.colors.backgroundComponentNoTranslate)
         ) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 10.dp),
-                text = title,
+                text = stringResource(R.string.dialog_policy_grant_title),
                 style = TextStyle(
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center,
@@ -86,21 +78,29 @@ fun IsConfirmDialog(
                 )
             )
             Text(
-                modifier = if (isBig) {
-                    Modifier
-                        .padding(20.dp, 10.dp)
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState())
-                } else {
-                    Modifier
-                        .padding(20.dp, 10.dp)
-                        .fillMaxWidth()
-                        .defaultMinSize(Dp.Infinity, 40.dp)
-                },
+                modifier = Modifier
+                    .padding(20.dp, 10.dp)
+                    .fillMaxWidth()
+                    .defaultMinSize(Dp.Infinity, 40.dp),
                 text = content,
                 style = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Center)
             )
+            Row(
+                modifier = Modifier
+                    .padding(20.dp, 5.dp)
+                    .fillMaxWidth()
+            ) {
+                Switch(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    checked = isAgree,
+                    onCheckedChange = { isAgree = !isAgree })
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterVertically),
+                    text = stringResource(R.string.dialog_policy_grant_confirm_read),
+                )
+            }
             Divider(0.dp)
             Row(Modifier.height(45.dp)) {
                 Box(
@@ -108,12 +108,11 @@ fun IsConfirmDialog(
                         .fillMaxHeight()
                         .weight(1f)
                         .clickable {
-                            onDismissRequest()
-                            onCancel()
+                            readPolicy()
                         }) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = cancelText,
+                        text = stringResource(R.string.dialog_policy_grant_read_privacy_policy),
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = CHelperTheme.colors.mainColor,
@@ -127,12 +126,13 @@ fun IsConfirmDialog(
                         .fillMaxHeight()
                         .weight(1f)
                         .clickable {
-                            onDismissRequest()
-                            onConfirm()
+                            if (isAgree) {
+                                onConfirm()
+                            }
                         }) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = confirmText,
+                        text = stringResource(R.string.dialog_is_confirm_confirm),
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = CHelperTheme.colors.mainColor,
@@ -147,28 +147,22 @@ fun IsConfirmDialog(
 
 @Preview
 @Composable
-fun IsConfirmDialogLightThemePreview() {
+fun PolicyGrantDialogLightThemePreview() {
     CHelperTheme(
         theme = CHelperTheme.Theme.Light,
         backgroundBitmap = null
     ) {
-        IsConfirmDialog(
-            onDismissRequest = { },
-            content = "content",
-        )
+        PolicyGrantDialog()
     }
 }
 
 @Preview
 @Composable
-fun IsConfirmDialogDarkThemePreview() {
+fun PolicyGrantDialogDarkThemePreview() {
     CHelperTheme(
         theme = CHelperTheme.Theme.Dark,
         backgroundBitmap = null
     ) {
-        IsConfirmDialog(
-            onDismissRequest = { },
-            content = "content",
-        )
+        PolicyGrantDialog()
     }
 }

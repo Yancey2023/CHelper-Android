@@ -30,6 +30,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,10 +42,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.hjq.toast.Toaster
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import yancey.chelper.R
+import yancey.chelper.android.common.util.PolicyGrantManager
 import yancey.chelper.android.completion.activity.CompletionActivity
 import yancey.chelper.android.completion.util.CompletionWindowManager
 import yancey.chelper.android.library.activity.LocalLibraryListActivity
@@ -53,7 +61,10 @@ import yancey.chelper.ui.Old2NewIMEGuideScreenKey
 import yancey.chelper.ui.Old2NewScreenKey
 import yancey.chelper.ui.RawtextScreenKey
 import yancey.chelper.ui.SettingsScreenKey
+import yancey.chelper.ui.ShowTextScreenKey
 import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.dialog.IsConfirmDialog
+import yancey.chelper.ui.common.dialog.PolicyGrantDialog
 import yancey.chelper.ui.common.layout.Collection
 import yancey.chelper.ui.common.layout.CollectionName
 import yancey.chelper.ui.common.layout.Copyright
@@ -65,9 +76,15 @@ import yancey.chelper.ui.common.widget.Text
 
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
     val context = LocalContext.current
+    LaunchedEffect(viewModel) {
+        if (viewModel.policyGrantState == PolicyGrantManager.State.AGREE) {
+            viewModel.showAnnouncementDialog(context)
+        }
+    }
     RootView {
         Column(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -162,17 +179,9 @@ fun HomeScreen(
                         LocalLibraryListActivity::class.java
                     )
                     Divider()
-                    NameAndAction(
-                        name = stringResource(R.string.layout_home_experimental_feature_public_library),
-                        onClick = {
-//                    startActivity(
-//                        Intent(
-//                            context,
-//                            PublicLibraryListView::class.java
-//                        )
-//                    )
-                        }
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_experimental_feature_public_library)) {
+                        // TODO
+                    }
                     Divider()
                     NameAndAction(stringResource(R.string.layout_home_experimental_feature_raw_json_studio)) {
                         navController.navigate(RawtextScreenKey)
@@ -187,6 +196,52 @@ fun HomeScreen(
             }
             Copyright(Modifier.align(Alignment.CenterHorizontally))
         }
+    }
+    if (viewModel.isShowPolicyGrantDialog) {
+        val policyPageTitle = stringResource(R.string.layout_about_privacy_policy)
+        PolicyGrantDialog(
+            content = if (viewModel.policyGrantState == PolicyGrantManager.State.NOT_READ)
+                stringResource(R.string.dialog_policy_grant_message_if_unread) else
+                stringResource(R.string.dialog_policy_grant_message_if_updated),
+            readPolicy = {
+                viewModel.viewModelScope.launch {
+                    val content = withContext(Dispatchers.IO) {
+                        context.assets.open("about/privacy_policy.txt").bufferedReader()
+                            .use { it.readText() }
+                    }
+                    navController.navigate(ShowTextScreenKey(policyPageTitle, content))
+                }
+            },
+            onConfirm = {
+                viewModel.agreePolicy()
+            },
+        )
+    }
+    if (viewModel.isShowAnnouncementDialog) {
+        IsConfirmDialog(
+            onDismissRequest = { viewModel.dismissAnnouncementDialog(context) },
+            isBig = viewModel.announcement!!.isBigDialog!!,
+            title = viewModel.announcement!!.title!!,
+            content = viewModel.announcement!!.message!!,
+            cancelText = if (viewModel.announcement!!.isForce!!) "取消" else "不再提醒",
+            onCancel = {
+                if (!viewModel.announcement!!.isForce!!) {
+                    viewModel.ignoreCurrentAnnouncement(context)
+                }
+            }
+        )
+    }
+    if (viewModel.isShowUpdateNotificationsDialog) {
+        val content = remember(viewModel.latestVersionInfo) {
+            viewModel.latestVersionInfo!!.version_name + "版本已发布，欢迎下载体验。本次更新内容如下：\n" + viewModel.latestVersionInfo!!.changelog
+        }
+        IsConfirmDialog(
+            onDismissRequest = { viewModel.dismissUpdateNotificationDialog(context) },
+            title = "更新提醒",
+            content = content,
+            cancelText = "忽略此版本",
+            onCancel = { viewModel.ignoreLatestVersion(context) }
+        )
     }
 }
 
