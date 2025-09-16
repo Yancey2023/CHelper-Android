@@ -59,10 +59,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import yancey.chelper.R
-import yancey.chelper.ui.common.widget.Button
 import yancey.chelper.ui.common.CHelperTheme
 import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
 import yancey.chelper.ui.common.layout.Surface
+import yancey.chelper.ui.common.widget.Button
 import yancey.chelper.ui.common.widget.Text
 import kotlin.math.max
 import kotlin.math.min
@@ -213,7 +213,7 @@ fun RawtextScreenControlPanel(viewModel: RawtextViewModel) {
 fun RawtextScreenButton(viewModel: RawtextViewModel) {
     if (viewModel.isPreview) {
         val clipboard = LocalClipboard.current
-        Button(text = stringResource(R.string.common_copyright_yancey)) {
+        Button(text = stringResource(R.string.layout_rawtext_copy)) {
             viewModel.viewModelScope.launch {
                 clipboard.setClipEntry(
                     ClipEntry(

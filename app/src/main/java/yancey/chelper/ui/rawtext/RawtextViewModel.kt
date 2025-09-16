@@ -78,19 +78,18 @@ class RawtextViewModel : ViewModel() {
         val rawText = JsonArray()
         val text = JsonObject()
         text.addProperty("text", buildString {
-            var indexStart = 0
-            for (i in colors.indices) {
-                if (i == colors.size - 1) {
+            if (colors.size > 0) {
+                var indexStart = 0
+                for (i in colors.indices) {
+                    if (colors[i] == colors[indexStart]) {
+                        continue
+                    }
                     append(colorFormats.find { it.color == colors[indexStart] }?.format)
-                    append(annotatedString.text.substring(indexStart, colors.size))
-                    break
-                }
-                if (colors[i] == colors[indexStart]) {
-                    continue
+                    append(annotatedString.text.substring(indexStart, i))
+                    indexStart = i
                 }
                 append(colorFormats.find { it.color == colors[indexStart] }?.format)
-                append(annotatedString.text.substring(indexStart, i))
-                indexStart = i
+                append(annotatedString.text.substring(indexStart, colors.size))
             }
         })
         rawText.add(text)
