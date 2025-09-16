@@ -19,7 +19,6 @@
 package yancey.chelper.android.library.view;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.text.SpannableString;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -42,8 +41,6 @@ import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import yancey.chelper.R;
-import yancey.chelper.android.showtext.activity.ShowTextActivity;
-import yancey.chelper.android.common.util.AssetsUtil;
 import yancey.chelper.android.common.util.SpanUtil;
 import yancey.chelper.android.common.view.BaseView;
 import yancey.chelper.network.library.data.User;
@@ -70,16 +67,16 @@ public class LibraryLoginView extends BaseView {
         CheckBox confirmRead = view.findViewById(R.id.confirm_read);
         SpannableString spannableString = new SpannableString(confirmRead.getText());
         SpanUtil.addTextClickableSpan(context, spannableString, "《用户协议》", () -> {
-            Intent intent = new Intent(context, ShowTextActivity.class);
-            intent.putExtra(ShowTextActivity.TITLE, context.getString(R.string.layout_about_privacy_policy));
-            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(context, "about/privacy_policy.txt"));
-            context.startActivity(intent);
+//            Intent intent = new Intent(context, ShowTextActivity.class);
+//            intent.putExtra(ShowTextActivity.TITLE, context.getString(R.string.layout_about_privacy_policy));
+//            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(context, "about/privacy_policy.txt"));
+//            context.startActivity(intent);
         });
         SpanUtil.addTextClickableSpan(context, spannableString, "《隐私政策》", () -> {
-            Intent intent = new Intent(context, ShowTextActivity.class);
-            intent.putExtra(ShowTextActivity.TITLE, context.getString(R.string.layout_about_privacy_policy));
-            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(context, "about/privacy_policy.txt"));
-            context.startActivity(intent);
+//            Intent intent = new Intent(context, ShowTextActivity.class);
+//            intent.putExtra(ShowTextActivity.TITLE, context.getString(R.string.layout_about_privacy_policy));
+//            intent.putExtra(ShowTextActivity.CONTENT, AssetsUtil.readStringFromAssets(context, "about/privacy_policy.txt"));
+//            context.startActivity(intent);
         });
         confirmRead.setText(spannableString);
         Button loginBtn = view.findViewById(R.id.btn_login);

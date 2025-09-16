@@ -45,8 +45,7 @@ class HomeViewModel : ViewModel() {
     var isShowUpdateNotificationsDialog by mutableStateOf(false)
 
     init {
-//        this.policyGrantState = PolicyGrantManager.INSTANCE.state
-        this.policyGrantState = PolicyGrantManager.State.NOT_READ
+        this.policyGrantState = PolicyGrantManager.INSTANCE.state
     }
 
     fun agreePolicy() {

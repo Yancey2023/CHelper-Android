@@ -46,11 +46,6 @@
         </activity>
 
         <activity
-            android:name=".android.showtext.activity.ShowTextActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
             android:name=".android.completion.activity.CompletionActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
