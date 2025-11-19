@@ -1,37 +1,29 @@
 /**
  * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
- * <p>
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.library.activity;
+package yancey.chelper.ui.library
 
-import androidx.annotation.NonNull;
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import yancey.chelper.network.library.data.LibraryFunction
 
-import yancey.chelper.android.library.view.PublicLibraryListView;
-import yancey.chelper.fws.activity.FWSActivity;
-import yancey.chelper.fws.view.FWSView;
-
-/**
- * 公有命令库列表
- */
-public class PublicLibraryListActivity extends FWSActivity<PublicLibraryListView> {
-
-    @Override
-    protected PublicLibraryListView createView(@NonNull FWSView.FWSContext fwsContext) {
-        return new PublicLibraryListView(fwsContext);
-    }
-
+class LocalLibraryShowViewModel : ViewModel() {
+    var library by mutableStateOf(LibraryFunction())
 }

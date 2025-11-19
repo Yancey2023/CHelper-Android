@@ -1,68 +1,76 @@
 /**
  * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
- * <p>
+ *
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https:></https:>//www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.android.library.util;
+package yancey.chelper.android.library.util
 
-import com.google.gson.reflect.TypeToken;
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import yancey.chelper.android.common.util.FileUtil
+import yancey.chelper.network.ServiceManager
+import yancey.chelper.network.library.data.LibraryFunction
+import java.io.File
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+class LocalLibraryManager private constructor(private val file: File) {
+    private var isInit = false
+    private var libraryFunctions = mutableStateListOf<LibraryFunction>()
 
-import io.reactivex.rxjava3.core.Observable;
-import yancey.chelper.android.common.util.FileUtil;
-import yancey.chelper.network.ServiceManager;
-import yancey.chelper.network.library.data.LibraryFunction;
-
-public class LocalLibraryManager {
-
-    public static LocalLibraryManager INSTANCE;
-    private final File file;
-    private List<LibraryFunction> libraryFunctions;
-
-    private LocalLibraryManager(File file) {
-        this.file = file;
-    }
-
-    public static void init(File file) {
-        INSTANCE = new LocalLibraryManager(file);
-    }
-
-    public Observable<List<LibraryFunction>> getFunctions() {
-        return Observable.create(emitter -> {
-            if (libraryFunctions == null) {
-                libraryFunctions = new ArrayList<>();
-                if (file.exists()) {
+    suspend fun ensureInit() {
+        if (!isInit) {
+            if (file.exists()) {
+                withContext(Dispatchers.IO) {
                     try {
-                        libraryFunctions = ServiceManager.GSON.fromJson(FileUtil.readString(file), new TypeToken<List<LibraryFunction>>() {
-                        }.getType());
-                    } catch (Throwable ignored) {
-
+                        val libraryFunctions0 =
+                            ServiceManager.GSON!!.fromJson<List<LibraryFunction>>(
+                                FileUtil.readString(file),
+                                object :
+                                    TypeToken<List<LibraryFunction>>() {
+                                }.type
+                            )
+                        libraryFunctions.clear()
+                        libraryFunctions.addAll(libraryFunctions0)
+                    } catch (_: Throwable) {
                     }
                 }
             }
-            emitter.onNext(libraryFunctions);
-            emitter.onComplete();
-        });
+        }
     }
 
-    public void save() {
-        FileUtil.writeString(file, ServiceManager.GSON.toJson(libraryFunctions));
+    fun getFunctions(): SnapshotStateList<LibraryFunction> {
+        return libraryFunctions
     }
 
+    suspend fun save() = withContext(Dispatchers.IO) {
+        FileUtil.writeString(file, ServiceManager.GSON!!.toJson(libraryFunctions))
+    }
+
+    companion object {
+        @JvmField
+        var INSTANCE: LocalLibraryManager? = null
+
+        @JvmStatic
+        fun init(file: File) {
+            INSTANCE = LocalLibraryManager(file)
+        }
+    }
 }

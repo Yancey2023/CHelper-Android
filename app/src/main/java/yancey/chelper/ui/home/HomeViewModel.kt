@@ -59,7 +59,7 @@ class HomeViewModel : ViewModel() {
         }
         viewModelScope.launch {
             try {
-                announcement = ServiceManager.CHELPER_SERVICE.getAnnouncement()
+                announcement = ServiceManager.CHELPER_SERVICE!!.getAnnouncement()
                 var isShow = true
                 val isForce = announcement!!.isForce ?: false
                 if (!isForce) {
@@ -113,7 +113,7 @@ class HomeViewModel : ViewModel() {
         if (Settings.INSTANCE.isEnableUpdateNotifications) {
             viewModelScope.launch {
                 try {
-                    latestVersionInfo = ServiceManager.CHELPER_SERVICE.getLatestVersionInfo()
+                    latestVersionInfo = ServiceManager.CHELPER_SERVICE!!.getLatestVersionInfo()
                     if (latestVersionInfo!!.version_name != BuildConfig.VERSION_NAME) {
                         val ignoreVersion = withContext(Dispatchers.IO) {
                             File(context.dataDir, "ignore_version.txt").bufferedReader()

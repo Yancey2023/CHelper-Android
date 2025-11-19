@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import yancey.chelper.R
@@ -39,8 +40,8 @@ import yancey.chelper.ui.common.widget.Icon
 import yancey.chelper.ui.common.widget.Text
 
 @Composable
-fun Header(title: String) {
-    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+fun Header(title: String, right: @Composable () -> Unit = {}) {
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,18 +53,48 @@ fun Header(title: String) {
             id = R.drawable.chevron_left,
             modifier = Modifier
                 .clickable(onClick = {
-                    backDispatcher?.onBackPressed()
+                    onBackPressedDispatcher?.onBackPressed()
                 })
                 .padding(5.dp)
-                .size(25.dp),
+                .size(24.dp),
             contentDescription = stringResource(R.string.common_icon_back_content_description)
         )
         Text(
             text = title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             style = TextStyle(
                 fontSize = 18.sp,
             ),
             maxLines = 1
         )
+        right()
+    }
+}
+
+@Preview
+@Composable
+fun HeaderLightThemePreview() {
+    CHelperTheme(theme = CHelperTheme.Theme.Light, backgroundBitmap = null) {
+        Header("Title") {
+            Icon(id = R.drawable.plus, modifier = Modifier
+                .padding(5.dp)
+                .size(24.dp))
+        }
+    }
+}
+
+@Preview
+@Composable
+fun HeaderDarkThemePreview() {
+    CHelperTheme(theme = CHelperTheme.Theme.Dark, backgroundBitmap = null) {
+        Header("Title") {
+            Icon(
+                id = R.drawable.plus, modifier = Modifier
+                    .padding(5.dp)
+                    .size(24.dp)
+            )
+        }
     }
 }

@@ -80,7 +80,7 @@ class HomeActivity : BaseComposeActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        CompletionWindowManager.INSTANCE.stopFloatingWindow()
+        CompletionWindowManager.INSTANCE!!.stopFloatingWindow()
     }
 
     private fun chooseBackground() {
@@ -97,7 +97,7 @@ class HomeActivity : BaseComposeActivity() {
         } else {
             XXPermissions.with(this)
                 .permission(PermissionLists.getReadMediaImagesPermission())
-                .request { grantedList, deniedList ->
+                .request { _, deniedList ->
                     if (deniedList.isEmpty()) {
                         Toaster.show("图片访问权限申请成功")
                     } else {

@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import yancey.chelper.ui.common.CHelperTheme
 
@@ -33,14 +34,16 @@ import yancey.chelper.ui.common.CHelperTheme
 fun Surface(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
-    isNarrow: Boolean = false,
+    horizontalPadding: Dp = 10.dp,
+    verticalPadding: Dp = 10.dp,
+    clipCornerSize: Dp = 10.dp,
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(clipCornerSize))
             .background(color = CHelperTheme.colors.backgroundComponent)
-            .padding(horizontal = 10.dp, vertical = if (isNarrow) 0.dp else 10.dp),
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding),
         contentAlignment = contentAlignment
     ) {
         content()

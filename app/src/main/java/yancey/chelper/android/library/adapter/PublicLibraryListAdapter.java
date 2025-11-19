@@ -69,19 +69,19 @@ public class PublicLibraryListAdapter extends RecyclerView.Adapter<PublicLibrary
     @Override
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         LibraryFunction libraryFunction = libraries.get(position);
-        holder.mTv_name.setText(libraryFunction.name);
-        holder.mTv_author.setText(context.getString(R.string.layout_library_list_library_author_formatter, libraryFunction.author));
-        if (Boolean.TRUE.equals(libraryFunction.is_liked)) {
+        holder.mTv_name.setText(libraryFunction.getName());
+        holder.mTv_author.setText(context.getString(R.string.layout_library_list_library_author_formatter, libraryFunction.getAuthor()));
+        if (Boolean.TRUE.equals(libraryFunction.is_liked())) {
             holder.mBtn_like.setBackgroundResource(R.drawable.heart_filled);
         } else {
             holder.mBtn_like.setBackgroundResource(R.drawable.heart);
         }
         holder.mBtn_like.setContentDescription(context.getString(R.string.common_icon_like_content_description));
-        if (libraryFunction.id != null) {
+        if (libraryFunction.getId() != null) {
             holder.mBtn_like.setOnClickListener(v -> doLike(position));
         }
         holder.mTv_likeCount.setVisibility(View.VISIBLE);
-        holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.like_count, 0)));
+        holder.mTv_likeCount.setText(String.valueOf(Objects.requireNonNullElse(libraryFunction.getLike_count(), 0)));
         holder.itemView.setOnClickListener(v -> onLibraryShow.accept(libraryFunction));
     }
 
@@ -93,21 +93,21 @@ public class PublicLibraryListAdapter extends RecyclerView.Adapter<PublicLibrary
         }
         LibraryFunction libraryFunction = libraries.get(position);
         CommandLabPublicService.LikeFunctionRequest request = new CommandLabPublicService.LikeFunctionRequest();
-        request.android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        disposable = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
-                .like(Objects.requireNonNull(libraryFunction.id), request)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result2 -> {
-                    if (!Objects.equals(result2.status, "success") || result2.data == null) {
-                        Toaster.show(result2.message);
-                        return;
-                    }
-                    CommandLabPublicService.LibraryLikeResponse libraryLikeState = result2.data;
-                    libraryFunction.is_liked = !Objects.equals(libraryLikeState.action, "unlike");
-                    libraryFunction.like_count = libraryLikeState.like_count;
-                    notifyItemChanged(position);
-                }, throwable -> Toaster.show(throwable.getMessage()));
+        request.setAndroid_id(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+//        disposable = ServiceManager.COMMAND_LAB_PUBLIC_SERVICE
+//                .like(Objects.requireNonNull(libraryFunction.getId()), request)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(result2 -> {
+//                    if (!Objects.equals(result2.status, "success") || result2.data == null) {
+//                        Toaster.show(result2.message);
+//                        return;
+//                    }
+//                    CommandLabPublicService.LibraryLikeResponse libraryLikeState = result2.data;
+//                    libraryFunction.is_liked = !Objects.equals(libraryLikeState.action, "unlike");
+//                    libraryFunction.like_count = libraryLikeState.like_count;
+//                    notifyItemChanged(position);
+//                }, throwable -> Toaster.show(throwable.getMessage()));
         doLike.set(disposable);
     }
 

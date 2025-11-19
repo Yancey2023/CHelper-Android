@@ -116,21 +116,21 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.11.0")
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("androidx.navigation:navigation-compose:2.9.4")
+    implementation("androidx.navigation:navigation-compose:2.9.6")
 //    implementation("androidx.datastore:datastore:1.1.7")
 //    implementation("androidx.datastore:datastore-preferences:1.1.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.3")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3")
-    implementation("androidx.compose.ui:ui:1.9.1")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.9.1")
-    implementation("androidx.compose.foundation:foundation:1.9.1")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.9.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
+    implementation("androidx.compose.ui:ui:1.9.4")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.9.4")
+    implementation("androidx.compose.foundation:foundation:1.9.4")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.9.4")
     // https://github.com/ReactiveX/RxJava
-    implementation("io.reactivex.rxjava3:rxjava:3.1.11")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.12")
     // https://github.com/ReactiveX/RxAndroid
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     // https://github.com/square/okhttp
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.1.0"))
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.3.1"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:okhttp-brotli")
     implementation("com.squareup.okhttp3:logging-interceptor")
@@ -144,7 +144,7 @@ dependencies {
     // https://github.com/getActivity/XXPermissions
     implementation("com.github.getActivity:XXPermissions:26.5")
     // https://github.com/getActivity/Toaster
-    implementation("com.github.getActivity:Toaster:13.5")
+    implementation("com.github.getActivity:Toaster:13.8")
     // https://github.com/getActivity/EasyWindow
     implementation("com.github.getActivity:EasyWindow:13.2")
     // https://www.umeng.com

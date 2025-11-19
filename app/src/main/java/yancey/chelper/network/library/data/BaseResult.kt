@@ -1,29 +1,31 @@
 /**
  * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
- * <p>
+ *
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https:></https:>//www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.network.library.data;
+package yancey.chelper.network.library.data
 
-import org.jetbrains.annotations.Nullable;
-
-@SuppressWarnings("unused")
-public class BaseResult<T> {
-    public @Nullable String status;
-    public @Nullable T data;
-    public @Nullable String error_type;
-    public @Nullable String message;
+@Suppress("unused")
+class BaseResult<T> {
+    var status: String? = null
+    var data: T? = null
+    @Suppress("PropertyName")
+    var error_type: String? = null
+    var message: String? = null
 }

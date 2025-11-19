@@ -80,8 +80,10 @@ public class LocalLibraryListView extends BaseView {
         rv_favoriteList.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         adapter = new LocalLibraryListAdapter(
                 context,
-                libraryFunction -> openView(context ->
-                        new LocalLibraryShowView(context, libraryFunction)),
+                libraryFunction -> {
+//                    openView(context ->
+//                            new LocalLibraryShowView(context, libraryFunction))
+                },
                 getEnvironment() == Environment.FLOATING_WINDOW ? null : libraryFunction -> openView(context -> new LocalLibraryEditView(context, new OnEditListener() {
                     @Override
                     public void onCreate(@NonNull LibraryFunction libraryFunction) {
@@ -108,7 +110,7 @@ public class LocalLibraryListView extends BaseView {
                                 adapter.notifyItemInserted(libraryFunctions.size() - 1);
                             }
                         }
-                        LocalLibraryManager.INSTANCE.save();
+//                        LocalLibraryManager.INSTANCE.save();
                     }
 
                     @Override
@@ -125,7 +127,7 @@ public class LocalLibraryListView extends BaseView {
                                 }
                             }
                         }
-                        LocalLibraryManager.INSTANCE.save();
+//                        LocalLibraryManager.INSTANCE.save();
                     }
                 }, null, libraryFunction)));
         rv_favoriteList.setLayoutManager(new LinearLayoutManager(context));
@@ -139,7 +141,7 @@ public class LocalLibraryListView extends BaseView {
                         public void onCreate(@NonNull LibraryFunction libraryFunction) {
                             libraryFunctions.add(libraryFunction);
                             adapter.notifyItemInserted(libraryFunctions.size() - 1);
-                            LocalLibraryManager.INSTANCE.save();
+//                            LocalLibraryManager.INSTANCE.save();
                         }
 
                         @Override
@@ -182,7 +184,7 @@ public class LocalLibraryListView extends BaseView {
                                     }.getType());
                                     libraryFunctions.addAll(libraryFunctions0);
                                     adapter.notifyDataSetChanged();
-                                    LocalLibraryManager.INSTANCE.save();
+//                                    LocalLibraryManager.INSTANCE.save();
                                     Toaster.show("导入成功");
                                 } catch (Throwable ignored) {
                                     Toaster.show("导入失败");
@@ -211,8 +213,8 @@ public class LocalLibraryListView extends BaseView {
             adapter.setLibraryFunctions(libraryFunctions);
         } else {
             adapter.setLibraryFunctions(libraryFunctions.stream()
-                    .filter(libraryFunction -> libraryFunction.name != null &&
-                                               libraryFunction.name.contains(ed_search.getText()))
+                    .filter(libraryFunction -> libraryFunction.getName() != null &&
+                                               libraryFunction.getName().contains(ed_search.getText()))
                     .collect(Collectors.toList()));
         }
     }
@@ -241,12 +243,12 @@ public class LocalLibraryListView extends BaseView {
         if (loadData != null) {
             loadData.dispose();
         }
-        loadData = LocalLibraryManager.INSTANCE.getFunctions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(libraryFunctions -> {
-                    this.libraryFunctions = libraryFunctions;
-                    update(ed_search.getText());
-                }, throwable -> Toaster.show(throwable.getMessage()));
+//        loadData = LocalLibraryManager.INSTANCE.getFunctions()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(libraryFunctions -> {
+//                    this.libraryFunctions = libraryFunctions;
+//                    update(ed_search.getText());
+//                }, throwable -> Toaster.show(throwable.getMessage()));
     }
 }

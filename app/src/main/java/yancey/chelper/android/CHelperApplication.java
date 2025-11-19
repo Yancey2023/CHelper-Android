@@ -55,7 +55,7 @@ public class CHelperApplication extends Application {
         Toaster.setGravity(Gravity.BOTTOM, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()));
         // 网络服务初始化
         ServiceManager.init();
-        LoginUtil.init(FileUtil.getFile(getDataDir(), "library", "user.json"), throwable -> {
+        LoginUtil.INSTANCE.init(FileUtil.getFile(getDataDir(), "library", "user.json"), throwable -> {
             Log.e("LoginUtil", "fail to read user from json", throwable);
             MonitorUtil.generateCustomLog(throwable, "ReadUserException");
         });

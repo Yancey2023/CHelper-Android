@@ -1,192 +1,185 @@
 /**
  * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
- * <p>
+ *
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https:></https:>//www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.network.library.service;
+package yancey.chelper.network.library.service
 
-import org.jetbrains.annotations.Nullable;
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import yancey.chelper.network.library.data.BaseResult
 
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import yancey.chelper.network.library.data.BaseResult;
-
-@SuppressWarnings("unused")
-public interface CommandLabUserService {
-
+@Suppress("unused")
+interface CommandLabUserService {
     class SendVerifyCodeRequest {
-        public String special_code;
-        public Integer type;
-        public String email;
-        public String phone;
-        public String lang;
+        @Suppress("PropertyName")
+        var special_code: String? = null
+        var type: Int? = null
+        var email: String? = null
+        var phone: String? = null
+        var lang: String? = null
     }
 
     @POST("register/sendCode")
-    Call<BaseResult<Void>> sendVerifyCode(
-            @Body SendVerifyCodeRequest request
-    );
+    fun sendVerifyCode(
+        @Body request: SendVerifyCodeRequest?
+    ): Call<BaseResult<Void?>?>?
 
     class RegisterRequest {
-        public String email;
+        var email: String? = null
     }
 
     class RegisterResponse {
-        @Nullable
-        public String message;
+        var message: String? = null
     }
 
     @POST("user/register")
-    Call<BaseResult<RegisterResponse>> register(
-            @Body RegisterRequest request
-    );
+    fun register(
+        @Body request: RegisterRequest?
+    ): Call<BaseResult<RegisterResponse?>?>?
 
     class VerifyRegistrationRequest {
-        public String email;
-        public String code;
-        public String password;
-        public String android_id;
+        var email: String? = null
+        var code: String? = null
+        var password: String? = null
+        @Suppress("PropertyName")
+        var android_id: String? = null
     }
 
     class VerifyRegistrationResponse {
-        @Nullable
-        public Integer user_id;
-        @Nullable
-        public String token;
+        @Suppress("PropertyName")
+        var user_id: Int? = null
+        var token: String? = null
     }
 
     @POST("user/verify")
-    Call<BaseResult<VerifyRegistrationResponse>> verifyRegistration(
-            @Body VerifyRegistrationRequest request
-    );
+    fun verifyRegistration(
+        @Body request: VerifyRegistrationRequest?
+    ): Call<BaseResult<VerifyRegistrationResponse?>?>?
 
     class LoginRequest {
-        public String account;
-        public String password;
+        @JvmField
+        var account: String? = null
+        @JvmField
+        var password: String? = null
     }
 
     class User {
-        @Nullable
-        Integer id;
-        @Nullable
-        public String email;
-        @Nullable
-        public String nickname;
-        @Nullable
-        public Boolean is_admin;
-        @Nullable
-        public Boolean is_moderator;
+        var id: Int? = null
+        var email: String? = null
+        var nickname: String? = null
+        @Suppress("PropertyName")
+        var is_admin: Boolean? = null
+        @Suppress("PropertyName")
+        var is_moderator: Boolean? = null
     }
 
     class LoginResponse {
-        @Nullable
-        public Integer user_id;
-        @Nullable
-        public String token;
-        @Nullable
-        public User user;
+        @Suppress("PropertyName")
+        var user_id: Int? = null
+        var token: String? = null
+        var user: User? = null
     }
 
     @POST("user/login")
-    Call<BaseResult<LoginResponse>> login(
-            @Body LoginRequest request
-    );
+    fun login(
+        @Body request: LoginRequest?
+    ): Call<BaseResult<LoginResponse?>?>?
 
-    @GET("web/user_info")
-    Call<BaseResult<User>> getUserInfo();
+    @get:GET("web/user_info")
+    val userInfo: Call<BaseResult<User?>?>?
 
     class CheckLoginResponse {
-        @Nullable
-        public Boolean logged_in;
-        @Nullable
-        public User user;
+        @Suppress("PropertyName")
+        var logged_in: Boolean? = null
+        var user: User? = null
     }
 
     @GET("web/check_login")
-    Call<BaseResult<CheckLoginResponse>> checkLogin();
+    fun checkLogin(): Call<BaseResult<CheckLoginResponse?>?>?
 
     class SendResetCodeRequest {
-        public String email;
+        var email: String? = null
     }
 
     class SendResetCodeResponse {
-        @Nullable
-        public String message;
+        var message: String? = null
     }
 
     @POST("user/send_reset_code")
-    Call<BaseResult<SendResetCodeResponse>> sendResetCode(
-            @Body SendResetCodeRequest request
-    );
+    fun sendResetCode(
+        @Body request: SendResetCodeRequest?
+    ): Call<BaseResult<SendResetCodeResponse?>?>?
 
     class ResetPasswordRequest {
-        public String email;
-        public String code;
-        public String new_password;
+        var email: String? = null
+        var code: String? = null
+        @Suppress("PropertyName")
+        var new_password: String? = null
     }
 
     class ResetPasswordResponse {
-        @Nullable
-        public String message;
+        var message: String? = null
     }
 
     @POST("user/reset_password")
-    Call<BaseResult<ResetPasswordResponse>> resetPassword(
-            @Body ResetPasswordRequest request
-    );
+    fun resetPassword(
+        @Body request: ResetPasswordRequest?
+    ): Call<BaseResult<ResetPasswordResponse?>?>?
 
     class UpdateSettingRequest {
-        public String nickname;
-        public String old_password;
-        public String new_password;
+        var nickname: String? = null
+        @Suppress("PropertyName")
+        var old_password: String? = null
+        @Suppress("PropertyName")
+        var new_password: String? = null
     }
 
     class UpdateSettingResponse {
-        @Nullable
-        public String message;
+        var message: String? = null
     }
 
     @POST("web/update_settings")
-    Call<BaseResult<UpdateSettingResponse>> updateSetting(
-            @Body UpdateSettingRequest request
-    );
+    fun updateSetting(
+        @Body request: UpdateSettingRequest?
+    ): Call<BaseResult<UpdateSettingResponse?>?>?
 
     class LogoutResponse {
-        @Nullable
-        public String message;
+        var message: String? = null
     }
 
     @POST("user/logout")
-    Call<BaseResult<LogoutResponse>> logout();
+    fun logout(): Call<BaseResult<LogoutResponse?>?>?
 
     class VerifySensitiveRequest {
-        public String operation;
-        public String code;
+        var operation: String? = null
+        var code: String? = null
     }
 
     class VerifySensitiveResponse {
-        @Nullable
-        public Boolean verified;
+        var verified: Boolean? = null
     }
 
     @POST("user/verify_sensitive")
-    Call<BaseResult<VerifySensitiveResponse>> verifySensitive(
-            @Body VerifySensitiveRequest request
-    );
-
+    fun verifySensitive(
+        @Body request: VerifySensitiveRequest?
+    ): Call<BaseResult<VerifySensitiveResponse?>?>?
 }

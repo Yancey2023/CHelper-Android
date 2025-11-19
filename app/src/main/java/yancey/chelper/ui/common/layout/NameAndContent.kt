@@ -90,7 +90,7 @@ fun NameAndAction(
         description = description,
         modifier = Modifier.clickable(onClick = onClick)
     ) {
-        Icon(iconId, Modifier.size(25.dp), name)
+        Icon(iconId, Modifier.size(24.dp), name)
     }
 }
 
@@ -101,8 +101,7 @@ fun NameAndValue(name: String, value: String) {
             Text(
                 text = value,
                 style = TextStyle(
-                    color = CHelperTheme.colors.textSecondary,
-                    fontSize = 16.sp
+                    color = CHelperTheme.colors.textSecondary
                 ),
             )
         }

@@ -1,57 +1,53 @@
 /**
  * It is part of CHelper. CHelper is a command helper for Minecraft Bedrock Edition.
  * Copyright (C) 2025  Yancey
- * <p>
+ *
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * <p>
+ *
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p>
+ *
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https:></https:>//www.gnu.org/licenses/>.
  */
 
-package yancey.chelper.network.library.data;
+package yancey.chelper.network.library.data
 
-import org.jetbrains.annotations.Nullable;
+import kotlinx.serialization.Serializable
 
-import java.util.List;
+@Suppress("unused")
+@Serializable
+class LibraryFunction {
+    var id: Int? = null // 函数ID
+    var uuid: String? = null // 函数UUID
+    var name: String? = null // 函数名称
+    var content: String? = null // 函数内容
+    var author: String? = null // 作者
+    var note: String? = null // 说明
+    var tags: List<String>? = null // 标签
+    var version: String? = null // 版本号
 
-@SuppressWarnings("unused")
-public class LibraryFunction {
+    @Suppress("PropertyName")
+    var created_at: String? = null // 创建时间，例：2025-02-03 18:45:43
+    var preview: String? = null // 命令预览
 
-    @Nullable
-    public Integer id;// 函数ID
-    @Nullable
-    public String uuid;// 函数UUID
-    @Nullable
-    public String name;// 函数名称
-    @Nullable
-    public String content;// 函数内容
-    @Nullable
-    public String author;// 作者
-    @Nullable
-    public String note;// 说明
-    @Nullable
-    public List<String> tags;// 标签
-    @Nullable
-    public String version;// 版本号
-    @Nullable
-    public String created_at;// 创建时间，例：2025-02-03 18:45:43
-    @Nullable
-    public String preview;// 命令预览
-    @Nullable
-    public Integer like_count;// 点赞总数
-    @Nullable
-    public Boolean is_liked;// 当前设备是否已点赞
-    @Nullable
-    public String user_key;// 随机生成的密钥
-    @Nullable
-    public String backup_file;// 备份文件名
+    @Suppress("PropertyName")
+    var like_count: Int? = null // 点赞总数
 
+    @Suppress("PropertyName")
+    var is_liked: Boolean? = null // 当前设备是否已点赞
+
+    @Suppress("PropertyName")
+    var user_key: String? = null // 随机生成的密钥
+
+    @Suppress("PropertyName")
+    var backup_file: String? = null // 备份文件名
 }

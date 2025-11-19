@@ -21,16 +21,26 @@ package yancey.chelper.ui
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import yancey.chelper.android.library.util.LocalLibraryManager
 import yancey.chelper.core.CHelperCore
 import yancey.chelper.ui.about.AboutScreen
+import yancey.chelper.ui.completion.CompletionScreen
 import yancey.chelper.ui.enumeration.EnumerationScreen
 import yancey.chelper.ui.home.HomeScreen
+import yancey.chelper.ui.library.LocalLibraryEditScreen
+import yancey.chelper.ui.library.LocalLibraryListScreen
+import yancey.chelper.ui.library.LocalLibraryShowScreen
+import yancey.chelper.ui.library.LocalLibraryShowViewModel
 import yancey.chelper.ui.old2new.Old2NewIMEGuideScreen
 import yancey.chelper.ui.old2new.Old2NewScreen
 import yancey.chelper.ui.rawtext.RawtextScreen
@@ -39,6 +49,9 @@ import yancey.chelper.ui.showtext.ShowTextScreen
 
 @Serializable
 object HomeScreenKey
+
+@Serializable
+object CompletionScreenKey
 
 @Serializable
 object SettingsScreenKey
@@ -51,6 +64,19 @@ object Old2NewIMEGuideScreenKey
 
 @Serializable
 object EnumerationScreenKey
+
+@Serializable
+object LocalLibraryListScreenKey
+
+@Serializable
+data class LibraryShowScreenKey(
+    val id: Int
+)
+
+@Serializable
+data class LibraryEditScreenKey(
+    val id: Int?
+)
 
 @Serializable
 object RawtextScreenKey
@@ -82,6 +108,12 @@ fun NavHost(
         composable<HomeScreenKey> {
             HomeScreen(navController = navController)
         }
+        composable<CompletionScreenKey>{
+            CompletionScreen(
+                viewModel = viewModel(),
+                navController = navController
+            )
+        }
         composable<SettingsScreenKey> {
             SettingsScreen(
                 chooseBackground = chooseBackground,
@@ -100,6 +132,24 @@ fun NavHost(
         }
         composable<EnumerationScreenKey> {
             EnumerationScreen()
+        }
+        composable<LocalLibraryListScreenKey> {
+            LocalLibraryListScreen(navController = navController)
+        }
+        composable<LibraryShowScreenKey> { navBackStackEntry ->
+            val localLibraryShow: LibraryShowScreenKey = navBackStackEntry.toRoute()
+            val viewModel: LocalLibraryShowViewModel = viewModel()
+            LaunchedEffect(viewModel, localLibraryShow.id) {
+                viewModel.viewModelScope.launch {
+                    LocalLibraryManager.INSTANCE!!.ensureInit()
+                    viewModel.library = LocalLibraryManager.INSTANCE!!.getFunctions()[localLibraryShow.id]
+                }
+            }
+            LocalLibraryShowScreen(viewModel = viewModel)
+        }
+        composable<LibraryEditScreenKey> { navBackStackEntry ->
+            val localLibraryEdit: LibraryEditScreenKey = navBackStackEntry.toRoute()
+            LocalLibraryEditScreen(id = localLibraryEdit.id)
         }
         composable<RawtextScreenKey> {
             RawtextScreen()

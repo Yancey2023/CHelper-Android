@@ -50,8 +50,8 @@ public class LibraryShowAdapter extends RecyclerView.Adapter<LibraryShowAdapter.
     public LibraryShowAdapter(Context context, LibraryFunction library) {
         this.context = context;
         this.library = library;
-        this.content = library.content == null ? List.of() :
-                Arrays.stream(library.content.split("\n"))
+        this.content = library.getContent() == null ? List.of() :
+                Arrays.stream(library.getContent().split("\n"))
                         .filter(s -> !s.isEmpty())
                         .map(String::strip)
                         .collect(Collectors.toList());
@@ -81,10 +81,10 @@ public class LibraryShowAdapter extends RecyclerView.Adapter<LibraryShowAdapter.
                 holder.mTv_description.setText(R.string.layout_library_show_loading);
                 holder.mTv_tags.setText(R.string.layout_library_show_loading);
             } else {
-                holder.mTv_version.setText(library.version);
-                holder.mTv_author.setText(library.author);
-                holder.mTv_description.setText(library.note);
-                holder.mTv_tags.setText(library.tags == null ? null : String.join(",", library.tags));
+                holder.mTv_version.setText(library.getVersion());
+                holder.mTv_author.setText(library.getAuthor());
+                holder.mTv_description.setText(library.getNote());
+                holder.mTv_tags.setText(library.getTags() == null ? null : String.join(",", library.getTags()));
             }
         } else {
             String command = content.get(position - 1);
@@ -122,8 +122,8 @@ public class LibraryShowAdapter extends RecyclerView.Adapter<LibraryShowAdapter.
     @SuppressLint("NotifyDataSetChanged")
     public void setLibraryFunction(LibraryFunction library) {
         this.library = library;
-        this.content = library.content == null ? List.of() :
-                Arrays.stream(library.content.split("\n"))
+        this.content = library.getContent() == null ? List.of() :
+                Arrays.stream(library.getContent().split("\n"))
                         .map(String::strip)
                         .filter(s -> !s.isEmpty())
                         .collect(Collectors.toList());

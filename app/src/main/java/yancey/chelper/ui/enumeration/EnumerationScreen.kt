@@ -76,7 +76,7 @@ fun EnumerationScreenTimes(viewModel: EnumerationViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 15.dp),
-            isNarrow = true,
+            verticalPadding = 0.dp,
             lineLimits = TextFieldLineLimits.SingleLine
         )
     }
@@ -133,7 +133,7 @@ fun EnumerationScreenVariable(modifier: Modifier = Modifier, viewModel: Enumerat
                         state = variable.name,
                         modifier = Modifier.weight(1f),
                         contentAlignment = Alignment.Center,
-                        isNarrow = true,
+                        verticalPadding = 0.dp,
                         lineLimits = TextFieldLineLimits.SingleLine
                     )
                     Spacer(modifier = Modifier.width(15.dp))
@@ -141,7 +141,7 @@ fun EnumerationScreenVariable(modifier: Modifier = Modifier, viewModel: Enumerat
                         state = variable.start,
                         modifier = Modifier.weight(1f),
                         contentAlignment = Alignment.Center,
-                        isNarrow = true,
+                        verticalPadding = 0.dp,
                         lineLimits = TextFieldLineLimits.SingleLine
                     )
                     Spacer(modifier = Modifier.width(15.dp))
@@ -149,17 +149,17 @@ fun EnumerationScreenVariable(modifier: Modifier = Modifier, viewModel: Enumerat
                         state = variable.interval,
                         modifier = Modifier.weight(1f),
                         contentAlignment = Alignment.Center,
-                        isNarrow = true,
+                        verticalPadding = 0.dp,
                         lineLimits = TextFieldLineLimits.SingleLine
                     )
                     Spacer(modifier = Modifier.width(15.dp))
                     Icon(
                         id = R.drawable.x,
                         modifier = Modifier
-                            .size(30.dp)
                             .clickable(onClick = {
                                 viewModel.variableList.removeAt(index)
-                            }),
+                            })
+                            .size(24.dp),
                     )
                 }
                 if (index == viewModel.variableList.size) {

@@ -66,12 +66,13 @@ fun RootView(content: @Composable () -> Unit) {
 @Composable
 fun RootViewWithHeaderAndCopyright(
     title: String,
+    headerRight: @Composable () -> Unit = {},
     copyright: String = stringResource(R.string.common_copyright_yancey),
     content: @Composable () -> Unit
 ) {
     RootView {
         Column(modifier = Modifier.fillMaxSize()) {
-            Header(title)
+            Header(title = title, right = headerRight)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

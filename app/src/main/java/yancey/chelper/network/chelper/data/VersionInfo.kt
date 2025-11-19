@@ -22,8 +22,13 @@
 package yancey.chelper.network.chelper.data
 
 class VersionInfo {
+    @Suppress("PropertyName", "unused")
     var version_code: Int? = null
+
+    @Suppress("PropertyName")
     var version_name: String? = null
+
+    @Suppress("unused")
     var link: String? = null
     var changelog: String? = null
 }

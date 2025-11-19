@@ -18,7 +18,6 @@
 
 package yancey.chelper.ui.home
 
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -52,11 +51,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import yancey.chelper.R
 import yancey.chelper.android.common.util.PolicyGrantManager
-import yancey.chelper.android.completion.activity.CompletionActivity
 import yancey.chelper.android.completion.util.CompletionWindowManager
-import yancey.chelper.android.library.activity.LocalLibraryListActivity
 import yancey.chelper.ui.AboutScreenKey
+import yancey.chelper.ui.CompletionScreenKey
 import yancey.chelper.ui.EnumerationScreenKey
+import yancey.chelper.ui.LocalLibraryListScreenKey
 import yancey.chelper.ui.Old2NewIMEGuideScreenKey
 import yancey.chelper.ui.Old2NewScreenKey
 import yancey.chelper.ui.RawtextScreenKey
@@ -69,7 +68,6 @@ import yancey.chelper.ui.common.layout.Collection
 import yancey.chelper.ui.common.layout.CollectionName
 import yancey.chelper.ui.common.layout.Copyright
 import yancey.chelper.ui.common.layout.NameAndAction
-import yancey.chelper.ui.common.layout.NameAndStartActivity
 import yancey.chelper.ui.common.layout.RootView
 import yancey.chelper.ui.common.widget.Divider
 import yancey.chelper.ui.common.widget.Text
@@ -128,15 +126,10 @@ fun HomeScreen(
                     NameAndAction(
                         name = stringResource(R.string.layout_home_command_completion_app_mode),
                         onClick = {
-                            if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow) {
+                            if (CompletionWindowManager.INSTANCE!!.isUsingFloatingWindow) {
                                 Toaster.show("你必须关闭悬浮窗模式才可以进入应用模式")
                             } else {
-                                context.startActivity(
-                                    Intent(
-                                        context,
-                                        CompletionActivity::class.java
-                                    )
-                                )
+                                navController.navigate(CompletionScreenKey)
                             }
                         }
                     )
@@ -144,10 +137,10 @@ fun HomeScreen(
                     NameAndAction(
                         name = stringResource(R.string.layout_home_command_completion_floating_window_mode),
                         onClick = {
-                            if (CompletionWindowManager.INSTANCE.isUsingFloatingWindow) {
-                                CompletionWindowManager.INSTANCE.stopFloatingWindow()
+                            if (CompletionWindowManager.INSTANCE!!.isUsingFloatingWindow) {
+                                CompletionWindowManager.INSTANCE!!.stopFloatingWindow()
                             } else {
-                                CompletionWindowManager.INSTANCE.startFloatingWindow(context)
+                                CompletionWindowManager.INSTANCE!!.startFloatingWindow(context)
                             }
                         }
                     )
@@ -174,10 +167,9 @@ fun HomeScreen(
                 }
                 CollectionName(stringResource(R.string.layout_home_experimental_feature))
                 Collection {
-                    NameAndStartActivity(
-                        stringResource(R.string.layout_home_experimental_feature_local_library),
-                        LocalLibraryListActivity::class.java
-                    )
+                    NameAndAction(stringResource(R.string.layout_home_experimental_feature_local_library)) {
+                        navController.navigate(LocalLibraryListScreenKey)
+                    }
                     Divider()
                     NameAndAction(stringResource(R.string.layout_home_experimental_feature_public_library)) {
                         // TODO

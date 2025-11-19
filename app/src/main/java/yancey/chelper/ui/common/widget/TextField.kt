@@ -18,7 +18,6 @@
 
 package yancey.chelper.ui.common.widget
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,6 +36,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +49,9 @@ fun TextField(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
     hint: String? = null,
-    isNarrow: Boolean = false,
+    horizontalPadding: Dp = 10.dp,
+    verticalPadding: Dp = 10.dp,
+    clipCornerSize: Dp = 10.dp,
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.Default,
     style: TextStyle = TextStyle(),
 ) {
@@ -71,7 +73,9 @@ fun TextField(
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = contentAlignment,
-                isNarrow = isNarrow
+                horizontalPadding = horizontalPadding,
+                verticalPadding = verticalPadding,
+                clipCornerSize = clipCornerSize,
             ) {
                 innerTextField()
                 if (state.text.isEmpty() && hint != null) {
@@ -101,8 +105,12 @@ fun TextFieldPreview() {
                 .padding(15.dp)
                 .width(100.dp)
                 .height(40.dp)
-                .background(CHelperTheme.colors.backgroundComponent),
-            hint = "Hint"
+                .padding(horizontal = 15.dp),
+            contentAlignment = Alignment.CenterStart,
+            hint = "Hint",
+            clipCornerSize = 20.dp,
+            verticalPadding = 0.dp,
+            lineLimits = TextFieldLineLimits.SingleLine
         )
     }
 }

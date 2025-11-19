@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -59,11 +60,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import yancey.chelper.R
+import yancey.chelper.android.common.util.Settings
 import yancey.chelper.core.CHelperGuiCore
 import yancey.chelper.core.ErrorReason
 import yancey.chelper.core.Suggestion
+import yancey.chelper.ui.LocalLibraryListScreenKey
 import yancey.chelper.ui.common.CHelperTheme
 import yancey.chelper.ui.common.layout.RootView
 import yancey.chelper.ui.common.widget.Icon
@@ -251,7 +257,7 @@ fun ToolbarItem(@DrawableRes id: Int, description: String, onClick: () -> Unit) 
     ) {
         Icon(
             id = id,
-            modifier = Modifier.size(26.dp),
+            modifier = Modifier.size(24.dp),
             contentDescription = description
         )
         Text(
@@ -263,7 +269,17 @@ fun ToolbarItem(@DrawableRes id: Int, description: String, onClick: () -> Unit) 
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
+fun CompletionScreen(
+    viewModel: CompletionViewModel = viewModel(),
+    navController: NavHostController = rememberNavController()
+) {
+    val context = LocalContext.current
+    LaunchedEffect(viewModel) {
+        viewModel.init(context)
+    }
+    LaunchedEffect(viewModel, Settings.INSTANCE.cpackPath) {
+        viewModel.refreshCHelperCore(context)
+    }
     val clipboard = LocalClipboard.current
     RootView {
         Column(
@@ -328,13 +344,13 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                     Column(
                         modifier = Modifier
                             .clickable(onClick = {
-                                core.onItemClick(suggestionIndex)
-                                core.onSelectionChanged()
+                                viewModel.core.onItemClick(suggestionIndex)
+                                viewModel.core.onSelectionChanged()
                             })
                             .padding(5.dp)
                     ) {
                         val suggestion = remember(viewModel.suggestionsSize, suggestionIndex) {
-                            core.getSuggestion(suggestionIndex)
+                            viewModel.core.getSuggestion(suggestionIndex)
                         }
                         suggestion?.name?.let {
                             Text(
@@ -398,7 +414,7 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                         id = R.drawable.box,
                         description = stringResource(R.string.layout_completion_local_library),
                         onClick = {
-
+                            navController.navigate(LocalLibraryListScreenKey)
                         }
                     )
                     ToolbarItem(
@@ -420,11 +436,11 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                 Icon(
                     id = if (viewModel.isShowMenu) R.drawable.chevron_down else R.drawable.chevron_up,
                     modifier = Modifier
-                        .size(40.dp)
                         .clickable {
                             viewModel.isShowMenu = !viewModel.isShowMenu
                         }
-                        .padding(8.dp),
+                        .padding(8.dp)
+                        .size(24.dp),
                     contentDescription = stringResource(R.string.layout_completion_icon_show_menu_content_description)
                 )
                 CommandTextField(
@@ -439,7 +455,6 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                 Icon(
                     id = R.drawable.copy,
                     modifier = Modifier
-                        .size(40.dp)
                         .clickable {
                             viewModel.viewModelScope.launch {
                                 clipboard.setClipEntry(
@@ -452,13 +467,14 @@ fun CompletionScreen(viewModel: CompletionViewModel, core: CHelperGuiCore) {
                                 )
                             }
                         }
-                        .padding(8.dp),
+                        .padding(8.dp)
+                        .size(24.dp),
                     contentDescription = stringResource(R.string.common_icon_copy_content_description)
                 )
             }
         }
         LaunchedEffect(viewModel.command.text, viewModel.command.selection) {
-            core.onSelectionChanged()
+            viewModel.core.onSelectionChanged()
         }
     }
 }
@@ -472,17 +488,17 @@ fun CompletionScreenLightThemePreview() {
             suggestionsSize = 20
         }
     }
+    viewModel.core = object : CHelperGuiCore() {
+        override fun getSuggestion(index: Int): Suggestion {
+            return Suggestion().apply {
+                name = "name$index"
+                description = "description$index"
+            }
+        }
+    }
     CHelperTheme(theme = CHelperTheme.Theme.Light, backgroundBitmap = null) {
         CompletionScreen(
-            viewModel = viewModel,
-            core = object : CHelperGuiCore() {
-                override fun getSuggestion(index: Int): Suggestion? {
-                    return Suggestion().apply {
-                        name = "name$index"
-                        description = "description$index"
-                    }
-                }
-            }
+            viewModel = viewModel
         )
     }
 }
@@ -496,17 +512,17 @@ fun CompletionScreenDarkThemePreview() {
             suggestionsSize = 20
         }
     }
+    viewModel.core = object : CHelperGuiCore() {
+        override fun getSuggestion(index: Int): Suggestion {
+            return Suggestion().apply {
+                name = "name$index"
+                description = "description$index"
+            }
+        }
+    }
     CHelperTheme(theme = CHelperTheme.Theme.Dark, backgroundBitmap = null) {
         CompletionScreen(
-            viewModel = viewModel,
-            core = object : CHelperGuiCore() {
-                override fun getSuggestion(index: Int): Suggestion? {
-                    return Suggestion().apply {
-                        name = "name$index"
-                        description = "description$index"
-                    }
-                }
-            }
+            viewModel = viewModel
         )
     }
 }

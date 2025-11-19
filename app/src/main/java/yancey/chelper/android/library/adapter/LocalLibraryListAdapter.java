@@ -60,8 +60,8 @@ public class LocalLibraryListAdapter extends RecyclerView.Adapter<LocalLibraryLi
     @Override
     public void onBindViewHolder(@NonNull CommandListViewHolder holder, int position) {
         LibraryFunction libraryFunction = libraries.get(position);
-        holder.mTv_name.setText(libraryFunction.name);
-        holder.mTv_description.setText(libraryFunction.note);
+        holder.mTv_name.setText(libraryFunction.getName());
+        holder.mTv_description.setText(libraryFunction.getNote());
         if (onLibraryEdit == null) {
             holder.mBtn_edit.setVisibility(View.GONE);
         } else {
