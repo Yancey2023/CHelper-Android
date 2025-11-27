@@ -35,6 +35,7 @@ import yancey.chelper.android.library.util.LocalLibraryManager
 import yancey.chelper.core.CHelperCore
 import yancey.chelper.ui.about.AboutScreen
 import yancey.chelper.ui.completion.CompletionScreen
+import yancey.chelper.ui.completion.HistoryScreen
 import yancey.chelper.ui.enumeration.EnumerationScreen
 import yancey.chelper.ui.home.HomeScreen
 import yancey.chelper.ui.library.LocalLibraryEditScreen
@@ -52,6 +53,9 @@ object HomeScreenKey
 
 @Serializable
 object CompletionScreenKey
+
+@Serializable
+object HistoryScreenKey
 
 @Serializable
 object SettingsScreenKey
@@ -96,6 +100,7 @@ fun NavHost(
     chooseBackground: () -> Unit,
     restoreBackground: () -> Unit,
     onChooseTheme: () -> Unit,
+    shutdown: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -108,11 +113,16 @@ fun NavHost(
         composable<HomeScreenKey> {
             HomeScreen(navController = navController)
         }
-        composable<CompletionScreenKey>{
+        composable<CompletionScreenKey> {
             CompletionScreen(
                 viewModel = viewModel(),
-                navController = navController
+                navController = navController,
+                shutDown = shutdown,
+                hideView = {}
             )
+        }
+        composable<HistoryScreenKey> {
+            HistoryScreen(viewModel = viewModel())
         }
         composable<SettingsScreenKey> {
             SettingsScreen(
@@ -142,7 +152,8 @@ fun NavHost(
             LaunchedEffect(viewModel, localLibraryShow.id) {
                 viewModel.viewModelScope.launch {
                     LocalLibraryManager.INSTANCE!!.ensureInit()
-                    viewModel.library = LocalLibraryManager.INSTANCE!!.getFunctions()[localLibraryShow.id]
+                    viewModel.library =
+                        LocalLibraryManager.INSTANCE!!.getFunctions()[localLibraryShow.id]
                 }
             }
             LocalLibraryShowScreen(viewModel = viewModel)

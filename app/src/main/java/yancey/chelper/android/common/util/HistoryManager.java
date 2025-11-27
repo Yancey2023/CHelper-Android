@@ -18,6 +18,8 @@
 
 package yancey.chelper.android.common.util;
 
+import android.content.Context;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -32,7 +34,9 @@ public class HistoryManager {
     private LinkedList<String> historyList;
     private final File file;
 
-    public HistoryManager(File file) {
+    private static HistoryManager INSTANCE;
+
+    private HistoryManager(File file) {
         this.file = file;
         if (file.exists()) {
             String content = FileUtil.readString(file);
@@ -44,6 +48,13 @@ public class HistoryManager {
         if (historyList == null) {
             historyList = new LinkedList<>();
         }
+    }
+
+    public static HistoryManager getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new HistoryManager(FileUtil.getFile(context.getDataDir(), "history.txt"));
+        }
+        return INSTANCE;
     }
 
     /**

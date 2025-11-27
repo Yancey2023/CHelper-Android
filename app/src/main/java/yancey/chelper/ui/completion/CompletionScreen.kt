@@ -69,6 +69,7 @@ import yancey.chelper.android.common.util.Settings
 import yancey.chelper.core.CHelperGuiCore
 import yancey.chelper.core.ErrorReason
 import yancey.chelper.core.Suggestion
+import yancey.chelper.ui.HistoryScreenKey
 import yancey.chelper.ui.LocalLibraryListScreenKey
 import yancey.chelper.ui.common.CHelperTheme
 import yancey.chelper.ui.common.layout.RootView
@@ -271,7 +272,9 @@ fun ToolbarItem(@DrawableRes id: Int, description: String, onClick: () -> Unit) 
 @OptIn(ExperimentalFoundationApi::class)
 fun CompletionScreen(
     viewModel: CompletionViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    shutDown: () -> Unit = {},
+    hideView: () -> Unit = {},
 ) {
     val context = LocalContext.current
     LaunchedEffect(viewModel) {
@@ -407,7 +410,7 @@ fun CompletionScreen(
                         id = R.drawable.history,
                         description = stringResource(R.string.layout_completion_history),
                         onClick = {
-
+                            navController.navigate(HistoryScreenKey)
                         }
                     )
                     ToolbarItem(
@@ -421,7 +424,7 @@ fun CompletionScreen(
                         id = R.drawable.power,
                         description = stringResource(R.string.layout_completion_shut_down),
                         onClick = {
-
+                            shutDown()
                         }
                     )
                 }
@@ -456,6 +459,7 @@ fun CompletionScreen(
                     id = R.drawable.copy,
                     modifier = Modifier
                         .clickable {
+                            viewModel.onCopy(viewModel.command.text.toString())
                             viewModel.viewModelScope.launch {
                                 clipboard.setClipEntry(
                                     ClipEntry(
@@ -465,6 +469,9 @@ fun CompletionScreen(
                                         )
                                     )
                                 )
+                            }
+                            if (Settings.INSTANCE.isHideWindowWhenCopying) {
+                                hideView()
                             }
                         }
                         .padding(8.dp)

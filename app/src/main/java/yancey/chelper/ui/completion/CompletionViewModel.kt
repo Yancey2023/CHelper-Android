@@ -29,6 +29,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.lifecycle.ViewModel
 import com.hjq.toast.Toaster
 import yancey.chelper.android.common.util.FileUtil
+import yancey.chelper.android.common.util.HistoryManager
 import yancey.chelper.android.common.util.MonitorUtil
 import yancey.chelper.android.common.util.Settings
 import yancey.chelper.core.CHelperCore
@@ -58,9 +59,11 @@ class CompletionViewModel : ViewModel() {
     var suggestionsSize by mutableIntStateOf(0)
     var syntaxHighlightTokens by mutableStateOf<IntArray?>(null)
     var core = CHelperGuiCore()
+    private lateinit var historyManager: HistoryManager
     private lateinit var file: File
 
     fun init(context: Context) {
+        historyManager = HistoryManager.getInstance(context)
         file = FileUtil.getFile(context.filesDir.absolutePath, "cache", "lastInput.dat")
         if (Settings.INSTANCE.isSavingWhenPausing) {
             if (file.exists()) {
@@ -152,20 +155,24 @@ class CompletionViewModel : ViewModel() {
         }
     }
 
+    fun onCopy(content: String) {
+        historyManager.add(content)
+    }
+
     override fun onCleared() {
         super.onCleared()
+        historyManager.save()
         // 保存上次的输入内容
-        if (!FileUtil.createParentFile(file)) {
-            return
-        }
-        try {
-            DataOutputStream(BufferedOutputStream(FileOutputStream(file))).use { dataOutputStream ->
-                dataOutputStream.writeUTF(command.text.toString())
-                dataOutputStream.writeInt(command.selection.start)
-                dataOutputStream.writeInt(command.selection.end)
-            }
-        } catch (_: IOException) {
+        if (FileUtil.createParentFile(file)) {
+            try {
+                DataOutputStream(BufferedOutputStream(FileOutputStream(file))).use { dataOutputStream ->
+                    dataOutputStream.writeUTF(command.text.toString())
+                    dataOutputStream.writeInt(command.selection.start)
+                    dataOutputStream.writeInt(command.selection.end)
+                }
+            } catch (_: IOException) {
 
+            }
         }
     }
 }

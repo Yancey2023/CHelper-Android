@@ -79,7 +79,7 @@ public class CompletionView extends BaseView {
             @Nullable Runnable hideView
     ) {
         super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_completion_crowded : R.layout.layout_completion);
-        historyManager = new HistoryManager(FileUtil.getFile(getContext().getDataDir(), "history.txt"));
+        historyManager = HistoryManager.getInstance(context);
         boolean isCrowed = Settings.INSTANCE.isCrowed;
         isGuiLoaded = false;
         boolean isDarkMode = (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
