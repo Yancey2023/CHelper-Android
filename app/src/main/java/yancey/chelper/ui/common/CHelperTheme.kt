@@ -53,20 +53,20 @@ private val LightColorPalette = CHelperColors(
     iconMain = Color(0xFF444444),
     scrollBar = Color(0x99444444),
     overscrollGlowColor = Color(0xFFFFFFFF),
-    syntaxHighlightBoolean = Color(0xFF4FAD63),
-    syntaxHighlightFloat = Color(0xFF4FAD63),
-    syntaxHighlightInteger = Color(0xFF4FAD63),
-    syntaxHighlightSymbol = Color(0xFF4FAD63),
-    syntaxHighlightId = Color(0xFFD4AC0D),
-    syntaxHighlightTargetSelector = Color(0xFF07C160),
-    syntaxHighlightCommand = Color(0xFF9F20A7),
-    syntaxHighlightBrackets1 = Color(0xFF836C0A),
-    syntaxHighlightBrackets2 = Color(0xFF9F20A7),
-    syntaxHighlightBrackets3 = Color(0xFF4571E1),
-    syntaxHighlightString = Color(0xFFD95A53),
-    syntaxHighlightNull = Color(0xFF0FA0C8),
-    syntaxHighlightRange = Color(0xFF0FA0C8),
-    syntaxHighlightLiteral = Color(0xFF0FA0C8),
+//    syntaxHighlightBoolean = Color(0xFF4FAD63),
+//    syntaxHighlightFloat = Color(0xFF4FAD63),
+//    syntaxHighlightInteger = Color(0xFF4FAD63),
+//    syntaxHighlightSymbol = Color(0xFF4FAD63),
+//    syntaxHighlightId = Color(0xFFD4AC0D),
+//    syntaxHighlightTargetSelector = Color(0xFF07C160),
+//    syntaxHighlightCommand = Color(0xFF9F20A7),
+//    syntaxHighlightBrackets1 = Color(0xFF836C0A),
+//    syntaxHighlightBrackets2 = Color(0xFF9F20A7),
+//    syntaxHighlightBrackets3 = Color(0xFF4571E1),
+//    syntaxHighlightString = Color(0xFFD95A53),
+//    syntaxHighlightNull = Color(0xFF0FA0C8),
+//    syntaxHighlightRange = Color(0xFF0FA0C8),
+//    syntaxHighlightLiteral = Color(0xFF0FA0C8),
 )
 
 private val DarkColorPalette = CHelperColors(
@@ -85,21 +85,25 @@ private val DarkColorPalette = CHelperColors(
     iconMain = Color(0xFFAAAAAA),
     scrollBar = Color(0x99969696),
     overscrollGlowColor = Color(0xFF000000),
-    syntaxHighlightBoolean = Color(0xFFB5CEA8),
-    syntaxHighlightFloat = Color(0xFFB5CEA8),
-    syntaxHighlightInteger = Color(0xFFB5CEA8),
-    syntaxHighlightSymbol = Color(0xFFB5CEA8),
-    syntaxHighlightId = Color(0xFFDCDCAA),
-    syntaxHighlightTargetSelector = Color(0xFF4EC9B0),
-    syntaxHighlightCommand = Color(0xFFC586C0),
-    syntaxHighlightBrackets1 = Color(0xFFFFD700),
-    syntaxHighlightBrackets2 = Color(0xFFC586C0),
-    syntaxHighlightBrackets3 = Color(0xFF179FFF),
-    syntaxHighlightString = Color(0xFFCE9178),
-    syntaxHighlightNull = Color(0xFF9CDCFE),
-    syntaxHighlightRange = Color(0xFF9CDCFE),
-    syntaxHighlightLiteral = Color(0xFF9CDCFE),
+//    syntaxHighlightBoolean = Color(0xFFB5CEA8),
+//    syntaxHighlightFloat = Color(0xFFB5CEA8),
+//    syntaxHighlightInteger = Color(0xFFB5CEA8),
+//    syntaxHighlightSymbol = Color(0xFFB5CEA8),
+//    syntaxHighlightId = Color(0xFFDCDCAA),
+//    syntaxHighlightTargetSelector = Color(0xFF4EC9B0),
+//    syntaxHighlightCommand = Color(0xFFC586C0),
+//    syntaxHighlightBrackets1 = Color(0xFFFFD700),
+//    syntaxHighlightBrackets2 = Color(0xFFC586C0),
+//    syntaxHighlightBrackets3 = Color(0xFF179FFF),
+//    syntaxHighlightString = Color(0xFFCE9178),
+//    syntaxHighlightNull = Color(0xFF9CDCFE),
+//    syntaxHighlightRange = Color(0xFF9CDCFE),
+//    syntaxHighlightLiteral = Color(0xFF9CDCFE),
 )
+
+private val LocalTheme = compositionLocalOf {
+    CHelperTheme.Theme.Light
+}
 
 private val LocalCHelperColors = compositionLocalOf {
     LightColorPalette
@@ -110,6 +114,9 @@ private val LocalBackground = compositionLocalOf<ImageBitmap?> {
 }
 
 object CHelperTheme {
+    val theme: Theme
+        @Composable
+        get() = LocalTheme.current
     val colors: CHelperColors
         @Composable
         get() = LocalCHelperColors.current
@@ -138,20 +145,20 @@ class CHelperColors(
     iconMain: Color,
     scrollBar: Color,
     overscrollGlowColor: Color,
-    syntaxHighlightBoolean: Color,
-    syntaxHighlightFloat: Color,
-    syntaxHighlightInteger: Color,
-    syntaxHighlightSymbol: Color,
-    syntaxHighlightId: Color,
-    syntaxHighlightTargetSelector: Color,
-    syntaxHighlightCommand: Color,
-    syntaxHighlightBrackets1: Color,
-    syntaxHighlightBrackets2: Color,
-    syntaxHighlightBrackets3: Color,
-    syntaxHighlightString: Color,
-    syntaxHighlightNull: Color,
-    syntaxHighlightRange: Color,
-    syntaxHighlightLiteral: Color,
+//    syntaxHighlightBoolean: Color,
+//    syntaxHighlightFloat: Color,
+//    syntaxHighlightInteger: Color,
+//    syntaxHighlightSymbol: Color,
+//    syntaxHighlightId: Color,
+//    syntaxHighlightTargetSelector: Color,
+//    syntaxHighlightCommand: Color,
+//    syntaxHighlightBrackets1: Color,
+//    syntaxHighlightBrackets2: Color,
+//    syntaxHighlightBrackets3: Color,
+//    syntaxHighlightString: Color,
+//    syntaxHighlightNull: Color,
+//    syntaxHighlightRange: Color,
+//    syntaxHighlightLiteral: Color,
 ) {
     var mainColor: Color by mutableStateOf(mainColor)
         private set
@@ -183,34 +190,34 @@ class CHelperColors(
         private set
     var overscrollGlowColor: Color by mutableStateOf(overscrollGlowColor)
         private set
-    var syntaxHighlightBoolean: Color by mutableStateOf(syntaxHighlightBoolean)
-        private set
-    var syntaxHighlightFloat: Color by mutableStateOf(syntaxHighlightFloat)
-        private set
-    var syntaxHighlightInteger: Color by mutableStateOf(syntaxHighlightInteger)
-        private set
-    var syntaxHighlightSymbol: Color by mutableStateOf(syntaxHighlightSymbol)
-        private set
-    var syntaxHighlightId: Color by mutableStateOf(syntaxHighlightId)
-        private set
-    var syntaxHighlightTargetSelector: Color by mutableStateOf(syntaxHighlightTargetSelector)
-        private set
-    var syntaxHighlightCommand: Color by mutableStateOf(syntaxHighlightCommand)
-        private set
-    var syntaxHighlightBrackets1: Color by mutableStateOf(syntaxHighlightBrackets1)
-        private set
-    var syntaxHighlightBrackets2: Color by mutableStateOf(syntaxHighlightBrackets2)
-        private set
-    var syntaxHighlightBrackets3: Color by mutableStateOf(syntaxHighlightBrackets3)
-        private set
-    var syntaxHighlightString: Color by mutableStateOf(syntaxHighlightString)
-        private set
-    var syntaxHighlightNull: Color by mutableStateOf(syntaxHighlightNull)
-        private set
-    var syntaxHighlightRange: Color by mutableStateOf(syntaxHighlightRange)
-        private set
-    var syntaxHighlightLiteral: Color by mutableStateOf(syntaxHighlightLiteral)
-        private set
+//    var syntaxHighlightBoolean: Color by mutableStateOf(syntaxHighlightBoolean)
+//        private set
+//    var syntaxHighlightFloat: Color by mutableStateOf(syntaxHighlightFloat)
+//        private set
+//    var syntaxHighlightInteger: Color by mutableStateOf(syntaxHighlightInteger)
+//        private set
+//    var syntaxHighlightSymbol: Color by mutableStateOf(syntaxHighlightSymbol)
+//        private set
+//    var syntaxHighlightId: Color by mutableStateOf(syntaxHighlightId)
+//        private set
+//    var syntaxHighlightTargetSelector: Color by mutableStateOf(syntaxHighlightTargetSelector)
+//        private set
+//    var syntaxHighlightCommand: Color by mutableStateOf(syntaxHighlightCommand)
+//        private set
+//    var syntaxHighlightBrackets1: Color by mutableStateOf(syntaxHighlightBrackets1)
+//        private set
+//    var syntaxHighlightBrackets2: Color by mutableStateOf(syntaxHighlightBrackets2)
+//        private set
+//    var syntaxHighlightBrackets3: Color by mutableStateOf(syntaxHighlightBrackets3)
+//        private set
+//    var syntaxHighlightString: Color by mutableStateOf(syntaxHighlightString)
+//        private set
+//    var syntaxHighlightNull: Color by mutableStateOf(syntaxHighlightNull)
+//        private set
+//    var syntaxHighlightRange: Color by mutableStateOf(syntaxHighlightRange)
+//        private set
+//    var syntaxHighlightLiteral: Color by mutableStateOf(syntaxHighlightLiteral)
+//        private set
 }
 
 private object NoIndication : IndicationNodeFactory {
@@ -253,30 +260,30 @@ fun CHelperTheme(
     val iconMain = animateColorAsState(targetColor.iconMain, animationSpec)
     val scrollBar = animateColorAsState(targetColor.scrollBar, animationSpec)
     val overscrollGlowColor = animateColorAsState(targetColor.overscrollGlowColor, animationSpec)
-    val syntaxHighlightBoolean =
-        animateColorAsState(targetColor.syntaxHighlightBoolean, animationSpec)
-    val syntaxHighlightFloat = animateColorAsState(targetColor.syntaxHighlightFloat, animationSpec)
-    val syntaxHighlightInteger =
-        animateColorAsState(targetColor.syntaxHighlightInteger, animationSpec)
-    val syntaxHighlightSymbol =
-        animateColorAsState(targetColor.syntaxHighlightSymbol, animationSpec)
-    val syntaxHighlightId = animateColorAsState(targetColor.syntaxHighlightId, animationSpec)
-    val syntaxHighlightTargetSelector =
-        animateColorAsState(targetColor.syntaxHighlightTargetSelector, animationSpec)
-    val syntaxHighlightCommand =
-        animateColorAsState(targetColor.syntaxHighlightCommand, animationSpec)
-    val syntaxHighlightBrackets1 =
-        animateColorAsState(targetColor.syntaxHighlightBrackets1, animationSpec)
-    val syntaxHighlightBrackets2 =
-        animateColorAsState(targetColor.syntaxHighlightBrackets2, animationSpec)
-    val syntaxHighlightBrackets3 =
-        animateColorAsState(targetColor.syntaxHighlightBrackets3, animationSpec)
-    val syntaxHighlightString =
-        animateColorAsState(targetColor.syntaxHighlightString, animationSpec)
-    val syntaxHighlightNull = animateColorAsState(targetColor.syntaxHighlightNull, animationSpec)
-    val syntaxHighlightRange = animateColorAsState(targetColor.syntaxHighlightRange, animationSpec)
-    val syntaxHighlightLiteral =
-        animateColorAsState(targetColor.syntaxHighlightLiteral, animationSpec)
+//    val syntaxHighlightBoolean =
+//        animateColorAsState(targetColor.syntaxHighlightBoolean, animationSpec)
+//    val syntaxHighlightFloat = animateColorAsState(targetColor.syntaxHighlightFloat, animationSpec)
+//    val syntaxHighlightInteger =
+//        animateColorAsState(targetColor.syntaxHighlightInteger, animationSpec)
+//    val syntaxHighlightSymbol =
+//        animateColorAsState(targetColor.syntaxHighlightSymbol, animationSpec)
+//    val syntaxHighlightId = animateColorAsState(targetColor.syntaxHighlightId, animationSpec)
+//    val syntaxHighlightTargetSelector =
+//        animateColorAsState(targetColor.syntaxHighlightTargetSelector, animationSpec)
+//    val syntaxHighlightCommand =
+//        animateColorAsState(targetColor.syntaxHighlightCommand, animationSpec)
+//    val syntaxHighlightBrackets1 =
+//        animateColorAsState(targetColor.syntaxHighlightBrackets1, animationSpec)
+//    val syntaxHighlightBrackets2 =
+//        animateColorAsState(targetColor.syntaxHighlightBrackets2, animationSpec)
+//    val syntaxHighlightBrackets3 =
+//        animateColorAsState(targetColor.syntaxHighlightBrackets3, animationSpec)
+//    val syntaxHighlightString =
+//        animateColorAsState(targetColor.syntaxHighlightString, animationSpec)
+//    val syntaxHighlightNull = animateColorAsState(targetColor.syntaxHighlightNull, animationSpec)
+//    val syntaxHighlightRange = animateColorAsState(targetColor.syntaxHighlightRange, animationSpec)
+//    val syntaxHighlightLiteral =
+//        animateColorAsState(targetColor.syntaxHighlightLiteral, animationSpec)
 
     val colors = CHelperColors(
         mainColor = mainColor.value,
@@ -294,20 +301,20 @@ fun CHelperTheme(
         iconMain = iconMain.value,
         scrollBar = scrollBar.value,
         overscrollGlowColor = overscrollGlowColor.value,
-        syntaxHighlightBoolean = syntaxHighlightBoolean.value,
-        syntaxHighlightFloat = syntaxHighlightFloat.value,
-        syntaxHighlightInteger = syntaxHighlightInteger.value,
-        syntaxHighlightSymbol = syntaxHighlightSymbol.value,
-        syntaxHighlightId = syntaxHighlightId.value,
-        syntaxHighlightTargetSelector = syntaxHighlightTargetSelector.value,
-        syntaxHighlightCommand = syntaxHighlightCommand.value,
-        syntaxHighlightBrackets1 = syntaxHighlightBrackets1.value,
-        syntaxHighlightBrackets2 = syntaxHighlightBrackets2.value,
-        syntaxHighlightBrackets3 = syntaxHighlightBrackets3.value,
-        syntaxHighlightString = syntaxHighlightString.value,
-        syntaxHighlightNull = syntaxHighlightNull.value,
-        syntaxHighlightRange = syntaxHighlightRange.value,
-        syntaxHighlightLiteral = syntaxHighlightLiteral.value,
+//        syntaxHighlightBoolean = syntaxHighlightBoolean.value,
+//        syntaxHighlightFloat = syntaxHighlightFloat.value,
+//        syntaxHighlightInteger = syntaxHighlightInteger.value,
+//        syntaxHighlightSymbol = syntaxHighlightSymbol.value,
+//        syntaxHighlightId = syntaxHighlightId.value,
+//        syntaxHighlightTargetSelector = syntaxHighlightTargetSelector.value,
+//        syntaxHighlightCommand = syntaxHighlightCommand.value,
+//        syntaxHighlightBrackets1 = syntaxHighlightBrackets1.value,
+//        syntaxHighlightBrackets2 = syntaxHighlightBrackets2.value,
+//        syntaxHighlightBrackets3 = syntaxHighlightBrackets3.value,
+//        syntaxHighlightString = syntaxHighlightString.value,
+//        syntaxHighlightNull = syntaxHighlightNull.value,
+//        syntaxHighlightRange = syntaxHighlightRange.value,
+//        syntaxHighlightLiteral = syntaxHighlightLiteral.value,
     )
     val textSelectionColors = TextSelectionColors(
         handleColor = mainColor.value,
@@ -315,6 +322,7 @@ fun CHelperTheme(
     )
     val overscrollFactory = rememberPlatformOverscrollFactory(overscrollGlowColor.value)
     CompositionLocalProvider(
+        LocalTheme provides theme,
         LocalCHelperColors provides colors,
         LocalBackground provides backgroundBitmap,
         LocalTextSelectionColors provides textSelectionColors,
