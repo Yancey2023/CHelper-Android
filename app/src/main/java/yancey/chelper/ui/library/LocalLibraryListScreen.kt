@@ -18,6 +18,7 @@
 
 package yancey.chelper.ui.library
 
+import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -36,19 +37,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.reflect.TypeToken
+import com.hjq.toast.Toaster
+import kotlinx.coroutines.launch
 import yancey.chelper.R
+import yancey.chelper.android.library.util.LocalLibraryManager
+import yancey.chelper.network.ServiceManager
 import yancey.chelper.network.library.data.LibraryFunction
 import yancey.chelper.ui.LibraryEditScreenKey
 import yancey.chelper.ui.LibraryShowScreenKey
 import yancey.chelper.ui.common.CHelperTheme
+import yancey.chelper.ui.common.dialog.IsConfirmDialog
 import yancey.chelper.ui.common.layout.RootViewWithHeaderAndCopyright
 import yancey.chelper.ui.common.widget.Divider
 import yancey.chelper.ui.common.widget.Icon
@@ -60,6 +70,14 @@ fun LocalLibraryListScreen(
     viewModel: LocalLibraryListViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
+    val clipboard = LocalClipboard.current
+    val filteredLibraries = remember(viewModel.keyword.text, viewModel.libraries) {
+        if (viewModel.keyword.text.isEmpty()) {
+            viewModel.libraries
+        } else {
+            viewModel.libraries.filter { it.name != null && it.name!!.contains(viewModel.keyword.text) }
+        }
+    }
     RootViewWithHeaderAndCopyright(
         title = stringResource(R.string.layout_library_list_title_local),
         headerRight = {
@@ -67,8 +85,7 @@ fun LocalLibraryListScreen(
                 id = R.drawable.file_arrow_left,
                 modifier = Modifier
                     .clickable {
-                        val text = viewModel.libraries.toList().toString()
-                        // TODO
+                        viewModel.isShowImportDialog = true
                     }
                     .padding(5.dp)
                     .size(24.dp),
@@ -78,7 +95,7 @@ fun LocalLibraryListScreen(
                 id = R.drawable.share,
                 modifier = Modifier
                     .clickable {
-                        // TODO
+                        viewModel.isShowExportDialog = true
                     }
                     .padding(5.dp)
                     .size(24.dp),
@@ -117,7 +134,7 @@ fun LocalLibraryListScreen(
                     .clip(RoundedCornerShape(10.dp))
                     .background(color = CHelperTheme.colors.backgroundComponent)
             ) {
-                itemsIndexed(viewModel.libraries) { index, library ->
+                itemsIndexed(filteredLibraries) { index, library ->
                     Row(
                         modifier = Modifier
                             .clickable(onClick = {
@@ -159,6 +176,59 @@ fun LocalLibraryListScreen(
                 }
             }
         }
+    }
+    if (viewModel.isShowImportDialog) {
+        IsConfirmDialog(
+            onDismissRequest = { viewModel.isShowImportDialog = false },
+            title = "从剪切板导入",
+            content = "请把要导入的数据放到剪切板",
+            confirmText = "导入",
+            onConfirm = {
+                viewModel.viewModelScope.launch {
+                    clipboard.getClipEntry()?.clipData?.apply {
+                        if (itemCount > 0) {
+                            val text = getItemAt(0).text.toString()
+                            try {
+                                viewModel.libraries.addAll(
+                                    ServiceManager.GSON!!.fromJson(
+                                        text,
+                                        object : TypeToken<MutableList<LibraryFunction>>() {
+                                        }.type
+                                    )
+                                )
+                                LocalLibraryManager.INSTANCE!!.save()
+                                Toaster.show("导入成功")
+                            } catch (_: Throwable) {
+                                Toaster.show("导入失败")
+                            }
+                        }
+                    }
+                }
+            }
+        )
+    }
+    if (viewModel.isShowExportDialog) {
+        val output = remember(viewModel.libraries) {
+            ServiceManager.GSON!!.toJson(viewModel.libraries)
+        }
+        IsConfirmDialog(
+            onDismissRequest = { viewModel.isShowExportDialog = false },
+            title = "导出",
+            content = output,
+            confirmText = "复制",
+            onConfirm = {
+                viewModel.viewModelScope.launch {
+                    clipboard.setClipEntry(
+                        ClipEntry(
+                            ClipData.newPlainText(
+                                null,
+                                output
+                            )
+                        )
+                    )
+                }
+            }
+        )
     }
 }
 

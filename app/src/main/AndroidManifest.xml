@@ -45,21 +45,6 @@
 
         </activity>
 
-        <activity
-            android:name=".android.completion.activity.CompletionActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.library.activity.LocalLibraryListActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".android.library.activity.PublicLibraryListActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-
         <service
             android:name=".android.old2new.service.Old2NewIMEService"
             android:exported="true"

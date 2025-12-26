@@ -33,6 +33,8 @@ class LocalLibraryListViewModel : ViewModel() {
     var keyword by mutableStateOf(TextFieldState())
     var libraries: SnapshotStateList<LibraryFunction> =
         LocalLibraryManager.INSTANCE!!.getFunctions()
+    var isShowImportDialog by mutableStateOf(false)
+    var isShowExportDialog by mutableStateOf(false)
 
     init {
         viewModelScope.launch {
