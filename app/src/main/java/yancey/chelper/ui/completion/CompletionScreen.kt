@@ -270,11 +270,7 @@ fun CompletionScreenTopBar(
     errorReason: String?,
     fontSize: TextUnit = TextUnit.Unspecified
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(CHelperTheme.colors.backgroundComponent)
-    ) {
+    Column {
         Text(
             text = structure ?: "欢迎使用CHelper",
             modifier = Modifier
@@ -306,13 +302,13 @@ fun CompletionScreenTopBar(
                 )
             )
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(CHelperTheme.colors.line)
+        )
     }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(1.dp)
-            .background(CHelperTheme.colors.line)
-    )
 }
 
 @Composable
@@ -374,11 +370,9 @@ fun CompletionScreen(
                                 14.sp
                             )
                         } else {
-                            val realIndex = if (isCrowed) suggestionIndex - 1 else suggestionIndex
-                            val suggestion = remember(viewModel.suggestionsSize, realIndex) {
-                                viewModel.core.getSuggestion(realIndex)
-                            }
-                            val suggestionText: String = remember(suggestion) {
+                            val realIndex = suggestionIndex - 1
+                            val suggestionText = remember(viewModel.suggestionsSize, realIndex) {
+                                val suggestion = viewModel.core.getSuggestion(realIndex)
                                 if (suggestion != null && suggestion.description != null) {
                                     (suggestion.name ?: "") + " - " + suggestion.description!!
                                 } else {
