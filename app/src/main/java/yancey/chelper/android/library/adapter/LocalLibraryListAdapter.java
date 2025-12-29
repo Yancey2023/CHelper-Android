@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -43,12 +42,10 @@ public class LocalLibraryListAdapter extends RecyclerView.Adapter<LocalLibraryLi
     private final @NonNull Context context;
     private List<LibraryFunction> libraries;
     private final @NonNull Consumer<LibraryFunction> onLibraryShow;
-    private final @Nullable Consumer<LibraryFunction> onLibraryEdit;
 
-    public LocalLibraryListAdapter(@NonNull Context context, @NonNull Consumer<LibraryFunction> onLibraryShow, @Nullable Consumer<LibraryFunction> onLibraryEdit) {
+    public LocalLibraryListAdapter(@NonNull Context context, @NonNull Consumer<LibraryFunction> onLibraryShow) {
         this.context = context;
         this.onLibraryShow = onLibraryShow;
-        this.onLibraryEdit = onLibraryEdit;
     }
 
     @NonNull
@@ -62,11 +59,6 @@ public class LocalLibraryListAdapter extends RecyclerView.Adapter<LocalLibraryLi
         LibraryFunction libraryFunction = libraries.get(position);
         holder.mTv_name.setText(libraryFunction.getName());
         holder.mTv_description.setText(libraryFunction.getNote());
-        if (onLibraryEdit == null) {
-            holder.mBtn_edit.setVisibility(View.GONE);
-        } else {
-            holder.mBtn_edit.setOnClickListener(v -> onLibraryEdit.accept(libraryFunction));
-        }
         holder.itemView.setOnClickListener(v -> onLibraryShow.accept(libraryFunction));
     }
 
@@ -88,14 +80,12 @@ public class LocalLibraryListAdapter extends RecyclerView.Adapter<LocalLibraryLi
         private final View itemView;
         private final TextView mTv_name;
         private final TextView mTv_description;
-        private final View mBtn_edit;
 
         public CommandListViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             mTv_name = itemView.findViewById(R.id.name);
             mTv_description = itemView.findViewById(R.id.description);
-            mBtn_edit = itemView.findViewById(R.id.btn_edit);
         }
     }
 }

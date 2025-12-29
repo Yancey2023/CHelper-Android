@@ -37,50 +37,6 @@
             android:textColor="@color/text_main"
             android:textSize="18sp" />
 
-        <View
-            android:id="@+id/btn_import"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/btn_export"
-            android:background="@drawable/file_arrow_left"
-            android:contentDescription="@string/layout_library_list_icon_import_content_description"
-            android:scaleType="fitXY" />
-
-        <View
-            android:id="@+id/btn_export"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/btn_update"
-            android:background="@drawable/share"
-            android:contentDescription="@string/layout_library_list_icon_export_content_description"
-            android:scaleType="fitXY" />
-
-        <View
-            android:id="@+id/btn_update"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/btn_upload"
-            android:background="@drawable/pencil"
-            android:contentDescription="@string/layout_library_list_icon_update_content_description"
-            android:scaleType="fitXY" />
-
-        <View
-            android:id="@+id/btn_upload"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/upload"
-            android:contentDescription="@string/layout_library_list_icon_upload_content_description"
-            android:scaleType="fitXY" />
-
     </RelativeLayout>
 
     <EditText
