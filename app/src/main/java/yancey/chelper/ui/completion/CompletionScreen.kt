@@ -48,6 +48,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -263,6 +264,58 @@ fun ToolbarItem(@DrawableRes id: Int, description: String, onClick: () -> Unit) 
 }
 
 @Composable
+fun CompletionScreenTopBar(
+    structure: String?,
+    paramHint: String?,
+    errorReason: String?,
+    fontSize: TextUnit = TextUnit.Unspecified
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(CHelperTheme.colors.backgroundComponent)
+    ) {
+        Text(
+            text = structure ?: "欢迎使用CHelper",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp),
+            style = TextStyle(
+                fontSize = fontSize,
+            )
+        )
+        Text(
+            text = paramHint ?: "作者：Yancey",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp),
+            style = TextStyle(
+                color = CHelperTheme.colors.textSecondary,
+                fontSize = fontSize,
+            )
+        )
+        errorReason?.let {
+            Text(
+                text = it,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 5.dp),
+                style = TextStyle(
+                    color = CHelperTheme.colors.textErrorReason,
+                    fontSize = fontSize,
+                )
+            )
+        }
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp)
+            .background(CHelperTheme.colors.line)
+    )
+}
+
+@Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun CompletionScreen(
     viewModel: CompletionViewModel = viewModel(),
@@ -278,97 +331,107 @@ fun CompletionScreen(
         viewModel.refreshCHelperCore(context)
     }
     val clipboard = LocalClipboard.current
+    val isCrowed = remember {
+        Settings.INSTANCE.isCrowed
+    }
+    val errorReason = remember(viewModel.errorReasons) {
+        if (viewModel.errorReasons == null || viewModel.errorReasons!!.isEmpty()) {
+            return@remember null
+        } else {
+            if (viewModel.errorReasons!!.size == 1) {
+                return@remember viewModel.errorReasons!![0]!!.errorReason
+            } else {
+                val errorReasonStr = StringBuilder("可能的错误原因：")
+                for (i in viewModel.errorReasons!!.indices) {
+                    errorReasonStr.append("\n").append(i + 1).append(". ")
+                        .append(viewModel.errorReasons!![i]!!.errorReason)
+                }
+                return@remember errorReasonStr.toString()
+            }
+        }
+    }
     RootView {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(CHelperTheme.colors.backgroundComponent)
         ) {
-            Text(
-                text = viewModel.structure ?: "欢迎使用CHelper",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 5.dp),
-            )
-            Text(
-                text = viewModel.paramHint ?: "作者：Yancey",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 5.dp),
-                style = TextStyle(
-                    color = CHelperTheme.colors.textSecondary,
-                )
-            )
-            val errorReason = remember(viewModel.errorReasons) {
-                if (viewModel.errorReasons == null || viewModel.errorReasons!!.isEmpty()) {
-                    return@remember null
-                } else {
-                    if (viewModel.errorReasons!!.size == 1) {
-                        return@remember viewModel.errorReasons!![0]!!.errorReason
-                    } else {
-                        val errorReasonStr = StringBuilder("可能的错误原因：")
-                        for (i in viewModel.errorReasons!!.indices) {
-                            errorReasonStr.append("\n").append(i + 1).append(". ")
-                                .append(viewModel.errorReasons!![i]!!.errorReason)
-                        }
-                        return@remember errorReasonStr.toString()
-                    }
-                }
+            if (!isCrowed) {
+                CompletionScreenTopBar(viewModel.structure, viewModel.paramHint, errorReason)
             }
-            errorReason?.let {
-                Text(
-                    text = it,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 5.dp),
-                    style = TextStyle(
-                        color = CHelperTheme.colors.textErrorReason,
-                    )
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(CHelperTheme.colors.line)
-            )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(1f)
             ) {
-                items(viewModel.suggestionsSize) { suggestionIndex ->
-                    Column(
-                        modifier = Modifier
-                            .clickable(onClick = {
-                                viewModel.core.onItemClick(suggestionIndex)
-                                viewModel.core.onSelectionChanged()
-                            })
-                            .padding(5.dp)
-                    ) {
-                        val suggestion = remember(viewModel.suggestionsSize, suggestionIndex) {
-                            viewModel.core.getSuggestion(suggestionIndex)
-                        }
-                        suggestion?.name?.let {
+                items(if (isCrowed) (viewModel.suggestionsSize + 1) else viewModel.suggestionsSize) { suggestionIndex ->
+                    if (isCrowed) {
+                        if (suggestionIndex == 0) {
+                            CompletionScreenTopBar(
+                                viewModel.structure,
+                                viewModel.paramHint,
+                                errorReason,
+                                14.sp
+                            )
+                        } else {
+                            val realIndex = if (isCrowed) suggestionIndex - 1 else suggestionIndex
+                            val suggestion = remember(viewModel.suggestionsSize, realIndex) {
+                                viewModel.core.getSuggestion(realIndex)
+                            }
+                            val suggestionText: String = remember(suggestion) {
+                                if (suggestion != null && suggestion.description != null) {
+                                    (suggestion.name ?: "") + " - " + suggestion.description!!
+                                } else {
+                                    suggestion?.name ?: ""
+                                }
+                            }
                             Text(
-                                text = it,
                                 modifier = Modifier
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .clickable(onClick = {
+                                        viewModel.core.onItemClick(realIndex)
+                                        viewModel.core.onSelectionChanged()
+                                    })
+                                    .padding(5.dp),
+                                text = suggestionText,
                                 style = TextStyle(
                                     fontSize = 14.sp
                                 )
                             )
                         }
-                        suggestion?.description?.let {
-                            Text(
-                                text = it,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                style = TextStyle(
-                                    color = CHelperTheme.colors.textSecondary,
-                                    fontSize = 14.sp
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .clickable(onClick = {
+                                    viewModel.core.onItemClick(suggestionIndex)
+                                    viewModel.core.onSelectionChanged()
+                                })
+                                .padding(5.dp)
+                        ) {
+                            val suggestion = remember(viewModel.suggestionsSize, suggestionIndex) {
+                                viewModel.core.getSuggestion(suggestionIndex)
+                            }
+                            suggestion?.name?.let {
+                                Text(
+                                    text = it,
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    style = TextStyle(
+                                        fontSize = 14.sp
+                                    )
                                 )
-                            )
+                            }
+                            suggestion?.description?.let {
+                                Text(
+                                    text = it,
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    style = TextStyle(
+                                        color = CHelperTheme.colors.textSecondary,
+                                        fontSize = 14.sp
+                                    )
+                                )
+                            }
                         }
                     }
                 }
