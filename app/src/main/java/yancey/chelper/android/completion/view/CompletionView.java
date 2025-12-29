@@ -75,7 +75,7 @@ public class CompletionView extends BaseView {
 
     public CompletionView(
             @NonNull FWSContext fwsContext,
-            @NonNull Runnable shutDown,
+            @NonNull Runnable shutdown,
             @Nullable Runnable hideView
     ) {
         super(fwsContext, Settings.INSTANCE.isCrowed ? R.layout.layout_completion_crowded : R.layout.layout_completion);
@@ -217,7 +217,7 @@ public class CompletionView extends BaseView {
         view.findViewById(R.id.btn_clear).setOnClickListener(v -> commandEditText.clear());
         view.findViewById(R.id.btn_history).setOnClickListener(v -> openView(context -> new HistoryView(context, historyManager)));
         view.findViewById(R.id.btn_local_library).setOnClickListener(v -> openView(LocalLibraryListView::new));
-        view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutDown.run());
+        view.findViewById(R.id.btn_shut_down).setOnClickListener(v -> shutdown.run());
         // 加载上次的输入内容
         SelectedString selectedString = null;
         if (Settings.INSTANCE.isSavingWhenPausing) {

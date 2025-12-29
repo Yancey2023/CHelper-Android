@@ -117,7 +117,7 @@ fun NavHost(
             CompletionScreen(
                 viewModel = viewModel(),
                 navController = navController,
-                shutDown = shutdown,
+                shutdown = shutdown,
                 hideView = {}
             )
         }
@@ -130,6 +130,81 @@ fun NavHost(
                 restoreBackground = restoreBackground,
                 onChooseTheme = onChooseTheme,
             )
+        }
+        composable<Old2NewScreenKey> {
+            val context = LocalContext.current
+            Old2NewScreen(
+                old2new = { old -> CHelperCore.old2new(context, old) }
+            )
+        }
+        composable<Old2NewIMEGuideScreenKey> {
+            Old2NewIMEGuideScreen()
+        }
+        composable<EnumerationScreenKey> {
+            EnumerationScreen()
+        }
+        composable<LocalLibraryListScreenKey> {
+            LocalLibraryListScreen(navController = navController)
+        }
+        composable<LibraryShowScreenKey> { navBackStackEntry ->
+            val localLibraryShow: LibraryShowScreenKey = navBackStackEntry.toRoute()
+            val viewModel: LocalLibraryShowViewModel = viewModel()
+            LaunchedEffect(viewModel, localLibraryShow.id) {
+                viewModel.viewModelScope.launch {
+                    LocalLibraryManager.INSTANCE!!.ensureInit()
+                    viewModel.library =
+                        LocalLibraryManager.INSTANCE!!.getFunctions()[localLibraryShow.id]
+                }
+            }
+            LocalLibraryShowScreen(viewModel = viewModel)
+        }
+        composable<LibraryEditScreenKey> { navBackStackEntry ->
+            val localLibraryEdit: LibraryEditScreenKey = navBackStackEntry.toRoute()
+            LocalLibraryEditScreen(id = localLibraryEdit.id)
+        }
+        composable<RawtextScreenKey> {
+            RawtextScreen()
+        }
+        composable<AboutScreenKey> {
+            AboutScreen(navController)
+        }
+        composable<ShowTextScreenKey> { navBackStackEntry ->
+            val showText: ShowTextScreenKey = navBackStackEntry.toRoute()
+            ShowTextScreen(
+                title = showText.title,
+                content = showText.content
+            )
+        }
+    }
+}
+
+@Composable
+fun FloatingWindowNavHost(
+    navController: NavHostController,
+    shutdown: () -> Unit,
+    hideView: () -> Unit,
+) {
+    NavHost(
+        navController = navController,
+        startDestination = CompletionScreenKey,
+        enterTransition = { slideInHorizontally(initialOffsetX = { it }) },
+        exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) },
+        popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) },
+        popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) }
+    ) {
+        composable<HomeScreenKey> {
+            HomeScreen(navController = navController)
+        }
+        composable<CompletionScreenKey> {
+            CompletionScreen(
+                viewModel = viewModel(),
+                navController = navController,
+                shutdown = shutdown,
+                hideView = hideView
+            )
+        }
+        composable<HistoryScreenKey> {
+            HistoryScreen(viewModel = viewModel())
         }
         composable<Old2NewScreenKey> {
             val context = LocalContext.current

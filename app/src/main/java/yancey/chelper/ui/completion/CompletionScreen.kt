@@ -19,6 +19,9 @@
 package yancey.chelper.ui.completion
 
 import android.content.ClipData
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -264,7 +267,7 @@ fun ToolbarItem(@DrawableRes id: Int, description: String, onClick: () -> Unit) 
 fun CompletionScreen(
     viewModel: CompletionViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
-    shutDown: () -> Unit = {},
+    shutdown: () -> Unit = {},
     hideView: () -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -415,7 +418,7 @@ fun CompletionScreen(
                         id = R.drawable.power,
                         description = stringResource(R.string.layout_completion_shut_down),
                         onClick = {
-                            shutDown()
+                            shutdown()
                         }
                     )
                 }
@@ -447,41 +450,74 @@ fun CompletionScreen(
 //                    syntaxHighlightTokens = viewModel.syntaxHighlightTokens
 //                )
                 val theme = CHelperTheme.theme
+                val textMain = CHelperTheme.colors.textMain
+                val textSecondary = CHelperTheme.colors.textSecondary
+                val hintStr = stringResource(R.string.layout_completion_command_hint)
                 AndroidView(
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(1f),
                     factory = { context ->
                         CommandEditText(context).apply {
+                            layoutParams = ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                TypedValue.applyDimension(
+                                    TypedValue.COMPLEX_UNIT_DIP,
+                                    40f,
+                                    context.resources.displayMetrics
+                                ).toInt()
+                            )
                             background = null
+                            gravity = Gravity.CENTER_VERTICAL
+                            hint = hintStr
+                            maxLines = 1
+                            isSingleLine = true
+                            setTextColor(textMain.value.toInt())
+                            setHintTextColor(textSecondary.value.toInt())
+                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
                             setTheme(if (theme == CHelperTheme.Theme.Light) Theme.THEME_DAY else Theme.THEME_NIGHT)
                             setListener({ str ->
-                                val selectionStart = selectionStart
-                                val selectionEnd = selectionEnd
+                                var selectionStart = selectionStart
+                                var selectionEnd = selectionEnd
+                                if (selectionStart > selectionEnd) {
+                                    val temp = selectionStart
+                                    selectionStart = selectionEnd
+                                    selectionEnd = temp
+                                }
                                 viewModel.command.edit {
                                     replace(0, length, str)
                                     selection = TextRange(selectionStart, selectionEnd)
                                 }
                             }, {
-                                val selectionStart = selectionStart
-                                val selectionEnd = selectionEnd
+                                var selectionStart = selectionStart
+                                var selectionEnd = selectionEnd
+                                if (selectionStart > selectionEnd) {
+                                    val temp = selectionStart
+                                    selectionStart = selectionEnd
+                                    selectionEnd = temp
+                                }
                                 viewModel.command.edit {
                                     selection = TextRange(selectionStart, selectionEnd)
                                 }
                             }, { true }
                             )
                         }
+                    },
+                    update = { view ->
+                        val str = viewModel.command.text.toString()
+                        val selectionStart = viewModel.command.selection.start
+                        val selectionEnd = viewModel.command.selection.end
+                        if (view.text.toString() != str ||
+                            view.selectionStart != selectionStart ||
+                            view.selectionEnd != selectionEnd
+                        ) {
+                            view.selectedString = SelectedString(str, selectionStart, selectionEnd)
+                        }
+                        if (viewModel.syntaxHighlightTokens == null || viewModel.syntaxHighlightTokens!!.size == viewModel.command.text.length) {
+                            view.setColors(viewModel.syntaxHighlightTokens)
+                        }
                     }
-                ) { view ->
-                    view.selectedString = SelectedString(
-                        viewModel.command.text.toString(),
-                        viewModel.command.selection.start,
-                        viewModel.command.selection.end
-                    )
-                    if (viewModel.syntaxHighlightTokens == null || viewModel.syntaxHighlightTokens!!.size == viewModel.command.text.length) {
-                        view.setColors(viewModel.syntaxHighlightTokens)
-                    }
-                }
+                )
                 Icon(
                     id = R.drawable.copy,
                     modifier = Modifier
