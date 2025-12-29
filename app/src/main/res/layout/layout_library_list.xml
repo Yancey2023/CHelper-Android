@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btn_update"
             android:layout_toEndOf="@id/back"
             android:ellipsize="end"
             android:gravity="center_vertical"
